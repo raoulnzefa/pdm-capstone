@@ -1,0 +1,139 @@
+@font-face {
+	font-family: myFrontEndFont; 
+	src: url(/fonts/Sora-VariableFont.ttf);
+}
+
+@font-face {
+	font-family: myBtnFont; 
+	src: url(/fonts/static/Sora-Medium.ttf);
+}
+
+body {
+	font-family: myFrontEndFont, "Helvetica", "Arial", sans-serif !important; 
+	overflow: -moz-scrollbars-vertical;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.bg-white {
+	background: #fff;
+}
+
+.card-header-text {
+	margin-bottom: 0px;
+}
+
+.nav-item {
+	font-size: 13px;
+	font-family: myBtnFont; 
+	text-transform: uppercase;
+}
+
+.dropdown-item {
+	font-size: 14px;
+	font-family: myBtnFont; 
+	text-transform: capitalize;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+	background-color: #000;
+	color: #ffab06 !important;
+}
+
+
+button {
+	font-family: myBtnFont !important; 
+}
+#admin-main-content {
+	height: 100%;
+}
+
+#admin-footer {
+	position: relative;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #000;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+.dash-bg-card {
+	background: #000;	
+}
+
+.dash-txt-name {
+	color: #ffab06 !important;
+}
+
+.notif.dropdown-toggle::after {
+    display:none;
+}
+.badge-on-hold {
+	background-color: #af41b6 !important;
+	color: #fff;
+}
+
+.badge-processing {
+	background-color: #3a30b3 !important;
+	color: #fff;
+}
+
+.badge-refunded {
+	background-color: #fb6644 !important;
+	color: #fff;
+}
+
+.form-control {
+	border-radius: 0;
+}
+
+.input_full_width {
+	width: 100%;
+}
+
+.error-feedback {
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #e3342f;
+}
+
+.admin-nav-link .nav-link {
+    color: #fff !important;
+}
+.admin-nav-link .nav-link:hover {
+    color: #ffab06 !important;
+}
+
+:disabled {
+    cursor: not-allowed;
+}
+.nav-icon {
+    color: #ffab06;
+}
+.bg-nav-admin {
+    background-color: #000 !important;
+}
+
+.ifg-header {
+	font-weight: 700 !important;
+	font-size: 25px !important;
+	/*font-family: 'sans-serif';*/
+}
+
+.ifg-btn {
+	background-color: #000 !important;
+}
+
+.ifg-btn:hover {
+	color: #ffab06 !important;
+}
+
+.ifg-label {
+	font-weight: bolder !important;
+}
+
+.order-table th, .order-table td {
+	padding: 1px !important;
+	border-top: none !important;
+}

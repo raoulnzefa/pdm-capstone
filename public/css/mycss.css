@@ -1,0 +1,408 @@
+@font-face {
+	font-family: myFrontEndFont; 
+	src: url(/fonts/Sora-VariableFont.ttf);
+}
+
+@font-face {
+	font-family: myBtnFont; 
+	src: url(/fonts/static/Sora-Light.ttf);
+}
+
+body {
+	overflow: -moz-scrollbars-vertical;
+	overflow-x: hidden;
+	overflow-y: auto;
+	font-family: myFrontEndFont, "Helvetica", "Arial", sans-serif;
+}
+
+button {
+	font-family: myBtnFont !important;
+}
+
+.btn-visible-pass {
+	background-color: #e9ecef;
+	border: 1px solid #ced4da;
+}
+.selector-for-some-widget {
+	box-sizing: content-box;
+}
+
+.ifg-card-header {
+	background: #000 !important;
+	color: #ffab06;
+	font-weight: bold;
+	font-size: 18px;
+	text-transform: uppercase;
+}
+
+.prod-img-frame {
+	max-height: 250px;
+}
+#partial-header {
+	background: #000 !important;
+}
+.cool-link::after {
+	content: '';
+	display: block;
+	width: 0;
+	height: 2px;
+	background: #fff;
+	transition: width .3s;
+}
+
+.cool-link:hover::after {
+	width: 100%;
+	transition: width .3s;
+}
+
+.badge-processing {
+	background-color: #3a30b3 !important;
+	color: #fff;
+}
+
+.badge-on-hold {
+	background-color: #af41b6 !important;
+	color: #fff;
+}
+
+.badge-refunded {
+	background-color: #fb6644 !important;
+	color: #fff;
+}
+
+.alert {
+	border-radius: 0;
+}
+
+/*.breadcrumb-item {
+	//text-transform: uppercase;
+}*/
+
+.max_height {
+	min-height: 10 !important;
+}
+
+.form-control {
+	border-radius: 0;
+}
+
+.btn {
+	text-transform: uppercase;
+}
+
+.borderless th, .borderless > .tr-borderless td {
+	border: none;
+}
+.error-feedback {
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #e3342f;
+}
+
+.checkout-header {
+	background-color: #000;
+	color: #fff;
+	min-height: 40px;
+	text-align: center;
+	padding-top: 8px;
+}
+
+.order-table th, .order-table td {
+	padding: 1px !important;
+	border-top: none !important;
+}
+
+.ifg-header {
+	font-weight: 700 !important;
+	font-size: 30px !important;
+	/*font-family: 'sans-serif';*/
+	text-transform: uppercase;
+}
+
+.ifg-btn {
+	background-color: #000 !important;
+}
+
+.ifg-btn:hover {
+	color: #ffab06;
+}
+
+.ifg-label {
+	font-weight: bolder !important;
+}
+
+#category-list {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#category-list li>a {
+	color: #000
+}
+
+#product-type-list {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#product-type-list li>a {
+	color: #000;
+}
+
+del {
+	color: gray;
+}
+
+:disabled {
+	cursor: not-allowed !important;
+}
+.invoice-table-detail td:first-child {
+	border-right: 1px solid #dee2e6 !important;
+}
+
+.invoice-table-detail th, .invoice-table-detail td {
+	border: none !important;
+}
+
+.card {
+	border: 1px solid rgba(0,0,0,.125) !important;
+}
+.breadcrumb {
+	background-color: #fff;
+	padding-left: 0;
+}
+
+ul#sample-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	float: right
+}
+
+#sample-list li {
+	float: left;
+}
+
+#sample-list li a {
+	text-decoration: none;
+	padding-right: 15px;
+	color: #fff;
+}
+
+.desc-frame {
+	margin-bottom: 20px;
+}
+
+.product-frame {
+	margin-bottom: 20px;
+}
+
+.header-wrapper {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-repeat: repeat;
+	background-image: url("/images/BG1new.jpg");
+	background-size: 5%; 
+	background-color: black;
+}
+
+.page-wrapper {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.product-link {
+	color: #000;
+}
+
+.product-link:hover {
+	text-decoration: none;
+}
+
+.form-section {
+	margin-bottom: 30px;
+}
+
+
+.card {
+	margin-bottom: 50px;
+	border: 0;
+}
+
+.card-text {
+	padding-bottom: 10px;
+}
+
+#mainNavbar {
+	background-color: #000 !important;
+}
+
+#mainNavList .nav-item .nav-link {
+	color: white;
+	text-transform: uppercase;
+	font-weight: 700;
+}
+
+#mainNavList .nav-item .nav-link:hover {
+	color: #91640F;
+	font-weight: 700;
+}
+
+#mainNavList .nav-item {
+	padding-right: 30px;
+}
+
+#mainContainer {
+	min-height: 750px;
+}
+#checkout-footer {
+	background-color: #000;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color: #fff;
+}
+#checkout-header {
+	background-color: #000 !important;
+}
+
+#footer-wrapper {
+	padding-top: 40px;
+	padding-bottom: 0;
+	background-color: black;
+	background-repeat: repeat;
+	background-image: url("/images/BG1new.jpg");
+	background-size: 5%;
+}
+
+.footer-col > h5 {
+	color: #fff !important;
+}
+.footer-col ul {
+	list-style-type: none;
+}
+.footer-col ul {
+	padding-left: 0; 
+}
+
+.footer-col ul > li {
+	color: #fff !important;
+}
+
+.footer-col ul > li > a {
+	color: #fff !important;
+}
+
+#footer-copyright {
+	color: #fff;
+	margin-top: 25px;
+	padding: 10px;
+}
+
+/* Make the image fully responsive */
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+}
+
+#viewCart .title-qty {
+	text-align: center;
+}
+
+#viewCart .title-price, .title-total {
+	text-align: center;
+}
+
+#viewCart .product-image {
+	float: left;
+	margin-right: 10px;
+	width: 55px;
+	height: 55px;
+}
+
+#viewCart .product-name-options {
+	float: left;
+}
+
+#viewCart .product-qty {
+	text-align: center;
+}
+
+#viewCart .product-qty > input {
+	text-align: center;
+}
+
+#viewCart .product-qty > a.update-qty {
+	font-size: 11px;
+	font-weight: 700;
+	position: relative;
+	top: 11;
+	letter-spacing: .05em;
+}
+
+#viewCart .product-price {
+	/*font-weight: 700;*/
+	line-height: 25px;
+	padding-top: 7px;
+	text-align: right !important;
+}
+
+#viewCart .product-total {
+	/*font-weight: 700;*/
+	line-height: 25px;
+	padding-top: 7px;
+	text-align: right !important;
+}
+#viewCart .product-remove {
+	padding-top: 7px;
+	text-align: center !important;
+}
+.section-bar {
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+.cont-shopping {
+	text-align: left;
+}
+.proceed-checkout {
+	text-align: right;
+}
+.cart-subtotal, .subtotal-amount, .cart-total, .total-amount {
+	text-align: right;
+	/*font-weight: 700;*/
+}
+.total-amount {
+	font-size: 20px;
+}
+
+
+#sec-account ul {
+	list-style-type: none;
+	margin: 0;
+	float: right;
+	padding: 0;
+}
+
+#sec-account li {
+	float: left;
+}
+
+#sec-account li a {
+	padding: 10px;
+}
+
+#sec-account:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+#search-bar {
+	float: right;
+}
+
+#form-search {
+	text-align: right;
+	padding: 10px 10px;
+}
+

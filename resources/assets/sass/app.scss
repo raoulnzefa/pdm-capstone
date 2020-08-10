@@ -1,0 +1,20 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Booystrap Vue
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+
+// vue-wysiwyg
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}

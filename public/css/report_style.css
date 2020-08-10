@@ -1,0 +1,8 @@
+@media print { 
+	body {
+		background: #fff !important;
+	}
+    .table thead th { 
+        background: blue !important; 
+    } 
+}
