@@ -19,15 +19,15 @@ class ProductPageController extends Controller
 
     public function index()
     {
-    	$products = Product::with('productNoVariant.inventory')->paginate(12);
-    	$categories = Category::where('display', 'Enabled')->get();
+    	$products = Product::paginate(12);
+    	$categories = Category::where('status', 1)->get();
 
     	return view('frontend.product_page')->with(['categories'=>$categories, 'products'=>$products, 'data'=>$this->data]);
     }
 
     public function productsByCategory($category)
     {   
-        $categories = Category::where('display', 'Enabled')->get();
+        $categories = Category::where('status', 1)->get();
         $categ = Category::where('url', $category)->first();
         $products = Product::where('category_id', $categ->id)->paginate(9);
 
@@ -50,7 +50,7 @@ class ProductPageController extends Controller
     {
         $search_data = $request->query('search');
 
-        $search_result = Product::where('name', 'like','%'. $search_data .'%')
+        $search_result = Product::where('product_name', 'like','%'. $search_data .'%')
                         ->get();
         return view('frontend.search_result_page', compact('search_result', 'search_data'));
     }

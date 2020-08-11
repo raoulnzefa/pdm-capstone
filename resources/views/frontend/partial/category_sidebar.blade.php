@@ -7,6 +7,6 @@
 	</ul>
 @else
 	<div class="alert alert-warning">
-		There no categories.
+		No categories.
 	</div>
 @endif

@@ -32,9 +32,15 @@ Route::get('category/list', 'Api\CategoryController@list');
 Route::resource('category', 'Api\CategoryController');
 
 //Product
-Route::post('product/store', 'Api\ProductController@store');
+Route::post('product/create-no-variant', 'Api\ProductController@createNoVariant');
+Route::post('product/update-no-variant/{product}', 'Api\ProductController@updateNoVariant');
+
+Route::post('product/create-with-variant', 'Api\ProductController@createWithVariant');
+Route::post('product/update-with-variant/{product}', 'Api\ProductController@updateWithVariant');
+
+Route::post('product/catalog/{product}', 'Api\ProductController@updateProductCatalog');
+
 Route::get('products', 'Api\ProductController@productsTable');
-Route::post('product/{product}', 'Api\ProductController@update');
 Route::put('product/add-stock/{product}', 'Api\ProductController@addStock');
 //Admin Side
 //Customer list

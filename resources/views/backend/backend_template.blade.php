@@ -22,9 +22,16 @@
         <div id="app">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html">{{ config('app.name') }}</a>
-            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <button class="btn btn-link btn-sm order-1 order-lg-0 mr-auto" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar-->
-            
+             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="">ETYY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -40,13 +47,9 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                                 Orders
                             </a>
-                            <a class="nav-link" href="{{ route('categories') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
-                                Categories
-                            </a>
-                            <a class="nav-link" href="{{ route('products') }}">
+                            <a class="nav-link" href="{{ route('inventory') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                                Products
+                                Inventory
                             </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-sliders-h"></i></div>
@@ -54,32 +57,23 @@
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMaintenance">
+                                    <a class="nav-link" href="{{ route('categories') }}">Categories</a>
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#maintenaceCollapseProduct" aria-expanded="false" aria-controls="maintenaceCollapseProduct">
+                                        Products
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                    <div class="collapse" id="maintenaceCollapseProduct" aria-labelledby="headingOne" data-parent="#sidenavAccordionMaintenance">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                            <a class="nav-link" href="{{ route('product_catalog') }}">Catalog</a>
+                                            <a class="nav-link" href="{{ route('product_no_variants') }}">No variants</a>
+                                            <a class="nav-link" href="{{ route('product_with_variants') }}">With variants</a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">401 Page</a>
-                                            <a class="nav-link" href="404.html">404 Page</a>
-                                            <a class="nav-link" href="500.html">500 Page</a>
-                                        </nav>
-                                    </div>
+                                   
                                 </nav>
                             </div>
-                            <a class="nav-link" href="{{ route('products') }}">
+                            <a class="nav-link" href="#">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                                 Settings
                             </a>

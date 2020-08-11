@@ -50,6 +50,8 @@
 						@endforeach
 					</div>
 				@else
+					<br>
+					<br>
 					<h2 class="text-center"><i class="fa fa-times-circle text-danger"></i>&nbsp;Sorry, we couldn't find any results matching for: "{{ $search_data }}"</h2>
 				@endif
 			</div>

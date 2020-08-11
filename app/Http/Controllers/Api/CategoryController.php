@@ -35,7 +35,7 @@ class CategoryController extends Controller
         // create category
         $category = new Category;
         $category->name = ucwords($request->name);
-        $category->display = $request->display;
+        $category->status = (int)$request->status;
         $category->url = strtolower(str_replace(' ', '-', $request->name));
         $category->save();
 
@@ -73,7 +73,7 @@ class CategoryController extends Controller
         $old_category = $category->name;
         // update category
         $category->name = ucwords($request->name);
-        $category->display = $request->display;
+        $category->status = (int)$request->status;
         $category->url = strtolower(str_replace(' ', '-', $request->name));
         $category->update();
 

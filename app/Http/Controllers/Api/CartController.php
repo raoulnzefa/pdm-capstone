@@ -7,100 +7,25 @@ use App\Cart;
 use App\Customer;
 use App\Product;
 use App\ProductNoVariant;
-use App\ProductVariant;
+use App\ProductWithVariant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
+    public function addProductNoVariant(Request $request)
+    {
+
+    }
+
+    public function addProductWithVariant(Request $request)
+    {
+
+    }
+
     public function addCartPage(Request $request)
     {
-        //return response()->json($request->all());
-        // get product data
-        $product = Product::where('sku', $request->product_sku)->first();
-
-        if ($product->has_variant == 'No')
-        {
-            $carting_id = $request->no_variant_number;
-            $productChild = ProductNoVariant::where('number',$request->no_variant_number)->first();
-            $carting_type = 'App\ProductNoVariant';
-        }
-        else
-        {
-            $carting_id = $request->variant_number;
-            $productChild = ProductVariant::where('number',$request->variant_number)->first();
-            $carting_type = 'App\ProductVariant';
-        }
-
-        // check if customer email and product exists in cart table
-        $product_exists = Cart::where(
-                            [
-                                'customer_id' => $request->customer_id,
-                                'carting_id' => $carting_id
-                            ])
-                            ->exists();
-
-        $inventory = Inventory::where('inventorying_id', $carting_id)->first();
-
-        // check if exists in cart
-        if ($product_exists)
-        {
-            // update
-            // get cart details
-            $cart = Cart::where('carting_id', $carting_id)->first();
-            
-            $cart_qty = $cart->quantity + $request->quantity;
-
-            //return response()->json($cart_qty);
-            if ($cart_qty > $inventory->quantity)
-            {
-                $response = ['invalid_qty' => true];
-
-                return response()->json($response);
-            }
-            else
-            {
-                $cart->price = str_replace(',', '', $productChild->price);
-                
-                $cart->quantity += (int)$request->quantity;
-
-                $cart->total = round($cart->quantity * str_replace(',', '', $cart->price), 2);
-                
-                $cart->update();
-
-                $response = ['success'=>true];
-
-                return response()->json($response);
-            }
-        }
-        else
-        {
-
-            if ($request->quantity > $inventory->quantity)
-            {
-                return response()->json(['invalid_qty'=>true]);
-            }
-            else
-            {
-                // add new
-                $cart = new Cart;
-                $cart->customer_id = $request->customer_id;
-                $cart->product_sku = $request->product_sku;
-
-                $cart->price = str_replace(',', '', $productChild->price);
-                
-                $cart->quantity = (int)$request->quantity;
-
-                $cart->total = round($cart->quantity * str_replace(',', '', $cart->price), 2);
-                $cart->carting_id = $carting_id;
-                $cart->carting_type = $carting_type;
-                $cart->save();
-
-                $response = ['success'=>true]; 
-
-                return response()->json($response);
-            }                
-        }
+        
 
     }
 

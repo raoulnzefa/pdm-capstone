@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Admin;
 use App\UserLog;
 use App\Product;
+use App\ProductNoVariant;
+use App\ProductWithVariant;
+use App\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +22,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function createNoVariant(Request $request)
     {
         
         $request->validate([
@@ -37,13 +40,10 @@ class ProductController extends Controller
         // create instance for product
         $product = new Product;
         $product->number = str_random(5);
-        $product->category_id = $request->category;
+        $product->category_id = (int)$request->category;
         $product->product_name = ucwords(strtolower($request->product_name));
-        $product->product_description = ucfirst($request->product_description);
-        $product->product_variant = ($request->filled('product_variant')) ? $request->product_variant : NULL;
-        $product->product_stock = (int)$request->product_stock;
-        $product->product_critical_level = (int)$request->product_critical_level;
-        $product->product_price = (float)$request->product_price;
+        $product->product_description = $request->product_description;
+        $product->product_status = (int)$request->product_status;  
         
         // check if has image file
         if ($request->hasFile('product_image'))
@@ -51,6 +51,8 @@ class ProductController extends Controller
             // set image nam
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
+            // save image into storage
+            $request->product_image->storeAs('/public/products/', $imageName);
         }
 
         // set product url
@@ -59,13 +61,29 @@ class ProductController extends Controller
         // save product
         $product->save();
 
+
         $prodNum = Product::where('number', $product->number)->first();
-        $prodNum->number = 'P'.str_pad($prodNum->id, 5, '0', STR_PAD_LEFT);
+        $prodNum->number = str_pad($prodNum->id, 4, '0', STR_PAD_LEFT);
         $prodNum->update();
 
-        // save image into storage
-        $request->product_image->storeAs('/public/products/', $imageName);
+        
+        // save product no variants
+        $productNoVariant = new ProductNoVariant();
+        $productNoVariant->product_number = $prodNum->number;
+        $productNoVariant->price = (float)$request->product_price;
+        $productNoVariant->save();
 
+        // save inventory
+        $inventory = new Inventory();
+        $inventory->number = str_random(5);
+        $inventory->product_number = $prodNum->number;
+        $inventory->inventory_stock = (int)$request->product_stock;
+        $inventory->inventory_critical_level = (int)$request->product_critical_level;
+        $inventory->save();
+
+        $inventoryUpdate = Inventory::where('number', $inventory->number)->first();
+        $inventoryUpdate->number = str_pad($inventoryUpdate->id, 5, '0', STR_PAD_LEFT);
+        $inventoryUpdate->update();
 
         $array_params = [
             'id' => $request->admin_id,
@@ -88,7 +106,8 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+
+    public function updateNoVariant(Request $request, Product $product)
     {   
         $request->validate([
             'category' => 'required',
@@ -105,7 +124,6 @@ class ProductController extends Controller
         $product->category_id = $request->category;
         $product->product_name = ucwords($request->product_name);
         $product->product_description = ucfirst($request->product_description);
-        $product->product_variant = ($request->filled('product_variant')) ? $request->product_variant : NULL;
 
         $old_image = $product->product_image;
 
@@ -132,6 +150,131 @@ class ProductController extends Controller
         $array_params = [
             'id' => $request->admin_id,
             'action' => 'Edit product. Product #: '.$product->number
+        ];
+
+        $this->createUserLog($array_params);
+
+        $response = array('success'=>true);
+        
+        return response()->json($response);
+    }
+
+    public function createWithVariant(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+            'product_name' => 'required|string|max:75|unique:products',
+            'product_description'   =>  'required|string',
+            'variants' => 'required',
+            'product_image' => 'required'
+        ]);
+
+        date_default_timezone_set("Asia/Manila");
+
+        $product = new Product;
+        $product->number = str_random(5);
+        $product->category_id = (int)$request->category;
+        $product->product_name = ucwords(strtolower($request->product_name));
+        $product->product_description = $request->product_description;
+        $product->product_status = (int)$request->product_status;  
+        
+        // check if has image file
+        if ($request->hasFile('product_image'))
+        {   
+            // set image nam
+            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
+            $product->product_image = $imageName;
+            // save image into storage
+            $request->product_image->storeAs('/public/products/', $imageName);
+        }
+
+        // set product url
+        $product->product_url = strtolower(str_replace(' ', '-', $request->product_name));
+
+        // save product
+        $product->save();
+
+
+        $prodNum = Product::where('number', $product->number)->first();
+        $prodNum->number = str_pad($prodNum->id, 4, '0', STR_PAD_LEFT);
+        $prodNum->update();
+
+        $variants = json_decode($request->variants);
+
+        foreach ($variants as $variant)
+        {
+             // save inventory
+            $inventory = new Inventory();
+            $inventory->number = str_random(5);
+            $inventory->product_number = $prodNum->number;
+            $inventory->inventory_stock = (int)$variant->inventory_stock;
+            $inventory->inventory_critical_level = (int)$variant->inventory_crit_level;
+            $inventory->save();
+
+            $inventoryUpdate = Inventory::where('number', $inventory->number)->first();
+            $inventoryUpdate->number = str_pad($inventoryUpdate->id, 5, '0', STR_PAD_LEFT);
+            $inventoryUpdate->update();
+
+            $productVariant = new ProductWithVariant();
+            $productVariant->inventory_number = $inventoryUpdate->number;
+            $productVariant->variant_value = $variant->variant_value;
+            $productVariant->variant_price = (float)$variant->variant_price;
+            $productVariant->variant_status = (int)$variant->variant_status;
+            $productVariant->save();
+
+        }
+
+
+        $array_params = [
+            'id' => $request->admin_id,
+            'action' => 'Added product with variants. Product #: '.$prodNum->number
+        ];
+
+        $this->createUserLog($array_params);
+
+        $response = array('success'=>true);
+        
+        return response()->json($response);
+        
+    }
+
+    public function updateWithVariant(Request $request, Product $product)
+    {
+
+    }
+
+    public function updateProductCatalog(Request $request, Product $product)
+    {
+        $request->validate([
+            'category' => 'required',
+            'product_name' => "required|string|max:75|unique:products,product_name,$product->id",
+            'product_description'   =>  'required|string',
+        ]);
+
+        $product->category_id = (int)$request->category;
+        $product->product_name = ucwords(strtolower($request->product_name));
+        $product->product_description = $request->product_description;
+        $product->product_status = (int)$request->product_status;  
+        
+        // check if has image file
+        if ($request->hasFile('product_image') && $request->filled('product_image'))
+        {   
+            // set image nam
+            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
+            $product->product_image = $imageName;
+            // save image into storage
+            $request->product_image->storeAs('/public/products/', $imageName);
+        }
+
+        // set product url
+        $product->product_url = strtolower(str_replace(' ', '-', $request->product_name));
+
+        // save product
+        $product->update();
+
+        $array_params = [
+            'id' => $request->admin_id,
+            'action' => 'Updated product catalog. Product #: '.$product->number
         ];
 
         $this->createUserLog($array_params);

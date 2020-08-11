@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ config('app.name') }}</title>
+        <title>{{ $data }} - {{ config('app.name') }}</title>
         {{-- <title>{{ config('app.name') }}</title> --}}
         <link rel="icon" type="image/png" href="{{ asset('images/Logo.png') }}">
         
@@ -21,11 +21,12 @@
             @section('store_header')
             <div class=""> {{-- navbar --}}
                 <nav id="mainNavbar" class="navbar navbar-expand-sm bg-dark">
+                    <div class="container">
                     <!-- Brand -->
                     <a class="navbar-brand" href="{{route('frontend_homepage')}}">
                         <img src="{{ asset('images/logo.jpg') }}" width="125" height="60" alt="">
                     </a>
-                    <div class="container-fluid">
+                    
                     <!-- Links -->
                         <ul class="navbar-nav">
                             <li class="nav-item mr-2">
@@ -66,18 +67,22 @@
                             @endauth
                            
                         </ul>
-                       <form method="post" action="{{ route('search.product') }}">
+                  </div>
+                </nav>
+            </div> {{-- navbar --}}
+            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+                <div class="navbar-nav">
+                     <form method="post" action="{{ route('search.product') }}">
                             @csrf
                             <div class="input-group">
-                              <input type="text" name="searchProduct" class="form-control" placeholder="Search product" required aria-label="" aria-describedby="basic-addon2">
+                              <input type="text" name="searchProduct" class="form-control col-md-12" placeholder="Search product" aria-label="" aria-describedby="basic-addon2">
                               <div class="input-group-append">
                                 <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
                               </div>
                             </div>
                         </form>
-                  </div>
-                </nav>
-            </div> {{-- navbar --}}
+                </div>
+            </nav>
             @show
             <div id="mainContainer" style="background-color: #fff">
                 @yield('content')
@@ -129,14 +134,14 @@
         
         {{-- <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
         @isset($data)
-        <script type="text/javascript">
-            document.title = "{{ config('app.name') }} - {{ $data }}";
+        {{-- <script type="text/javascript">
+            document.title = "{{ $data }} - {{ config('app.name') }}";
             
             jQuery(document).ready(function() {
                 @yield('postJquery');
             });
         
-        </script>
+        </script> --}}
         @endisset
         
     </body>

@@ -20,11 +20,24 @@ class ProductController extends Controller
 
     public function index()
     {
-        $data = 'Producs';
+        $data = 'Product Catalog';
 
         return view('backend.product.index', compact('data'));
     }
 
+    public function productNoVariants()
+    {
+        $data = 'Product No Variants';
+
+        return view('backend.product.no_variants', compact('data'));
+    }
+
+    public function productWithVariants()
+    {
+        $data = 'Product With Variants';
+
+        return view('backend.product.with_variants', compact('data'));
+    }
     
   
 }

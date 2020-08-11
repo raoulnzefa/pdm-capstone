@@ -16,7 +16,7 @@ class CreateOrderProductsTable extends Migration
         Schema::create('order_products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('order_number');
-            $table->string('product_number');
+            $table->string('inventory_number');
             $table->string('product_name');
             $table->decimal('price',10,2);
             $table->integer('quantity');
@@ -24,7 +24,7 @@ class CreateOrderProductsTable extends Migration
             $table->string('status');
             $table->timestamps();
             $table->foreign('order_number')->references('number')->on('orders')->onDelete('cascade');
-            $table->foreign('product_number')->references('number')->on('products');
+            $table->foreign('inventory_number')->references('number')->on('inventories');
         });
     }
 

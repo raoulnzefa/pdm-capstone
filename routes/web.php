@@ -40,15 +40,12 @@ Route::get('/admin/users', 'Backend\AdminCrudController@index');
 Route::get('/admin/categories','Backend\CategoryController@index')->name('categories');
 //Route::resource('/admin/product','Backend\ProductController');
 
-Route::get('/admin/products', 'Backend\ProductController@index')->name('products');
+Route::get('/admin/products/catalog', 'Backend\ProductController@index')->name('product_catalog');
 Route::get('/admin/product/new','Backend\ProductController@create');
 Route::get('/admin/product/{product}/edit', 'Backend\ProductController@edit');
 Route::get('/admin/product/add-stock/{product}', 'Backend\ProductController@addStock');
 
-Route::get('/admin/product/{product}/add-variants', 'Backend\ProductController@addVariants');
-Route::get('/admin/product/{product}/variants', 'Backend\ProductController@productVariants');
-
-Route::get('/admin/inventory', 'Backend\InventoryController@index');
+Route::get('/admin/inventory', 'Backend\InventoryController@index')->name('inventory');
 Route::get('/admin/orders', 'Backend\OrderController@index')->name('orders');
 
 
@@ -64,10 +61,6 @@ Route::get('/admin/customers', 'Backend\CustomerController@index');
 
 
 Route::post('/order/cancel', 'Backend\OrderController@cancelOrder');
-
-Route::get('admin/inventory', 'Backend\InventoryController@index');
-Route::get('admin/inventory/critical-levels', 'Backend\InventoryController@criticalLevel');
-Route::get('admin/inventory/out-of-stock', 'Backend\InventoryController@outOfStock');
 
 Route::get('admin/sales', 'Backend\SalesController@index');
 
@@ -252,3 +245,8 @@ Route::get('/admin/orders/pending-payment', 'Backend\OrderController@pendingPaym
 Route::get('/admin/orders/processing', 'Backend\OrderController@processing')->name('orders_processing');
 Route::get('/admin/orders/delivered', 'Backend\OrderController@delivered')->name('orders_delivered');
 Route::get('/admin/orders/completed', 'Backend\OrderController@completed')->name('orders_completed');
+ 
+// products with variants and no variants
+Route::get('/admin/products/product-no-variants', 'Backend\ProductController@productNoVariants')->name('product_no_variants');
+Route::get('/admin/products/product-with-variants', 'Backend\ProductController@productWithVariants')->name('product_with_variants');
+

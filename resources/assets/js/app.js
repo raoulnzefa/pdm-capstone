@@ -190,9 +190,14 @@ Vue.component('customer-receive-order', require('./components/orders/CustomerRec
 // cancelorder by customer
 Vue.component('cancel-order-by-customer', require('./components/orders/CancelOrderByCustomer.vue'));
 
-
 // product add stock
 Vue.component('add-stock', require('./components/product/AddStock.vue'));
+
+Vue.component('add-product-with-variants', require('./components/product/AddProductWithVariants.vue'));
+Vue.component('add-product-no-variant', require('./components/product/AddProductNoVariants.vue'));
+
+Vue.component('product-no-variants', require('./components/product/ProductNoVariants.vue'));
+Vue.component('product-with-variants', require('./components/product/ProductWithVariants.vue'));
 //Setting
 
 const app = new Vue({

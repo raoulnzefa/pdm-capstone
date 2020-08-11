@@ -10,7 +10,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Category Name</th>
-                    <th>Display</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -36,7 +36,7 @@
                       <tr v-for="(category, index) in categories" :key="index">
                         <td>{{ category.id }}</td>
                         <td>{{ category.name }}</td>
-                        <td>{{ category.display }}</td>
+                        <td>{{ (category.status === 1) ? 'Enabled' : 'Disabled' }}</td>
                         <td><button class="btn btn-sm btn-primary" @click="editCategory(category)"><i class="fas fa-edit"></i> Edit</button></td>
                       </tr>
                     </template>
@@ -81,11 +81,11 @@
                 </div>
               </b-form-group>
               <b-form-group id=""
-                          label="Display:"
+                          label="Status:"
                           label-for="categDisplay">
-                <b-form-select v-model="display" id="categDisplay">
-                  <option value="Enabled">Enable</option>
-                  <option value="Disabled">Disable</option>
+                <b-form-select v-model="status" id="categDisplay">
+                  <option value="1">Enable</option>
+                  <option value="0">Disable</option>
                 </b-form-select>
               </b-form-group>
             </form>
@@ -113,7 +113,7 @@
               submit: false,
               modal_title: 'Add category',
               ok_title: 'Save category',
-              display: 'Enabled'
+              status: 1,
          		}
   			},
   			components: {
@@ -150,7 +150,7 @@
                   axios.post('/api/category', {
                     admin_id: this.admin.id,
                     name: this.category_name,
-                    display: this.display
+                    status: this.status
                   })
                   .then((response) => {
                     this.submit = false;
@@ -175,7 +175,7 @@
                   axios.put('/api/category/'+this.categ_id, {
                     admin_id: this.admin.id,
                     name: this.category_name,
-                    display: this.display
+                    status: this.status
                   })
                   .then((response) => {
                     this.submit = false;

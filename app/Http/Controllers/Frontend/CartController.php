@@ -17,7 +17,7 @@ class CartController extends Controller
 
     public function index()
     {
-    	
-    	return view('frontend.cart');
+    	$data = 'Cart';	
+    	return view('frontend.cart', compact('data'));
     }
 }
