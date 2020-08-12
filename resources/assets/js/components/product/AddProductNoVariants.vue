@@ -201,6 +201,7 @@
 				reader.readAsDataURL(file)
 			},
 			addProduct() {
+				this.getCategory();
 	       	this.$refs.refsAddProductModal.show();
 	       	// window.addEventListener('beforeunload', (event) => {
 	        //      if (!this.readyToSubmit) {
@@ -230,6 +231,9 @@
 
 					axios.post('/api/product/create-no-variant', form)
 	       		.then(response => {
+	       			this.isBtnClicked = false;
+	       			this.readyToSubmit = false;
+	       			
 	       			if (response.data.success) {
 	       				Swal('Product has been created', '', 'success')
 							.then((okay) => {
@@ -240,8 +244,7 @@
 								}
 							})
 	       			}
-	       			this.isBtnClicked = false;
-	       			this.readyToSubmit = false;
+	       			
 	       		})
 	       		.catch(error => {
 	       			this.isBtnClicked = false;
@@ -275,14 +278,12 @@
 				this.status = 1;
 				this.image = '';
 				this.server_errors = [];
+				this.categories = [];
 				this.$nextTick(() => { this.$v.$reset() });
 			},
 			focusOnProdName() {
 				this.$refs.addProductNameInput.focus();
 			}
 		}, // methods
-		mounted() {
-			this.getCategory();
-		}
 	}
 </script>

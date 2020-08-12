@@ -8,6 +8,7 @@ use App\Product;
 use App\ProductNoVariant;
 use App\ProductWithVariant;
 use App\Inventory;
+use App\InventoryVariant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -216,11 +217,16 @@ class ProductController extends Controller
             $inventoryUpdate->update();
 
             $productVariant = new ProductWithVariant();
-            $productVariant->inventory_number = $inventoryUpdate->number;
+            $productVariant->product_number = $prodNum->number;
             $productVariant->variant_value = $variant->variant_value;
             $productVariant->variant_price = (float)$variant->variant_price;
             $productVariant->variant_status = (int)$variant->variant_status;
             $productVariant->save();
+
+            $inventoryVariant = new InventoryVariant();
+            $inventoryVariant->inventory_number = $inventoryUpdate->number;
+            $inventoryVariant->variant_id = (int)$productVariant->id;
+            $inventoryVariant->save();
 
         }
 
@@ -238,18 +244,15 @@ class ProductController extends Controller
         
     }
 
-    public function updateWithVariant(Request $request, Product $product)
-    {
-
-    }
-
     public function updateProductCatalog(Request $request, Product $product)
     {
         $request->validate([
             'category' => 'required',
             'product_name' => "required|string|max:75|unique:products,product_name,$product->id",
-            'product_description'   =>  'required|string',
+            'product_description'   =>  'required|string'
         ]);
+
+        date_default_timezone_set("Asia/Manila");
 
         $product->category_id = (int)$request->category;
         $product->product_name = ucwords(strtolower($request->product_name));
@@ -274,7 +277,7 @@ class ProductController extends Controller
 
         $array_params = [
             'id' => $request->admin_id,
-            'action' => 'Updated product catalog. Product #: '.$product->number
+            'action' => 'Updated product catalog with variants. Product #: '.$product->number
         ];
 
         $this->createUserLog($array_params);
@@ -282,6 +285,56 @@ class ProductController extends Controller
         $response = array('success'=>true);
         
         return response()->json($response);
+    }
+
+    public function updateCatalogNoVariant(Request $request, Product $product)
+    {
+        $request->validate([
+            'category' => 'required',
+            'product_name' => "required|string|max:75|unique:products,product_name,$product->id",
+            'product_description'   =>  'required|string',
+            'product_price' => 'required||regex:/^[1-9][0-9.]/|max:8'
+        ]);
+
+
+        date_default_timezone_set("Asia/Manila");
+
+        $product->category_id = (int)$request->category;
+        $product->product_name = ucwords(strtolower($request->product_name));
+        $product->product_description = $request->product_description;
+        $product->product_status = (int)$request->product_status;  
+        
+        // check if has image file
+        if ($request->hasFile('product_image') && $request->filled('product_image'))
+        {   
+            // set image nam
+            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
+            $product->product_image = $imageName;
+            // save image into storage
+            $request->product_image->storeAs('/public/products/', $imageName);
+        }
+
+        // set product url
+        $product->product_url = strtolower(str_replace(' ', '-', $request->product_name));
+
+        // save product
+        $product->update();
+
+        $productNoVariant = ProductNoVariant::where('product_number', $product->number)->first();
+        $productNoVariant->price = (float)$request->product_price;
+        $productNoVariant->update();
+
+        $array_params = [
+            'id' => $request->admin_id,
+            'action' => 'Updated product catalog no variants. Product #: '.$product->number
+        ];
+
+        $this->createUserLog($array_params);
+
+        $response = array('success'=>true);
+        
+        return response()->json($response);
+
     }
 
     public function addStock(Request $request, Product $product)
@@ -334,14 +387,14 @@ class ProductController extends Controller
                             $query->where('number','LIKE','%'. $search_val .'%')
                             ->orWhere('product_name', 'LIKE','%'. $search_val .'%');
                         })
-                        ->with('category')->paginate(10);
+                        ->with('category', 'productWithVariants', 'productNoVariant')->paginate(10);
 
             $products->appends($request->only('search'));
         }
         else
         {  
             // get products data
-            $products = Product::with('category')->paginate(10);
+            $products = Product::with('category', 'productWithVariants', 'productNoVariant')->paginate(10);
         }
 
         return response()->json($products);

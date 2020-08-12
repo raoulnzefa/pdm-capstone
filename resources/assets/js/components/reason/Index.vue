@@ -1,54 +1,49 @@
 <template>
-<div class="row justify-content-center">
-	<div class="col-md-8">
-		<div>
-			<h2>Reasons</h2>
+<div class="row">
+	<div class="col-md-12">
+		<h2 class="mt-4 mb-4">Reasons</h2>
+		
+		<div class="mb-4">
+			<button class="btn btn-primary" @click="addReason"><i class="fa fa-plus"></i> Add reason</button>
 		</div>
-		<div class="card">
-			<div class="card-body">
-				<div class="mb-3">
-					<button class="btn btn-dark" @click="addReason"><i class="fa fa-plus"></i> Add reason</button>
-				</div>
-				<table class="table table-bordered table-striped">
-					<thead>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Reason</th>
+					<th>Type</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<template v-if="reason_loading">
+					<tr>
+						<td colspan="4" align="center">
+							<half-circle-spinner
+	                            :animation-duration="1000"
+	                            :size="30"
+	                            color="#ff1d5e"
+	                          />
+						</td>
+					</tr>
+				</template>
+				<template v-else>
+					<template v-if="!reasons.length">
 						<tr>
-							<th>ID</th>
-							<th>Reason</th>
-							<th>Type</th>
-							<th>Action</th>
+							<td colspan="4" align="center">No reasons</td>
 						</tr>
-					</thead>
-					<tbody>
-						<template v-if="reason_loading">
-							<tr>
-								<td colspan="4" align="center">
-									<half-circle-spinner
-			                            :animation-duration="1000"
-			                            :size="30"
-			                            color="#ff1d5e"
-			                          />
-								</td>
-							</tr>
-						</template>
-						<template v-else>
-							<template v-if="!reasons.length">
-								<tr>
-									<td colspan="4" align="center">No reasons</td>
-								</tr>
-							</template>
-							<template v-else>
-								<tr v-for="(reason, index) in reasons" :key="index">
-									<td>{{ reason.id }}</td>
-									<td>{{ reason.title }}</td>
-									<td>{{ reason.type }}</td>
-									<td><button class="btn btn-sm btn-dark" @click="editReason(reason)"><i class="fa fa-edit"></i> Edit</button></td>
-								</tr>
-							</template>
-						</template>
-					</tbody>
-				</table>
-			</div>
-		</div><!-- card -->
+					</template>
+					<template v-else>
+						<tr v-for="(reason, index) in reasons" :key="index">
+							<td>{{ reason.id }}</td>
+							<td>{{ reason.title }}</td>
+							<td>{{ reason.type }}</td>
+							<td><button class="btn btn-sm btn-primary" @click="editReason(reason)"><i class="fa fa-edit"></i> Edit</button></td>
+						</tr>
+					</template>
+				</template>
+			</tbody>
+		</table>
 		<!-- Modal Component -->
         <b-modal id="reasonModal"
                  ref="reasonModal"
@@ -56,7 +51,7 @@
                  no-close-on-backdrop
                  no-close-on-esc
                  hide-header-close
-                 ok-title="Save"
+                 :ok-title="ok_title"
                  :ok-disabled="submit_reason"
                  @ok="submitReason"
                  @cancel="cancelReason"
@@ -72,7 +67,7 @@
             	<b-form-group id=""
                           label="Type:"
                           label-for="reasonType">
-	                <b-form-select v-model.trim="$v.reason_type.$model" id="reasonType" :class="{'is-invalid':$v.reason_type.$error}">
+	                <b-form-select v-model.trim="$v.reason_type.$model" id="reasonType" :class="{'is-invalid':$v.reason_type.$error}" tabindex="1">
 				      	<option :value="null" disabled>Please select an option</option>
 				      	<option value="Cancellation">Cancellation</option>
 				      	<option value="Return">Return</option>
@@ -86,7 +81,9 @@
                           label-for="reasonTitle">
                 <b-form-input id="reasonTitle"
                               type="text"
+                              tabindex="2"
                               v-model.trim="$v.reason.$model"
+                              placeholder="Enter reason"
                               :class="{'is-invalid': $v.reason.$error}">
                 </b-form-input>
                 <div v-if="$v.reason.$error">
@@ -119,6 +116,7 @@
 				server_errors: [],
 				edit_reason: false,
 				modal_title: '',
+				ok_title: '',
 				submit_reason: false,
 				reason_id: '',
 				reasons: [],
@@ -143,7 +141,8 @@
 		methods: {
 			addReason() {
 				this.edit_reason = false;
-				this.modal_title = 'Add Reason';
+				this.modal_title = 'Add reason';
+				this.ok_title = 'Create';
 				this.$refs.reasonModal.show();
 			},
 			submitReason(evt) {
@@ -166,7 +165,7 @@
 						.then((response) => {
 							this.submit_reason = false;
 							if (response.data.success) {
-								Swal('Reason has been creatd','', 'success')
+								Swal('Reason has been created','', 'success')
 								.then((okay) => {
 									if (okay) {
 										this.reason = '';
@@ -227,7 +226,8 @@
 			},
 			editReason(reason) {
 				this.edit_reason = true;
-				this.modal_title = 'Edit Reason';
+				this.modal_title = 'Edit reason';
+				this.ok_title = 'Update';
 				this.reason = reason.title;
 				this.reason_type = reason.type;
 				this.reason_id = reason.id;

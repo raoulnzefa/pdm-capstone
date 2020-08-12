@@ -21,6 +21,11 @@ class Product extends Model
       return $this->hasOne('App\ProductNoVariant');
    }
 
+   public function productWithVariants()
+   {
+      return $this->hasMany('App\ProductWithVariant');
+   }
+
    public function getProductPriceAttribute($value)
    {
    	return number_format($value, 2);

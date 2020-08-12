@@ -14,6 +14,7 @@ class ShippingRateController extends Controller
 
  	public function index()
  	{
- 		return view('backend.shipping_rate.index');
+ 		$data = 'Shipping rate';
+ 		return view('backend.shipping_rate.index', compact('data'));
  	}
 }

@@ -14,6 +14,7 @@ class ReasonController extends Controller
 
     public function index()
     {
-    	return view('backend.reason.index');
+    	$data = 'Reasons';
+    	return view('backend.reason.index', compact('data'));
     }
 }

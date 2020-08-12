@@ -16,7 +16,8 @@ class CreateVoucherCodesTable extends Migration
         Schema::create('voucher_codes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('voucher_value');
-            $table->string('voucher_purpose');
+            $table->string('voucher_type');
+            $table->string('voucher_discount_percent');
             $table->timestamps();
         });
     }

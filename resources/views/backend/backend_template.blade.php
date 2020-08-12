@@ -8,6 +8,7 @@
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $data }} - {{ config('app.name') }}</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/Logo.png') }}">
         <link href="{{ asset('css/my-admin.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('template_css/styles.css')}}" rel="stylesheet" />
         <link href="{{ asset('css/report_style.css') }}" rel="stylesheet" media="print" type="text/css">
@@ -56,21 +57,15 @@
                                 Maintenance
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                            <div class="collapse accordion-link" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMaintenance">
                                     <a class="nav-link" href="{{ route('categories') }}">Categories</a>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#maintenaceCollapseProduct" aria-expanded="false" aria-controls="maintenaceCollapseProduct">
-                                        Products
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="maintenaceCollapseProduct" aria-labelledby="headingOne" data-parent="#sidenavAccordionMaintenance">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="{{ route('product_catalog') }}">Catalog</a>
-                                            <a class="nav-link" href="{{ route('product_no_variants') }}">No variants</a>
-                                            <a class="nav-link" href="{{ route('product_with_variants') }}">With variants</a>
-                                        </nav>
-                                    </div>
-                                   
+                                    <a class="nav-link" href="{{ route('products') }}">Products</a>
+                                    <a class="nav-link" href="{{ route('bank_account') }}">Bank account</a>
+                                    <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping rate</a>
+                                    <a class="nav-link" href="{{ route('voucher_code') }}">Voucher code</a>
+                                    <a class="nav-link" href="{{ route('reason') }}">Reason</a>
+                                    <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="#">

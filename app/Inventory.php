@@ -29,4 +29,9 @@ class Inventory extends Model
     {
         return $this->hasMany('App\InvoiceProduct');
     }
+
+    public function inventoryVariant()
+    {
+        return $this->hasOne('App\InventoryVariant');
+    }
 }

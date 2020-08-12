@@ -196,8 +196,14 @@ Vue.component('add-stock', require('./components/product/AddStock.vue'));
 Vue.component('add-product-with-variants', require('./components/product/AddProductWithVariants.vue'));
 Vue.component('add-product-no-variant', require('./components/product/AddProductNoVariants.vue'));
 
-Vue.component('product-no-variants', require('./components/product/ProductNoVariants.vue'));
 Vue.component('product-with-variants', require('./components/product/ProductWithVariants.vue'));
+
+
+Vue.component('edit-catalog-with-variants', require('./components/product/EditProductWithVariant.vue'));
+Vue.component('edit-catalog-no-variants', require('./components/product/EditProductNoVariant.vue'));
+
+// voucher code
+Vue.component('voucher-code-index', require('./components/voucher_code/VoucherCodeIndex.vue'));
 //Setting
 
 const app = new Vue({

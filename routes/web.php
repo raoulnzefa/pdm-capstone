@@ -35,12 +35,12 @@ Route::post('/admin/password/reset', 'Backend\AdminResetPasswordController@reset
 //Route::get('/admin/user/{admin}', 'Backend\UserController@editAccount');
 // Route::get('/admin/edit-account/{admin}', 'Backend\UserController@editAccount');
 //Route::get('/admin/user/change-password/{admin}', 'Backend\UserController@changePass');
-Route::get('/admin/users', 'Backend\AdminCrudController@index');
+Route::get('/admin/users', 'Backend\AdminCrudController@index')->name('users');
 
 Route::get('/admin/categories','Backend\CategoryController@index')->name('categories');
 //Route::resource('/admin/product','Backend\ProductController');
 
-Route::get('/admin/products/catalog', 'Backend\ProductController@index')->name('product_catalog');
+Route::get('/admin/products', 'Backend\ProductController@index')->name('products');
 Route::get('/admin/product/new','Backend\ProductController@create');
 Route::get('/admin/product/{product}/edit', 'Backend\ProductController@edit');
 Route::get('/admin/product/add-stock/{product}', 'Backend\ProductController@addStock');
@@ -64,7 +64,7 @@ Route::post('/order/cancel', 'Backend\OrderController@cancelOrder');
 
 Route::get('admin/sales', 'Backend\SalesController@index');
 
-Route::get('admin/reason', 'Backend\ReasonController@index');
+Route::get('admin/reason', 'Backend\ReasonController@index')->name('reason');
 
 Route::get('admin/user-logs', 'Backend\UserLogsController@index');
 
@@ -191,12 +191,12 @@ Route::get('admin/reports/products', 'Backend\ReportsController@productsReportIn
 
 Route::get('admin/reports/sales', 'Backend\ReportsController@salesReport');
 
-Route::get('admin/bank-account', 'Backend\BankAccountController@index');
+Route::get('admin/bank-account', 'Backend\BankAccountController@index')->name('bank_account');
 Route::get('admin/invoice/{invoice}', 'Backend\InvoiceController@viewInvoice');
 
 Route::get('invoice/{invoice}', 'Frontend\InvoiceController@viewInvoice');
 
-Route::get('admin/voucher-code', 'Backend\VoucherCodeController@index');
+Route::get('admin/voucher-code', 'Backend\VoucherCodeController@index')->name('voucher_code');
 
 Route::get('featured-products', 'Frontend\FeaturedProductController@index');
 Route::get('featured-products/category/{category}', 'Frontend\FeaturedProductController@category');
@@ -221,7 +221,7 @@ Route::get('admin/order/{returnRequest}/decline-return-request', '
 // Route::get('/home', 'HomeController@index')->name('home');
 
 // shipping rate
-Route::get('admin/delivery-fee', 'Backend\ShippingRateController@index');
+Route::get('admin/shipping-rate', 'Backend\ShippingRateController@index')->name('shipping_rate');
 
 
 Route::get('/admin/user/edit-information', 'Backend\AdminCrudController@editInformation');
@@ -245,8 +245,5 @@ Route::get('/admin/orders/pending-payment', 'Backend\OrderController@pendingPaym
 Route::get('/admin/orders/processing', 'Backend\OrderController@processing')->name('orders_processing');
 Route::get('/admin/orders/delivered', 'Backend\OrderController@delivered')->name('orders_delivered');
 Route::get('/admin/orders/completed', 'Backend\OrderController@completed')->name('orders_completed');
- 
-// products with variants and no variants
-Route::get('/admin/products/product-no-variants', 'Backend\ProductController@productNoVariants')->name('product_no_variants');
-Route::get('/admin/products/product-with-variants', 'Backend\ProductController@productWithVariants')->name('product_with_variants');
+
 

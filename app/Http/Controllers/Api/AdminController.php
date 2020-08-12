@@ -24,7 +24,8 @@ class AdminController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:20',
             'last_name' => 'required|string|max:20',
-            'username' =>  'required|string|unique:admins'
+            'username' =>  'required|string|unique:admins',
+            'role' => 'required'
         ]);
 
         date_default_timezone_set("Asia/Manila");
@@ -36,7 +37,7 @@ class AdminController extends Controller
         $admin->last_name = ucfirst($request->input('last_name'));
         $admin->username = strtolower($request->input('username'));
         $admin->role = $request->input('role');
-        $admin->status = ($request->status == false) ? 'Active' : 'Locked';
+        $admin->status = ($request->status == false) ? 'Active' : 'Deactivated';
         $admin->password = Hash::make($password);
         $admin->save();
 
@@ -72,7 +73,7 @@ class AdminController extends Controller
     public function updateUser(Request $request, Admin $admin)
     {
 
-        $admin->status = ($request->input('status') == false) ? 'Active' : 'Locked';
+        $admin->status = ($request->input('status') == false) ? 'Active' : 'Deactivated';
         $admin->role = $request->input('role');
         $admin->update();
 

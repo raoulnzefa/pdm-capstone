@@ -39,9 +39,16 @@ Route::post('product/create-with-variant', 'Api\ProductController@createWithVari
 Route::post('product/update-with-variant/{product}', 'Api\ProductController@updateWithVariant');
 
 Route::post('product/catalog/{product}', 'Api\ProductController@updateProductCatalog');
+Route::post('product/catalog/no-variants/{product}', 'Api\ProductController@updateCatalogNoVariant');
 
 Route::get('products', 'Api\ProductController@productsTable');
 Route::put('product/add-stock/{product}', 'Api\ProductController@addStock');
+
+// product with variants
+Route::get('product-with-variants/list', 'Api\ProductWithVariantController@list');
+Route::put('product-with-variants/update/{productVariant}', 'Api\ProductWithVariantController@updateVariant');
+Route::post('product-with-variants/create', 'Api\ProductWithVariantController@createVariant');
+
 //Admin Side
 //Customer list
 Route::get('/customers', 'Api\CustomerController@list');

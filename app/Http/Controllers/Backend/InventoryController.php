@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\InventoryVariant;
 use App\Inventory;
 use App\Product;
 use App\ProductWithVariant;
@@ -19,12 +20,8 @@ class InventoryController extends Controller
     public function index()
     {
 
-    	$inventories = DB::table('inventories')
-    						->leftJoin('product_with_variants', 'inventories.number', '=','product_with_variants.inventory_number')
-    						->join('products', 'inventories.product_number', '=', 'products.number')
-    						->select('inventories.*', 'product_with_variants.variant_value','products.product_name')
-    						->get();
-      $data = 'Inventory';
+    	$inventories = Inventory::with('inventoryVariant.productWithVariant')->get();
+        $data = 'Inventory';
 
     	return view('backend.inventory.index', compact('data', 'inventories'));
     }

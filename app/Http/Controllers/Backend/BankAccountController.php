@@ -14,6 +14,7 @@ class BankAccountController extends Controller
 
     public function index()
     {
-    	return view('backend.bank_account.index');
+    	$data = 'Bank account';
+    	return view('backend.bank_account.index', compact('data'));
     }
 }

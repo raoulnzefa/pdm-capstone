@@ -1,62 +1,57 @@
 <template>
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div>
-            <h2>Users</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mt-4 mb-4">Users</h2>
+        <div class="mb-4">
+            <button type="button" class="btn btn-primary" @click="showAddUserModal"><i class="fa fa-plus"></i> Add user</button>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="mb-3">
-                    <button type="button" class="btn btn-dark" @click="showAddUserModal"><i class="fa fa-plus"></i> Add user</button>
-                </div>
-                <div>
-                    <table class="table table-bordered table-striped">
-                        <thead>
+        <div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-if="loading">
+                        <tr>
+                            <td colspan="5" align="center">
+                                <half-circle-spinner
+                                    :animation-duration="1000"
+                                    :size="30"
+                                    color="#ff1d5e"
+                                  />
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <template v-if="!users.length">
                             <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <td colspan="5" align="center">
+                                    No users.
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <template v-if="loading">
-                                <tr>
-                                    <td colspan="5" align="center">
-                                        <half-circle-spinner
-                                            :animation-duration="1000"
-                                            :size="30"
-                                            color="#ff1d5e"
-                                          />
-                                    </td>
-                                </tr>
-                            </template>
-                            <template v-else>
-                                <template v-if="!users.length">
-                                    <tr>
-                                        <td colspan="5" align="center">
-                                            No users.
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template v-else>
-                                    <tr v-for="(user, index) in users" :key="index">
-                                        <td>{{ user.id }}</td>
-                                        <td>{{user.username}}</td>
-                                        <td>{{user.role}}</td>
-                                        <td>{{user.status}}</td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-dark" title="Edit User Information" @click="editUser(user.id)" v-show="user.id != admin.id"><i class="fa fa-edit"></i> Edit</a>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div><!-- card -->
+                        </template>
+                        <template v-else>
+                            <tr v-for="(user, index) in users" :key="index">
+                                <td>{{ user.id }}</td>
+                                <td>{{user.username}}</td>
+                                <td>{{user.role}}</td>
+                                <td>{{user.status}}</td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-primary" title="Edit User Information" @click="editUser(user.id)" v-show="user.id != admin.id"><i class="fa fa-edit"></i> Edit</a>
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+            
     </div>    
     <!-- Create user Modal Component -->
         <b-modal id="addUserModal"
@@ -69,7 +64,8 @@
                  :cancel-disabled="submitBtn"
                  @ok="submitUser"
                  @cancel="cancelCreate"
-                 @hidden="cancelCreate">
+                 @hidden="cancelCreate"
+                 @shown="focusOnFname">
             <template v-if="server_errors.length != 0">
               <div class="alert alert-danger">
                 <ul class="">
@@ -79,31 +75,36 @@
             </template>
             <form @submit.stop.prevent="saveUser">
               <b-form-group id=""
-                          label="First Name:"
+                          label="Firstname:"
                           label-for="firstName">
                 <b-form-input id="firstName"
                               type="text"
+                              tabindex="1"
+                              placeholder="Enter firstname"
+                              ref="userFnameFocus"
                               v-model.trim="$v.first_name.$model"
                               :class="{'is-invalid': $v.first_name.$error}"
                               :readonly="edit">
                 </b-form-input>
                 <div v-if="$v.first_name.$error">
-                  <span class="error-feedback" v-if="!$v.first_name.required">First name is required</span>
-                  <span class="error-feedback d-block" v-if="!$v.first_name.maxLength">First name cannot be at most {{ $v.first_name.$params.maxLength.max }}</span>
-                  <span class="error-feedback d-block" v-if="!$v.first_name.lettersSpace">First name is invalid</span>
+                  <span class="error-feedback" v-if="!$v.first_name.required">Firstname is required</span>
+                  <span class="error-feedback d-block" v-if="!$v.first_name.maxLength">Firstname cannot be at most {{ $v.first_name.$params.maxLength.max }}</span>
+                  <span class="error-feedback d-block" v-if="!$v.first_name.lettersSpace">Firstname is invalid</span>
                 </div>
               </b-form-group>
               <b-form-group id=""
-                          label="Last Name:"
+                          label="Lastname:"
                           label-for="lastName">
                 <b-form-input id="lastName"
                               type="text"
+                              placeholder="Enter lastname"
+                              tabindex="2"
                               v-model.trim="$v.last_name.$model"
                               :class="{'is-invalid': $v.last_name.$error}"
                               :readonly="edit">
                 </b-form-input>
                 <div v-if="$v.last_name.$error">
-                  <span class="error-feedback" v-if="!$v.last_name.required">Last name is required</span>
+                  <span class="error-feedback" v-if="!$v.last_name.required">Lastname is required</span>
                 </div>
               </b-form-group>
               <div class="form-group">
@@ -113,14 +114,19 @@
                <div class="form-group">
                 <label for="username">Role:</label>
                 <select class="form-control" name="role"
-                      v-model="role">
+                      v-model.trim="$v.role.$model"
+                      :class="{'is-invalid': $v.role.$error}">
+                  <option value="" disabled selected>Select user role</option>
                   <option value="Administrator">Administrator</option>
                   <option value="Staff">Staff</option>
                 </select>
+                <div v-if="$v.role.$error">
+                  <span class="error-feedback" v-if="!$v.role.required">Role is required</span>
+                </div>
               </div>
-              <div class="form-check">
+              <div class="form-check" v-if="edit">
                 <input type="checkbox" class="form-check-input" id="isAdmin" v-model="status">
-                <label class="form-check-label" for="isAdmin">Lock user</label>
+                <label class="form-check-label" for="isAdmin">Deactivate</label>
               </div>
              </form>   
           </b-modal>
@@ -140,7 +146,7 @@
             return {
                 users: [],
                 modal_title: 'Add user',
-                ok_title: 'Save',
+                ok_title: 'Create',
                 submit: false,
                 is_admin: false,
                 loading: false,
@@ -174,6 +180,9 @@
                         required,
                         maxLength: maxLength(20),
                         lettersSpace
+                    },
+                    role: {
+                      required
                     }
                 }
             }
@@ -189,6 +198,9 @@
                         required,
                         maxLength: maxLength(20),
                         lettersSpace
+                    },
+                    role: {
+                      required
                     }
                 }
             }
@@ -208,6 +220,8 @@
                 })
             },
             showAddUserModal() {
+              this.modal_title = "Add user";
+              this.ok_title = 'Create';
               this.$refs.addUserModal.show();
             },
             submitUser(e) {
@@ -231,7 +245,7 @@
                   .then(response => {
                     this.submitBtn = false;
                     if (response.data.success) {
-                      Swal('Add User', 'User has been saved', 'success')
+                      Swal('User has been created','', 'success')
                       .then((okay) => {
                         if (okay) {
                             this.$refs.addUserModal.hide();
@@ -260,7 +274,7 @@
                   .then(response => {
                     this.submitBtn = false;
                     if (response.data.success) {
-                      Swal('Edit User', 'User has been updated', 'success')
+                      Swal('User has been updated', '', 'success')
                       .then((okay) => {
                         if (okay) {
                             this.$refs.addUserModal.hide();
@@ -288,7 +302,7 @@
               this.edit = false;
               this.submitBtn = false;
               this.modal_title = 'Add user';
-              this.ok_title = 'Save';
+              this.ok_title = 'Create';
               this.$nextTick(() => { this.$v.$reset() });
             },
             editUser(id) {
@@ -303,6 +317,9 @@
               this.status = (user.status === 'Active') ? false : true;
               this.$refs.addUserModal.show();
 
+            },
+            focusOnFname() {
+              this.$refs.userFnameFocus.focus();
             }
         },    
         computed: {

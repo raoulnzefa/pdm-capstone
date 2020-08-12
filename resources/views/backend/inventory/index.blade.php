@@ -14,9 +14,13 @@
 		@foreach($inventories as $inventory)
 			<tr>
 				<td>{{ $inventory->number }}</td>
-				<th>{{ $inventory->product_name.' '.$inventory->variant_value}}</th>
-				<th>{{ $inventory->inventory_stock }}</th>
-				<th>{{ $inventory->inventory_critical_level }}</th>
+				@if ($inventory->inventoryVariant)
+					<td>{{$inventory->product->product_name.' '.$inventory->inventoryVariant->productWithVariant->variant_value}}</td>
+				@else
+					<td>{{$inventory->product->product_name }}</td>
+				@endif
+				<td>{{ $inventory->inventory_stock }}</td>
+				<td>{{ $inventory->inventory_critical_level }}</td>
 			</tr>
 		@endforeach
 	</tbody>

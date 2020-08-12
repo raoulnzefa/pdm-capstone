@@ -240,6 +240,7 @@
 				reader.readAsDataURL(file)
 			},
 			addProductWithVariants() {
+				this.getCategory();
 				this.$refs.refsAddWithVariantModal.show();
 			},
 			addVariantForm() {
@@ -275,18 +276,19 @@
 	       	
 	       			axios.post('/api/product/create-with-variant', form)
 		       		.then(response => {
+		       			this.isBtnClicked = false;
+		       			this.readyToSubmit = false;
 		       			if (response.data.success) {
 		       				Swal('Product has been created', '', 'success')
 								.then((okay) => {
 									if (okay) {
 										this.$refs.refsAddWithVariantModal.hide();
-										this.$nextTick(() => { this.$v.forms.$reset() });
+										this.$v.forms.$reset();
 										this.$bus.$emit('refreshTable', true);
 									}
 								})
 		       			}
-		       			this.isBtnClicked = false;
-		       			this.readyToSubmit = false;
+		       			
 		       		})
 		       		.catch(error => {
 		       			this.isBtnClicked = false;
@@ -321,20 +323,12 @@
 					inventory_crit_level: ''
 				}];
 				this.server_errors = [];
+				this.categories = [];
 				this.$nextTick(() => { this.$v.forms.$reset() });
 			},
 			focusOnProdName() {
 				this.$refs.addProductVariantInput.focus();
 			}
-		},
-		mounted() {
-			this.getCategory();
-			// window.addEventListener('beforeunload', (event) => {
-   //           if (!this.readyToSubmit) {
-   //               event.returnValue = `Are you sure you want to leave?`;
-   //               this.readyToSubmit = false;
-   //           }
-   //       });
 		}
 	}
 </script>

@@ -24,7 +24,10 @@ class AdminCrudController extends Controller
         {
             return redirect()->route('admin_dashboard');
         }
-        return view('backend.user.index');
+
+        $data = 'Users';
+
+        return view('backend.user.index', compact('data'));
     }
 
     /**
