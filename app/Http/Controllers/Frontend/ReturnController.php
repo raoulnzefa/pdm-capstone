@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\ReturnRequest;
-use App\ReturnProductRequest;
-use App\Order;
-use App\Customer;
-use App\Reason;
-use App\OrderProduct;
+use App\Models\ReturnRequest;
+use App\Models\ReturnProductRequest;
+use App\Models\Order;
+use App\Models\Customer;
+use App\Models\Reason;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;

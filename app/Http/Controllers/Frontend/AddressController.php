@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Province;
-use App\Municipality;
-use App\Barangay;
-use App\ShippingRate;
-use App\Address;
+use App\Models\Province;
+use App\Models\Municipality;
+use App\Models\Barangay;
+use App\Models\ShippingRate;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

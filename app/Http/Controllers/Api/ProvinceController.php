@@ -1,8 +1,8 @@
-<?php
+Models\<?php
 
 namespace App\Http\Controllers\Api;
 
-use App\Province;
+use App\Models\Province;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

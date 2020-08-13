@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\BankDepositSlip;
+use App\Models\BankDepositSlip;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

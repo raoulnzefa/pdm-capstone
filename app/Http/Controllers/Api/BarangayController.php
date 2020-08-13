@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Municipality;
+use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

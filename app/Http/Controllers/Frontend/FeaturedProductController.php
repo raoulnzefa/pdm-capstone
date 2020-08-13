@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Category;
-use App\Product;
-use App\ProductVariant;
-use App\ProductNoVariant;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductNoVariant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Admin;

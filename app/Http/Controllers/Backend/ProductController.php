@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\ProductWithVariant;
-use App\ProductNoVariant;
-use App\Product;
+use App\Models\ProductWithVariant;
+use App\Models\ProductNoVariant;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

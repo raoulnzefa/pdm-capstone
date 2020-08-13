@@ -12,11 +12,10 @@
     "devDependencies": {
         "axios": "^0.18",
         "bootstrap": "^4.0.0",
-        "popper.js": "^1.12",
         "cross-env": "^5.1",
-        "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
+        "popper.js": "^1.12",
         "vue": "^2.5.7"
     },
     "dependencies": {
@@ -25,7 +24,7 @@
         "chart.js": "^2.7.3",
         "epic-spinners": "^1.0.3",
         "laravel-echo": "^1.5.3",
-        "moment": "^2.23.0",
+        "moment": "^2.27.0",
         "pusher-js": "^4.4.0",
         "sweetalert2": "^7.26.11",
         "tinymce-vue-2": "0.0.5",
@@ -38,7 +37,6 @@
         "vue-print-nb": "^1.0.3",
         "vue-stripe-elements-plus": "^0.2.9",
         "vue-wysiwyg": "^1.7.2",
-        "vuejs-datepicker": "^1.5.3",
         "vuelidate": "^0.7.4"
     }
 }

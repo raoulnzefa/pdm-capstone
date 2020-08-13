@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Reason;
-use App\CancelOrderRequest;
-use App\ReturnRequest;
-use App\Order;
-use App\Invoice;
-use App\OrderProduct;
-use App\Customer;
+use App\Models\Reason;
+use App\Models\CancelOrderRequest;
+use App\Models\ReturnRequest;
+use App\Models\Order;
+use App\Models\Invoice;
+use App\Models\OrderProduct;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;

@@ -1,14 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\Order;
-use App\OrderProduct;
-use App\Invoice;
-use App\InvoiceProduct;
-use App\ReturnOrder;
-use App\ReturnProduct;
-use App\Refund;
-use App\ReplacementProduct;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Invoice;
+use App\Models\InvoiceProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;

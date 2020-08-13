@@ -1,22 +1,19 @@
 <template>
-	<div class="row justify-content-center">
-		<div class="col-md-10">
-			<div class="card mb-3">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-4">
-							<h2 class="float-left">User Logs</h2>
-						</div>
-						<div class="col-md-8">
-							<form class="form-inline justify-content-end" @submit.prevent="searchUserLogs">
-								<label class="mr-2" for="">From:</label>
-								<date-picker v-model="from_date" :config="options" class="mb-2 mr-sm-2"></date-picker>
-								<label class="mr-2" for="">To:</label>
-								<date-picker v-model="to_date" :config="options" class="mb-2 mr-sm-2"></date-picker>
-								<button type="submit" class="btn btn-primary mb-2 mr-1">Search</button>
-							</form>
-						</div>
-					</div><!-- row -->
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
+			<div class="row mt-4 mb-4">
+				<div class="col-md-4">
+					<h2 class="float-left">User Logs</h2>
+					
+				</div>
+				<div class="col-md-8">
+					<form class="form-inline justify-content-end" @submit.prevent="searchUserLogs">
+						<label class="mr-2" for="">From:</label>
+						<date-picker v-model="from_date" :config="options" class="mb-2 mr-sm-2"></date-picker>
+						<label class="mr-2" for="">To:</label>
+						<date-picker v-model="to_date" :config="options" class="mb-2 mr-sm-2"></date-picker>
+						<button type="submit" class="btn btn-primary mb-2 mr-1">Search</button>
+					</form>
 				</div>
 			</div><!-- row -->
 			<template v-if="on_search">
@@ -72,9 +69,10 @@
 				from_date: '',
 				to_date: '',
 				options: {
-					format: 'YYYY-MM-DD',
+					format: 'MM/DD/YYYY',
 					useCurrent: false,
-					viewMode: 'days'
+					minDate: new Date(),
+					maxDate: new Date(new Date().getFullYear(), 12, 0) //get the last date of current year
 				},
 				user_logs: [],
 				on_search: false

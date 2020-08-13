@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Traits\UserLogs;
-use App\Order;
-use App\OrderProduct;
-use App\Customer;
-use App\Inventory;
-use App\ReturnRequest;
-use App\ReturnProductRequest;
-use App\ReturnedOrder;
-use App\ReturnedProduct;
-use App\Invoice;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Customer;
+use App\Models\Inventory;
+use App\Models\ReturnRequest;
+use App\Models\ReturnProductRequest;
+use App\Models\Invoice;
 use App\Notifications\ReturnRefundApprovedNotif;
 use App\Notifications\ProductReplacementNewOrderNotif;
 use App\Notifications\ReturnReplacementApprovedNotif;

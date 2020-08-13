@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\PaypalPayment;
-use App\Order;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use PayPal\Api\Amount;
@@ -14,7 +14,6 @@ use PayPal\Rest\ApiContext;
 use PayPal\Exception\PayPalConnectionException;
 use Config;
 use Exception;
-use App\CancelledOrder;
 
 class OrderController extends Controller
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\InventoryVariant;
-use App\Inventory;
-use App\Product;
-use App\ProductWithVariant;
+use App\Models\InventoryVariant;
+use App\Models\Inventory;
+use App\Models\Product;
+use App\Models\ProductWithVariant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;

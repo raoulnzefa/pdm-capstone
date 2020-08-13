@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Order;
-use App\Customer;
-use App\CancelOrderRequest;
+use App\Models\Order;
+use App\Models\Customer;
+use App\Models\CancelOrderRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\ApprovedPaidCancellationNotif;

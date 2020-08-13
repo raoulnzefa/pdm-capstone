@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Province;
-use App\Municipality;
-use App\Barangay;
-use App\OrderProduct;
-use App\Order;
-use App\Customer;
+use App\Models\Province;
+use App\Models\Municipality;
+use App\Models\Barangay;
+use App\Models\OrderProduct;
+use App\Models\Order;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;

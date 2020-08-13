@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\StorePickup;
+use App\Models\StorePickup;
 
 trait StorePickupTraits {
 	

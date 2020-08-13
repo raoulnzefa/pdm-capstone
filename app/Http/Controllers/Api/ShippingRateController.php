@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\ShippingRate;
+use App\Models\ShippingRate;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Traits\UserLogs;
 

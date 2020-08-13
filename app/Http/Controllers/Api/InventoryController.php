@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\UserLog;
-use App\Inventory;
+use App\Models\UserLog;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\UserLogs;

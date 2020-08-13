@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Order;
-use App\OrderProduct;
-use App\ReturnRequest;
-use App\ReturnProductRequest;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\ReturnRequest;
+use App\Models\ReturnProductRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;

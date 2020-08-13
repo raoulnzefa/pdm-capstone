@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Notifications\RefundNotification;
-use App\Invoice;
-use App\CancelOrderRequest;
-use App\Order;
-use App\Reason;
+use App\Models\Invoice;
+use App\Models\CancelOrderRequest;
+use App\Models\Order;
+use App\Models\Reason;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

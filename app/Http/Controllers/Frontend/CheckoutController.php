@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Frontend;
 
 
-use App\Address;
-use App\Province;
-use App\Municipality;
-use App\Barangay;
-use App\ShippingRate;
-use App\Cart;
-use App\Customer;
-use App\Order;
-use App\OrderProduct;
-use App\Product;
+use App\Models\Address;
+use App\Models\Province;
+use App\Models\Municipality;
+use App\Models\Barangay;
+use App\Models\ShippingRate;
+use App\Models\Cart;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;

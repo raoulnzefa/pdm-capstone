@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Province;
-use App\Municipality;
+use App\Models\Province;
+use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

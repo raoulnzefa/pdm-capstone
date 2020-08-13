@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Order;
-use App\CancelOrderRequest;
-use App\ReturnRequest;
+use App\Models\Order;
+use App\Models\CancelOrderRequest;
+use App\Models\ReturnRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

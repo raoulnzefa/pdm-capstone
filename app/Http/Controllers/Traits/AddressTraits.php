@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\Address;
+use App\Models\Address;
 
 trait AddressTraits
 {

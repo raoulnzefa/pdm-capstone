@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\UserLog; 
+use App\Models\UserLog; 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +15,7 @@ class UserLogsController extends Controller
 
     public function index()
     {
-    	return view('backend.user_logs.index');
+    	$data = 'User logs';
+    	return view('backend.user_logs.index', compact('data'));
     }
 }

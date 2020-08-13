@@ -196,7 +196,7 @@ Route::get('admin/invoice/{invoice}', 'Backend\InvoiceController@viewInvoice');
 
 Route::get('invoice/{invoice}', 'Frontend\InvoiceController@viewInvoice');
 
-Route::get('admin/voucher-code', 'Backend\VoucherCodeController@index')->name('voucher_code');
+Route::get('admin/voucher', 'Backend\VoucherCodeController@index')->name('voucher');
 
 Route::get('featured-products', 'Frontend\FeaturedProductController@index');
 Route::get('featured-products/category/{category}', 'Frontend\FeaturedProductController@category');

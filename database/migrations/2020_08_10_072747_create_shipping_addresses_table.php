@@ -19,12 +19,9 @@ class CreateShippingAddressesTable extends Migration
             $table->string('shipping_firstname');
             $table->string('shipping_lastname');
             $table->string('shipping_street');
-            $table->string('shipping_province');
-            $table->string('shipping_municipality');
             $table->string('shipping_barangay');
-            $table->integer('shipping_province_id');
-            $table->integer('shipping_municipality_id');
-            $table->integer('shipping_barangay_id');
+            $table->string('shipping_municipality');
+            $table->string('shipping_province');
             $table->string('shipping_zip_code');
             $table->string('shipping_mobile_no');
             $table->timestamps();

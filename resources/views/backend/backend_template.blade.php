@@ -63,7 +63,7 @@
                                     <a class="nav-link" href="{{ route('products') }}">Products</a>
                                     <a class="nav-link" href="{{ route('bank_account') }}">Bank account</a>
                                     <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping rate</a>
-                                    <a class="nav-link" href="{{ route('voucher_code') }}">Voucher code</a>
+                                    <a class="nav-link" href="{{ route('voucher') }}">Voucher</a>
                                     <a class="nav-link" href="{{ route('reason') }}">Reason</a>
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
@@ -96,9 +96,13 @@
             </div>
         </div><!-- #layoutSidenav -->
         </div>
+       
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+         
+
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('template_js/scripts.js') }}"></script>
+       
     </body>
 </html>

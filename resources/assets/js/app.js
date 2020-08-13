@@ -16,11 +16,16 @@ window.VeeValidate = require('vee-validate');
 
 window.VueBus = require('vue-bus');
 
+window.moment = require('moment');
+
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import BootstrapVue from 'bootstrap-vue'
 
 
 import Print from 'vue-print-nb';
+
+//import 'bootstrap/dist/css/bootstrap.css'
 
 import datePicker from 'vue-bootstrap-datetimepicker';
 
@@ -40,8 +45,6 @@ Vue.use(VueBus);
 Vue.use(VeeValidate, { fieldsBagName: 'veeFields' });
 Vue.use(Print);
 
-//import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -202,8 +205,8 @@ Vue.component('product-with-variants', require('./components/product/ProductWith
 Vue.component('edit-catalog-with-variants', require('./components/product/EditProductWithVariant.vue'));
 Vue.component('edit-catalog-no-variants', require('./components/product/EditProductNoVariant.vue'));
 
-// voucher code
-Vue.component('voucher-code-index', require('./components/voucher_code/VoucherCodeIndex.vue'));
+// voucher
+Vue.component('voucher-index', require('./components/voucher/VoucherIndex.vue'));
 //Setting
 
 const app = new Vue({

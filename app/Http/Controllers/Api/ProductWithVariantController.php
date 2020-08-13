@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Product;
-use App\ProductWithVariant;
-use App\Inventory;
-use App\InventoryVariant;
+use App\Models\Product;
+use App\Models\ProductWithVariant;
+use App\Models\Inventory;
+use App\Models\InventoryVariant;
 use App\Http\Controllers\Traits\UserLogs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

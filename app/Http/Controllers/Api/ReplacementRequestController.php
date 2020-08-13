@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ReturnedOrder;
-use App\ReturnedProduct;
-use App\SalesReturn;
-use App\SalesReturnProduct;
-use App\ReturnRequest;
-use App\ReturnProductRequest;
-use App\Order;
-use App\OrderProduct;
-use App\Inventory;
+use App\Models\ReturnRequest;
+use App\Models\ReturnProductRequest;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

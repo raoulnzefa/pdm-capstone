@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\BankAccount;
+use App\Models\BankAccount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\UserLogs;

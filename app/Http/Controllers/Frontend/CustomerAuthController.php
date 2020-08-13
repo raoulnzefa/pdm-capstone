@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Barangay;
-use App\Municipality;
-use App\Province;
+use App\Models\Barangay;
+use App\Models\Municipality;
+use App\Models\Province;
 use App\Notifications\ActivationLink;
-use App\Customer;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

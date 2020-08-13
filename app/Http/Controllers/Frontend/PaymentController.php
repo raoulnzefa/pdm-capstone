@@ -32,32 +32,32 @@ use App\Http\Controllers\Traits\InventoryManager;
 use App\Http\Controllers\Traits\InvoiceTraits;
 use App\Http\Controllers\Traits\AddressTraits;
 use App\Http\Controllers\Traits\OrderTraits;
-use App\Http\Controllers\Traits\DeliveryTraits;
+use App\Http\Controllers\Traits\ShippingAddressTraits;
 use App\Http\Controllers\Traits\StorePickupTraits;
 use App\PaypalPayment;
-use App\Cart;
-use App\Customer;
-use App\Order;
-use App\OrderProduct;
-use App\Invoice;
-use App\InvoiceProduct;
-use App\Product;
-use App\Delivery;
-use App\StorePickup;
-use App\Province;
-use App\Municipality;
-use App\Barangay;
-use App\BankAccount;
-use App\BankDepositPayment;
-use App\Inventory;
-use App\ProductVariant;
-use App\Address;
+use App\Models\Cart;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Invoice;
+use App\Models\InvoiceProduct;
+use App\Models\Product;
+use App\Models\ShippingAddress;
+use App\Models\StorePickup;
+use App\Models\Province;
+use App\Models\Municipality;
+use App\Models\Barangay;
+use App\Models\BankAccount;
+use App\Models\BankDepositPayment;
+use App\Models\Inventory;
+use App\Models\ProductVariant;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
-   use InventoryManager, AddressTraits, OrderTraits, StorePickupTraits, DeliveryTraits, InvoiceTraits;
+   use InventoryManager, AddressTraits, OrderTraits, StorePickupTraits, ShippingAddressTraits, InvoiceTraits;
 
 	private $_api_context;
 

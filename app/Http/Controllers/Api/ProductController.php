@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Admin;
-use App\UserLog;
-use App\Product;
-use App\ProductNoVariant;
-use App\ProductWithVariant;
-use App\Inventory;
-use App\InventoryVariant;
+use App\Models\Admin;
+use App\Models\UserLog;
+use App\Models\Product;
+use App\Models\ProductNoVariant;
+use App\Models\ProductWithVariant;
+use App\Models\Inventory;
+use App\Models\InventoryVariant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;

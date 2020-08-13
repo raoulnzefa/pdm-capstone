@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\UserLog;
-use App\Admin;
+use App\Models\UserLog;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\UserLog;
+use App\Models\UserLog;
 use Auth;
 
 trait UserLogs

@@ -236,3 +236,6 @@ Route::put('order/receive-order/{order}', 'Api\OrderController@customerReceiveOr
 
 //customer cancel order no payment
 Route::put('order/cancel-order-by-customer/{order}', 'Api\OrderController@cancelOrderByCustomer');
+
+// voucher
+Route::post('voucher/create', 'Api\VoucherController@createVoucher');

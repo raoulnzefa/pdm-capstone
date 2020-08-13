@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Admin;
-use App\UserLog;
-use App\Category;
+use App\Models\Admin;
+use App\Models\UserLog;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Inventory;
-use App\Cart;
-use App\Customer;
-use App\Product;
-use App\ProductNoVariant;
-use App\ProductWithVariant;
+use App\Models\Inventory;
+use App\Models\Cart;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\ProductNoVariant;
+use App\Models\ProductWithVariant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

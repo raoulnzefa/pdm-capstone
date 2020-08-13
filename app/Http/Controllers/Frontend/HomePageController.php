@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\CancelProduct;
 use App\Notifications\OrderConfirmation;
-use App\Order;
-use App\OrderProduct;
-use App\Invoice;
-use App\Product;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;

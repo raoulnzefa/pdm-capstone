@@ -118,7 +118,6 @@
 </template>
 
 <script>
-    import Datepicker from 'vuejs-datepicker'
     import { HalfCircleSpinner } from 'epic-spinners'
 
     export default {
