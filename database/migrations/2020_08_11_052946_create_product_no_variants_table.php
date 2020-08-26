@@ -15,10 +15,12 @@ class CreateProductNoVariantsTable extends Migration
     {
         Schema::create('product_no_variants', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('product_number')->unique();
+            $table->string('inventory_number')->unique();
+            $table->string('product_number');
             $table->decimal('price',9,2);
             $table->timestamps();
             $table->foreign('product_number')->references('number')->on('products');
+            $table->foreign('inventory_number')->references('number')->on('inventories');
         });
     }
 

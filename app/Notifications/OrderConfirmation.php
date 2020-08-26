@@ -43,7 +43,7 @@ class OrderConfirmation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.order.confirmation', ['order' => $this->order, 'date'=> $this->date, 'url' => route('customer.order.details', ['order'=> $this->order->number])]);
+        return (new MailMessage)->markdown('mail.order.confirmation', ['order' => $this->order, 'date'=> $this->date, 'url' => route('customer.view_order', ['order'=> $this->order->number])]);
     }
 
     /**

@@ -24,7 +24,9 @@ class ShippingRateController extends Controller
    {
    	$request->validate([
             'manila_rate' => "required",
-            'province_rate' => "required"
+            'province_rate' => "required",
+            'discount' => 'required',
+            'quantity' => 'required'
         ]);
 
    	date_default_timezone_set("Asia/Manila");
@@ -32,6 +34,8 @@ class ShippingRateController extends Controller
    	$shipping_rate = new ShippingRate();
    	$shipping_rate->manila_rate = round($request->manila_rate, 2);
    	$shipping_rate->province_rate = round($request->province_rate, 2); 
+      $shipping_rate->discount_percentage = (int)$request->discount;
+      $shipping_rate->order_quantity = (int)$request->quantity;
    	$shipping_rate->save();
 
    	$array_params = [
@@ -50,11 +54,15 @@ class ShippingRateController extends Controller
    {
    	$request->validate([
             'manila_rate' => "required",
-            'province_rate' => "required"
+            'province_rate' => "required",
+            'discount' => 'required',
+            'quantity' => 'required'
         ]);
 
    	$shippingRate->manila_rate = round($request->manila_rate, 2);
    	$shippingRate->province_rate = round($request->province_rate, 2);
+      $shippingRate->discount_percentage = (int)$request->discount;
+      $shippingRate->order_quantity = (int)$request->quantity;
    	$shippingRate->update();
 
    	$array_params = [

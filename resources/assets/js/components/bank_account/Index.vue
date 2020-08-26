@@ -86,6 +86,7 @@
                 <b-form-input id="bankName"
                               type="text"
                               tabindex="1"
+                              placeholder="Enter bank name"
                               ref="bank_Name"
                               v-model.trim="$v.bank_name.$model"
                               :class="{'is-invalid':$v.bank_name.$error}">
@@ -102,6 +103,7 @@
                               type="text"
                               tabindex="2"
                               ref="first_Name"
+                              placeholder="Enter firstname"
                               v-model.trim="$v.first_name.$model"
                               :class="{'is-invalid':$v.first_name.$error}">
                 </b-form-input>
@@ -115,6 +117,7 @@
                 <b-form-input id="mInitial"
                               type="text"
                               tabindex="3"
+                              placeholder="Enter middle initial"
                               ref="Middle_Initial"
                               v-model.trim="$v.middle_initial.$model"
                               :class="{'is-invalid':$v.middle_initial.$error}">
@@ -130,6 +133,7 @@
                               type="text"
                               tabindex="4"
                               ref="last_Name"
+                              placeholder="Enter lastname"
                               v-model.trim="$v.last_name.$model"
                               :class="{'is-invalid':$v.last_name.$error}">
                 </b-form-input>
@@ -138,11 +142,12 @@
                 </div>
               </b-form-group>
                <b-form-group id=""
-                          label="Account Number:"
+                          label="Account number:"
                           label-for="accountNumber">
                 <b-form-input id="accountNumber"
                               type="text"
                               tabindex="5"
+                              placeholder="Enter account number"
                               ref="account_Number"
                               v-model.trim="$v.account_no.$model"
                               :class="{'is-invalid':$v.account_no.$error}">
@@ -241,10 +246,14 @@
 							this.submit = false;
 							if (response.data.success)
 							{
-								Swal('Bank account has been created','', 'success');
-								this.resetBankAccount();
-								this.$refs.bankAccountModal.hide();
-								this.getBankAccounts();
+								Swal('Bank account has been created', '', 'success')
+								.then((okay) => {
+									if (okay) {
+										this.resetBankAccount();
+										this.$refs.bankAccountModal.hide();
+										this.getBankAccounts();
+									}
+								})
 							}
 						})
 						.catch((error) => {
@@ -269,11 +278,14 @@
 							this.submit = false;
 							if (response.data.success)
 							{
-								Swal('Bank account has been updated','', 'success');
-								
-								this.resetBankAccount();
-								this.$refs.bankAccountModal.hide();
-								this.getBankAccounts();
+								Swal('Bank account has been updated', '', 'success')
+								.then((okay) => {
+									if (okay) {
+										this.resetBankAccount();
+										this.$refs.bankAccountModal.hide();
+										this.getBankAccounts();
+									}
+								})
 							}
 						})
 						.catch((error) => {
@@ -348,7 +360,14 @@
 					axios.delete('/api/bank-account/'+bank_account_id+'/'+this.admin.id)
 					.then(response => {
 						if (response.data.success) {
-							this.getBankAccounts();
+							Swal('Bank account has deleted', '', 'success')
+							.then((okay) => {
+								if (okay) {
+									this.resetBankAccount();
+									this.$refs.bankAccountModal.hide();
+									this.getBankAccounts();
+								}
+							})
 						}
 
 					})

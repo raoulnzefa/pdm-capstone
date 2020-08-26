@@ -21,6 +21,8 @@
                 <tr>
                   <th>Manila rate</th>
                   <th>Province rate</th>
+                  <th>Discount %</th>
+                  <th>Qty</th>
                 </tr>
               </thead>
               <tbody>
@@ -33,6 +35,8 @@
                     <tr v-for="(shipping_rate, index) in shipping_rates" :key="index">
                       <td>{{ formatMoney(shipping_rate.manila_rate) }}</td>
                       <td>{{ formatMoney(shipping_rate.province_rate) }}</td>
+                      <td>{{ shipping_rate.discount_percentage }}</td>
+                      <td>{{ shipping_rate.order_quantity }}</td>
                     </tr>
                 </template>
               </tbody>
@@ -89,6 +93,33 @@
                    
                   </div>
             </div>
+            <div class="form-group">
+              <label>Discount %:</label>
+              <select class="form-control" 
+                v-model.trim="$v.discount.$model"
+                :class="{'is-invalid': $v.discount.$error}"
+                tabindex="3">
+                <option value="" disabled>Select a discount discount</option>
+                <option v-for="(disc, index) in discounts" :key="index" :value="disc">{{disc}}</option>
+              </select>
+              <div v-if="$v.discount.$error">
+                <span class="error-feedback" v-if="!$v.discount.required">Please select a discount percent</span>
+              </div>
+            </div>     
+             <div class="form-group">
+              <label>Ordered Qty.:</label>
+              <input type="text" class="form-control"
+                v-model.trim="$v.qty.$model"
+                :class="{'is-invalid': $v.qty.$error}"
+                tabindex="4"
+                placeholder="Enter a quantity">
+              <div v-if="$v.qty.$error">
+                <span class="error-feedback" v-if="!$v.qty.required">Please enter a quantity</span>
+                <template v-if="$v.qty.required">
+                   <span class="error-feedback" v-if="!$v.qty.numbersOnly">Please enter a valid value</span>
+                </template>
+              </div>
+            </div>            
           </form>  
         </b-modal>
     </div>
@@ -100,6 +131,7 @@
   import { HalfCircleSpinner } from 'epic-spinners';
   
   const moneyRegex = helpers.regex('moneyRegex', /^[1-9][0-9.]*$/);
+  const numbersOnly = helpers.regex('numbersOnly', /^([1-9])[0-9]*$/);
 
   export default {
     props: ['admin'],
@@ -112,9 +144,12 @@
         submit: false,
         manila_rate: '',
         province_rate: '',
+        discount: '',
+        qty: '',
         edit: false,
         server_errors: [],
         shipping_rate_id: '',
+        discounts: [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100]
       }
     },
     components: {
@@ -131,6 +166,13 @@
           required,
           moneyRegex,
           decimal
+        },
+        discount: {
+          required
+        },
+        qty: {
+          required,
+          numbersOnly
         }
       }
     },
@@ -173,6 +215,8 @@
             axios.post('/api/set-shipping-rate', {
               manila_rate: this.manila_rate,
               province_rate: this.province_rate,
+              discount: this.discount,
+              quantity: this.qty,
               admin_id: this.admin.id
             })
             .then(response => {
@@ -199,6 +243,8 @@
             axios.put('/api/update-shipping-rate/'+this.shipping_rate_id, {
               manila_rate: this.manila_rate,
               province_rate: this.province_rate,
+              discount: this.discount,
+              quantity: this.qty,
               admin_id: this.admin.id
             })
             .then(response => {

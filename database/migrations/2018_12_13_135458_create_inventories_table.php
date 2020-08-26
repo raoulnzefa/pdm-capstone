@@ -20,7 +20,8 @@ class CreateInventoriesTable extends Migration
             $table->integer('inventory_stock');
             $table->integer('inventory_critical_level');
             $table->timestamps();
-            $table->foreign('product_number')->references('number')->on('products')->onDelete('cascade');
+            $table->foreign('product_number')->references('number')->on('products');
+            
         });
     }
 

@@ -10,28 +10,29 @@ class Inventory extends Model
     public $keyType = 'string';
     public $incrementing = false;
 
-    public function inventorying()
-    {
-    	return $this->morphTo();
-    }
-
     public function product()
     {
-    	return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Models\Product');
+    }
+
+    public function productWithVariant()
+    {
+        return $this->hasOne('App\Models\ProductWithVariant','inventory_number');
+    }
+    
+    public function productNoVariant()
+    {
+        return $this->hasOne('App\Models\ProductNoVariant','inventory_number');
     }
 
     public function orderProducts()
     {
-    	return $this->hasMany('App\OrderProduct');
+    	return $this->hasMany('App\Models\OrderProduct');
     }
 
      public function invoiceProducts()
     {
-        return $this->hasMany('App\InvoiceProduct');
+        return $this->hasMany('App\Models\InvoiceProduct');
     }
 
-    public function inventoryVariant()
-    {
-        return $this->hasOne('App\InventoryVariant');
-    }
 }

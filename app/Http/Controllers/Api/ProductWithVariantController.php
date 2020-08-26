@@ -15,9 +15,9 @@ class ProductWithVariantController extends Controller
 {
    use UserLogs;
 
-   public function list()
+   public function list($product_number)
    {
-   	$productWithVariants = ProductWithVariant::with('product')->get();
+   	$productWithVariants = ProductWithVariant::where('product_number',$product_number)->with('product')->get();
 
    	return response()->json($productWithVariants);
    }
@@ -77,7 +77,7 @@ class ProductWithVariantController extends Controller
       $inventory->number = str_random(5);
       $inventory->product_number = $request->product_number;
       $inventory->inventory_stock = (int)$request->inventory_stock;
-      $inventory->inventory_critical_level = (int)$request->inventory_crit_level;
+      $inventory->inventory_critical_level = (int)$request->inventory_critical_level;
       $inventory->save();
 
       $inventoryUpdate = Inventory::where('number', $inventory->number)->first();

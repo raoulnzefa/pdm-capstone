@@ -3,7 +3,7 @@
 
 Your cancellation request has been successfully approved.
 
-This is your approved cancellation notification for your cancellation request requested on {{$cancellation->date_request }}, Order Number {{$cancellation->order_number}} placed on {{$cancellation->order->date_order}}.
+This is your approved cancellation notification for your cancellation request requested on {{$cancellation->date_request }}, Order Number {{$cancellation->order_number}} placed on {{$cancellation->order->order_created}}.
 
 # Cancellation Details
 
@@ -19,9 +19,11 @@ Reason: {{$cancellation->reason->title}}
 
 @endcomponent
 
-Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $cancellation->order->subtotal }}<br>
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $cancellation->order->shipping_cost }}<br>
-Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $cancellation->order->total }}<br>
+Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_subtotal, 2) }}<br>
+@if ($cancellation->order->order_shipping_method == 'Shipping')
+Shipping fee:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_shipping_fee, 2) }}<br>
+@endif
+Total:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_total, 2) }}<br>
 
 Thanks,<br>
 {{ config('app.name') }}

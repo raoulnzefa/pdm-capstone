@@ -43,15 +43,19 @@ class UploadDepositSlipController extends Controller
         $depositSlip->image = $imageName;
         $depositSlip->save();
 
+        $order->viewed = 0;
+        $order->update();
+
         return redirect()->route('uploaded_msg', ['order'=>$order->number]);
 
     }
 
     public function uploadedMessage(Order $order)
     {
+
     	return view('frontend.upload_deposit_slip.uploaded_msg')
     			->with([
-    				'order'=>$order,
+    				'order_number'=>$order->number,
     				'data'=>'Deposit Slip Uploaded'
     			]);
     }

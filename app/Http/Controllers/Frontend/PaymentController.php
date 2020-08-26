@@ -34,7 +34,7 @@ use App\Http\Controllers\Traits\AddressTraits;
 use App\Http\Controllers\Traits\OrderTraits;
 use App\Http\Controllers\Traits\ShippingAddressTraits;
 use App\Http\Controllers\Traits\StorePickupTraits;
-use App\PaypalPayment;
+use App\Models\PaypalPayment;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
@@ -80,7 +80,7 @@ class PaymentController extends Controller
    {
    
    	$request->validate([
-   		'delivery_method' => 'required',
+   		'shipping_method' => 'required',
    		'payment_method' => 'required',
    		'pickup_firstname' => 'sometimes|required',
    		'pickup_lastname' => 'sometimes|required',
@@ -93,9 +93,10 @@ class PaymentController extends Controller
    		'province' => 'sometimes|required',
    		'zip_code' => 'sometimes|required',
    		'mobile_no' => 'sometimes|required',
-   		'delivery_fee' => 'sometimes|required'
+   		'shipping_fee' => 'sometimes|required'
    	]);
 
+    //dd($request->all());
    	// set time zone
       date_default_timezone_set("Asia/Manila");
 
@@ -106,21 +107,30 @@ class PaymentController extends Controller
 
       $cart_products = Cart::where('customer_id', (int)$request->customer_id)->get();
 
-   	if ($request->delivery_method == 'store_pickup')
+   	if ($request->shipping_method == 'store_pickup')
    	{
    		try
    		{
-   			$delivery_method = str_replace('_', '', $request->delivery_method);
+   			$shipping_method = str_replace('_', ' ', $request->shipping_method);
+
+        $reserved_days = 2;
+        //db format
+         $reserved_until = strftime("%Y-%m-%d", strtotime("+$reserved_days weekday"));
+
 	   		// Cash payment only
 	   		$order_params = array(
 		   		'customer_id' => (int)$request->customer_id,
 		   		'order_status' => 'For pickup',
-		   		'order_delivery_method' => ucfirst($delivery_method),
+		   		'order_shipping_method' => ucwords($shipping_method),
 		   		'order_payment_status' => 'Pending',
 		   		'order_payment_method' => ucfirst($request->payment_method),
 		   		'order_quantity' => (int)$request->order_qty,
+          'order_shipping_fee' => NULL,
 		   		'order_subtotal' => (float)$subtotal,
 		   		'order_total' => (float)$request->order_total,
+          'order_shipping_discount' => NULL,
+          'order_for_shipping' => NULL,
+          'order_for_pickup' => $reserved_until,
 		   		'order_paypal_url' => NULL,
           'order_payment_date' => NULL,
 		   		'cart_products' => $cart_products
@@ -128,22 +138,15 @@ class PaymentController extends Controller
 
 		   	$order_number = $this->createOrder($order_params);
 
-		   	$reserved_days = 2;
-		   	//db format
-	        	$reserved_until = strftime("%Y-%m-%d", strtotime("+$reserved_days weekday"));
-
 	   		$store_pickup_params = array(
 	   			'order_number' => $order_number,
 	   			'pickup_firstname' => ucfirst($request->pickup_firstname),
 	   			'pickup_lastname' => ucfirst($request->pickup_lastname),
-	   			'pickup_mobile_no' => $request->pickup_mobile_no,
-	   			'pickup_reserved_days' => (int)$reserved_days,
-	   			'pickup_reserved_until' => $reserved_until
 	   		);
 
 	   		$this->createStorePickup($store_pickup_params);
 
-            $this->updateInventory($order_number);
+        $this->updateInventory($order_number);
 
 	   		$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$reserved_days weekday"));
 
@@ -159,7 +162,7 @@ class PaymentController extends Controller
    		}
    		catch(Exception $ex)
    		{
-   			dd($ex->getMessage());
+   			dd('Store pickup: '.$ex->getMessage());
    			// redirect to checkout error page
    			//return redirect()->route('checkout.failed')->with('checkout_failed', true);
    		}
@@ -172,12 +175,12 @@ class PaymentController extends Controller
             'received_order'=>true
         	]);
    	}
-   	elseif ($request->delivery_method == 'delivery')
+   	elseif ($request->shipping_method == 'shipping')
    	{ 
        
         $save_new_address = false;
 
-         $delivery_method = str_replace('_', '', $request->delivery_method);
+         $shipping_method = str_replace('_', ' ', $request->shipping_method);
 
          $province = Province::where('id', (int)$request->province)->first();
          $municipality = Municipality::where('id', (int)$request->municipality)->first();
@@ -215,12 +218,16 @@ class PaymentController extends Controller
                $order_params = array(
                   'customer_id' => (int)$request->customer_id,
                   'order_status' => 'Pending payment',
-                  'order_delivery_method' => ucfirst($delivery_method),
+                  'order_shipping_method' => ucwords($shipping_method),
                   'order_payment_status' => 'Pending',
                   'order_payment_method' => ucfirst($request->payment_method),
                   'order_quantity' => (int)$request->order_qty,
                   'order_subtotal' => (float)$subtotal,
+                  'order_shipping_fee' => (float)$request->shipping_fee,
                   'order_total' => (float)$request->order_total,
+                  'order_shipping_discount' => (float)$request->shipping_discount_amount,
+                  'order_for_shipping' => $estimated_date,
+                  'order_for_pickup' => NULL,
                   'order_paypal_url' => NULL,
                   'order_payment_date' => NULL,
                   'cart_products' => $cart_products
@@ -232,23 +239,19 @@ class PaymentController extends Controller
 
                $due_date_email = strftime("%A, %B %d, %Y", strtotime("+$process_days weekday"));
 
-               $delivery_params = array(
+               $shipping_params = array(
                   'order_number' => $order_number,
-                  'delivery_firstname' => $request->first_name,
-                  'delivery_lastname' => $request->last_name,
-                  'delivery_street' => ucfirst($request->street),
-                  'delivery_barangay' => $barangay->name,
-                  'delivery_municipality' => $municipality->name,
-                  'delivery_province' => $province->name,
-                  'delivery_zip_code' => $request->zip_code,
-                  'delivery_mobile_no' => $request->mobile_no,
-                  'delivery_discount_amount' => (float)$request->delivery_discount_amount,
-                  'delivery_fee' => (float)$request->delivery_fee,
-                  'delivery_process_days' => (int)$process_days,
-                  'delivery_estimated_date' => $estimated_date
+                  'shipping_firstname' => $request->first_name,
+                  'shipping_lastname' => $request->last_name,
+                  'shipping_street' => ucfirst($request->street),
+                  'shipping_barangay' => $barangay->name,
+                  'shipping_municipality' => $municipality->name,
+                  'shipping_province' => $province->name,
+                  'shipping_zip_code' => $request->zip_code,
+                  'shipping_mobile_no' => $request->mobile_no
                );
 
-               $this->createDelivery($delivery_params);
+               $this->createShipping($shipping_params);
 
                $orderData = Order::where('number', $order_number)->first();
                
@@ -271,7 +274,7 @@ class PaymentController extends Controller
             }
             catch(Exception $ex)
             {
-               dd($ex->getMessage());
+               dd('Bank deposit: '.$ex->getMessage());
                // redirect to checkout error page
                //return redirect()->route('checkout.failed')->with('checkout_failed', true);  
             }
@@ -287,7 +290,7 @@ class PaymentController extends Controller
          }
          elseif ($request->payment_method == 'PayPal')
          {  
-            
+            //dd((float)$request->shipping_fee + (float)$subtotal);
             $payer = new Payer();
             $payer->setPaymentMethod("paypal");
 
@@ -320,20 +323,20 @@ class PaymentController extends Controller
 
             }
 
-            $discount_amount = new Item();
-            $discount_amount->setName('Discount')
-                ->setCurrency('PHP')
-                ->setQuantity(1)
-                ->setPrice('-'.(float)$request->delivery_discount_amount);
+            // $discount_amount = new Item();
+            // $discount_amount->setName('Discount')
+            //     ->setCurrency('PHP')
+            //     ->setQuantity(1)
+            //     ->setPrice('-'.(float)$request->shipping_discount_amount);
 
-            array_push($item, $discount_amount);
+            // array_push($item, $discount_amount);
 
             $item_list = new ItemList();
             $item_list->setItems($item);
 
             $details = new Details();
             $details->setSubtotal((float)$subtotal)
-                ->setShipping((float)$request->delivery_fee);
+                ->setShipping((float)$request->shipping_fee);
 
             
              // Set payment amount
@@ -386,7 +389,7 @@ class PaymentController extends Controller
             catch (PayPalConnectionException $e)
             {
 
-                dd($e->getData());
+                dd('Paypal Exception 1: '.$e->getData());
                 exit(1); 
                 //Cart::where('customer_id', $request->customer_id)->delete();
                 // delete failed 
@@ -398,7 +401,7 @@ class PaymentController extends Controller
             }
             catch (Exception $ex)
             {
-                dd($ex->getMessage());
+                dd('Paypal Exception 2: '.$ex->getMessage());
                 Session::put('checkout_failed', 'Checkout Failed');
 
                 return redirect()->route('checkout.failed');
@@ -430,12 +433,12 @@ class PaymentController extends Controller
                Session::put('chk_barangay', $barangay->name);
                Session::put('chk_zip_code', $request->zip_code);
                Session::put('chk_mobile_no', $request->mobile_no);
-               Session::put('chk_delivery_method', ucfirst($request->delivery_method));
+               Session::put('chk_shipping_method', ucfirst($request->shipping_method));
                Session::put('chk_payment_method', ucfirst($request->payment_method));
                Session::put('chk_quantity', (int)$request->order_qty);
                Session::put('chk_subtotal', (float)$subtotal);
-               Session::put('chk_discount', (float)$request->delivery_discount_amount);
-               Session::put('chk_delivery_fee', (float)$request->delivery_fee);
+               Session::put('chk_discount', (float)$request->shipping_discount_amount);
+               Session::put('chk_shipping_fee', (float)$request->shipping_fee);
                Session::put('chk_total', (float)$request->order_total);
                Session::put('chk_cart_products', $cart_products);
                Session::put('chk_save_new_address', $save_new_address);
@@ -510,7 +513,7 @@ class PaymentController extends Controller
             date_default_timezone_set("Asia/Manila");
 
             
-            if (Session::get('chk_delivery_method') == 'Delivery')
+            if (Session::get('chk_shipping_method') == 'Shipping')
             {
               $order_status = 'Processing';
               $reserved_until = NULL;
@@ -535,12 +538,16 @@ class PaymentController extends Controller
             $order_params = array(
               'customer_id' => (int)$customer_id,
               'order_status' => $order_status,
-              'order_delivery_method' => Session::get('chk_delivery_method'),
+              'order_shipping_method' => Session::get('chk_shipping_method'),
               'order_payment_status' => $payment_status,
               'order_payment_method' => Session::get('chk_payment_method'),
               'order_quantity' => Session::get('chk_quantity'),
               'order_subtotal' => Session::get('chk_subtotal'),
+              'order_shipping_fee' => Session::get('chk_shipping_fee'),
               'order_total' => Session::get('chk_total'),
+              'order_shipping_discount' => Session::get('chk_discount'),
+              'order_for_shipping' => $estimated_date,
+              'order_for_pickup' => NULL,
               'order_paypal_url' => Session::get('paypal_redirect_url'),
               'order_payment_date' => date("Y-m-d H:i:s"),
               'cart_products' => Session::get('chk_cart_products')
@@ -550,23 +557,19 @@ class PaymentController extends Controller
 
             $this->updateInventory($order_number);
 
-            $delivery_params = array(
+            $shipping_params = array(
               'order_number' => $order_number,
-              'delivery_firstname' => ucfirst(Session::get('chk_first_name')),
-              'delivery_lastname' => ucfirst(Session::get('chk_last_name')),
-              'delivery_street' => ucfirst(Session::get('chk_street')),
-              'delivery_barangay' => Session::get('chk_barangay'),
-              'delivery_municipality' => Session::get('chk_municipality'),
-              'delivery_province' => Session::get('chk_province'),
-              'delivery_zip_code' => Session::get('chk_zip_code'),
-              'delivery_mobile_no' => Session::get('chk_mobile_no'),
-              'delivery_discount_amount' => Session::get('chk_discount'),
-              'delivery_fee' => Session::get('chk_delivery_fee'),
-              'delivery_process_days' => $delivery_days,
-              'delivery_estimated_date' => $estimated_date
+              'shipping_firstname' => ucfirst(Session::get('chk_first_name')),
+              'shipping_lastname' => ucfirst(Session::get('chk_last_name')),
+              'shipping_street' => ucfirst(Session::get('chk_street')),
+              'shipping_barangay' => Session::get('chk_barangay'),
+              'shipping_municipality' => Session::get('chk_municipality'),
+              'shipping_province' => Session::get('chk_province'),
+              'shipping_zip_code' => Session::get('chk_zip_code'),
+              'shipping_mobile_no' => Session::get('chk_mobile_no')
             );
 
-            $this->createDelivery($delivery_params);
+            $this->createShipping($shipping_params);
 
             $paypal = new PaypalPayment;
             $paypal->order_number = $order_number;
@@ -605,12 +608,12 @@ class PaymentController extends Controller
             Session::forget('chk_barangay');
             Session::forget('chk_zip_code');
             Session::forget('chk_mobile_no');
-            Session::forget('chk_delivery_method');
+            Session::forget('chk_shipping_method');
             Session::forget('chk_payment_method');
             Session::forget('chk_quantity');
             Session::forget('chk_subtotal');
             Session::forget('chk_discount');
-            Session::forget('chk_delivery_fee');
+            Session::forget('chk_shipping_fee');
             Session::forget('chk_total');
             Session::forget('chk_cart_products');
             Session::forget('paypal_payment_id');

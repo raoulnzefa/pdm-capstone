@@ -3,30 +3,33 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ $data }} - {{ config('app.name') }}</title>
+        <title>{{ config('app.name') }}</title>
         {{-- <title>{{ config('app.name') }}</title> --}}
         <link rel="icon" type="image/png" href="{{ asset('images/Logo.png') }}">
-        
-        {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-        <!-- Bootstrap core CSS-->
+       {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
         <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        
         <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('css/mycss.css') }}">
+        <!-- Bootstrap core CSS-->
+        
 
     </head>
     <body>
         <div id="app"> {{-- ID app --}}
             @section('store_header')
             <div class=""> {{-- navbar --}}
-                <nav id="mainNavbar" class="navbar navbar-expand-sm bg-dark">
-                    <div class="container">
+                <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <!-- Brand -->
                     <a class="navbar-brand" href="{{route('frontend_homepage')}}">
-                        <img src="{{ asset('images/logo.jpg') }}" width="125" height="60" alt="">
+                        <img src="{{ asset('images/logo.jpg') }}" class="img-responsive" alt="Logo">
                     </a>
-                    
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Links -->
                         <ul class="navbar-nav">
                             <li class="nav-item mr-2">
@@ -41,6 +44,15 @@
                             
                         </ul>
                         <ul class="navbar-nav ml-auto">
+                            <form method="post" action="{{ route('search.product') }}">
+                                @csrf
+                                <div class="input-group">
+                                  <input type="text" name="searchProduct" class="form-control" placeholder="Search product" required aria-label="" aria-describedby="basic-addon2" id="nav-search">
+                                  <div class="input-group-append mr-2">
+                                    <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
+                                  </div>
+                                </div>
+                            </form>
                             <li class="nav-item">
                                 @auth('customer')
                                     <a class="nav-link text-light cool-link" href="/cart"><i class="fa fa-shopping-cart"></i>&nbsp;CART&nbsp;<cart-quantity :customer="{{ Auth::guard('customer')->user() }}"></cart-quantity></a>
@@ -52,15 +64,12 @@
                             @auth('customer')
                                 <li class="nav-item">
                                    {{--  <customer-name :customer="{{ Auth::guard('customer')->user() }}"></customer-name> --}}
-                                   <a class="nav-link text-light cool-link" href="/my-account"><i class="fa fa-user"></i>&nbsp;MY ACCOUNT</a>
+                                   <a class="nav-link text-light cool-link" href="{{ route('customer.orders')}}"><i class="fa fa-user"></i>&nbsp;MY ACCOUNT</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light cool-link" href="{{ route('customer.logout') }}"><i class="fa fa-sign-in"></i>&nbsp;LOGOUT</a>
                                 </li>
                             @else
-                                <li class="nav-item">
-                                    <a class="nav-link text-light cool-link" href="{{ url('register') }}"><i class="fa fa-user"></i>&nbsp;CREATE ACCOUNT</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light cool-link" href="{{ url('login') }}"><i class="fa fa-sign-in"></i>&nbsp;LOGIN</a>
                                 </li>
@@ -70,22 +79,11 @@
                   </div>
                 </nav>
             </div> {{-- navbar --}}
-            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-                <div class="navbar-nav">
-                     <form method="post" action="{{ route('search.product') }}">
-                            @csrf
-                            <div class="input-group">
-                              <input type="text" name="searchProduct" class="form-control col-md-12" placeholder="Search product" aria-label="" aria-describedby="basic-addon2">
-                              <div class="input-group-append">
-                                <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>
-                              </div>
-                            </div>
-                        </form>
-                </div>
-            </nav>
             @show
             <div id="mainContainer" style="background-color: #fff">
+                <div class="container">
                 @yield('content')
+                </div>
             </div>
             @section('footer')
             <div id="footer-wrapper">
@@ -123,26 +121,13 @@
             @show
         </div> {{-- ID app --}}
 
-
-
-        {{-- <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script> --}}
-        
-        <script src="{{ asset('vendor/jquery/jquery.slim.min.js') }}"></script>
+        <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('vendor/popper/dist/umd/popper.min.js') }}"></script>
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-        
-        {{-- <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
-        @isset($data)
-        {{-- <script type="text/javascript">
-            document.title = "{{ $data }} - {{ config('app.name') }}";
+
+        @yield('postJquery');
             
-            jQuery(document).ready(function() {
-                @yield('postJquery');
-            });
-        
-        </script> --}}
-        @endisset
         
     </body>
 </html>

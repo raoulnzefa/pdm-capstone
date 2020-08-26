@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('product_description');
             $table->integer('product_status')->default(1);
             $table->string('product_image');
+            $table->tinyInteger('product_has_variant');
             $table->string('product_url');
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories');

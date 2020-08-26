@@ -9,17 +9,19 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-4">
+                <div class="card-header">
+                   <h4 class="mb-0">1. Shipping or Store pickup options</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="mb-4">1. Delivery or store pickup options</h4>
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="delivery_method"
-                                        value="delivery" 
-                                        v-model.trim="$v.delivery_method.$model"
-                                        :class="{'is-invalid': $v.delivery_method.$error}"
-                                        @change="setCashPayment">Delivery
+                                    <input type="radio" class="form-check-input" name="shipping_method"
+                                        value="shipping" 
+                                        v-model.trim="$v.shipping_method.$model"
+                                        :class="{'is-invalid': $v.shipping_method.$error}"
+                                        @change="setCashPayment">Shipping
                                 </label>
                             </div>
                         </div>
@@ -28,24 +30,26 @@
                         <div class="card-body">
                              <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="delivery_method"
+                                    <input type="radio" class="form-check-input" name="shipping_method"
                                         value="store_pickup" 
-                                        v-model.trim="$v.delivery_method.$model"
-                                        :class="{'is-invalid': $v.delivery_method.$error}"
+                                        v-model.trim="$v.shipping_method.$model"
+                                        :class="{'is-invalid': $v.shipping_method.$error}"
                                         @change="setCashPayment">Store Pickup
                                 </label>
 
                             </div>
                         </div>
                     </div>
-                    <div v-if="$v.delivery_method.$error">
-                        <span class="error-feedback" v-if="!$v.delivery_method.required">Delivery method is required</span>
+                    <div v-if="$v.shipping_method.$error">
+                        <span class="error-feedback" v-if="!$v.shipping_method.required">Shipping method is required</span>
                     </div>
                 </div>
             </div>
-            <div class="card mb-4" v-if="delivery_method == 'delivery'">
+            <div class="card mb-4" v-if="shipping_method == 'shipping'">
+                <div class="card-header">
+                   <h4 class="mb-0">2. Your shipping address</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="mb-4">2. Your delivery address</h4>
                     <div class="form-group" v-if="customer.addresses.length > 0">
                        <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="useSavedAddr" name="use_saved_addr" value="true" v-model="useSavedAddress">
@@ -218,9 +222,11 @@
                     </template><!-- fill up new addres -->
                 </div>
             </div><!-- delivery--> 
-            <div class="card mb-4" v-if="delivery_method == 'store_pickup'"><!-- store pickup -->
+            <div class="card mb-4" v-if="shipping_method == 'store_pickup'"><!-- store pickup -->
+                <div class="card-header">
+                    <h4 class="mb-0">2. Who will pickup this order?</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="mb-4">2. Who will pickup this order?</h4>
                     <div class="form-group">
                         <label for="chckpickupfname">First name:</label>
                         <input type="text" class="form-control" id="chckpickupfname"
@@ -233,7 +239,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="chckpickuplname">First name:</label>
+                        <label for="chckpickuplname">Last name:</label>
                         <input type="text" class="form-control" id="chckpickuplname"
                             v-model.trim="$v.pickup_last_name.$model"
                             :class="{'is-invalid': $v.pickup_last_name.$error}"
@@ -243,28 +249,16 @@
                             <span class="error-feedback" v-if="!$v.pickup_last_name.required">Lastname is required</span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="chckpickupmobile">Mobile no.:</label>
-                        <input type="text" class="form-control" id="chckpickupmobile"
-                            v-model.trim="$v.pickup_mobile_no.$model"
-                            :class="{'is-invalid': $v.pickup_mobile_no.$error}"
-                            name="pickup_mobile_no"
-                            placeholder="Enter mobile number">
-                        <div v-if="$v.pickup_mobile_no.$error">
-                            <span class="error-feedback" v-if="!$v.pickup_mobile_no.required">Mobile no. is required</span>
-                            <template v-if="$v.pickup_mobile_no.required">
-                                <span class="error-feedback" v-if="!$v.pickup_mobile_no.mobileNumber">Mobile number must be a valid format ex.09454545454 and must be 11 digits</span>
-                            </template>
-                        </div>
-                    </div>
                 </div>
             </div><!-- store pickkup -->
         </div><!-- col-md-4 -->
         <div class="col-md-6">
             <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">3. Payment method</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="mb-4">3. Payment method</h4>
-                    <template v-if="delivery_method != 'store_pickup'">
+                    <template v-if="shipping_method != 'store_pickup'">
                          <div class="form-check mb-2">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" name="payment_method"
@@ -282,7 +276,7 @@
                             </label>
                         </div>   
                     </template>
-                    <template v-if="delivery_method === 'store_pickup'">
+                    <template v-if="shipping_method === 'store_pickup'">
 	                    	<div class="form-check mb-2">
 	                        <label class="form-check-label">
 	                            <input type="radio" class="form-check-input" name="payment_method"
@@ -297,19 +291,21 @@
                 </div>
             </div>
             <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">4. Review your orders</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="mb-4">4. Review your orders</h4>
                     <table class="table table-bordered">
                         <tr v-for="(cart_data, index) in cartData" :key="index">
                             <td>
                                 <div class="media">
-                                    <img class="media-object mr-2" :src="'/storage/products/'+cart_data.product.image" style="width: 72px; height: 72px;">
+                                    <img class="media-object mr-2" :src="'/storage/products/'+cart_data.inventory.product.product_image" style="width: 72px; height: 72px;">
                                     <div class="media-body">
-                                        <h6>{{cart_data.carting.inventory.name}}</h6>
-                                        <h6>&#8369;{{cart_data.price}}</h6>
+                                        <h6>{{cart_data.product_name}}</h6>
+                                        <h6>Price: {{formatMoney(cart_data.price)}}</h6>
                                         <div class="clearfix">
-                                            <h6 class="float-left">x{{cart_data.quantity}}</h6>
-                                            <h6 class="float-right">&#8369;{{cart_data.total}}</h6>
+                                            <h6 class="float-left">Quantity: {{cart_data.quantity}}</h6>
+                                            <h6 class="float-right">{{formatMoney(cart_data.total)}}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -323,24 +319,24 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr v-if="delivery_method == 'delivery'">
+                        <tr v-if="shipping_method == 'shipping'">
                             <td class="pt-3 pb-1">
-                                <div class="clearfix" v-if="!showDiscountDeliveryFee">
-                                    <h5 class="float-left">Delivery fee</h5>
-                                    <h5 class="float-right">{{ deliveryRate }}</h5>
+                                <div class="clearfix" v-if="!showDiscountShippingFee">
+                                    <h5 class="float-left">Shipping fee</h5>
+                                    <h5 class="float-right">{{ shippingRate }}</h5>
                                 </div>
-                                <div v-if="showDiscountDeliveryFee">
+                                <div v-if="showDiscountShippingFee">
                                     <div class="clearfix">
-                                        <h6 class="float-left text-secondary" style="text-decoration: line-through;">Delivery fee</h6>
-                                        <h6 class="float-right text-secondary" style="text-decoration: line-through;">{{ deliveryRate }}</h6>
+                                        <h6 class="float-left text-secondary" style="text-decoration: line-through;">Shipping fee</h6>
+                                        <h6 class="float-right text-secondary" style="text-decoration: line-through;">{{ shippingRate }}</h6>
                                     </div>
                                     <div class="clearfix">
                                         <h6 class="float-left">Discount</h6>
                                         <h6 class="float-right">&#8369;-{{ discount_amount }}</h6>
                                     </div>
                                     <div class="clearfix">
-                                        <h5 class="float-left">Delivery fee</h5>
-                                        <h5 class="float-right">{{ discountedDeliveryFee }}</h5>
+                                        <h5 class="float-left">Shipping fee</h5>
+                                        <h5 class="float-right">{{ discountedShippingFee }}</h5>
                                     </div>
                                 </div>
                             </td>
@@ -357,8 +353,8 @@
                     <input type="hidden" name="customer_id" :value="customer.id">
                     <input type="hidden" name="order_qty" :value="cartQty">
                     <input type="hidden" name="cart_subtotal" :value="cart_subtotal">
-                    <input type="hidden" name="delivery_discount_amount" :value="discount_amount">
-                    <input type="hidden" name="delivery_fee" :value="delivery_amount">
+                    <input type="hidden" name="shipping_discount_amount" :value="discount_amount">
+                    <input type="hidden" name="shipping_fee" :value="shipping_amount">
                     <input type="hidden" name="order_total" :value="total_order">
                     <input type="hidden" name="_token" :value="csrf">
                     <div class="form-group mb-4 mt-2">
@@ -456,7 +452,7 @@
 				barangay: '',
 				mobile_no: '',
                 zip_code: '',
-				delivery_method: '',
+				shipping_method: '',
 				payment_method: '',
 				terms_condition: false,
 				province_list: this.provinces,
@@ -468,16 +464,15 @@
 				cartSubtotal: this.cart_subtotal,
 				cartData: this.cart,
 				shipping_rate_data: this.shipping_rate,
-				delivery_amount: 0,
+				shipping_amount: 0,
 				total_order: 0,
                 discount_amount: 0,
-                pickup_first_name: '',
-                pickup_last_name: '',
-                pickup_mobile_no: '',
+                pickup_first_name: this.customer.first_name,
+                pickup_last_name: this.customer.last_name,
                 notReadAndAccept: true,
                 readyToSubmit: false,
-                showDiscountDeliveryFee: false,
-                saveAddr: false,
+                showDiscountShippingFee: false,
+                saveAddr: true,
                 useSavedAddress: false,
                 addrID: '',
                 barangay_name: '',
@@ -486,10 +481,10 @@
 			}
 		},
 		validations() {
-			if (this.delivery_method == 'delivery') {
+			if (this.shipping_method == 'shipping') {
                 if (this.useSavedAddress) {
                     return {
-                        delivery_method: { required },
+                        shipping_method: { required },
                         payment_method: { required },
                         terms_condition: { sameAs: sameAs(() => true) }
                     }
@@ -510,23 +505,22 @@
                             maxLength: maxLength(11),
                             mobileNumber,
                         },
-                        delivery_method: { required },
+                        shipping_method: { required },
                         payment_method: { required },
                         terms_condition: { sameAs: sameAs(() => true) }
                     }
                 }
-            } else if (this.delivery_method == 'store_pickup') {
+            } else if (this.shipping_method == 'store_pickup') {
                 return {
                     pickup_first_name: { required },
                     pickup_last_name: { required },
-                    pickup_mobile_no: { required, mobileNumber, maxLength: maxLength(11) },
-                    delivery_method: { required },
+                    shipping_method: { required },
                     payment_method: { required },
                     terms_condition: { sameAs: sameAs(() => true) }
                 }
             } else {
                 return {
-                    delivery_method: { required },
+                    shipping_method: { required },
                     payment_method: { required },
                     terms_condition: { sameAs: sameAs(() => true) }
                 }
@@ -546,6 +540,7 @@
                 this.municipality = addr.municipality_id;
                 this.province = addr.province_id;
                 this.mobile_no = addr.mobile_no;
+                 (this.shipping_rate.has_discount) ? this.showDiscountShippingFee = true : this.showDiscountShippingFee = false;
             },
 			placeOrder(e) {
 				this.$v.$touch();
@@ -574,7 +569,7 @@
                 this.municipality_list = [];
 
 				if (this.province) {
-                    (this.shipping_rate.has_discount) ? this.showDiscountDeliveryFee = true : this.showDiscountDeliveryFee = false;
+                    (this.shipping_rate.has_discount) ? this.showDiscountShippingFee = true : this.showDiscountShippingFee = false;
     				this.municipality_list = this.municipalities.filter(x => x.province_id == this.province)
 				} else {
 					this.municipality_list = [];
@@ -593,20 +588,23 @@
 				}
 			},
             setCashPayment(e) {
-               if (this.delivery_method == 'store_pickup') {
+               if (this.shipping_method == 'store_pickup') {
                     this.payment_method = 'Cash'
                } else {
                     this.payment_method = '';
                     this.$v.payment_method.$reset();
                }
 
+            },
+            formatMoney(price) {
+                return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(price);
             }
 		},
 		computed: {
-			deliveryRate() {
+			shippingRate() {
 				let amount = 0;
-				if (this.delivery_method) {
-					if (this.delivery_method == 'delivery') {
+				if (this.shipping_method) {
+					if (this.shipping_method == 'shipping') {
             
                         if (this.province) {
                             const province = this.province_list.find(x => x.id === this.province);
@@ -623,14 +621,14 @@
 					}
 				}
 
-				this.delivery_amount = amount;
+				this.shipping_amount = amount;
 				
 				return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
 			},
-            discountedDeliveryFee() {
+            discountedShippingFee() {
                 let amount = 0;
-                if (this.delivery_method) {
-                    if (this.delivery_method == 'delivery') {
+                if (this.shipping_method) {
+                    if (this.shipping_method == 'shipping') {
     
                         //if no discount
                         if (this.province) {
@@ -651,7 +649,7 @@
                     }
                 }
 
-                this.delivery_amount = amount;
+                this.shipping_amount = amount;
                 
                 return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
             },
@@ -659,7 +657,7 @@
 
                 let subtotal = parseFloat(this.cartSubtotal.replace(/,/g, ''));
                 
-                let amount = (subtotal + parseFloat(this.delivery_amount));    
+                let amount = (subtotal + parseFloat(this.shipping_amount));    
                
 				this.total_order = amount;
 

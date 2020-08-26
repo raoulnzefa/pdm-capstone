@@ -5,11 +5,11 @@
             <div class="mb-4">
               <button type="button" class="btn btn-primary" @click="addCategoryModal"><i class="fas fa-plus"></i> Add category</button>
             </div>
-              <table class="table table-bordered table-striped">
+              <table class="table table-bordered table-striped table-hover">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Category Name</th>
+                    <th>Category</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -66,7 +66,7 @@
             </template>
             <form @submit.stop.prevent="saveCategory">
               <b-form-group id=""
-                          label="Category Name:"
+                          label="Category name:"
                           label-for="categoryName">
                 <b-form-input id="categoryName"
                               type="text"
@@ -112,7 +112,7 @@
   						loading: false,
               submit: false,
               modal_title: 'Add category',
-              ok_title: 'Save category',
+              ok_title: 'Create',
               status: 1,
          		}
   			},
@@ -209,7 +209,7 @@
             resetModal() {
               this.category_name = '';
               this.edit = false;
-              this.ok_title = 'Save category';
+              this.ok_title = 'Create';
               this.modal_title = 'Add category';
               this.server_errors = [];
               this.$nextTick(() => { this.$v.$reset() });
@@ -222,7 +222,7 @@
                 this.categ_id = category.id;
                 this.category_name = category.name;
                 this.modal_title = 'Edit category';
-                this.ok_title = 'Update category';
+                this.ok_title = 'Update';
                 this.$refs.categoryModal.show();
             },
             focusOnCategoryName(e)

@@ -151,7 +151,6 @@ Vue.component('add-cart-page', require('./components/partial_shop/AddCartButtonP
 Vue.component('add-cart-view', require('./components/partial_shop/AddCartButtonView.vue'));
 Vue.component('cart-quantity', require('./components/partial_shop/CartQuantity.vue'));
 Vue.component('customer-name', require('./components/partial_shop/CustomerName.vue'));
-Vue.component('cart', require('./components/partial_shop/Cart.vue'));
 Vue.component('checkout-page', require('./components/partial_shop/CheckoutPage.vue'));
 Vue.component('payment-method', require('./components/partial_shop/PaymentMethod.vue'));
 Vue.component('customer-address', require('./components/partial_shop/CustomerAddress.vue'));
@@ -207,7 +206,14 @@ Vue.component('edit-catalog-no-variants', require('./components/product/EditProd
 
 // voucher
 Vue.component('voucher-index', require('./components/voucher/VoucherIndex.vue'));
-//Setting
+
+//inventory
+Vue.component('inventory-add-stock', require('./components/inventory/AddStock.vue'));
+
+//Cart
+Vue.component('view-product-with-variants', require('./components/cart/ViewProductWithVariants.vue'));
+Vue.component('view-product-no-variant', require('./components/cart/ViewProductNoVariant.vue'));
+Vue.component('cart', require('./components/cart/Cart.vue'));
 
 const app = new Vue({
     el: '#app'

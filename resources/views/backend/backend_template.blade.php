@@ -27,7 +27,7 @@
             <!-- Navbar-->
              <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="">ETYY</a>
+                    <a class="nav-link" href="#">{{ Auth::guard('admin')->user()->username }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -46,12 +46,23 @@
                             </a>
                             <a class="nav-link" href="{{ route('orders') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
-                                Orders
+                                Orders <order-badge></order-badge>
                             </a>
                             <a class="nav-link" href="{{ route('inventory') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                                 Inventory
                             </a>
+                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRequests" aria-expanded="false" aria-controls="collapseRequests">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                                Requests
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse accordion-link" id="collapseRequests" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionReports">
+                                    <a class="nav-link" href="{{route('cancellation_requests')}}">Cancellation</a>
+                                    <a class="nav-link" href="{{route('return_requests')}}">Return</a>
+                                </nav>
+                            </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-sliders-h"></i></div>
                                 Maintenance
@@ -63,15 +74,23 @@
                                     <a class="nav-link" href="{{ route('products') }}">Products</a>
                                     <a class="nav-link" href="{{ route('bank_account') }}">Bank account</a>
                                     <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping rate</a>
-                                    <a class="nav-link" href="{{ route('voucher') }}">Voucher</a>
                                     <a class="nav-link" href="{{ route('reason') }}">Reason</a>
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
-                                Settings
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                                Reports
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
+                            <div class="collapse accordion-link" id="collapseReports" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionReports">
+                                    <a class="nav-link" href="">Sales</a>
+                                    <a class="nav-link" href="">Inventory</a>
+                                    <a class="nav-link" href="">Customers</a>
+                                    <a class="nav-link" href="">Best selling</a>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

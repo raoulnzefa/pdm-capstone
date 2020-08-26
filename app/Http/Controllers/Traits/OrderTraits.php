@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\Order;
-use App\OrderProduct;
-use App\Inventory;
-use App\Product;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Inventory;
+use App\Models\Product;
 
 trait OrderTraits
 {
@@ -19,14 +19,18 @@ trait OrderTraits
          $order->number = str_random(5);
          $order->customer_id = $array_params['customer_id'];
          $order->order_status = $array_params['order_status'];
-         $order->order_delivery_method = $array_params['order_delivery_method'];
+         $order->order_shipping_method = $array_params['order_shipping_method'];
          $order->order_payment_status = $array_params['order_payment_status'];
          $order->order_payment_method = $array_params['order_payment_method'];
          $order->order_quantity = $array_params['order_quantity'];
+         $order->order_shipping_fee = $array_params['order_shipping_fee'];
          $order->order_subtotal = $array_params['order_subtotal'];
          $order->order_total = $array_params['order_total'];
+         $order->order_shipping_discount = $array_params['order_shipping_discount'];
          $order->order_payment_date = $array_params['order_payment_date'];
          $order->order_paypal_url = $array_params['order_paypal_url'];
+         $order->order_for_shipping = $array_params['order_for_shipping'];
+         $order->order_for_pickup = $array_params['order_for_pickup'];
          $order->order_created = date("Y-m-d H:i:s");
 
          $order->save();
@@ -38,19 +42,19 @@ trait OrderTraits
          //Save ordered products
          foreach ($array_params['cart_products'] as $cart) {
 
-             $invent = Inventory::where(['product_sku'=>$cart->product_sku, 'inventorying_id'=>$cart->carting_id])->first();
+             // $invent = Inventory::where(['product_number'=>$cart->product_sku, 'inventorying_id'=>$cart->carting_id])->first();
 
-             $product = Product::where('sku', $cart->product_sku)->first();
+             $invent = Inventory::where('number',$cart->inventory_number)->first();
+
+             $productName = (!is_null($invent->productWithVariant)) ? $invent->product->product_name.' '.$invent->productWithVariant->variant_value : $invent->product->product_name;
 
              $orderProduct = new OrderProduct;
              $orderProduct->order_number = $updateOrder->number;
-             $orderProduct->inventory_sku = $invent->sku;
-             $orderProduct->product_name = $invent->name;
+             $orderProduct->inventory_number = $invent->number;
+             $orderProduct->product_name = $productName;
              $orderProduct->price = str_replace(',', '', $cart->price);
              $orderProduct->quantity = $cart->quantity;
              $orderProduct->total = str_replace(',', '', $cart->total);
-             $orderProduct->ordering_id = $cart->carting_id;
-             $orderProduct->ordering_type = $cart->carting_type;
              $orderProduct->status = 'Reserved';
              $orderProduct->save();
 

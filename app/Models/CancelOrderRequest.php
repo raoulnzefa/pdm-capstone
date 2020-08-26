@@ -8,22 +8,22 @@ class CancelOrderRequest extends Model
 {
     public function customer()
     {
-    	return $this->belongsTo('App\Customer');
+    	return $this->belongsTo('App\Models\Customer');
     }
 
     public function order()
     {
-    	return $this->belongsTo('App\Order');
+    	return $this->belongsTo('App\Models\Order');
     }
 
     public function reason()
     {
-    	return $this->belongsTo('App\Reason');
+    	return $this->belongsTo('App\Models\Reason');
     }
 
     public function cancelProductRequests()
     {
-    	return $this->hasMany('App\CancelProductRequest');
+    	return $this->hasMany('App\Models\CancelProductRequest');
     }
 
     public function getDateRequestAttribute($value)
@@ -32,8 +32,4 @@ class CancelOrderRequest extends Model
         return date('m/d/Y h:i A', $time);
     }
 
-    public function refundCancelOrder()
-    {
-        return $this->hasOne('App\refundCancelOrder');
-    }
 }

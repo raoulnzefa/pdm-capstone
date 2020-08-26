@@ -6,7 +6,7 @@ use App\Models\ShippingAddress;
 
 trait ShippingAddressTraits
 {
-	public function createShippingAddress($array_params)
+	public function createShipping($array_params)
 	{
 		date_default_timezone_set("Asia/Manila");
 

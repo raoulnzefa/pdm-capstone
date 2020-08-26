@@ -40,7 +40,7 @@
 								Swal('Order status has been updated.', '', 'success')
 								.then((okay) => {
 									if (okay) {
-										window.location.reload();
+										this.$bus.$emit('refreshOrderDetails', true);
 									}
 								})
 							}

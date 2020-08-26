@@ -11,7 +11,7 @@
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
 			    <li class="breadcrumb-item"><a href="{{ route('frontend_homepage') }}">Home</a></li>
-			    <li class="breadcrumb-item active" aria-current="page">Order History</li>
+			    <li class="breadcrumb-item active" aria-current="page">Orders</li>
 			  </ol>
 			</nav>
 		</div>
@@ -22,7 +22,7 @@
 		</div>
 		<div class="col-md-9">
 			<div class="mb-5">
-				<h2 class="mb-4">Order History</h2>
+				<h2 class="mb-4">Orders</h2>
 				<table class="table table-condensed table-bordered table-striped table-hover">
 					<thead>
 						<tr>
@@ -41,7 +41,7 @@
 								<td>{{$order->order_created}}</td>
 								<td>{{$order->order_status}}</td>
 								<td>&#8369;{{$order->order_total}}</td>
-								<td><a href="/order/{{$order->number}}/details" class="btn btn-sm btn-primary">View</a></td>
+								<td><a href="{{ route('customer.view_order', ['order'=> $order->number]) }}" class="btn btn-sm btn-primary">View</a></td>
 							</tr>
 							@endforeach
 						@else

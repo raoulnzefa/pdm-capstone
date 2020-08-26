@@ -2,7 +2,7 @@
 @if (count($categories) > 0)
 	<ul id="category-list">
 	@foreach ($categories as $categ)
-		<li><a href="/products/category/{{$categ->url}}">{{$categ->name}}</a></li>
+		<li><a href="/products?ct={{$categ->url}}">{{$categ->name}}</a></li>
 	@endforeach
 	</ul>
 @else

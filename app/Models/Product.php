@@ -13,22 +13,17 @@ class Product extends Model
 
    public function category()
    {
-        return $this->belongsTo('App\Category');
+      return $this->belongsTo('App\Models\Category');
    }
 
    public function productNoVariant()
    {
-      return $this->hasOne('App\ProductNoVariant');
+      return $this->hasOne('App\Models\ProductNoVariant');
    }
 
    public function productWithVariants()
    {
-      return $this->hasMany('App\ProductWithVariant');
-   }
-
-   public function getProductPriceAttribute($value)
-   {
-   	return number_format($value, 2);
+      return $this->hasMany('App\Models\ProductWithVariant');
    }
 
 }

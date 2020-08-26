@@ -20,7 +20,7 @@
 					<h3 style="font-weight: bolder; font-size:25px;" class="mb-3">Your order has been placed successfully.</h3>
 					<div>
 						<p  style="font-weight: bolder; font-size:25px;">You will receive a confirmation by email to verify your order.</p>
-						<a href="/order/{{ $order->number }}/details" class="btn btn-success btn-lg">View Order Details</a>
+						<a href="{{ route('customer.view_order', ['order'=>$order->number]) }}" class="btn btn-success btn-lg">View Order Details</a>
 					</div>
 					@endif
 				</div>

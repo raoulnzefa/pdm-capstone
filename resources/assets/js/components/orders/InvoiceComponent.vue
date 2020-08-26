@@ -37,7 +37,7 @@
 	</div>
 </div>
 <div class="clearfix mb-5">
-	<div class="float-left" style="width: 35%;">
+	<div class="float-left" style="width: 25%;">
 		<table class="table order-table">
 			<tr>
 				<th>Customer</th>
@@ -46,45 +46,30 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>{{ customer.first_name+' '+customer.last_name }}</td>
-			</tr>
-			<tr>
-				<td>{{ customer.street }}</td>
-			</tr>
-			<tr>
-				<td>{{ customer.barangay+', '+customer.municipality+', '+customer.province+', '+customer.zip_code }}</td>
-			</tr>
-			<tr v-if="customer.company != null">
-				<td>{{ customer.company }}</td>
-			</tr>
-			<tr>
-				<td>{{ customer.phone_number }}</td>
+				<td>{{ invoice.first_name+' '+invoice.last_name }}</td>
 			</tr>
 		</table>
 	</div>
-	<div class="float-left" style="width:30%">
+	<div class="float-left" style="width:30%" v-if="invoice.order.order_shipping_method === 'Shipping'">
 		<table class="table order-table">
 			<tr>
 				<th>Shipping Address</th>
 			</tr>
 			<tr>
-				<td>{{ order.first_name+' '+order.last_name }}</td>
+				<td>{{ invoice.order.shipping.shipping_firstname+' '+invoice.order.shipping.shipping_lastname }}</td>
 			</tr>
 			<tr>
-				<td>{{ order.street }}</td>
+				<td>{{ invoice.order.shipping.shipping_street }}</td>
 			</tr>
 			<tr>
-				<td>{{ order.barangay+', '+order.municipal+', '+order.province+', '+order.zip_code }}</td>
-			</tr>
-			<tr v-if="order.company != null">
-				<td>{{ order.company }}</td>
+				<td>{{ invoice.order.shipping.shipping_barangay+', '+invoice.order.shipping.shipping_municipal+', '+invoice.order.shipping.shipping_province+', '+invoice.order.shipping.shipping_zip_code }}</td>
 			</tr>
 			<tr>
-				<td>{{ order.phone_no }}</td>
+				<td>{{ invoice.order.shipping.shipping_mobile_no }}</td>
 			</tr>
 		</table>
 	</div>
-	<div class="float-right" style="width: 30%;">
+	<div class="float-right" style="width: 37%;">
 		<table class="table order-table">
 			<tr>
 				<th width="40%">Invoice Number:</th>
@@ -96,18 +81,18 @@
 			</tr>
 			<tr>
 				<td>Order Number:</td>
-				<td class="text-right">{{ order.number }}</td>
+				<td class="text-right">{{ invoice.order_number }}</td>
 			</tr>
 			<tr>
-				<td>Shipping Method</td>
-				<td class="text-right">{{ order.shipping_method }}</td>
+				<td>Shipping Method:</td>
+				<td class="text-right">{{ invoice.order.order_shipping_method }}</td>
 			</tr>
 			<tr>
-				<td>Payment Method</td>
-				<td class="text-right">{{ order.payment_method }}</td>
+				<td>Payment Method:</td>
+				<td class="text-right">{{ invoice.order.order_payment_method }}</td>
 			</tr>
 			<tr>
-				<td>Order Total:</td>
+				<td>Total:</td>
 				<td class="text-right">&#8369;{{ invoice.total }}</td>
 			</tr>
 			<tr v-if="invoice.status == 'Void'">
@@ -143,8 +128,8 @@
 			<th class="text-right">Subtotal:</th>
 			<td width="25%" class="text-right">&#8369;{{ invoice.subtotal }}</td>
 		</tr>
-		<tr>
-			<th class="text-right">Shipping Fee:</th>
+		<tr v-if="invoice.order.order_shipping_method === 'Shipping'">
+			<th class="text-right">Shipping fee:</th>
 			<td class="text-right">&#8369;{{ invoice.shipping_fee }}</td>
 		</tr>
 		<tr>
@@ -157,7 +142,7 @@
 </template>
 <script>
 	export default {
-		props: ['order', 'invoice', 'customer', 'invoiceProducts'],
+		props: ['invoice', 'invoiceProducts'],
 		data() {
 			return {
 				

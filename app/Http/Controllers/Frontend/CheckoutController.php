@@ -41,7 +41,7 @@ class CheckoutController extends Controller
 
         $customer = Customer::where('id', $customer_id)->with('addresses')->first();
 
-        $cart = Cart::where('customer_id', $customer_id)->with('carting.inventory','product')->get();;
+        $cart = Cart::where('customer_id', $customer_id)->with('inventory.product')->get();;
 
         $cart_qty = Cart::where('customer_id', $customer_id)->sum('quantity');
 

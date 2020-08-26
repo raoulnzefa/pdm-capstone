@@ -19,7 +19,9 @@ Remarks: {{$order->remarks}}
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->subtotal }}<br>
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->shipping_cost }}<br>
+@if ($order->order_shipping_method == 'Shipping')
+Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
+@endif
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->total }}<br>
 
 
@@ -27,15 +29,14 @@ Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->total }}<br>
 Order Details
 @endcomponent
 
+@if ($order->order_shipping_method == 'Shipping')
 Shipping information:
 
-{{ $order->first_name.' '.$order->last_name }}<br>
-{{ $order->street.', '.$order->barangay }}<br>
-{{ $order->municipal.', '.$order->province.', '.$order->zip_code }}<br>
-@if (!empty($order->company))
-{{ $order->company }}<br>
+{{ $order->shipping->shipping_firstname.' '.$order->shipping->shipping_lastname }}<br>
+{{ $order->shipping->shipping_street.', '.$order->shipping->shipping_barangay }}<br>
+{{ $order->shipping->shipping_municipality.', '.$order->shipping->shipping_province.', '.$order->shipping->shipping_zip_code }}<br>
+{{ $order->shipping->shipping_mobile_no }}
 @endif
-{{ $order->phone_no }}
 
 Thanks,<br>
 {{ config('app.name') }}

@@ -3,19 +3,52 @@
 		<div class="col-md-12 col-sm-12">
 			<h2 class="mt-4 mb-4">Voucher</h2>
 			<button class="btn btn-primary mb-4" @click="addVoucherCode"><i class="fa fa-plus"></i> Add voucher</button>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>Code</th>
-						<th>Type</th>
+						<th>Description</th>
+						<th>Discount %</th>
 						<th>Start</th>
 						<th>End</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					
+					<template v-if="loading">
+						<tr>
+							<td colspan="7">
+								<center>
+									<half-circle-spinner
+					                :animation-duration="1000"
+					                :size="30"
+					                color="#ff1d5e"
+					              />
+								</center>
+							</td>
+						</tr>
+					</template>
+					<template v-else>
+						<template v-if="!vouchers.length">
+							<tr>
+								<td colspan="7" class="text-center">No Vouchers.</td>
+							</tr>
+						</template>
+						<template v-else>
+							<tr v-for="(voucher, index) in vouchers" :key="index">
+								<td>{{ voucher.id }}</td>
+								<td>{{ voucher.voucher_code }}</td>
+								<td>{{ voucher.voucher_description }}</td>
+								<td>{{ voucher.voucher_discount_percent }}</td>
+								<td>{{ voucher.voucher_start }}</td>
+								<td>{{ voucher.voucher_end }}</td>
+								<td>
+									<button class="btn btn-primary btn-sm" @click="editVoucher(voucher)">Edit</button>
+								</td>
+							</tr>
+						</template>
+					</template>
 				</tbody>
 			</table>
 
@@ -30,6 +63,7 @@
              @shown="focusOnVoucherCode"
              @ok="saveVoucherCode"
              @cancel="cancelVoucherCode"
+             @hidden="resetThem"
              :ok-disabled="isSubmitted"
              :cancel-disabled="isSubmitted"
              >
@@ -49,21 +83,18 @@
                 </div>
 		      </div>
 		      <div class="form-group">
-		      	<label>Type:</label>
-		      	<select class="form-control" tabindex="2" 
-		      		v-model.trim="$v.voucher.type.$model"
-		      		:class="{'is-invalid': $v.voucher.type.$error}">
-		      		<option value="" disabled>Select voucher type</option>
-		      		<option v-for="(type,index) in voucherTypes" :key="index" :value="type">{{ type }}</option>
-		      	</select>
-		      	<div v-if="$v.voucher.type.$error">
-                	<span class="error-feedback" v-if="!$v.voucher.type.required">Please select a voucher type</span>
+		      	<label>Description:</label>
+		      	<textarea class="form-control" placeholder="Enter voucher description" tabindex="2"
+		      		v-model.trim="$v.voucher.description.$model"
+		      		:class="{'is-invalid': $v.voucher.description.$error}" rows="3"></textarea>
+		      	<div v-if="$v.voucher.code.$error">
+                	<span class="error-feedback" v-if="!$v.voucher.description.required">Please enter voucher description</span>
                 </div>
 		      </div>
 		      
 		      <div class="form-group">
 		     		<label>Discount:</label>
-		     		<input type="text" class="form-control" placeholder="Enter voucher discount"
+		     		<input type="text" tabindex="3" class="form-control" placeholder="Enter voucher discount"
 		     			v-model.trim="$v.voucher.discount.$model"
 		     			:class="{'is-invalid': $v.voucher.discount.$error}">
 		     			<div v-if="$v.voucher.discount.$error">
@@ -78,17 +109,36 @@
 		     	</div>
 		     	<div class="form-group">
 		     		<label>Start date:</label>
-		     		<input type="text" name="" id="dateStart" class="form-control">
+		     		<date-picker 
+		     			v-model="$v.voucher.dateStart.$model" 
+		     			ref="refDateStart" 
+		     			:config="options.start"
+		     			placeholder="Select start date"
+		     			:class="{'is-invalid': $v.voucher.dateStart.$error}"
+		     			@dp-change="startDateChange"></date-picker>
+		     		<div v-if="$v.voucher.dateStart.$error">
+                	<span class="error-feedback" v-if="!$v.voucher.dateStart.required">Please select a date</span>
+                </div>
 		     	</div>
-		     		<div class="form-group">
+		     	<div class="form-group">
 		     		<label>End date:</label>
-		     		<input type="text" name="" id="dateEnd" class="form-control">
+		     		<date-picker 
+		     			v-model="$v.voucher.dateEnd.$model" 
+		     			ref="refDateEnd" 
+		     			:config="options.end"
+		     			placeholder="Select end date"
+		     			:class="{'is-invalid': $v.voucher.dateEnd.$error}"
+		     			@dp-change="endDateChange"></date-picker>
+		     		<div v-if="$v.voucher.dateEnd.$error">
+                	<span class="error-feedback" v-if="!$v.voucher.dateEnd.required">Please select a date</span>
+                </div>
 		     	</div>
 		    </b-modal>
 		</div>
 	</div>
 </template>
 <script>
+	// maxDate: new Date(new Date().getFullYear(), 12, 0), get end date of current year
 	import { required, minLength, maxLength, helpers, between, requiredIf } from 'vuelidate/lib/validators';
    import { HalfCircleSpinner } from 'epic-spinners';
 
@@ -99,14 +149,15 @@
 		props: ['admin'],
 		data() {
 			return {
+				vouchers: [],
 				sampleDate: '',
 				loading: false,
 				voucher: {
 					code: '',
-					type: '',
+					description: '',
 					discount: '',
-					dateStart: '',
-					dateEnd: ''
+					dateStart: null,
+					dateEnd: null,
 				},
 				voucherTypes: ['Discount', 'Free shipping'],
 				ok_title: '',
@@ -115,6 +166,19 @@
 				isSubmitted: false,
 				server_errors: [],
 				voucher_id: '',
+				options: {
+					start: {
+						format: 'MM/DD/YYYY',
+						useCurrent: false,
+						minDate: new Date(),
+						maxDate: false,
+					},
+					end: {
+						format: 'MM/DD/YYYY',
+						useCurrent: false,
+						minDate: new Date(),
+					}
+				}
 			}
 		},
 		components: {
@@ -126,22 +190,31 @@
 					code: {
 						required
 					},
-					type: {
+					description: {
 						required
 					},
 					discount: {
 						numbersOnly,
 						between: between(1,100),
-						required: requiredIf(function() {
-							return (this.voucher.type === 'Discount') ? true : false
-						})
-					}
+						required,
+					},
+					dateStart: { required },
+					dateEnd: { required }
 				}
 			}
 		},
 		methods: {
-			getVoucherCodes() {
-
+			getVouchers() {
+				this.loading = true;
+				axios.get('/api/vouchers')
+				.then(response => {
+					this.loading = false
+					this.vouchers = response.data;
+				})
+				.catch(error => {
+					this.loading = false;
+					console.log(error.response);
+				});
 			},
 			addVoucherCode() {
 				const inputDate = '10/01/2020';
@@ -150,8 +223,13 @@
 				this.$refs.refsVoucherModal.show();
 				
 			},
-			changeMinDate(e) {
-				alert('ok');
+			startDateChange(e) {
+				//console.log('startDateChange', e.date);
+				this.$set(this.options.end, 'minDate',e.date || null);
+			},
+			endDateChange(e) {
+				//console.log('startDateChange', e.date);
+				this.$set(this.options.start, 'maxDate',e.date || null);
 			},
 			focusOnVoucherCode() {
 				this.$refs.voucherCodeFocus.focus();
@@ -162,10 +240,10 @@
 				this.modal_title = "Add voucher";
 				this.voucher = {
 					code: '',
-					type: '',
+					description: '',
 					discount: '',
-					dateStart: '',
-					dateEnd: '',
+					dateStart: null,
+					dateEnd: null,
 				};
 				this.$v.voucher.$reset();
 				this.server_errors = [];
@@ -175,7 +253,16 @@
 				this.resetThem();
 			},
 			editVoucher(voucher) {
-
+				this.isEdit = true;
+				this.modal_title = 'Edit voucher';
+				this.ok_title = 'Update';
+				this.voucher_id = voucher.id;
+				this.voucher.code = voucher.voucher_code;
+				this.voucher.description = voucher.voucher_description;
+				this.voucher.discount = voucher.voucher_discount_percent;
+				this.voucher.dateStart = voucher.voucher_start;
+				this.voucher.dateEnd = voucher.voucher_end;
+				this.$refs.refsVoucherModal.show();
 			},
 			saveVoucherCode(e) {
 				e.preventDefault();
@@ -188,8 +275,8 @@
 						axios.post('/api/voucher/create', {
 							admin_id: this.admin.id,
 							voucher_code: this.voucher.code,
-							voucher_type: this.voucher.type,
-							voucher_discount: this.voucher.discount,
+							voucher_description: this.voucher.description,
+							voucher_discount_percent: this.voucher.discount,
 							voucher_start: this.voucher.dateStart,
 							voucher_end: this.voucher.dateEnd,
 						})
@@ -203,7 +290,37 @@
 										this.$refs.refsVoucherModal.hide();
 										this.$v.voucher.$reset();
 										this.resetThem();
-										this.getVoucherCodes();
+										this.getVouchers();
+									}
+								})
+							}
+						})
+						.catch(error => {
+							this.isSubmitted = false;
+							if(error.response.status == 422) {
+								this.server_errors = error.response.data.errors;
+							}
+						});
+					} else {
+						axios.put('/api/voucher/update/'+this.voucher_id, {
+							admin_id: this.admin.id,
+							voucher_code: this.voucher.code,
+							voucher_description: this.voucher.description,
+							voucher_discount_percent: this.voucher.discount,
+							voucher_start: this.voucher.dateStart,
+							voucher_end: this.voucher.dateEnd,
+						})
+						.then(response => {
+							this.isSubmitted = false;
+
+							if (response.data.success) {
+								Swal('Voucher has been updated', '', 'success')
+								.then((okay) => {
+									if (okay) {
+										this.$refs.refsVoucherModal.hide();
+										this.$v.voucher.$reset();
+										this.resetThem();
+										this.getVouchers();
 									}
 								})
 							}
@@ -216,26 +333,15 @@
 						});
 					}
 				}
+			},
+			formatVoucherDate($value) {
+				let d = new Date($value);
+
+				return d.getMonth();
 			}
 		},
 		mounted() {
-			$('#dateStart').datetimepicker({
-				format: 'MM/DD/YYYY',
-				viewMode: 'days',
-				minDate: new Date(),
-				maxDate: new Date(new Date().getFullYear(), 12, 0),
-			});
-
-			$('#dateEnd').datetimepicker({
-				format: 'MM/DD/YYYY',
-				viewMode: 'days',
-				minDate: new Date(),
-				maxDate: new Date(new Date().getFullYear(), 12, 0),
-			});
-
-			$('#dateStart').on("dp.change", function(e) {
-				$('#dateEnd').data('DateTimePicker').minDate(e.date);
-			})
+			this.getVouchers();
 		}
 	}
 </script>

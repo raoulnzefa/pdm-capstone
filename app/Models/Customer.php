@@ -48,27 +48,27 @@ class Customer extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\Models\Order');
     }
 
     public function invoice()
     {
-        return $this->hasOne('App\Invoice');
+        return $this->hasOne('App\Models\Invoice');
     }
 
     public function province()
     {
-        return $this->belongsTo('App\Province');
+        return $this->belongsTo('App\Models\Province');
     }
 
     public function municipality()
     {
-        return $this->belongsTo('App\Municipality');
+        return $this->belongsTo('App\Models\Municipality');
     }
 
     public function barangay()
     {
-        return $this->belongsTo('App\Barangay');
+        return $this->belongsTo('App\Models\Barangay');
     }
 
     public function getRegisteredAttribute($value)
@@ -79,6 +79,6 @@ class Customer extends Authenticatable
 
     public function addresses()
     {
-        return $this->hasMany('App\Address');
+        return $this->hasMany('App\Models\Address');
     }
 }

@@ -1,15 +1,5 @@
 @extends('frontend.frontend_template')
 
-@section('store_header')
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="partial-header">
-	<div class="container-fluid">
-	 	<div class="navbar-brand">
-      	<img src="{{ asset('images/logo.jpg') }}" width="125" height="60" alt="INFINITY FIGHTGEAR LOGO">
-     	</div>
-		<a href="{{ $prev_url }}" class="nav-link text-light cool-link mr-sm-2"><i class="fa fa-chevron-left"></i> BACK</a>
-</nav>
-@endsection
-
 @section('content')
 <div class="container mb-4">
 	<div class="row">
@@ -17,7 +7,7 @@
 	        <nav aria-label="breadcrumb">
 	          <ol class="breadcrumb mb-0 pl-0">
 	            <li class="breadcrumb-item"><a href="{{ route('frontend_homepage') }}">Home</a></li>
-	            <li class="breadcrumb-item active" aria-current="page">Register</li>
+	            <li class="breadcrumb-item active" aria-current="page">Create account</li>
 	          </ol>
 	        </nav>
 	    </div>  

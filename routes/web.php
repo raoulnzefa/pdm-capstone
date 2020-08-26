@@ -49,9 +49,9 @@ Route::get('/admin/inventory', 'Backend\InventoryController@index')->name('inven
 Route::get('/admin/orders', 'Backend\OrderController@index')->name('orders');
 
 
-Route::get('/admin/order/{order}/details', 'Backend\OrderController@viewOrder')->name('order_details_admin');
-Route::get('/admin/invoices', 'Backend\InvoiceController@index');
-Route::get('/admin/order/{order}/invoice', 'Backend\InvoiceController@viewInvoice');
+Route::get('/admin/order/{order}', 'Backend\OrderController@viewOrder')->name('order_details_admin');
+//Route::get('/admin/invoices', 'Backend\InvoiceController@index');
+Route::get('/admin/order/{order}/invoice', 'Backend\InvoiceController@viewInvoice')->name('admin.view_invoice');
 
 Route::get('/admin/order/{order}/ship', 'Backend\ShipController@shipOrder');
 
@@ -77,7 +77,7 @@ Route::post('/register', 'Frontend\CustomerAuthController@register')->name('cust
 Route::get('/login', 'Frontend\CustomerAuthController@showLoginForm')->name('customer_login');
 Route::post('/login', 'Frontend\CustomerAuthController@login')->name('customer.login');
 Route::get('/logout', 'Frontend\CustomerAuthController@logout')->name('customer.logout');
-Route::get('/register', 'Frontend\CustomerAuthController@showRegisterForm')->name('customer_regisration');
+Route::get('/create-account', 'Frontend\CustomerAuthController@showRegisterForm')->name('customer_registration');
 Route::get('/email-verified/{email}/{token}', 'Frontend\CustomerAuthController@emailVerified')->name('email.verified');
 
 
@@ -94,11 +94,11 @@ Route::post('/password/reset', 'Frontend\CustomerResetPasswordController@reset')
 
 Route::get('/products', 'Frontend\ProductPageController@index')->name('frontend_product_page');
 
-Route::get('/products/category/{category}', 'Frontend\ProductPageController@productsByCategory');
+Route::get('/products/{category}', 'Frontend\ProductPageController@productsByCategory')->name('frontend.products.by.category');
 
 Route::get('/category/{category}/type/{type}', 'Frontend\ProductPageController@productsByType');
 
-Route::get('/product/view/{product}', 'Frontend\ViewProductController@viewProduct');
+Route::get('/product/{category}/{product}', 'Frontend\ViewProductController@viewProduct')->name('customer_view_product');
 
 Route::get('/about-us', 'Frontend\PageController@aboutUs');
 // Route::get('/contact-us', function() {
@@ -106,11 +106,11 @@ Route::get('/about-us', 'Frontend\PageController@aboutUs');
 // });
 
 Route::get('/my-account', 'Frontend\CustomerController@index')->name('customer.my-account');
-Route::get('/my-account/order-status', 'Frontend\OrderStatusController@index')->name('customer.order_status');
+// Route::get('/my-account/order-status', 'Frontend\OrderStatusController@index')->name('customer.order_status');
 // Route::get('/my-account/completed-orders', 'Frontend\CompletedOrderController@index')->name('customer.completed');
-Route::get('/my-account/order-history', 'Frontend\OrderHistoryController@index')->name('customer.order_history');
+Route::get('/my-account/orders', 'Frontend\OrdersController@index')->name('customer.orders');
 Route::get('/my-account/account-details', 'Frontend\AccountDetailsController@index')->name('customer.account_details');
-Route::get('/order/{order}/details', 'Frontend\CustomerController@orderDetails')->name('customer.order.details');
+Route::get('/my-account/order/{order}', 'Frontend\CustomerController@orderDetails')->name('customer.view_order');
 Route::get('/my-account/return-requests', 'Frontend\CustomerController@returnRequestsList')->name('customer.return_requests');
 
 // Route::get('/my-account/change-email/{email}', 'Frontent\AccountDetailsController@changeEmailPage')->name('change.email.page');
@@ -159,8 +159,8 @@ Route::get('cancellation-request/{cancelRequest}/details', 'Frontend\Cancellatio
 
 Route::post('cancellation', 'Frontend\CancellationController@store')->name('submit_cancel_request');
 
-Route::get('admin/customers/cancellation-requests', 'Backend\CancellationController@index')->name('cancellation_requests');
-Route::get('admin/customers/return-requests', 'Backend\ReturnRequestController@index')->name('return_requests');
+Route::get('admin/cancellation-requests', 'Backend\CancellationController@index')->name('cancellation_requests');
+Route::get('admin/return-requests', 'Backend\ReturnRequestController@index')->name('return_requests');
 
 Route::get('my-account/cancellation-requests', 'Frontend\CustomerController@cancellationList')->name('customer.cancellation');
 
@@ -194,9 +194,9 @@ Route::get('admin/reports/sales', 'Backend\ReportsController@salesReport');
 Route::get('admin/bank-account', 'Backend\BankAccountController@index')->name('bank_account');
 Route::get('admin/invoice/{invoice}', 'Backend\InvoiceController@viewInvoice');
 
-Route::get('invoice/{invoice}', 'Frontend\InvoiceController@viewInvoice');
+Route::get('my-account/order/{order}/invoice', 'Frontend\InvoiceController@viewInvoice')->name('customer.invoice');
 
-Route::get('admin/voucher', 'Backend\VoucherCodeController@index')->name('voucher');
+// Route::get('admin/voucher', 'Backend\VoucherCodeController@index')->name('voucher');
 
 Route::get('featured-products', 'Frontend\FeaturedProductController@index');
 Route::get('featured-products/category/{category}', 'Frontend\FeaturedProductController@category');
@@ -245,5 +245,5 @@ Route::get('/admin/orders/pending-payment', 'Backend\OrderController@pendingPaym
 Route::get('/admin/orders/processing', 'Backend\OrderController@processing')->name('orders_processing');
 Route::get('/admin/orders/delivered', 'Backend\OrderController@delivered')->name('orders_delivered');
 Route::get('/admin/orders/completed', 'Backend\OrderController@completed')->name('orders_completed');
-
+Route::post('cart/add', 'Frontend\CartController@addProduct');
 

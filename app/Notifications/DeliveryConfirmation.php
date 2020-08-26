@@ -43,7 +43,7 @@ class DeliveryConfirmation extends Notification
     {
         return (new MailMessage)
                     ->subject('Delivery Confirmation')
-                    ->markdown('mail.order.delivery', ['order' => $this->order, 'url'=> route('customer.order.details', ['order'=>$this->order->number])]);
+                    ->markdown('mail.order.delivery', ['order' => $this->order, 'url'=> route('customer.view_order', ['order'=>$this->order->number])]);
     }
 
     /**

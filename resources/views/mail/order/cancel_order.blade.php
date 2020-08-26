@@ -4,8 +4,8 @@
 Following order has been cancelled deu to pending payment.
 
 Order Number: {{$order->number}}
-Date Order: {{ $order->date_order }}
-Status: {{ $order->status }}
+Date Order: {{ $order->order_created }}
+Status: {{ $order->order_status }}
 
 @component('mail::table')
 
@@ -17,9 +17,11 @@ Status: {{ $order->status }}
 
 @endcomponent
 
-Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->subtotal }}<br>
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->shipping_cost }}<br>
-Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->total }}<br>
+Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+@if ($order->order_shipping_method == 'Shipping')
+Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
+@endif
+Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 
 @component('mail::button', ['url' => $url])

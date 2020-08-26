@@ -15,12 +15,14 @@ class CreateProductWithVariantsTable extends Migration
     {
         Schema::create('product_with_variants', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('inventory_number')->unique();
             $table->string('product_number');
             $table->string('variant_value');
             $table->decimal('variant_price',9,2);
             $table->tinyInteger('variant_status')->default(1);
             $table->timestamps();
             $table->foreign('product_number')->references('number')->on('products');
+            $table->foreign('inventory_number')->references('number')->on('inventories');
         });
     }
 

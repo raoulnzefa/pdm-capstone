@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hello {{ $order->customer->first_name }},
 
-Here is an update on your Order Number {{ $order->number }} placed on {{ $order->date_order }}.
+Here is an update on your Order Number {{ $order->number }} placed on {{ $order->order_created }}.
 
 We are please to tell you that this product(s) is now on its way to you.
 
@@ -21,9 +21,9 @@ Order Details
 
 @endcomponent
 
-Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->subtotal }}<br>
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->shipping_cost }}<br>
-Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->total }}<br>
+Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
+Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 Thanks,<br>
 {{ config('app.name') }}

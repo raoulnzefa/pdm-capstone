@@ -6,7 +6,7 @@
 # Cancellation Details
 
 Order Number: {{$cancellation->order_number}}<br>
-Date Order: {{$cancellation->order->date_order}}<br>
+Date Order: {{$cancellation->order->order_created}}<br>
 Reason: {{$cancellation->reason->title}}
 
 @component('mail::table')
@@ -19,9 +19,11 @@ Reason: {{$cancellation->reason->title}}
 
 @endcomponent
 
-Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->subtotal, 2) }}<br>
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->shipping_cost, 2) }}<br>
-Total:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->total, 2) }}<br>
+Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_subtotal, 2) }}<br>
+@if ($cancellation->order->order_shipping_method == 'Shipping')
+Shipping fee:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_shipping_fee, 2) }}<br>
+@endif
+Total:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_total, 2) }}<br>
 
 Thanks,<br>
 {{ config('app.name') }}

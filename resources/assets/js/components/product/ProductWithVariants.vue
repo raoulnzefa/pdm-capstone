@@ -15,7 +15,7 @@
 			:ok-disabled="disabledFormBtn"
 			>
 			<div>
-				<button class="btn btn-primary" :disabled="disabledAdd" @click="addVariant" v-if="!hideAddBtn">Add variant</button>
+				<button class="btn btn-primary" :disabled="disabledAdd" @click="addVariant" v-if="!hideAddBtn"><i class="fa fa-plus"></i> Add variant</button>
 				<template v-if="isEdit">
 					<div class="card mt-3 mb-3">
 						<div class="card-header">
@@ -130,7 +130,7 @@
 						   	<label for="addVar4" class="col-sm-3 col-form-label text-right">Critical level:</label>
 						   	<div class="col-sm-6">
 						   		<input type="text" class="form-control" id="addVar4" 
-						   			placeholder="Enter variant critical_level"
+						   			placeholder="Enter variant critical level"
 						   			tabindex="4"
 						   			v-model.trim="$v.variantsAdd.critical_level.$model"
 						   			:class="{'is-invalid': $v.variantsAdd.critical_level.$error}">
@@ -193,10 +193,10 @@
 									<tr v-for="(variant,index) in product_with_variants" :key="index">
 										<td>{{ variant.id }}</td>
 										<td>{{ variant.variant_value }}</td>
-										<td>&#8369;{{ variant.variant_price }}</td>
+										<td>{{ formatMoney(variant.variant_price) }}</td>
 										<td>{{ (variant.variant_status > 0) ? 'Enabled' : 'Disabled' }}</td>
 										<td>
-											<button class="btn btn-sm btn-primary" :disabled="disabledEdit" @click="editVariant(variant)">Edit</button>
+											<button class="btn btn-sm btn-primary" :disabled="disabledEdit" @click="editVariant(variant)"><i class="fa fa-edit"></i> Edit</button>
 										</td>
 									</tr>
 								</template>
@@ -289,7 +289,7 @@
 			},
 			getVariants() {
 				this.loading = true;
-				axios.get('/api/product-with-variants/list')
+				axios.get('/api/product-with-variants/list/'+this.product.number)
 				.then(res => {
 					this.loading = false;
 					this.product_with_variants = res.data;
@@ -364,7 +364,7 @@
 							this.disabledFormBtn = false;
 
 							if (response.data.success) {
-								Swal('Product variant has been created.', '', 'success')
+								Swal('Variant has been created', '', 'success')
 								.then((okay) => {
 									if (okay) {
 										this.$v.variantsAdd.$reset();
@@ -400,7 +400,7 @@
 							this.disabledFormBtn = false;
 
 							if (response.data.success) {
-								Swal('Product variant has been updated.', '', 'success')
+								Swal('Variant has been updated', '', 'success')
 								.then((okay) => {
 									if (okay) {
 										this.$v.variantsEdit.$reset();
@@ -426,6 +426,9 @@
 					this.$bus.$emit('refreshTable', true);
 					this.hadDbOperations = false;
 				}
+			},
+			formatMoney(value) {
+				 return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(value);
 			}
 			
 		}

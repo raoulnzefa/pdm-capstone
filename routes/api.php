@@ -45,7 +45,7 @@ Route::get('products', 'Api\ProductController@productsTable');
 Route::put('product/add-stock/{product}', 'Api\ProductController@addStock');
 
 // product with variants
-Route::get('product-with-variants/list', 'Api\ProductWithVariantController@list');
+Route::get('product-with-variants/list/{product_number}', 'Api\ProductWithVariantController@list');
 Route::put('product-with-variants/update/{productVariant}', 'Api\ProductWithVariantController@updateVariant');
 Route::post('product-with-variants/create', 'Api\ProductWithVariantController@createVariant');
 
@@ -62,7 +62,8 @@ Route::post('customer/{customer}', 'Api\CustomerController@update');
 Route::get('customer/name/{customer}', 'Api\CustomerController@customerName');
 
 //Cart
-Route::post('cart/add-cart', 'Api\CartController@addCartPage');
+Route::post('cart/add-cart-variant', 'Api\CartController@addToCartVariant');
+Route::post('cart/add-cart-no-variant', 'Api\CartController@addToCartNoVariant');
 Route::get('cart/quantity/{customer}', 'Api\CartController@cartQuantity');
 Route::get('cart/products/{customer}', 'Api\CartController@customerCart');
 Route::put('cart/update/{cart}', 'Api\CartController@updateQuantity');
@@ -218,12 +219,6 @@ Route::post('address/save', 'Api\AddressController@saveAddress');
 Route::put('address/update/{address}', 'Api\AddressController@updateAddress');
 Route::delete('address/delete/{address}', 'Api\AddressController@deleteAddress');
 
-// admin orders pages
-Route::get('orders/for-pickup', 'Api\OrderController@forPickup');
-Route::get('orders/pending-payment', 'Api\OrderController@pendingPayment');
-Route::get('orders/processing', 'Api\OrderController@processing');
-Route::get('orders/delivered', 'Api\OrderController@delivered');
-Route::get('orders/completed', 'Api\OrderController@completed');
 
 // orders details admin side
 Route::put('order/mark-as-paid/{order}', 'Api\OrderController@markAsPaid');
@@ -239,3 +234,12 @@ Route::put('order/cancel-order-by-customer/{order}', 'Api\OrderController@cancel
 
 // voucher
 Route::post('voucher/create', 'Api\VoucherController@createVoucher');
+Route::get('vouchers', 'Api\VoucherController@getVouchers');
+Route::put('voucher/update/{voucher}', 'Api\VoucherController@updateVoucher');
+
+// inventory
+Route::get('inventory/get', 'Api\InventoryController@getInventory');
+Route::put('inventory/add-stock/{inventory}', 'Api\InventoryController@addStock');
+
+// order details
+Route::get('order/{orderNum}', 'Api\OrderController@getOrder');

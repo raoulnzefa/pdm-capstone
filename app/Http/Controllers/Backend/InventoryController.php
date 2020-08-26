@@ -20,7 +20,6 @@ class InventoryController extends Controller
     public function index()
     {
 
-    	$inventories = Inventory::with('inventoryVariant.productWithVariant')->get();
         $data = 'Inventory';
 
     	return view('backend.inventory.index', compact('data', 'inventories'));

@@ -19,10 +19,14 @@ class InvoiceController extends Controller
     	return view('backend.invoice.index');
     }
 
-    public function viewInvoice($invoice)
+    public function viewInvoice($order)
     {
-        $previous_url = url()->previous();
+        $invoice = Invoice::where('order_number',$order)
+            ->with('order.shipping','invoiceProducts')
+            ->first();
 
-    	return view('backend.invoice.view_invoice', compact('invoice', 'previous_url'));
+        $data = 'Invoice';
+
+    	return view('backend.invoice.view_invoice', compact('invoice','data'));
     }
 }

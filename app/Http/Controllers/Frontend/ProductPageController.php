@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Category;
-use App\ProductType;
-use App\Product;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,10 +16,21 @@ class ProductPageController extends Controller
         $this->data = 'Products';
     }
 
-    public function index()
+    public function index(Request $request)
     {
-    	$products = Product::paginate(12);
-    	$categories = Category::where('status', 1)->get();
+        if (!$request->query('ct'))
+        {
+    	   $products = Product::where('product_status',1)->paginate(12);
+    	   
+        }
+        else
+        {
+            $category_id = Category::where('url',$request->query('ct'))->first()->id;
+            $products = Product::where('product_status',1)
+                ->where('category_id',$category_id)->paginate(12);
+        }
+        
+        $categories = Category::where('status', 1)->get();
 
     	return view('frontend.product_page')->with(['categories'=>$categories, 'products'=>$products, 'data'=>$this->data]);
     }

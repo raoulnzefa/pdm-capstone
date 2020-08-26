@@ -45,8 +45,7 @@ class CustomerController extends Controller
                             'cancelOrderRequest',
                             'returnRequest',
                             'bankDepositSlip',
-                            'storePickup',
-                            'delivery'
+                            'storePickup'
                         )->first();
 
          // set timezone

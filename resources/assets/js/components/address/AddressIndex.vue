@@ -10,7 +10,7 @@
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
-					<th>Address</th>
+					<th width="50%">Address</th>
 					<th>Action</th>
 				</tr>
 			</thead>

@@ -9,7 +9,7 @@
 			no-close-on-esc
 			no-close-on-backdrop
 			hide-header-close
-			ok-title="Update product"
+			ok-title="Update"
 			@ok="submitProductCatalog"
 			@cancel="cancelProductCatalog"
 			@shown="focusOnProdName"
@@ -21,9 +21,9 @@
 					</ul>
 				</div>
 				<div class="form-group row">
-			   	<label for="catalogEdit1" class="col-sm-3 col-form-label">Product name:</label>
+			   	<label class="col-sm-3 col-form-label">Product name:</label>
 			   	<div class="col-sm-9">
-			   		<input type="text" class="form-control" id="catalogEdit1" 
+			   		<input type="text" class="form-control" 
 			   			placeholder="Enter product name"
 			   			tabindex="1"
 			   			v-model.trim="$v.product_name.$model"
@@ -35,9 +35,9 @@
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-			   	<label for="catalogEdit2" class="col-sm-3 col-form-label">Category:</label>
+			   	<label class="col-sm-3 col-form-label">Category:</label>
 			   	<div class="col-sm-9">
-			   		<select class="form-control" id="catalogEdit2"
+			   		<select class="form-control"
 			   			tabindex="2"
 			   			v-model.trim="$v.category.$model"
 			   			:class="{'is-invalid': $v.category.$error }">
@@ -50,9 +50,9 @@
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-			   	<label for="catalogEdit3" class="col-sm-3 col-form-label">Description:</label>
+			   	<label class="col-sm-3 col-form-label">Description:</label>
 			   	<div class="col-sm-9">
-			   		<textarea class="form-control" id="catalogEdit3" rows="4"
+			   		<textarea class="form-control" rows="4"
 			   			placeholder="Enter description"
 			   			tabindex="3"
 			   			v-model.trim="$v.description.$model"
@@ -65,18 +65,18 @@
 			  	</div>
 
 			   <div class="form-group row">
-			   	<label for="catalogEdit4" class="col-sm-3 col-form-label">Status:</label>
+			   	<label class="col-sm-3 col-form-label">Status:</label>
 			   	<div class="col-sm-9">
-			   	<select class="form-control" id="catalogEdit4" tabindex="4" v-model="status">
+			   	<select class="form-control" tabindex="4" v-model="status">
 			   			<option value="1">Enable</option>
 			   			<option value="0">Disable</option>
 			   		</select>
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-					<label for="catalogEdit5" class="col-sm-3 col-form-label">Product image:</label>
+					<label class="col-sm-3 col-form-label">Product image:</label>
 					<div class="col-sm-4">
-						<input type="file" name="product_image" id="catalogEdit5" ref="image" @change="onProductImageChange" hidden tabindex="5">
+						<input type="file" name="product_image" ref="image" @change="onProductImageChange" hidden tabindex="5">
 						<a href="javascript:void(0)" @click="openDialog">
 							<img :src="avatar" class="img-fluid img-thumbnail">
 						</a>

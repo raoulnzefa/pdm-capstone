@@ -55,9 +55,10 @@ class ReturnRequestController extends Controller
 
     public function index()
     {
+        $data = 'Return Requests';
     	$returnRequests = ReturnRequest::paginate(5);
 
-    	return view('backend.return_order.return_request_list', compact('returnRequests'));
+    	return view('backend.return_order.return_request_list', compact('returnRequests','data'));
     }
 
     public function details(ReturnRequest $returnRequest)

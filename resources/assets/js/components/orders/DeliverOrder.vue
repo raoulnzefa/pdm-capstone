@@ -1,6 +1,6 @@
 <template>
 <div>
-	<button class="btn btn-primary float-right" @click="deliverOrder">Deliver order</button>
+	<button class="btn btn-primary float-right" @click="deliverOrder">Ship order</button>
 	<b-modal ref="deliverOrderModal"
     		   title="Sending Email"
     		   no-close-on-backdrop
@@ -62,7 +62,7 @@
 								Swal('Order status has been updated.', '', 'success')
 								.then((okay) => {
 									if (okay) {
-										window.location.reload();
+										this.$bus.$emit('refreshOrderDetails', true);
 									}
 								})
 							}

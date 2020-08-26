@@ -8,6 +8,6 @@ class Province extends Model
 {
     public function municipalities()
     {
-    	return $this->hasMany('App\Municipality');
+    	return $this->hasMany('App\Models\Municipality');
     }
 }

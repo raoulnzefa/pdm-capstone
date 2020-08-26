@@ -13,17 +13,17 @@ class Invoice extends Model
 
     public function returnRequest()
     {
-        return $this->hasOne('App\ReturnRequest');
+        return $this->hasOne('App\Models\ReturnRequest');
     }
 
     public function order()
     {
-        return $this->belongsTo('App\Order');
+        return $this->belongsTo('App\Models\Order');
     }
 
     public function invoiceProducts()
     {
-    	return $this->hasMany('App\InvoiceProduct');
+    	return $this->hasMany('App\Models\InvoiceProduct');
     }
 
     public function getCreatedAttribute($value)

@@ -8,11 +8,12 @@
 			no-close-on-esc
 			no-close-on-backdrop
 			hide-header-close
-			ok-title="Add product"
+			ok-title="Create"
 			:ok-disabled="isBtnClicked"
 			@ok="submitProductVariant"
 			@cancel="cancelProductWithVariant"
-			@shown="focusOnProdName">
+			@shown="focusOnProdName"
+			@hidden="cancelProductWithVariant">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
 					<ul class="mb-0">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
@@ -64,7 +65,7 @@
 			  	<div class="card mt-3" v-for="(v, index) in $v.forms.variants.$each.$iter" :key="index">
 			  		<div class="card-header clearfix">
 			  			Variant {{ parseInt(index) + 1 }}
-			  			<button class="btn btn-sm btn-danger float-right" @click="removeVariantForm(index)">Remove</button>
+			  			<button class="btn btn-sm btn-danger float-right" @click="removeVariantForm(index)"><i class="fa fa-times"></i> Remove</button>
 
 			  		</div>
 			  		<div class="card-body">
@@ -121,7 +122,7 @@
 					   			:class="{'is-invalid': v.inventory_crit_level.$error }"
 					   			placeholder="Enter a variant critical level">
 					   		<div v-if="v.inventory_crit_level.$error">
-									<span class="error-feedback" v-if="!v.inventory_crit_level.required">Please enter a variant stock</span>
+									<span class="error-feedback" v-if="!v.inventory_crit_level.required">Please enter a variant critical level</span>
 									<template v-if="v.inventory_crit_level.required">
 										<span class="error-feedback" v-if="!v.inventory_crit_level.numbersOnly">Please enter a valid value</span>
 									</template>	
@@ -139,7 +140,7 @@
 					  	</div>
 			  		</div>
 			  	</div>
-			  	<button class="btn btn-sm btn-primary mt-3 mb-3" @click="addVariantForm"><i class="fas fa-plus"></i> Variant</button>
+			  	<button class="btn btn-sm btn-primary mt-3 mb-3" @click="addVariantForm"><i class="fas fa-plus"></i> Variant form</button>
 			  	<div class="form-group row">
 					<label for="c_image" class="col-sm-3 col-form-label">Product image:</label>
 					<div class="col-sm-4">
@@ -229,6 +230,7 @@
 				// this.creteImage(files[0])
 				this.forms.image = files[0]
 				this.createImage(this.forms.image)
+				e.target.value = '';
 			},
 			createImage(file) {
 				let reader = new FileReader()
@@ -324,6 +326,7 @@
 				}];
 				this.server_errors = [];
 				this.categories = [];
+				this.avatar = '/images/default-thumbnail.jpg';
 				this.$nextTick(() => { this.$v.forms.$reset() });
 			},
 			focusOnProdName() {

@@ -1,7 +1,7 @@
 <template>
-	<div class="row justify-content-center mb-5">
-		<div class="col-md-8">
-			<div class="clearfix mb-2 mt-0">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="clearfix mb-4 mt-4">
 				<a :href="'/admin/order/'+invoice.order_id+'/details'" class="float-right"><i class="fa fa-chevron-left"></i>&nbsp;Back to Order Details</a>
 			</div>
 			<div class="card mb-0">

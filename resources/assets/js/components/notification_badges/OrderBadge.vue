@@ -1,5 +1,5 @@
 <template>
-<span class="badge badge-danger" v-if="order_not_view">{{order_not_view}}</span>
+<span class="badge badge-danger ml-auto" v-if="order_not_view">{{order_not_view}}</span>
 </template>
 <script>
 	export default {

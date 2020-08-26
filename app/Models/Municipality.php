@@ -8,6 +8,6 @@ class Municipality extends Model
 {
     public function barangays()
     {
-    	return $this->hasMany('App\Barangay');
+    	return $this->hasMany('App\Models\Barangay');
     }
 }

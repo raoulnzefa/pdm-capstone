@@ -6,13 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductWithVariant extends Model
 {
+	protected $primaryKey = 'inventory_number';
+	public $incrementing = false;
+	protected $keyType = 'string';
+
 	public function product()
 	{
-		return $this->belongsTo('App\Product');
+		return $this->belongsTo('App\Models\Product');
 	}
 
-	public function inventoryVariant()
+	public function inventory()
 	{
-		return $this->hasOne('App\InventoryVariant');
-	}	
+		return $this->belongsTo('App\Models\Inventory', 'inventory_number');
+	}
 }

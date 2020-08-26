@@ -8,12 +8,12 @@ class ReturnProductRequest extends Model
 {
     public function returnRequest()
     {
-    	return $this->belongsTo('App\ReturnRequest');
+    	return $this->belongsTo('App\Models\ReturnRequest');
     }
 
     public function orderProduct()
     {
-    	return $this->belongsTo('App\OrderProduct');
+    	return $this->belongsTo('App\Models\OrderProduct');
     }
 
     public function getAmountAttribute($value)

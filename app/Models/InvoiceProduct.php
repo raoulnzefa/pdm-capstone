@@ -8,7 +8,7 @@ class InvoiceProduct extends Model
 {
 	public function inventory()
 	{
-		return $this->belongsTo('App\Inventory');
+		return $this->belongsTo('App\Models\Inventory');
 	}
 
 	public function getPriceAttribute($value)
@@ -23,7 +23,7 @@ class InvoiceProduct extends Model
 
 	public function invoice()
 	{
-		return $this->belongsTo('App\Invoice');
+		return $this->belongsTo('App\Models\Invoice');
 	}
 
     public function getTotalAttribute($value)

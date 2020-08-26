@@ -15,7 +15,6 @@
           </b-form-select>
         </div>
         <div class="col-md-5">
-          
         </div>
         <div class="col-md-4">
           <template>
@@ -40,7 +39,6 @@
               <th>Date</th>
               <th>Status</th>
               <th>Customer</th>
-              <th>Payment method</th>
               <th>Payment status</th>
               <th>Qty</th>
               <th>Total</th>
@@ -50,7 +48,7 @@
           <tbody>
             <template v-if="loading">
               <tr>
-                <td colspan="11" align="center">
+                <td colspan="10" align="center">
                   <half-circle-spinner
                     :animation-duration="1000"
                     :size="30"
@@ -62,14 +60,14 @@
             <template v-else>
               <template v-if="!orders.length">
                   <tr>
-                    <td colspan="11" align="center">
+                    <td colspan="10" align="center">
                         No orders
                     </td>
                   </tr>
               </template>
               <template v-else>
                 <tr v-for="(order, index) in orders" :key="index">
-                  <td align="middle"><span v-if="order.viewed > 0"><i class="fa fa-eye" v-b-tooltip.hover title="Order already view"></i></span><span v-else><i class="fa fa-eye-slash" v-b-tooltip.hover title="Order not yet view"></i></span></td>
+                  <td align="middle"><span style="font-size: 20px;" :class="order.viewed > 0 ? 'text-secondary' : 'text-danger'"><i class="fa fa-exclamation-circle"></i></span></td>
                   <td>{{ order.number }}</td>
                   <td>{{ order.order_created }}</td>
                   <td>
@@ -81,11 +79,10 @@
                     <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Cancelled'">{{ order.order_status }}</span>
                   </td>
                   <td>{{ order.customer.first_name+' '+order.customer.last_name }}</td>
-                  <td>{{ order.order_payment_method }}</td>
-                  <td><span style="font-size: 14px;" class="badge badge-pill" :class="order.order_payment_status == 'Paid' ? 'badge-success' : 'badge-warning'">{{ order.order_payment_status }}</span></td>
+                  <td>{{ order.order_payment_status }}</td>
                   <td>{{ order.order_quantity }}</td>
                   <td>&#8369;{{ order.order_total }}</td>
-                  <td><a :href="'/admin/order/'+order.number+'/details'" class="btn btn-sm btn-primary">View</a></td>
+                  <td><a :href="'/admin/order/'+order.number+''" class="btn btn-sm btn-primary">View</a></td>
                 </tr>
               </template>
             </template>

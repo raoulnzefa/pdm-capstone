@@ -48,9 +48,10 @@ class CancellationController extends Controller
 
     public function index()
     {
+        $data = 'Cancellation Request';
     	$cancellation = CancelOrderRequest::paginate(6);
 
-    	return view('backend.cancellation.list', compact('cancellation'));
+    	return view('backend.cancellation.list', compact('cancellation','data'));
     }
 
     public function details(CancelOrderRequest $cancellation)

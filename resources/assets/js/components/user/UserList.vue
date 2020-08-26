@@ -6,7 +6,7 @@
             <button type="button" class="btn btn-primary" @click="showAddUserModal"><i class="fa fa-plus"></i> Add user</button>
         </div>
         <div>
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>

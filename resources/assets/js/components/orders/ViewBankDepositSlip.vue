@@ -40,7 +40,7 @@
 					this.bank_deposit_slip = `/storage/deposit_slip/${this.order.bank_deposit_slip.image}`;
 					this.$refs.depositSlipModal.show();
 				} else {
-					Swal('No bank deposit slip yet', '', 'error')
+					Swal('No uploaded bank deposit slip', '', 'error')
 				}
 			},
 			markAsPaid(e) {
@@ -56,7 +56,7 @@
 						Swal('Order status has been updated.', '', 'success')
 						.then((okay) => {
 							if (okay) {
-								window.location.reload();
+								this.$bus.$emit('refreshOrderDetails', true);
 							}
 						})
 					}

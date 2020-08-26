@@ -45,7 +45,7 @@
 					</div>
 					<div>
 						 <center>
-						 		<p class="mb-2 mt-4">New customer? <a href="/register">Create account</a></p>
+						 		<p class="mb-2 mt-4">New customer? <a :href="create_account">Create account</a></p>
 						 		<a href="/password/reset" class="d-block">Forgot your password?</a>
 						 </center>
 					</div>
@@ -59,7 +59,7 @@
 	import { required, minLength, maxLength, sameAs, email, helpers } from 'vuelidate/lib/validators';
 
 	export default {
-		props: ['old_email'],
+		props: ['old_email','create_account'],
 		data() {
 			return {
 				email: '',

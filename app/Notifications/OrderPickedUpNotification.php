@@ -43,7 +43,7 @@ class OrderPickedUpNotification extends Notification
     {
         return (new MailMessage)
                 ->subject('Order Picked Up')
-                ->markdown('mail.order.order_picked_up', ['order' => $this->order, 'url' => route('customer.order.details', ['order'=> $this->order->number])]);
+                ->markdown('mail.order.order_picked_up', ['order' => $this->order, 'url' => route('customer.view_order', ['order'=> $this->order->number])]);
     }
 
     /**

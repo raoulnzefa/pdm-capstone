@@ -46,7 +46,7 @@ class ProductReplacementNewOrderNotif extends Notification
                 ->subject('Replacement')
                 ->markdown('mail.order.replacement_new_order', [
                     'order' => $this->new_order,
-                    'url' => route('customer.order.details', ['order'=>$this->new_order->number])
+                    'url' => route('customer.view_order', ['order'=>$this->new_order->number])
                 ]);
     }
 

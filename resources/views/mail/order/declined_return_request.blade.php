@@ -20,7 +20,7 @@ Return Reason: {{$return_declined->reason->title}}
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($return_declined->subtotal,2) }}<br>
-Total Amount:&nbsp;&nbsp;&nbsp;&#8369;{{  number_format($return_declined->total,2) }}<br>
+Total:&nbsp;&nbsp;&nbsp;&#8369;{{  number_format($return_declined->total,2) }}<br>
 
 @component('mail::button', ['url' => $url])
 Return Details

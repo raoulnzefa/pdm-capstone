@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\Inventory;
-use App\Product;
-use App\Order;
-use App\OrderProduct;
+use App\Models\Inventory;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderProduct;
 
 
 trait InventoryManager
@@ -17,17 +17,14 @@ trait InventoryManager
     
      	foreach ($orderProducts as $product) {
 
-         $inventDeduct = Inventory::where('sku','=',$product->inventory_sku)->first();
-         $inventDeduct->quantity -= $product->quantity;
+         $inventDeduct = Inventory::where('number','=',$product->inventory_number)->first();
 
-         // check if product is 0 stock
-         if ($inventDeduct->quantity == 0)
+         if ($inventDeduct->inventory_stock > 0)
          {
+             $inventDeduct->inventory_stock -= $product->quantity;        
 
-            $inventDeduct->availability = 'Out of stock';
-         }
-
-         $inventDeduct->update();
+             $inventDeduct->update();
+        }
 
     	}
 	}
@@ -38,14 +35,8 @@ trait InventoryManager
     
         foreach ($orderProducts as $product) {
 
-            $inventRestock = Inventory::where('sku','=',$product->inventory_sku)->first();
-            $inventRestock->quantity += $product->quantity;
-
-            if ($inventRestock->quantity >= 1)
-            {
-
-                $inventRestock->availability = 'In stock';
-            }
+            $inventRestock = Inventory::where('number','=',$product->inventory_number)->first();
+            $inventRestock->inventory_stock += $product->quantity;
 
             $inventRestock->update();
 

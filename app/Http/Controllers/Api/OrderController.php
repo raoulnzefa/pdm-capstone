@@ -73,51 +73,6 @@ class OrderController extends Controller
       return response()->json($orders);
     }
 
-	public function forPickup()
-	{
-		$orders = Order::where('order_status', 'For pickup')
-			->with('customer')
-			->get();
-
-		return response()->json($orders);
-	}
-
-   public function pendingPayment()
-   {
-      $orders = Order::where('order_status', 'Pending payment')
-         ->with('customer')
-         ->get();
-
-      return response()->json($orders);
-   }
-
-   public function processing()
-   {
-      $orders = Order::where('order_status', 'Processing')
-         ->with('customer')
-         ->get();
-
-      return response()->json($orders);
-   }
-
-   public function delivered()
-   {
-      $orders = Order::where('order_status', 'Delivered')
-         ->with('customer')
-         ->get();
-
-      return response()->json($orders);
-   }
-
-   public function completed()
-   {
-      $orders = Order::where('order_status', 'Completed')
-         ->with('customer')
-         ->get();
-
-      return response()->json($orders);
-   }
-
    public function cancelOrderByCustomer(Request $request, Order $order)
    {
       date_default_timezone_set("Asia/Manila");
@@ -225,13 +180,10 @@ class OrderController extends Controller
         
          $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));
 
-         $order->order_status = 'Delivered';
+         $order->order_status = 'Shipped';
          $order->order_warranty = date($warranty_date.' 17:00:00');
+         $order->order_shipped = date('Y-m-d H:i:s');
          $order->update();
-
-         $delivery = Delivery::where('order_number', $order->number)->first();
-         $delivery->delivery_created = date('Y-m-d H:i:s');
-         $delivery->update();
 
          $customer = Customer::where('id',(int)$order->customer_id)->first();
 
@@ -240,7 +192,7 @@ class OrderController extends Controller
 
          $userlog_params = [
              'id' => $request->admin_id,
-             'action' => 'Mark as delivered. Order #: '.$order->number.'.'
+             'action' => 'Mark as shipped. Order #: '.$order->number.'.'
          ];
 
          $this->createUserLog($userlog_params);
@@ -259,19 +211,46 @@ class OrderController extends Controller
    {
       date_default_timezone_set("Asia/Manila");
 
-      $order->order_status = 'Completed';
-      $order->order_completed = date('Y-m-d H:i:s');
-      $order->order_remarks = 'Mark as completed by owner';
-      $order->update();
+      if ($orde->order_shipping_method == 'Store Pickup')
+      {
+        $order->order_status = 'Completed';
+        $order->order_completed = date('Y-m-d H:i:s');
+        $order->order_remarks = 'Mark as completed by owner';
+        $order->update();
 
-      $userlog_params = [
-          'id' => $request->admin_id,
-          'action' => 'Mark as completed. Order #: '.$order->number.'.'
-      ];
+        $userlog_params = [
+            'id' => $request->admin_id,
+            'action' => 'Mark as completed. Order #: '.$order->number.'.'
+        ];
 
-      $this->createUserLog($userlog_params);
+        $invoice_params = ['order'=> $order ];
 
-      return response()->json(['success'=> true]);
+        $this->createInvoice($invoice_params);
+
+        $this->createUserLog($userlog_params);
+
+        $response = ['success'=> true];
+        
+      }
+      else
+      {
+        $order->order_status = 'Completed';
+        $order->order_completed = date('Y-m-d H:i:s');
+        $order->order_remarks = 'Mark as completed by owner';
+        $order->update();
+
+        $userlog_params = [
+            'id' => $request->admin_id,
+            'action' => 'Mark as completed. Order #: '.$order->number.'.'
+        ];
+
+        $this->createUserLog($userlog_params);
+
+        $response = ['success'=> true];
+      }
+
+      return response()->json();
+     
    }
 
    public function customerReceiveOrder(Request $request, Order $order)
@@ -284,6 +263,15 @@ class OrderController extends Controller
       $order->update();
 
       return response()->json(['success'=> true]);
+   }
+
+   public function getOrder($orderNum)
+   {
+      $order = Order::where('number',$orderNum)
+            ->with('shipping','orderProducts.inventory.product')
+            ->first();
+
+      return response()->json($order);
    }
 
    public function orderNotview()

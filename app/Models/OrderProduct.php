@@ -8,12 +8,12 @@ class OrderProduct extends Model
 {
     public function cancelledProduct()
     {
-        return $this->hasOne('App\CancelledProduct');
+        return $this->hasOne('App\Models\CancelledProduct');
     }
 
     public function cancelProductRequest()
     {
-        return $this->hasOne('App\CancelProductRequest');
+        return $this->hasOne('App\Models\CancelProductRequest');
     }
     
 	public function getPriceAttribute($value)
@@ -29,5 +29,10 @@ class OrderProduct extends Model
     public function getTotalAmountAttribute($value)
     {
         return number_format($value, 2);
+    }
+
+    public function inventory()
+    {
+        return $this->belongsTo('App\Models\Inventory','inventory_number');
     }
 }

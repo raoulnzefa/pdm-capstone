@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\Invoice;
-use App\InvoiceProduct;
+use App\Models\Invoice;
+use App\Models\InvoiceProduct;
 
 
 trait InvoiceTraits
@@ -20,8 +20,8 @@ trait InvoiceTraits
                 $invoice->first_name = $array_params['order']['customer']['first_name'];
                 $invoice->last_name = $array_params['order']['customer']['last_name'];
                 $invoice->subtotal = str_replace(',', '', $array_params['order']['order_subtotal']);
-                $invoice->discount = str_replace(',', '', $array_params['order']['delivery']['delivery_discount_amount']);
-                $invoice->shipping_fee = str_replace(',', '', $array_params['order']['delivery']['delivery_fee']);
+                $invoice->discount = str_replace(',', '', $array_params['order']['order_shipping_discount']);
+                $invoice->shipping_fee = str_replace(',', '', $array_params['order']['order_shipping_fee']);
                 $invoice->total = str_replace(',', '', $array_params['order']['order_total']);
                 $invoice->payment_date = $array_params['order']['order_payment_date'];
                 $invoice->created = date("Y-m-d H:i:s");
@@ -37,13 +37,11 @@ trait InvoiceTraits
                 {
                     $invoiceProd = new InvoiceProduct;
                     $invoiceProd->invoice_number = $updateInvoice->number;
-                    $invoiceProd->inventory_sku = $item['inventory_sku'];
+                    $invoiceProd->inventory_number = $item['inventory_number'];
                     $invoiceProd->product_name = $item['product_name'];
                     $invoiceProd->price = str_replace(',', '', $item['price']);
                     $invoiceProd->quantity = $item['quantity'];
                     $invoiceProd->total = str_replace(',', '', $item['total']);
-                    $invoiceProd->invoicing_id = $item['ordering_id'];
-                    $invoiceProd->invoicing_type = $item['ordering_type'];
                     $invoiceProd->date_invoice = date('Y-m-d');
                     $invoiceProd->save();
                 }

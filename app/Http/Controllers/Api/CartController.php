@@ -13,20 +13,103 @@ use App\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
-    public function addProductNoVariant(Request $request)
+    public function addToCartVariant(Request $request)
     {
+        $request->validate([
+            'variant' => 'required',
+            'quantity' => 'required'
+        ]);
 
-    }
+        date_default_timezone_set("Asia/Manila");
 
-    public function addProductWithVariant(Request $request)
-    {
+        $exists = Cart::where([
+                'inventory_number' => $request->variant,
+                'customer_id' => $request->customer_id
+            ])->exists();
 
-    }
+        $response = [];
 
-    public function addCartPage(Request $request)
-    {
+        $variant = ProductWithVariant::where('inventory_number',$request->variant)->first();
+
+        if (!$exists)
+        {
+            $cart = new Cart();
+            $cart->customer_id = (int)$request->customer_id;
+            $cart->inventory_number = $request->variant;
+            $cart->product_name = $variant->product->product_name.' '.$variant->variant_value;
+            $cart->price = $variant->variant_price;
+            $cart->quantity = (int)$request->quantity;
+            $cart->in_stock = (int)$variant->inventory->inventory_stock;
+            $cart->total = ($cart->quantity * $cart->price);
+            $cart->save();
+            
+            $response = ['success' => true];            
+        }
+        else
+        {
+            $cart = Cart::where([
+                'inventory_number' => $request->variant,
+                'customer_id' => $request->customer_id
+            ])->first();
+
+            $cart->quantity += (int)$request->quantity;
+            $cart->total = ($cart->quantity * $cart->price);
+            $cart->update();
+
+            $response = ['success' => true];    
+        }
+
         
+        return response()->json($response);
+    }
 
+    public function addToCartNoVariant(Request $request)
+    {
+        $request->validate([
+            'product' => 'required',
+            'quantity' => 'required'
+        ]);
+
+        date_default_timezone_set("Asia/Manila");
+
+        $exists = Cart::where([
+                'inventory_number' => $request->product,
+                'customer_id' => $request->customer_id
+            ])->exists();
+
+        $response = [];
+
+        $no_variant = ProductNoVariant::where('inventory_number', $request->product)->first();
+
+        if (!$exists)
+        {
+            $cart = new Cart();
+            $cart->customer_id = (int)$request->customer_id;
+            $cart->inventory_number = $request->product;
+            $cart->product_name = $no_variant->product->product_name;
+            $cart->price = (float)$no_variant->price;
+            $cart->quantity = (int)$request->quantity;
+            $cart->in_stock = (int)$no_variant->inventory->inventory_stock;
+            $cart->total = ($cart->quantity * $cart->price);
+            $cart->save();
+            
+            $response = ['success' => true];        
+        }
+        else
+        {
+            $cart = Cart::where([
+                'inventory_number' => $request->product,
+                'customer_id' => $request->customer_id
+            ])->first();
+
+            $cart->quantity += (int)$request->quantity;
+            $cart->total = ($cart->quantity * $cart->price);
+            $cart->update();
+
+            $response = ['success' => true];    
+        }
+
+        return response()->json($response);
     }
 
     public function cartQuantity($customer)
@@ -51,7 +134,7 @@ class CartController extends Controller
 
         if ($has_product)
         {
-            $cart_details = Cart::where('customer_id', $customer)->with('carting.inventory','product')->get();         
+            $cart_details = Cart::where('customer_id', $customer)->with('inventory.product','inventory.productWithVariant')->get();         
             $response = $cart_details;
         }
         else
@@ -67,11 +150,9 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required'
         ]);
-        $product = Product::where('sku', $cart->product_sku)->first();
-        //$product_price = str_replace(',', '', $product->price);
-
-        $cart->quantity = $request->quantity;
-        $cart->total = $request->quantity * str_replace(',', '', $cart->price);
+        
+        $cart->quantity = (int)$request->quantity;
+        $cart->total = (int)$request->quantity * (float)$cart->price;
         $cart->update();
 
         return response()->json(array('success'=>true));

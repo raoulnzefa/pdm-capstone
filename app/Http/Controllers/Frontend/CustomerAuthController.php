@@ -47,7 +47,7 @@ class CustomerAuthController extends Controller
             // $cust_email = Customer::where('email',Auth::guard('customer')->user()->email)->first()->email;
             
             //return redirect()->intended(route('customer.my-account'));    
-            return redirect()->route('customer.my-account');
+            return redirect()->route('customer.orders');
 
     	}
 

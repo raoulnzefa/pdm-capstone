@@ -17,6 +17,8 @@ class CreateShippingRatesTable extends Migration
             $table->increments('id');
             $table->decimal('manila_rate',9,2);
             $table->decimal('province_rate',9,2);
+            $table->integer('discount_percentage');
+            $table->integer('order_quantity');
             $table->timestamps();
         });
     }

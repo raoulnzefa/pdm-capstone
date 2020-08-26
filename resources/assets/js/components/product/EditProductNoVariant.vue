@@ -9,7 +9,7 @@
 			no-close-on-esc
 			no-close-on-backdrop
 			hide-header-close
-			ok-title="Update product"
+			ok-title="Update"
 			@ok="submitProductCatalog"
 			@cancel="cancelProductCatalog"
 			@shown="focusOnProdName"
@@ -21,9 +21,9 @@
 					</ul>
 				</div>
 				<div class="form-group row">
-			   	<label for="catalogEditNoVariant1" class="col-sm-3 col-form-label">Product name:</label>
+			   	<label class="col-sm-3 col-form-label">Product name:</label>
 			   	<div class="col-sm-9">
-			   		<input type="text" class="form-control" id="catalogEditNoVariant1" 
+			   		<input type="text" class="form-control" 
 			   			placeholder="Enter product name"
 			   			tabindex="1"
 			   			v-model.trim="$v.product_name.$model"
@@ -35,9 +35,9 @@
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-			   	<label for="catalogEditNoVariant2" class="col-sm-3 col-form-label">Category:</label>
+			   	<label class="col-sm-3 col-form-label">Category:</label>
 			   	<div class="col-sm-9">
-			   		<select class="form-control" id="catalogEditNoVariant2"
+			   		<select class="form-control"
 			   			tabindex="2"
 			   			v-model.trim="$v.category.$model"
 			   			:class="{'is-invalid': $v.category.$error }">
@@ -50,9 +50,9 @@
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-			   	<label for="catalogEditNoVariant3" class="col-sm-3 col-form-label">Description:</label>
+			   	<label class="col-sm-3 col-form-label">Description:</label>
 			   	<div class="col-sm-9">
-			   		<textarea class="form-control" id="catalogEditNoVariant3" rows="4"
+			   		<textarea class="form-control" rows="4"
 			   			placeholder="Enter description"
 			   			tabindex="3"
 			   			v-model.trim="$v.description.$model"
@@ -64,9 +64,9 @@
 			   	</div>
 			  	</div>
 			  	 <div class="form-group row">
-			   	<label for="catalogEditNoVariant4" class="col-sm-3 col-form-label">Price:</label>
+			   	<label class="col-sm-3 col-form-label">Price:</label>
 			   	<div class="col-sm-9">
-			   		<input type="text" class="form-control" id="catalogEditNoVariant4" 
+			   		<input type="text" class="form-control" 
 			   			placeholder="Enter product price"
 			   			tabindex="4"
 			   			v-model.trim="$v.price.$model"
@@ -83,18 +83,18 @@
 			   	</div>
 			  	</div>
 			   <div class="form-group row">
-			   	<label for="catalogEditNoVariant5" class="col-sm-3 col-form-label">Status:</label>
+			   	<label class="col-sm-3 col-form-label">Status:</label>
 			   	<div class="col-sm-9">
-			   	<select class="form-control" id="catalogEditNoVariant5" tabindex="5" v-model="status">
+			   	<select class="form-control" tabindex="5" v-model="status">
 			   			<option value="1">Enable</option>
 			   			<option value="0">Disable</option>
 			   		</select>
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-					<label for="catalogEditNoVariant6" class="col-sm-3 col-form-label">Product image:</label>
+					<label class="col-sm-3 col-form-label">Product image:</label>
 					<div class="col-sm-4">
-						<input type="file" name="product_image" id="catalogEditNoVariant6" ref="image" @change="onProductImageChange" hidden tabindex="6">
+						<input type="file" name="product_image" ref="image" @change="onProductImageChange" hidden tabindex="6">
 						<a href="javascript:void(0)" @click="openDialog">
 							<img :src="avatar" class="img-fluid img-thumbnail">
 						</a>
@@ -212,7 +212,7 @@
 					axios.post('/api/product/catalog/no-variants/'+this.prodNumber, form)
 					.then(response => {
 						if (response.data.success) {
-							Swal('Product has been updated.', '', 'success')
+							Swal('Product has been updated', '', 'success')
 							.then((okay) => {
 								if (okay) {
 									this.$refs.refsCatalogNoVariantModal.hide();

@@ -45,7 +45,7 @@ class ProductController extends Controller
         $product->product_name = ucwords(strtolower($request->product_name));
         $product->product_description = $request->product_description;
         $product->product_status = (int)$request->product_status;  
-        
+        $product->product_has_variant = 0;
         // check if has image file
         if ($request->hasFile('product_image'))
         {   
@@ -67,13 +67,6 @@ class ProductController extends Controller
         $prodNum->number = str_pad($prodNum->id, 4, '0', STR_PAD_LEFT);
         $prodNum->update();
 
-        
-        // save product no variants
-        $productNoVariant = new ProductNoVariant();
-        $productNoVariant->product_number = $prodNum->number;
-        $productNoVariant->price = (float)$request->product_price;
-        $productNoVariant->save();
-
         // save inventory
         $inventory = new Inventory();
         $inventory->number = str_random(5);
@@ -85,6 +78,13 @@ class ProductController extends Controller
         $inventoryUpdate = Inventory::where('number', $inventory->number)->first();
         $inventoryUpdate->number = str_pad($inventoryUpdate->id, 5, '0', STR_PAD_LEFT);
         $inventoryUpdate->update();
+
+        // save product no variants
+        $productNoVariant = new ProductNoVariant();
+        $productNoVariant->inventory_number = $inventoryUpdate->number;
+        $productNoVariant->product_number = $prodNum->number;
+        $productNoVariant->price = (float)$request->product_price;
+        $productNoVariant->save();
 
         $array_params = [
             'id' => $request->admin_id,
@@ -178,7 +178,8 @@ class ProductController extends Controller
         $product->product_name = ucwords(strtolower($request->product_name));
         $product->product_description = $request->product_description;
         $product->product_status = (int)$request->product_status;  
-        
+        $product->product_has_variant = 1;
+
         // check if has image file
         if ($request->hasFile('product_image'))
         {   
@@ -217,16 +218,12 @@ class ProductController extends Controller
             $inventoryUpdate->update();
 
             $productVariant = new ProductWithVariant();
+            $productVariant->inventory_number = $inventoryUpdate->number;
             $productVariant->product_number = $prodNum->number;
             $productVariant->variant_value = $variant->variant_value;
             $productVariant->variant_price = (float)$variant->variant_price;
             $productVariant->variant_status = (int)$variant->variant_status;
             $productVariant->save();
-
-            $inventoryVariant = new InventoryVariant();
-            $inventoryVariant->inventory_number = $inventoryUpdate->number;
-            $inventoryVariant->variant_id = (int)$productVariant->id;
-            $inventoryVariant->save();
 
         }
 

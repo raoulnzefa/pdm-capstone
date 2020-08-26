@@ -12,37 +12,37 @@ class Order extends Model
 
     public function bankDepositSlip()
     {
-        return $this->hasOne('App\BankDepositSlip');
+        return $this->hasOne('App\Models\BankDepositSlip');
     }
 
     public function bankDepositPayment()
     {
-        return $this->hasOne('App\BankDepositPayment');
+        return $this->hasOne('App\Models\BankDepositPayment');
     }
 
     public function returnRequest()
     {
-        return $this->hasOne('App\ReturnRequest');
+        return $this->hasOne('App\Models\ReturnRequest');
     }
 
     public function cancelOrderRequest()
     {
-        return $this->hasOne('App\CancelOrderRequest');
+        return $this->hasOne('App\Models\CancelOrderRequest');
     }
 
     public function invoice()
     {
-        return $this->hasOne('App\Invoice');
+        return $this->hasOne('App\Models\Invoice');
     }
 
     public function orderProducts()
     {
-    	return $this->hasMany('App\OrderProduct');
+    	return $this->hasMany('App\Models\OrderProduct');
     }
 
     public function customer()
     {
-    	return $this->belongsTo('App\Customer');
+    	return $this->belongsTo('App\Models\Customer');
     }
 
     public function getOrderSubtotalAttribute($value)
@@ -81,7 +81,12 @@ class Order extends Model
 
     public function storePickup()
     {
-        return $this->hasOne('App\StorePickup');
+        return $this->hasOne('App\Models\StorePickup');
+    }
+
+    public function shipping()
+    {
+        return $this->hasOne('App\Models\ShippingAddress');
     }
 
 }

@@ -23,7 +23,7 @@
 		<div class="col-md-9">
 			<div class="clearfix">
 				<h2 class="float-left">Cancel Order</h2>
-				<a href="{{route('customer.order.details',['order'=>$order->number])}}" class="btn btn-primary float-right">Back to Order details</a>
+				<a href="{{route('customer.view_order',['order'=>$order->number])}}" class="btn btn-primary float-right">Back to Order details</a>
 			</div>
 			<div class="card">
 				<div class="card-body">

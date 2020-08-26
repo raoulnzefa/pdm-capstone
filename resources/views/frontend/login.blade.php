@@ -1,15 +1,5 @@
 @extends('frontend.frontend_template')
 
-@section('store_header')
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="partial-header">
-	<div class="container-fluid">
-	 	<div class="navbar-brand">
-      	<img src="{{ asset('images/logo.jpg') }}" width="125" height="60" alt="INFINITY FIGHTGEAR LOGO">
-     	</div>
-		<a href="{{$prev_url}}" class="nav-link text-light cool-link mr-sm-2"><i class="fa fa-chevron-left"></i> BACK</a>
-</nav>
-@endsection
-
 @section('content')
 <div class="container">
 		<div class="row">
@@ -41,6 +31,6 @@
 		</div>
 		@endif
 		
-		<customer-login :old_email="{{ json_encode(old('email')) }}"></customer-login>	
+		<customer-login :old_email="{{ json_encode(old('email')) }}" create_account="{{ url(route('customer_registration')) }}"></customer-login>	
 </div>
 @endsection

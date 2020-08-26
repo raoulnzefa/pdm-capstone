@@ -3,7 +3,7 @@
 
 Your order has been picked up. Order Number {{ $order->number }}.
 
-This email is to confirm that the products below were picked up on {{ $order->date_completed }} at Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan.
+This email is to confirm that the products below were picked up on {{ $order->order_completed }} at Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan.
 
 @component('mail::table')
 
@@ -15,9 +15,8 @@ This email is to confirm that the products below were picked up on {{ $order->da
 
 @endcomponent
 
-Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->subtotal }}<br>
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->shipping_cost }}<br>
-Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->total }}<br>
+Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 @component('mail::button', ['url' => $url])
 Order Details

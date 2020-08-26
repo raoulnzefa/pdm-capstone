@@ -24,17 +24,19 @@
 			<h2>Order Details</h2>
 			<div class="card">
 				<div class="card-body">
-					@if ($order->order_delivery_method == 'Delivery')
-						@if ($order->order_status == "Pending payment" && $order->order_payment_method == 'Bank Deposit')
-						<div class="clearfix">
-							<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
-							@if (!$order->cancelOrderRequest)
-								<a href="/order/{{$order->number}}/cancellation" class="btn btn-danger float-right">Cancel Order</a>
-								@if (!$order->bankDepositSlip)
-									<a href="/order/{{$order->number}}/upload-deposit-slip" class="btn btn-dark float-right mr-1">Upload Deposit Slip</a>
+					@if ($order->order_shipping_method == 'Shipping')
+						@if ($order->order_status == "Pending payment")
+							@if ($order->order_payment_method == 'Bank Deposit')
+							<div class="clearfix">
+								<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
+								@if (!$order->cancelOrderRequest)
+									<cancel-order-by-customer :order="{{ $order }}"></cancel-order-by-customer>
+									@if (!$order->bankDepositSlip)
+										<a href="/order/{{$order->number}}/upload-deposit-slip" class="btn btn-dark float-right mr-1">Upload Deposit Slip</a>
+									@endif
 								@endif
+							</div>
 							@endif
-						</div>
 						@elseif ($order->order_status == "Processing")
 						<div class="clearfix">
 							<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
@@ -42,7 +44,7 @@
 								<a href="/order/{{$order->number}}/cancellation" class="btn btn-danger float-right">Cancel Order</a>
 							@endif
 						</div>
-						@elseif ($order->order_status == "Delivered")
+						@elseif ($order->order_status == "Shipped")
 						<div class="clearfix">
 							<h4 class="pt-2 float-left">Order #{{ $order->number }}</h4>
 							<customer-receive-order :order="{{$order}}"></customer-receive-order>
@@ -75,7 +77,7 @@
 						<div class="col-md-6">
 							<table class="table order-table">
 								<tr>
-									<td width="40%">Placed on:</td>
+									<td width="50%">Placed on:</td>
 									<td>{{ $order->order_created }}</td>
 								</tr>
 								<tr>
@@ -83,8 +85,8 @@
 									<td>&#8369;{{ $order->order_total }}</td>
 								</tr>
 								<tr>
-									<td>Delivery Method:</td>
-									<td>{{ $order->order_delivery_method }}</td>
+									<td>Shipping Method:</td>
+									<td>{{ $order->order_shipping_method }}</td>
 								</tr>
 								<tr>
 									<td>Payment Method:</td>
@@ -101,25 +103,25 @@
 							</table>
 						</div>
 						<div class="col-md-6">
-							@if ($order->order_delivery_method == "Delivery")
+							@if ($order->order_shipping_method == "Shipping")
 							<table class="table order-table">
 								<tr>
-									<th class="text-right">Delivery Address</th>
+									<th class="text-right">Shipping Address</th>
 								</tr>
 								<tr>
-									<td align="right">{{ $order->delivery->delivery_firstname.' 
-									 '.$order->delivery->delivery_lastname }}</td>
-								</tr>
-								<tr>
-									
-									<td align="right">{{ $order->delivery->delivery_street }}</td>
+									<td align="right">{{ $order->shipping->shipping_firstname.' 
+									 '.$order->shipping->shipping_lastname }}</td>
 								</tr>
 								<tr>
 									
-									<td align="right">{{ $order->delivery->delivery_barangay.', '.$order->delivery->delivery_municipality.', '.$order->delivery->delivery_province.', '.$order->delivery->delivery_zip_code }}</td>
+									<td align="right">{{ $order->shipping->shipping_street }}</td>
 								</tr>
 								<tr>
-									<td align="right">{{ $order->delivery->delivery_mobile_no }}</td>
+									
+									<td align="right">{{ $order->shipping->shipping_barangay.', '.$order->shipping->shipping_municipality.', '.$order->shipping->shipping_province.', '.$order->shipping->shipping_zip_code }}</td>
+								</tr>
+								<tr>
+									<td align="right">{{ $order->shipping->shipping_mobile_no }}</td>
 								</tr>
 							</table>
 							@endif
@@ -140,7 +142,7 @@
 								@foreach ($order->orderProducts as $orderProd)
 								<tr>
 									<td>
-										<img src="/storage/products/{{$orderProd->inventory->product->image}}" class="img-fluid" width="20%" height="13%">
+										<img src="/storage/products/{{$orderProd->inventory->product->product_image}}" class="img-fluid" width="20%" height="13%">
 										<span class="align-middle">{{ $orderProd->product_name }}</span>
 									</td>
 									<td class="align-middle">&#8369;{{ $orderProd->price }}</td>
@@ -155,10 +157,10 @@
 								<th class="text-right">Subtotal:</th>
 								<td width="30%" class="text-right">&#8369;{{ $order->order_subtotal }}</td>
 							</tr>
-							@if ($order->order_delivery_method == 'Delivery')
+							@if ($order->order_shipping_method == 'Shipping')
 							<tr>
-								<th class="text-right">Delivery fee:</th>
-								<td class="text-right">&#8369;{{ $order->delivery->delivery_fee }}</td>
+								<th class="text-right">Shipping fee:</th>
+								<td class="text-right">&#8369;{{ number_format($order->order_shipping_fee,2) }}</td>
 							</tr>
 							@endif
 							<tr>

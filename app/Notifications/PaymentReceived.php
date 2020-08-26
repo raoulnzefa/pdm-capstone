@@ -44,7 +44,7 @@ class PaymentReceived extends Notification
     public function toMail($notifiable)
     {
 
-        return (new MailMessage)->markdown('mail.order.received_payment', ['url' => route('customer.order.details', ['order' => $this->order->number]), 'order' => $this->order, 'date' => $this->date]);
+        return (new MailMessage)->markdown('mail.order.received_payment', ['url' => route('customer.view_order', ['order' => $this->order->number]), 'order' => $this->order, 'date' => $this->date]);
     }
 
     /**

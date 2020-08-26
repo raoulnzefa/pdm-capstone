@@ -17,8 +17,10 @@ class CreateCartsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('customer_id');
             $table->string('inventory_number');
+            $table->string('product_name');
             $table->decimal('price',10,2);
             $table->integer('quantity');
+            $table->integer('in_stock');
             $table->decimal('total',10,2);
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers');

@@ -15,7 +15,7 @@
 		<div class="col-12">
 			<center>
 				<h3 style="font-weight: bolder; font-size: 40px; margin-top: 100px;" class="mb-2"><i class="fa fa-check-circle text-success"></i>&nbsp;Bank deposit slip has been uploaded.</h3>
-				<a href="{{ route('customer.my-account') }}" class="mt-4 btn btn-success">Go to My account</a>
+				<a href="{{ route('customer.view_order',['order'=> $order_number]) }}" class="mt-4 btn btn-success">Back to Order details</a>
 			</center>
 		</div>
 	</div>		

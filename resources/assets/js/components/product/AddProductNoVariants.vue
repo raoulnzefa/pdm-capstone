@@ -8,7 +8,7 @@
 			no-close-on-esc
 			no-close-on-backdrop
 			hide-header-close
-			ok-title="Add product"
+			ok-title="Create"
 			@ok="submitProduct"
 			@cancel="cancelProduct"
 			@shown="focusOnProdName"
@@ -187,9 +187,10 @@
 				let files = e.target.files || e.dataTransfer.files
 				if (!files.length)
 					return;
-				// this.creteImage(files[0])
+				
 				this.image = files[0]
 				this.createImage(this.image)
+				e.target.value = '';
 			},
 			createImage(file) {
 				let reader = new FileReader()

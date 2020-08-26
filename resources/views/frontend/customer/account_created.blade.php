@@ -16,8 +16,8 @@
 				<br>
 				<div class="mt-5">
 					<center>
-						<h2 class="ifg-header mb-4"><i class="fa fa-check-circle text-success"></i>&nbsp;Your account has been created</h2>
-						<h4 class="mb-4">Thank you for creating your account. A verification email has been emailed to {{ session()->get('email_created') }}.</h4>
+						<h2 style="font-weight: bolder; font-size: 40px;" class="mb-4"><i class="fa fa-check-circle text-success"></i>&nbsp;Your account has been created</h2>
+						<h4 class="mb-4">Thank you for creating your account. A verification email has been sent to {{ session()->get('email_created') }}.</h4>
 						<a href="/" class="btn btn-success btn-lg">Back to Home page</a>
 					</center>
 				</div>

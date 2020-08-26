@@ -33,8 +33,8 @@ Once your payment has been received we will start processing your order.
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
-@if ($order->order_delivery_method == 'Delivery')
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->delivery->delivery_fee }}<br>
+@if ($order->order_shipping_method == 'Shipping')
+Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
 @endif
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
@@ -42,13 +42,13 @@ Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 Order Details
 @endcomponent
 
-@if ($order->order_delivery_method == 'Delivery')
-Delivery information:
+@if ($order->order_shipping_method == 'Shipping')
+Shipping information:
 
-{{ $order->delivery->delivery_firstname.' '.$order->delivery->delivery_lastname }}<br>
-{{ $order->delivery->delivery_street.', '.$order->delivery->delivery_barangay }}<br>
-{{ $order->delivery->delivery_municipality.', '.$order->delivery->delivery_province.', '.$order->delivery->delivery_zip_code }}<br>
-{{ $order->delivery->delivery_mobile_no }}
+{{ $order->shipping->shipping_firstname.' '.$order->shipping->shipping_lastname }}<br>
+{{ $order->shipping->shipping_street.', '.$order->shipping->shipping_barangay }}<br>
+{{ $order->shipping->shipping_municipality.', '.$order->shipping->shipping_province.', '.$order->shipping->shipping_zip_code }}<br>
+{{ $order->shipping->shipping_mobile_no }}
 @endif
 
 Thanks,<br>

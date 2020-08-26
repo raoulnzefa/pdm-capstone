@@ -12,11 +12,27 @@ body {
 	overflow: -moz-scrollbars-vertical;
 	overflow-x: hidden;
 	overflow-y: auto;
-	font-family: myFrontEndFont, "Helvetica", "Arial", sans-serif;
+	font-family: myBtnFont,"Helvetica", "Arial", sans-serif !important; 
 }
 
-button {
-	font-family: myBtnFont !important;
+#nav-search {
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.prod-name-link {
+	font-size: 16px;
+}
+
+.cart-prod-price {
+	font-size: 15px;
+}
+
+.img-responsive {
+    height: auto;
+    width: auto;
+    max-height: 75px;
+    max-width: 250px;
 }
 
 .btn-visible-pass {
@@ -113,8 +129,8 @@ button {
 }
 
 .ifg-header {
-	font-weight: 700 !important;
-	font-size: 30px !important;
+	font-weight: 500 !important;
+	font-size: 25px !important;
 	/*font-family: 'sans-serif';*/
 	text-transform: uppercase;
 }

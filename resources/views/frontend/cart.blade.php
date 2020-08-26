@@ -13,7 +13,7 @@
 			</div>	
 		</div><!-- row 1 -->
 		@auth('customer')
-		<cart :customer="{{ Auth::guard('customer')->user() }}"></cart>
+			<cart :customer="{{ Auth::guard('customer')->user() }}"></cart>
 		@else
 		<div class="row">
 			<div class="col-md-12">

@@ -44,7 +44,7 @@ class PickupEmail extends Notification
     {
         return (new MailMessage)
                     ->subject('Order Confirmation')
-                    ->markdown('mail.order.pickup', ['order' => $this->order, 'url'=> route('customer.order.details', ['order'=>$this->order->number]), 'due_date'=>$this->due_date]);
+                    ->markdown('mail.order.pickup', ['order' => $this->order, 'url'=> route('customer.view_order', ['order'=>$this->order->number]), 'due_date'=>$this->due_date]);
     }
 
     /**
