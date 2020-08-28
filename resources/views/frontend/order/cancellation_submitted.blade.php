@@ -15,7 +15,7 @@
 		<div class="col-12">
 			<center>
 				<h3 style="font-weight: bolder; font-size: 40px; margin-top: 100px;" class="mb-2"><i class="fa fa-check-circle text-success"></i>&nbsp;Your cancellation request has been submitted.</h3>
-				<a href="{{ route('customer.my-account') }}" class="mt-4 btn btn-success">Go to My account</a>
+				<a href="{{ route('customer.orders') }}" class="mt-4 btn btn-success">Go to My account</a>
 			</center>
 		</div>
 	</div>		

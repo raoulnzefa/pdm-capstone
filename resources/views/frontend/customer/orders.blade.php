@@ -10,8 +10,7 @@
 		<div class="col-12">
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
-			    <li class="breadcrumb-item"><a href="{{ route('frontend_homepage') }}">Home</a></li>
-			    <li class="breadcrumb-item active" aria-current="page">Orders</li>
+			    <li class="breadcrumb-item active" aria-current="page">My Orders</li>
 			  </ol>
 			</nav>
 		</div>
@@ -22,11 +21,11 @@
 		</div>
 		<div class="col-md-9">
 			<div class="mb-5">
-				<h2 class="mb-4">Orders</h2>
+				<h3 class="mb-4">Orders</h3>
 				<table class="table table-condensed table-bordered table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Order #</th>
+							<th>Order No.</th>
 							<th>Date Order</th>
 							<th>Status</th>
 							<th>Total</th>

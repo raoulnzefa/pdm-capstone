@@ -86,7 +86,7 @@
                 </div>
                 <input type="hidden" name="_token" :value="csrf">
                 <div>
-                    <button type="submit" class="mt-4 mb-4 btn ifg-btn btn-dark btn-block" :disabled="submit"><span v-if="submit"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Create Account</button>
+                    <button type="submit" class="mt-4 mb-4 btn ifg-btn btn-dark btn-block" :disabled="submit"><span v-if="submit"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Submit</button>
                 </div>
                 <div>
                     <center>

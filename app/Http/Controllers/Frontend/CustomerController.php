@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Reason;
-use App\Models\CancelOrderRequest;
-use App\Models\ReturnRequest;
+use App\Models\ReplacementRequest;
 use App\Models\Order;
 use App\Models\Invoice;
 use App\Models\OrderProduct;
@@ -23,11 +22,6 @@ class CustomerController extends Controller
     	$this->middleware('auth:customer');
     }
 
-    public function index()
-    {
-        return view('frontend.customer.my_account')->with('data', 'My Account');
-    }
-
     public function orderSubmitted()
     {
     	return view('frontend.customer.order_submitted');
@@ -42,8 +36,7 @@ class CustomerController extends Controller
                             'orderProducts.inventory.product',
                             'customer',
                             'invoice.invoiceProducts',
-                            'cancelOrderRequest',
-                            'returnRequest',
+                            'replacementRequest',
                             'bankDepositSlip',
                             'storePickup'
                         )->first();
@@ -82,57 +75,10 @@ class CustomerController extends Controller
     {
         return view('frontend.customer.change_pass')->with('data','Change Password');
     }
+    
     public function viewInvoice(Order $order)
     {
         return view('frontend.customer.invoice_page')->with(['order'=>$order]);
     }
-
-    public function returnRequest($order)
-    {
-        $order_data = Order::where('number', $order)->with('orderProducts.inventory.product')->first();
-
-        if ($order_data->returnRequest)
-        {
-            $previous_url = url()->previous();
-
-            return redirect(url($previous_url));
-        }
-
-        $reasons = Reason::where('type','Return')->get();
-
-        $invoice = Invoice::where('order_number','=', $order)
-                    ->where(function($query) {
-                        $query->where('status','!=','Void');
-                    })->first();
-
-        $data = 'Return Request';
-
-        $actions = ['Replacement (Same product)'];
-
-        return view('frontend.order.request_return_form', compact('order_data', 'invoice','data', 'reasons', 'actions'));
-    }
-
-    public function returnRequestsList()
-    {
-        $cust_id = Auth::guard('customer')->user()->id;
-        $return_request_list = ReturnRequest::where('customer_id',$cust_id)->get();
-
-        return view('frontend.customer.return_request_list')->with(['return_requests'=>$return_request_list, 'data'=>'Returns']);
-    }
-
-    public function cancellationList()
-    {
-        $cust_id = Auth::guard('customer')->user()->id;
-        $cancellation_list = CancelOrderRequest::where('customer_id', $cust_id)->get();
-
-        return view('frontend.customer.cancellation_list')->with(['cancellation_list'=>$cancellation_list, 'data'=>'Cancellation']);
-    }
-
-    public function cancelledOrders()
-    {
-        return view('frontend.customer.cancelled_orders');
-    }
-
-    
 
 }

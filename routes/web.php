@@ -46,6 +46,7 @@ Route::get('/admin/product/{product}/edit', 'Backend\ProductController@edit');
 Route::get('/admin/product/add-stock/{product}', 'Backend\ProductController@addStock');
 
 Route::get('/admin/inventory', 'Backend\InventoryController@index')->name('inventory');
+
 Route::get('/admin/orders', 'Backend\OrderController@index')->name('orders');
 
 
@@ -64,7 +65,7 @@ Route::post('/order/cancel', 'Backend\OrderController@cancelOrder');
 
 Route::get('admin/sales', 'Backend\SalesController@index');
 
-Route::get('admin/reason', 'Backend\ReasonController@index')->name('reason');
+//Route::get('admin/reason', 'Backend\ReasonController@index')->name('reason');
 
 Route::get('admin/user-logs', 'Backend\UserLogsController@index');
 
@@ -105,7 +106,7 @@ Route::get('/about-us', 'Frontend\PageController@aboutUs');
 // 	return view('frontend.contact_us');
 // });
 
-Route::get('/my-account', 'Frontend\CustomerController@index')->name('customer.my-account');
+
 // Route::get('/my-account/order-status', 'Frontend\OrderStatusController@index')->name('customer.order_status');
 // Route::get('/my-account/completed-orders', 'Frontend\CompletedOrderController@index')->name('customer.completed');
 Route::get('/my-account/orders', 'Frontend\OrdersController@index')->name('customer.orders');
@@ -141,28 +142,14 @@ Route::get('/account/created', 'Frontend\CustomerAuthController@accountCreated')
 
 Route::get('/my-account/change-password', 'Frontend\CustomerController@changePass')->name('customer.change_pass');
 
-Route::get('/my-account/order/number/upload-bank-deposit-slip', 'Frontend\BankDepositSlipController@upload')->name('upload_bank_deposit_slip');
-
 Route::get('/order/received', 'Frontend\CheckoutController@orderReceived')->name('order.received');
-
-Route::get('order/{order}/cancellation', 'Frontend\CancellationController@cancelRequest');
-
-Route::get('order/{order}/request-return', 'Frontend\CustomerController@returnRequest');
 
 Route::post('return-request', 'Frontend\ReturnController@store')->name('submit_request');
 
 Route::get('return-request/submitted/{order}', 'Frontend\ReturnController@submitted')->name('return.request.submitted');
 
-Route::get('cancellation-request/submitted', 'Frontend\CancellationController@submitted')->name('cancel.request.submitted');
-
-Route::get('cancellation-request/{cancelRequest}/details', 'Frontend\CancellationController@details')->name('cancel_request_details');
-
-Route::post('cancellation', 'Frontend\CancellationController@store')->name('submit_cancel_request');
-
 Route::get('admin/cancellation-requests', 'Backend\CancellationController@index')->name('cancellation_requests');
-Route::get('admin/return-requests', 'Backend\ReturnRequestController@index')->name('return_requests');
-
-Route::get('my-account/cancellation-requests', 'Frontend\CustomerController@cancellationList')->name('customer.cancellation');
+Route::get('admin/replacements', 'Backend\ReplacementRequestController@index')->name('replacements');
 
 Route::get('admin/order/cancellation/{cancellation}/details', 'Backend\CancellationController@details')->name('cancellation_details');
 
@@ -170,7 +157,6 @@ Route::get('admin/cancellation-request/{cancellation}/decline', 'Backend\Cancell
 
 Route::put('admin/cancellation-request/approve', 'Backend\CancellationController@approveRequest')->name('approve_cancellation');
 
-Route::get('my-account/cancelled-orders', 'Frontend\CustomerController@cancelledOrders')->name('customer.cancelled_orders');
 
 Route::get('admin/order/return/{returnRequest}/details', 'Backend\ReturnRequestController@details')->name('return_request_details');;
 
@@ -240,10 +226,11 @@ Route::get('my-account/address/edit/{address}', 'Frontend\AddressController@edit
 
 
 // orders
-Route::get('/admin/orders/for-pickup', 'Backend\OrderController@forPickup')->name('orders_for_pickup');
-Route::get('/admin/orders/pending-payment', 'Backend\OrderController@pendingPayment')->name('orders_pending_payment');
-Route::get('/admin/orders/processing', 'Backend\OrderController@processing')->name('orders_processing');
-Route::get('/admin/orders/delivered', 'Backend\OrderController@delivered')->name('orders_delivered');
-Route::get('/admin/orders/completed', 'Backend\OrderController@completed')->name('orders_completed');
 Route::post('cart/add', 'Frontend\CartController@addProduct');
+
+// request replacement
+Route::get('order/{order}/request-replacement', 'Frontend\ReplacementRequestController@requestReplacement');
+Route::get('my-account/replacements', 'Frontend\ReplacementRequestController@index')->name('customer.replacements');
+Route::post('replacement/request/store', 'Frontend\ReplacementRequestController@store');
+Route::get('order/{order}/replacement-request/submitted', 'Frontend\ReplacementRequestController@submitted')->name('replacement.request.submitted');
 

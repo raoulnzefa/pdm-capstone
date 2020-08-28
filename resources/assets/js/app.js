@@ -18,6 +18,8 @@ window.VueBus = require('vue-bus');
 
 window.moment = require('moment');
 
+import money from 'v-money'
+
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import BootstrapVue from 'bootstrap-vue'
@@ -38,7 +40,9 @@ Vue.use(datePicker);
 import wysiwyg from "vue-wysiwyg";
 Vue.use(wysiwyg, {});
 
-import Vuelidate from 'vuelidate'
+import Vuelidate from 'vuelidate';
+
+Vue.use(money);
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue);
 Vue.use(VueBus);
@@ -214,6 +218,10 @@ Vue.component('inventory-add-stock', require('./components/inventory/AddStock.vu
 Vue.component('view-product-with-variants', require('./components/cart/ViewProductWithVariants.vue'));
 Vue.component('view-product-no-variant', require('./components/cart/ViewProductNoVariant.vue'));
 Vue.component('cart', require('./components/cart/Cart.vue'));
+
+//Replacement
+Vue.component('request-replacement', require('./components/replacement/RequestReplacement.vue'));
+
 
 const app = new Vue({
     el: '#app'

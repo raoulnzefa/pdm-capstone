@@ -28,7 +28,7 @@ class CustomerResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/my-account/order-status';
+    protected $redirectTo = '/my-account/orders';
 
     /**
      * Create a new controller instance.

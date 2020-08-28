@@ -84,18 +84,13 @@
 					  	<div class="form-group row">
 					   	<label for="" class="col-sm-3 col-form-label text-right">Price:</label>
 					   	<div class="col-sm-9">
-					   		<input type="text" class="form-control"
-					   			v-model.trim="v.variant_price.$model"
-					   			:class="{'is-invalid': v.variant_price.$error }"
-					   			placeholder="Enter a variant price">
+					   			<money 
+						   			class="form-control"
+						   			v-model.trim="v.variant_price.$model"
+						   			:class="{'is-invalid': v.variant_price.$error }"
+						   			:bind="money"></money>
 					   			<div v-if="v.variant_price.$error">
-										<span class="error-feedback" v-if="!v.variant_price.required">Please enter a variant price</span>	
-										<template v-if="v.variant_price.required">
-											<span class="error-feedback" v-if="!v.variant_price.moneyRegex">Please enter a valid value</span>
-											<template v-if="v.variant_price.moneyRegex">
-												<span class="error-feedback" v-if="!v.variant_price.decimal">Please enter a valid value</span>
-											</template>
-										</template>
+										<span class="error-feedback" v-if="!v.variant_price.required">Please enter a variant price</span>
 									</div>
 					   	</div>
 					  	</div>
@@ -159,7 +154,7 @@
 </template>
 
 <script>
-	import { required, minLength, maxLength, helpers, decimal, between } from 'vuelidate/lib/validators';
+	import { required, minValue, minLength, maxLength, helpers, decimal, between } from 'vuelidate/lib/validators';
 
 	const numbersOnly = helpers.regex('numbersOnly', /^([1-9])[0-9]*$/);
 	const moneyRegex = helpers.regex('moneyRegex', /^[1-9][0-9.]*$/);
@@ -188,6 +183,14 @@
 				server_errors: [],
 				avatar: '/images/default-thumbnail.jpg',
 				readyToSubmit: false,
+				money: {
+	         	decimal: '.',
+	         	thousands: ',',
+	         	prefix: '',
+	         	suffix: '',
+	         	precision: 2,
+	         	masked: false
+	        },
 			}
 		},
 		validations() {
@@ -201,9 +204,7 @@
 						$each: {
 							variant_value: { required },
 							variant_price: { 
-								required,
-								moneyRegex,
-								decimal
+								required
 							},
 							inventory_stock: { 
 								required,
@@ -303,7 +304,7 @@
 
 			},
 			getCategory() {
-				axios.get('/api/category/list')
+				axios.get('/api/category/with-variants')
 				.then((response) => {
 					this.categories = response.data;
 				})

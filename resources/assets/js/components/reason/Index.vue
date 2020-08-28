@@ -70,7 +70,7 @@
 	                <b-form-select v-model.trim="$v.reason_type.$model" id="reasonType" :class="{'is-invalid':$v.reason_type.$error}" tabindex="1">
 				      	<option :value="null" disabled>Please select an option</option>
 				      	<option value="Cancellation">Cancellation</option>
-				      	<option value="Return">Return</option>
+				      	<option value="Replacement">Replacement</option>
 				    </b-form-select>
                 <div v-if="$v.reason_type.$error">
                   <span class="error-feedback" v-if="!$v.reason_type.required">Reason type is required</span>

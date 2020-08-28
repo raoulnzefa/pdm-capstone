@@ -20,11 +20,6 @@ class Order extends Model
         return $this->hasOne('App\Models\BankDepositPayment');
     }
 
-    public function returnRequest()
-    {
-        return $this->hasOne('App\Models\ReturnRequest');
-    }
-
     public function cancelOrderRequest()
     {
         return $this->hasOne('App\Models\CancelOrderRequest');
@@ -87,6 +82,11 @@ class Order extends Model
     public function shipping()
     {
         return $this->hasOne('App\Models\ShippingAddress');
+    }
+
+    public function replacementRequest()
+    {
+        return $this->hasOne('App\Models\ReplacementRequest');
     }
 
 }

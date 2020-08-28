@@ -26,17 +26,7 @@
 			
 			<div class="mt-5">
 				
-				<p><a href="{{ route('customer.order_status') }}">Order Status</a> - Shows the order details of your recent order status </p>
-				<p><a href="{{ route('customer.order_history') }}">Order History</a> - Shows the order details of completed, refunded, and cancelled order.
-				</p>
-				<p><a href="{{ route('customer.cancellation') }}">Cancellation</a> - Shows the Cancelation Request Status of your cancelled order.
-				</p>
-				<p><a href="{{ route('customer.return_requests') }}">Return</a> - Shows the Return Request Status of your returned order.
-				</p>
-				<p><a href="{{ route('customer.account_details') }}">Account Details</a> - Shows the Account Details page where you can update your account information.
-				</p>
-				<p><a href="{{ route('customer_address') }}">Addresses</a> - Shows the Addresses page where you can update your address.
-				</p>
+			
 			</div>
 		</div>
 	</div>

@@ -42,7 +42,7 @@ class DeliverOrderNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                ->subject('Delivery Notification')
+                ->subject('Shipping Notification')
                 ->markdown('mail.order.deliver_order', ['order' => $this->order, 'url'=> route('customer.view_order', ['order'=>$this->order->number])]);
     }
 

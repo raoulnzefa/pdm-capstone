@@ -58,8 +58,9 @@ class CancellationController extends Controller
     {
         $cancellation->viewed = 1;
         $cancellation->update();
+        $data = 'Cancellation';
         
-    	return view('backend.cancellation.details', compact('cancellation'));
+    	return view('backend.cancellation.details', compact('cancellation','data'));
     }
 
     public function declineForm(CancelOrderRequest $cancellation) {

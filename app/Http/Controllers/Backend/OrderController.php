@@ -43,31 +43,6 @@ class OrderController extends Controller
         return view('backend.orders.order_list', compact('data'));
     }
     
-    public function forPickup()
-    {
-        return view('backend.orders.for_pickup');
-    }
-
-    public function pendingPayment()
-    {
-        return view('backend.orders.pending_payment');
-    }
-
-    public function processing()
-    {
-        return view('backend.orders.processing');
-    }
-
-    public function delivered()
-    {
-        return view('backend.orders.delivered');
-    }
-
-    public function completed()
-    {
-        return view('backend.orders.completed');
-    }
-
     public function viewOrder($order)
     {   
         $previous_url = url()->previous();

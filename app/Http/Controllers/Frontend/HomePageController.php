@@ -10,12 +10,7 @@ use Carbon\Carbon;
 use DB;
 
 class HomePageController extends Controller
-{
-	 public function __construct()
-    {
-    	$this->middleware('auth:customer');
-    }
-    
+{   
     public function index()
     {   
 

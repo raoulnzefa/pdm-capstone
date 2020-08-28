@@ -19,34 +19,35 @@
 					<h2 class="text-center mb-5"><i class="fa fa-search text-success"></i>&nbsp;Search result for: "{{ $search_data }}"</h2>
 					<div class="row justify-content-center">
 						@foreach ($search_result as $product)
-						<div class="col-md-3">
-							<div class="card">
-								<a href="/product/view/{{ $product->url }}" class="product-link">
-									<img src="/storage/products/{{ $product->image}}" class="img-fluid card-img-top" alt="" width="500" height="500">
-								</a>
-								<div class="card-body">
-									<h6 class="text-center">{{  $product->name }}</h6>
-					
-									<div class="text-center">
-										@if ($product->has_variant == 'No')
-											@if (!$product->discount)
-												<h6>PHP {{ $product->productNoVariant->price }}</h6>
-											@else
-												<h6><s class="text-secondary">PHP {{ $product->productNoVariant->price }}</s> PHP {{ $product->productNoVariant->discounted_price }}</h6>
-											@endif
-											@auth('customer')
-												<add-cart-page :customer="{{ Auth::guard('customer')->user() }}" :product="{{ $product }}"></add-cart-page>
-											@endif
-										@else
-											@auth('customer')
-												<a href="/product/view/{{ $product->url}}" class="btn btn-dark ifg-btn mt-2">CHOOSE OPTION</a>
-											@endif
-										@endif
-									</div>
-					
-								</div>
-							</div>
-						</div>
+						<div class="col-md-3 d-flex align-items-stretch">
+								<div class="card">
+				            	<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_url]) }}"><img class="card-img-top" src="{{ asset('storage/products/'.$product->product_image)}}" alt="{{ $product->produc_name }}"></a>
+				              	<div class="card-body d-flex flex-column">
+				               	<span class="card-title text-center prod-name-link">
+				               		<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_name]) }}">{{ $product->product_name }}</a>
+				               	</span>
+				                	<div class="text-center mb-3">
+				                		<input type="hidden" name="p_num" id="p_num"  value="{{$product->number}}">
+				                		@if ($product->product_has_variant < 1)
+					                		<span class="cart-prod-price">&#8369;{{ number_format($product->productNoVariant->price,2) }}</span>
+					                	@elseif (!is_null($product->productWithVariants))
+					                		@foreach ($product->productWithVariants as $variant)
+					                			@if($loop->first) 
+					                				<span class="cart-prod-price">&#8369;{{number_format($variant->variant_price,2)
+					                				}} -</span>
+					                			@elseif($loop->last)
+					                				<span class="cart-prod-price">&#8369;{{number_format($variant->variant_price,2)
+					                				}}</span>
+					                			@endif
+					                		@endforeach
+					                	@endif
+				                	</div>
+				                	@auth('customer')
+				                		<a href="{{ route('customer_view_product', ['category' => $product->category->url, 'product'=> $product->product_url]) }}" class="btn btn-primary mt-auto">View</a>
+				                	@endauth
+				              	</div>
+				            </div>
+							</div><!-- col-md-4 -->
 						@endforeach
 					</div>
 				@else

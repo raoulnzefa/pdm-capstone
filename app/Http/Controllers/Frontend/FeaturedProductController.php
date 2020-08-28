@@ -11,6 +11,11 @@ use App\Admin;
 
 class FeaturedProductController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('guest:customer', ['except' => ['logout']]);
+    }
+    
     public function index()
     {
     	$categories = Category::where('display','Enabled')->get();

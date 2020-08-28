@@ -102,10 +102,6 @@ body {
 	border-radius: 0;
 }
 
-.btn {
-	text-transform: uppercase;
-}
-
 .borderless th, .borderless > .tr-borderless td {
 	border: none;
 }
@@ -132,7 +128,7 @@ body {
 	font-weight: 500 !important;
 	font-size: 25px !important;
 	/*font-family: 'sans-serif';*/
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 }
 
 .ifg-btn {

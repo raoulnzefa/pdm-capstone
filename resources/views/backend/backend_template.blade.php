@@ -52,17 +52,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                                 Inventory
                             </a>
-                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRequests" aria-expanded="false" aria-controls="collapseRequests">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
-                                Requests
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <a class="nav-link" href="{{ route('replacements') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-exchange-alt"></i></div>
+                                Replacements
                             </a>
-                            <div class="collapse accordion-link" id="collapseRequests" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionReports">
-                                    <a class="nav-link" href="{{route('cancellation_requests')}}">Cancellation</a>
-                                    <a class="nav-link" href="{{route('return_requests')}}">Return</a>
-                                </nav>
-                            </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-sliders-h"></i></div>
                                 Maintenance
@@ -74,7 +67,6 @@
                                     <a class="nav-link" href="{{ route('products') }}">Products</a>
                                     <a class="nav-link" href="{{ route('bank_account') }}">Bank account</a>
                                     <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping rate</a>
-                                    <a class="nav-link" href="{{ route('reason') }}">Reason</a>
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
                             </div>

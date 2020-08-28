@@ -80,6 +80,13 @@
                   <span class="error-feedback" v-if="!$v.category_name.maxLength">Category name must have at most {{ $v.category_name.$params.maxLength.max }} letters</span>
                 </div>
               </b-form-group>
+              <div class="form-group">
+                <label>Has variant:</label>
+                <select class="form-control" v-model="has_variant">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
               <b-form-group id=""
                           label="Status:"
                           label-for="categDisplay">
@@ -106,6 +113,7 @@
          		return {
          			category_name: '',
          			categ_id: '',
+              has_variant: 0,
          			categories: [],
          			server_errors: [],
          			edit: false,
@@ -150,6 +158,7 @@
                   axios.post('/api/category', {
                     admin_id: this.admin.id,
                     name: this.category_name,
+                    has_variant: this.has_variant,
                     status: this.status
                   })
                   .then((response) => {
@@ -175,6 +184,7 @@
                   axios.put('/api/category/'+this.categ_id, {
                     admin_id: this.admin.id,
                     name: this.category_name,
+                    has_variant: this.has_variant,
                     status: this.status
                   })
                   .then((response) => {
@@ -211,6 +221,7 @@
               this.edit = false;
               this.ok_title = 'Create';
               this.modal_title = 'Add category';
+              this.has_variant = 0;
               this.server_errors = [];
               this.$nextTick(() => { this.$v.$reset() });
             },
@@ -221,6 +232,7 @@
                 this.edit = true;
                 this.categ_id = category.id;
                 this.category_name = category.name;
+                this.has_variant = category.has_variant;
                 this.modal_title = 'Edit category';
                 this.ok_title = 'Update';
                 this.$refs.categoryModal.show();

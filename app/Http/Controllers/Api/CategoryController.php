@@ -36,6 +36,7 @@ class CategoryController extends Controller
         $category = new Category;
         $category->name = ucwords($request->name);
         $category->status = (int)$request->status;
+        $category->has_variant = (int)$request->has_variant;
         $category->url = strtolower(str_replace(' ', '-', $request->name));
         $category->save();
 
@@ -74,6 +75,7 @@ class CategoryController extends Controller
         // update category
         $category->name = ucwords($request->name);
         $category->status = (int)$request->status;
+        $category->has_variant = (int)$request->has_variant;
         $category->url = strtolower(str_replace(' ', '-', $request->name));
         $category->update();
 
@@ -111,5 +113,19 @@ class CategoryController extends Controller
         $list = Category::all();
 
         return response()->json($list);
+    }
+
+    public function withVariants()
+    {
+        $categories = Category::where(['has_variant'=>1, 'status'=>1])->get();
+
+        return response()->json($categories);
+    }
+
+    public function noVariants()
+    {
+        $categories = Category::where(['has_variant'=>0, 'status'=>1])->get();
+
+        return response()->json($categories);
     }
 }

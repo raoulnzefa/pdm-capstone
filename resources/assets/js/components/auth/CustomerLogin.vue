@@ -41,7 +41,7 @@
 					    </div>
 					</div>
 					<div class="form-group">
-						<button type="submit" class="mt-4 btn btn-block btn-dark ifg-btn" :disabled="submit">LOGIN</button>
+						<button type="submit" class="mt-4 btn btn-block btn-dark ifg-btn" :disabled="submit">Login</button>
 					</div>
 					<div>
 						 <center>

@@ -1,7 +1,10 @@
 <template>
-<div class="row justify-content-center">
-    <div class="col-md-12">
-        <h2 class="mb-5">Account Details</h2>
+<div class="card">
+    <form @submit.prevent="updateAccountDetails">
+    <div class="card-header">
+        <h3 class="mb-0">Account Details</h3>
+    </div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-danger" v-if="server_errors.length != 0">
@@ -9,71 +12,66 @@
                         <li v-for="err in server_errors">{{ err[0] }}</li>
                     </ul>
                 </div>
-                <form @submit.prevent="updateAccountDetails">
-                        <div class="form-group row">
-                            <label for="firstname" class="col-sm-3 col-form-label">First Name:</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="first_name" class="form-control" :class="{'is-invalid': $v.first_name.$error}" id="firstname"tabindex="2" v-model.trim="$v.first_name.$model">
-                                <div v-if="$v.first_name.$error">
-                                    <span class="error-feedback" v-if="!$v.first_name.required">First name is required</span>
-                                    <span class="error-feedback" v-if="!$v.first_name.maxLength">First name must have at most {{ $v.first_name.$params.maxLength.max }} letters</span>
-                                    <span class="error-feedback d-block" v-if="!$v.first_name.lettersSpace">Please input a valid value</span>
-                                </div>
-                            </div>
+                <br>
+                <div class="form-group row">
+                    <label for="firstname" class="col-sm-4 col-form-label text-right">First Name:</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="first_name" class="form-control" :class="{'is-invalid': $v.first_name.$error}" id="firstname"tabindex="2" v-model.trim="$v.first_name.$model">
+                        <div v-if="$v.first_name.$error">
+                            <span class="error-feedback" v-if="!$v.first_name.required">First name is required</span>
+                            <span class="error-feedback" v-if="!$v.first_name.maxLength">First name must have at most {{ $v.first_name.$params.maxLength.max }} letters</span>
+                            <span class="error-feedback d-block" v-if="!$v.first_name.lettersSpace">Please input a valid value</span>
                         </div>
-                        <div class="form-group row">
-                            <label for="lastname" class="col-sm-3 col-form-label">Last Name:</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="last_name" class="form-control" :class="{'is-invalid': $v.last_name.$error}" id="lastname" tabindex="3" v-model.trim="$v.last_name.$model">
-                                <div v-if="$v.last_name.$error">
-                                    <span class="error-feedback" v-if="!$v.last_name.required">Last name is required</span>
-                                    <span class="error-feedback" v-if="!$v.last_name.maxLength">Last name must have at most {{ $v.last_name.$params.maxLength.max  }} letters</span>
-                                     <span class="error-feedback d-block" v-if="!$v.last_name.lettersSpace">Please input a valid value</span>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="lastname" class="col-sm-4 col-form-label text-right">Last Name:</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="last_name" class="form-control" :class="{'is-invalid': $v.last_name.$error}" id="lastname" tabindex="3" v-model.trim="$v.last_name.$model">
+                        <div v-if="$v.last_name.$error">
+                            <span class="error-feedback" v-if="!$v.last_name.required">Last name is required</span>
+                            <span class="error-feedback" v-if="!$v.last_name.maxLength">Last name must have at most {{ $v.last_name.$params.maxLength.max  }} letters</span>
+                             <span class="error-feedback d-block" v-if="!$v.last_name.lettersSpace">Please input a valid value</span>
                         </div>
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-3 col-form-label">Email:</label>
-                            <div class="col-sm-9">
-                                <input type="email" name="email" class="form-control" id="email" v-model="email" readonly="true">
-                            </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-4 col-form-label text-right">Email:</label>
+                    <div class="col-sm-6">
+                        <input type="email" name="email" class="form-control" id="email" v-model="email" readonly="true">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cust_new_pass" class="col-sm-4 col-form-label text-right">New Password:</label>
+                    <div class="col-sm-6">
+                        <input type="password" name="new_passcust_new_pass" class="form-control" id="cust_new_pass"
+                        v-model.trim="$v.password.$model"
+                        :class="{'is-invalid': $v.password.$error}">
+                        <div v-if="$v.password.$error">
+                            <span class="error-feedback" v-if="!$v.password.minLength">Password must have at least {{ $v.password.$params.minLength.min }} characters.</span>
                         </div>
-                        <div class="form-group row">
-                            <label for="cust_new_pass" class="col-sm-3 col-form-label">New Password:</label>
-                            <div class="col-sm-9">
-                                <input type="password" name="new_passcust_new_pass" class="form-control" id="cust_new_pass"
-                                v-model.trim="$v.password.$model"
-                                :class="{'is-invalid': $v.password.$error}">
-                                <div v-if="$v.password.$error">
-                                    <span class="error-feedback" v-if="!$v.password.minLength">Password must have at least {{ $v.password.$params.minLength.min }} characters.</span>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cust_confirm_new_pass" class="col-sm-4 col-form-label text-right">Confirm New Password:</label>
+                    <div class="col-sm-6">
+                        <input type="password" name="confirm_new_pass" class="form-control" id="cust_confirm_new_pass"
+                        v-model.trim="$v.password_confirmation.$model"
+                        :class="{'is-invalid': $v.password_confirmation.$error}">
+                        <div v-if="$v.password_confirmation.$error">
+                            <span class="error-feedback" v-if="!$v.password_confirmation.sameAsPassword">Password must be identical</span>
                         </div>
-                        <div class="form-group row">
-                            <label for="cust_confirm_new_pass" class="col-sm-3 col-form-label">Confirm New Password:</label>
-                            <div class="col-sm-9">
-                                <input type="password" name="confirm_new_pass" class="form-control" id="cust_confirm_new_pass"
-                                v-model.trim="$v.password_confirmation.$model"
-                                :class="{'is-invalid': $v.password_confirmation.$error}">
-                                <div v-if="$v.password_confirmation.$error">
-                                    <span class="error-feedback" v-if="!$v.password_confirmation.sameAsPassword">Password must be identical</span>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-3 ifg-label col-form-label"></label>
-                            <div class="col-sm-9">
-                                <button type="submit" class="btn btn-primary ifg-btn" :disabled="AcUpClicked">Update Details</button>
-                            </div>
-                        </div>  
-                </form>
+                    </div>
+                </div>
+              
             </div>
         </div>
-       
+    </div><!-- card-body-->
+    <div class="card-footer clearfix">
+        <button type="submit" class="btn btn-primary float-right" :disabled="AcUpClicked">Update Details</button>
     </div>
+    </form>
 </div>
-
 </template>
 
 <script>

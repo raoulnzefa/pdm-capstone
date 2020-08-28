@@ -13,6 +13,7 @@ class ProductPageController extends Controller
 
     public function __construct()
     {
+        
         $this->data = 'Products';
     }
 

@@ -11,11 +11,7 @@ class Invoice extends Model
     public $keyType = 'string';
     public $incrementing = false;
 
-    public function returnRequest()
-    {
-        return $this->hasOne('App\Models\ReturnRequest');
-    }
-
+   
     public function order()
     {
         return $this->belongsTo('App\Models\Order');

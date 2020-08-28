@@ -39,7 +39,7 @@
 		methods: {
 			deliverOrder() {
 				Swal({
-				  	title: 'Deliver this order?',
+				  	title: 'Ship this order?',
 				  	text: '',
 				  	type: 'warning',
 				  	showCancelButton: true,
@@ -59,7 +59,7 @@
 							if (res.success) {
 								this.$refs.deliverOrderModal.hide();
 
-								Swal('Order status has been updated.', '', 'success')
+								Swal('Order status has been updated', '', 'success')
 								.then((okay) => {
 									if (okay) {
 										this.$bus.$emit('refreshOrderDetails', true);

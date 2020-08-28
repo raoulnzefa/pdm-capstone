@@ -29,6 +29,8 @@ Route::get('admin/list', 'Api\AdminController@list');
 
 // Category
 Route::get('category/list', 'Api\CategoryController@list');
+Route::get('category/with-variants', 'Api\CategoryController@withVariants');
+Route::get('category/no-variants', 'Api\CategoryController@noVariants');
 Route::resource('category', 'Api\CategoryController');
 
 //Product

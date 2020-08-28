@@ -1,8 +1,8 @@
 <template>
 <div>
 	<div class="clearfix mb-4">
-		<h2 class="float-left">Addresses</h2>
-		<a href="/my-account/addresses/create" class="float-right btn btn-dark"><i class="fa fa-plus"></i> Create Address</a>
+		<h3 class="float-left">Addresses</h3>
+		<a href="/my-account/addresses/create" class="float-right btn btn-primary"><i class="fa fa-plus"></i> Create Address</a>
 	</div>
 	<div>
 		<table class="table table-bordered table-striped table-hovered">

@@ -10,8 +10,8 @@
 		<div class="col-12">
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
-			    <li class="breadcrumb-item"><a href="{{ route('frontend_homepage') }}">Home</a></li>
-			    <li class="breadcrumb-item active" aria-current="page">Order Details</li>
+			    <li class="breadcrumb-item"><a href="{{ route('customer.orders') }}">My Orders</a></li>
+			    <li class="breadcrumb-item active" aria-current="page">Order No. {{$order->number}}</li>
 			  </ol>
 			</nav>
 		</div>
@@ -21,59 +21,56 @@
 			@include('frontend.customer.list_bar')
 		</div>
 		<div class="col-md-9">
-			<h2>Order Details</h2>
 			<div class="card">
+				<div class="card-header">
+					<h3 class="mb-0">Order Details</h3>
+				</div>
 				<div class="card-body">
 					@if ($order->order_shipping_method == 'Shipping')
 						@if ($order->order_status == "Pending payment")
 							@if ($order->order_payment_method == 'Bank Deposit')
 							<div class="clearfix">
-								<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
-								@if (!$order->cancelOrderRequest)
+								<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
 									<cancel-order-by-customer :order="{{ $order }}"></cancel-order-by-customer>
 									@if (!$order->bankDepositSlip)
 										<a href="/order/{{$order->number}}/upload-deposit-slip" class="btn btn-dark float-right mr-1">Upload Deposit Slip</a>
-									@endif
 								@endif
 							</div>
 							@endif
 						@elseif ($order->order_status == "Processing")
 						<div class="clearfix">
-							<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
-							@if (!$order->cancelOrderRequest)
-								<a href="/order/{{$order->number}}/cancellation" class="btn btn-danger float-right">Cancel Order</a>
-							@endif
+							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
 						</div>
 						@elseif ($order->order_status == "Shipped")
 						<div class="clearfix">
-							<h4 class="pt-2 float-left">Order #{{ $order->number }}</h4>
+							<h4 class="pt-2 float-left">Order No. {{ $order->number }}</h4>
 							<customer-receive-order :order="{{$order}}"></customer-receive-order>
 						</div>
 						@endif
 					@else
 						@if ($order->order_status == "For pickup" && $order->order_payment_method == 'Cash')
 						<div class="clearfix">
-							<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
+							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
 							<cancel-order-by-customer :order="{{ $order }}"></cancel-order-by-customer>
 						</div>
 						@endif
 					@endif
 					@if ($order->order_status == "Cancelled")
 						<div>
-							<h4 class="pt-2">Order #{{ $order->number }}</h4>
+							<h4 class="pt-2">Order No. {{ $order->number }}</h4>
 						</div>
 					@elseif ($order->order_status == "Completed")
 						<div class="clearfix">
-							<h4 class="float-left pt-2">Order #{{ $order->number }}</h4>
+							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
 							@if ($isReturnDatePassed == 0)
-								@if (!$order->returnRequest)
-								<a href="/order/{{$order->number}}/request-return" class="btn btn-dark mr-1 float-right">Return</a>
+								@if (!$order->replacementRequest)
+								<a href="/order/{{$order->number}}/request-replacement" class="btn btn-primary mr-1 float-right">Request replacement</a>
 								@endif
 							@endif
 						</div>
 					@endif
 					<!-- /header card --> 
-					<div class="row mt-4">
+					<div class="row mt-3">
 						<div class="col-md-6">
 							<table class="table order-table">
 								<tr>

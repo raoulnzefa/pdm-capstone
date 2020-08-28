@@ -1,140 +1,144 @@
 <template>
-<div class="row justify-content-center">
-    <div class="col-md-12">
-        <h2 class="mb-4">Edit Address</h2>
-        <div class="alert alert-danger" v-if="server_errors.length != 0">
-            <ul>
-                <li v-for="err in server_errors">{{ err[0] }}</li>
-            </ul>
-        </div>
-        <br>
-        <form method="post" @submit.prevent="updateAddress">
-            <div class="form-group row">
-                <label for="addrFname" class="col-sm-3 col-form-label text-right">Firstname:</label>
-                <div class="col-sm-6">
-                    <input type="text" name="firstname" id="addrFname" class="form-control"
-                        tabindex="1"
-                        placeholder="Enter your firstname"
-                        v-model.trim="$v.firstname.$model"
-                        :class="{'is-invalid': $v.firstname.$error}">
-                        <div v-if="$v.firstname.$error">
-                            <span class="error-feedback" v-if="!$v.firstname.required">Firstname is required</span>
-                        </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrFname" class="col-sm-3 col-form-label text-right">Lastname:</label>
-                <div class="col-sm-6">
-                    <input type="text" name="lastname" id="addrLname" class="form-control"
-                        tabindex="2"
-                        placeholder="Enter your lastname"
-                        v-model.trim="$v.lastname.$model"
-                        :class="{'is-invalid': $v.lastname.$error}">
-                        <div v-if="$v.lastname.$error">
-                            <span class="error-feedback" v-if="!$v.lastname.required">Lastname is required</span>
-                        </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrStreetEdit" class="col-sm-3 col-form-label text-right">Street:</label>
-                <div class="col-sm-6">
-                    <input type="text" name="street" id="addrStreetEdit" class="form-control"
-                    tabindex="1"
-                    placeholder="Enter your street"
-                    v-model.trim="$v.street.$model"
-                    :class="{'is-invalid': $v.street.$error}">
-                    <div v-if="$v.street.$error">
-                        <span class="error-feedback" v-if="!$v.street.required">Street is required</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrProvinceEdit" class="col-sm-3 col-form-label text-right">Province:</label>
-                <div class="col-sm-6">
-                    <select class="form-control" id="addrProvinceEdit"
-                        tabindex="2"
-                        v-model.trim="$v.province_id.$model"
-                        :class="{'is-invalid': $v.province_id.$error}"
-                        @change="getMunicipalities"> 
-                        <option value="">Select a province</option>
-                        <option v-for="(prov, index) in provinces" :key="index" :value="prov.id">{{prov.name}}</option>
-                    </select>
-                    <div v-if="$v.province_id.$error">
-                        <span class="error-feedback" v-if="!$v.province_id.required">Province is required</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrMunicipalityEdit" class="col-sm-3 col-form-label text-right">Municipality:</label>
-                <div class="col-sm-6">
-                    <select class="form-control" id="addrMunicipalityEdit"
-                        tabindex="3"
-                        v-model.trim="$v.municipality_id.$model"
-                        :class="{'is-invalid': $v.municipality_id.$error}"
-                        @change="getBarangays">
-                        <option value="">Select a province first</option>
-                        <option v-for="(muni, index) in municipality_list" :key="index" :value="muni.id">{{muni.name}}</option>
-                    </select>
-                    <div v-if="$v.municipality_id.$error">
-                        <span class="error-feedback" v-if="!$v.municipality_id.required">Municipality is required</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrBarangayEdit" class="col-sm-3 col-form-label text-right">Barangay:</label>
-                <div class="col-sm-6">
-                     <select class="form-control" id="addrBarangayEdit"
-                     tabindex="4"
-                     v-model.trim="$v.barangay_id.$model"
-                     :class="{'is-invalid': $v.barangay_id.$error}">
-                        <option value="">Select a municipality first</option>
-                        <option v-for="(barang, index) in barangay_list" :key="index" :value="barang.id">{{barang.name}}</option>
-                    </select>
-                    <div v-if="$v.barangay_id.$error">
-                        <span class="error-feedback" v-if="!$v.barangay_id.required">Barangay is required</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrZipCodeEdit" class="col-sm-3 col-form-label text-right">Zip Code:</label>
-                <div class="col-sm-6">
-                    <input type="text" name="zip_code" id="addrZipCodeEdit" class="form-control"
-                    tabindex="5"
-                    v-model.trim="$v.zip_code.$model"
-                    :class="{'is-invalid': $v.zip_code.$error}"
-                    placeholder="Enter you zip code">
-                    <div v-if="$v.zip_code.$error">
-                        <span class="error-feedback" v-if="!$v.zip_code.required">Zip code is required</span>
-                        <template v-if="$v.zip_code.required">
-                            <span class="error-feedback" v-if="!$v.zip_code.digitsOnly">Zip code must be digits only</span>
-                        </template>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="addrMobileNo" class="col-sm-3 col-form-label text-right">Mobile no.:</label>
-                <div class="col-sm-6">
-                    <input type="text" name="mobile_no" id="addrMobileNo" class="form-control"
-                        tabindex="9"
-                        placeholder="Enter your mobile number"
-                        v-model.trim="$v.mobile_no.$model"
-                        :class="{'is-invalid': $v.mobile_no.$error}">
-                        <div v-if="$v.mobile_no.$error">
-                            <span class="error-feedback" v-if="!$v.mobile_no.required">Mobile no. is required</span>
-                        </div>
-                </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label class="col-sm-3 col-form-label"></label>
-                <div class="col-sm-6">
-                    <button type="submit" class="btn btn-dark ifg-btn" :disabled="isSubmitted">Update address</button>
-                </div>
-            </div>
-        </form>
+<div class="card">
+    <div class="card-header">
+        <h3 class="mb-0">Edit Address</h3>
     </div>
+    <form method="post" @submit.prevent="updateAddress">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger" v-if="server_errors.length != 0">
+                    <ul>
+                        <li v-for="err in server_errors">{{ err[0] }}</li>
+                    </ul>
+                </div>
+                <br>
+                
+                    <div class="form-group row">
+                        <label for="addrFname" class="col-sm-4 col-form-label text-right">Firstname:</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="firstname" id="addrFname" class="form-control"
+                                tabindex="1"
+                                placeholder="Enter your firstname"
+                                v-model.trim="$v.firstname.$model"
+                                :class="{'is-invalid': $v.firstname.$error}">
+                                <div v-if="$v.firstname.$error">
+                                    <span class="error-feedback" v-if="!$v.firstname.required">Firstname is required</span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrFname" class="col-sm-4 col-form-label text-right">Lastname:</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="lastname" id="addrLname" class="form-control"
+                                tabindex="2"
+                                placeholder="Enter your lastname"
+                                v-model.trim="$v.lastname.$model"
+                                :class="{'is-invalid': $v.lastname.$error}">
+                                <div v-if="$v.lastname.$error">
+                                    <span class="error-feedback" v-if="!$v.lastname.required">Lastname is required</span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrStreetEdit" class="col-sm-4 col-form-label text-right">Street:</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="street" id="addrStreetEdit" class="form-control"
+                            tabindex="1"
+                            placeholder="Enter your street"
+                            v-model.trim="$v.street.$model"
+                            :class="{'is-invalid': $v.street.$error}">
+                            <div v-if="$v.street.$error">
+                                <span class="error-feedback" v-if="!$v.street.required">Street is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrProvinceEdit" class="col-sm-4 col-form-label text-right">Province:</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="addrProvinceEdit"
+                                tabindex="2"
+                                v-model.trim="$v.province_id.$model"
+                                :class="{'is-invalid': $v.province_id.$error}"
+                                @change="getMunicipalities"> 
+                                <option value="">Select a province</option>
+                                <option v-for="(prov, index) in provinces" :key="index" :value="prov.id">{{prov.name}}</option>
+                            </select>
+                            <div v-if="$v.province_id.$error">
+                                <span class="error-feedback" v-if="!$v.province_id.required">Province is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrMunicipalityEdit" class="col-sm-4 col-form-label text-right">Municipality:</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="addrMunicipalityEdit"
+                                tabindex="3"
+                                v-model.trim="$v.municipality_id.$model"
+                                :class="{'is-invalid': $v.municipality_id.$error}"
+                                @change="getBarangays">
+                                <option value="">Select a province first</option>
+                                <option v-for="(muni, index) in municipality_list" :key="index" :value="muni.id">{{muni.name}}</option>
+                            </select>
+                            <div v-if="$v.municipality_id.$error">
+                                <span class="error-feedback" v-if="!$v.municipality_id.required">Municipality is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrBarangayEdit" class="col-sm-4 col-form-label text-right">Barangay:</label>
+                        <div class="col-sm-6">
+                             <select class="form-control" id="addrBarangayEdit"
+                             tabindex="4"
+                             v-model.trim="$v.barangay_id.$model"
+                             :class="{'is-invalid': $v.barangay_id.$error}">
+                                <option value="">Select a municipality first</option>
+                                <option v-for="(barang, index) in barangay_list" :key="index" :value="barang.id">{{barang.name}}</option>
+                            </select>
+                            <div v-if="$v.barangay_id.$error">
+                                <span class="error-feedback" v-if="!$v.barangay_id.required">Barangay is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrZipCodeEdit" class="col-sm-4 col-form-label text-right">Zip Code:</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="zip_code" id="addrZipCodeEdit" class="form-control"
+                            tabindex="5"
+                            v-model.trim="$v.zip_code.$model"
+                            :class="{'is-invalid': $v.zip_code.$error}"
+                            placeholder="Enter you zip code">
+                            <div v-if="$v.zip_code.$error">
+                                <span class="error-feedback" v-if="!$v.zip_code.required">Zip code is required</span>
+                                <template v-if="$v.zip_code.required">
+                                    <span class="error-feedback" v-if="!$v.zip_code.digitsOnly">Zip code must be digits only</span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="addrMobileNo" class="col-sm-4 col-form-label text-right">Mobile no.:</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="mobile_no" id="addrMobileNo" class="form-control"
+                                tabindex="9"
+                                placeholder="Enter your mobile number"
+                                v-model.trim="$v.mobile_no.$model"
+                                :class="{'is-invalid': $v.mobile_no.$error}">
+                                <div v-if="$v.mobile_no.$error">
+                                    <span class="error-feedback" v-if="!$v.mobile_no.required">Mobile no. is required</span>
+                                </div>
+                        </div>
+                    </div>
+                    <br>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer clearfix">
+        <button type="submit" class="btn btn-primary float-right" :disabled="isSubmitted">Update address</button>
+         <a href="/my-account/addresses" class="btn btn-danger float-right mr-2">Cancel</a>
+    </div>
+    </form>
 </div>
-
 </template>
 
 <script>

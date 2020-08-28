@@ -45,9 +45,46 @@
                     </div>
                 </div>
             </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">2. Payment method</h4>
+                </div>
+                <div class="card-body">
+                    <template v-if="shipping_method != 'store_pickup'">
+                         <div class="form-check mb-2">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="payment_method"
+                                    value="PayPal"
+                                    v-model.trim="$v.payment_method.$model"
+                                    :class="{'is-invalid': $v.payment_method.$error}">PayPal
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="payment_method"
+                                     value="Bank Deposit"
+                                     v-model.trim="$v.payment_method.$model"
+                                    :class="{'is-invalid': $v.payment_method.$error}">Bank Deposit
+                            </label>
+                        </div>   
+                    </template>
+                    <template v-if="shipping_method === 'store_pickup'">
+                            <div class="form-check mb-2">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="payment_method"
+                                    value="Cash"
+                                    v-model.trim="$v.payment_method.$model">Cash
+                            </label>
+                        </div>
+                    </template>
+                    <div v-if="$v.payment_method.$error">
+                        <span class="error-feedback" v-if="!$v.payment_method.required">Payment method is required</span>
+                    </div>
+                </div>
+            </div>
             <div class="card mb-4" v-if="shipping_method == 'shipping'">
                 <div class="card-header">
-                   <h4 class="mb-0">2. Your shipping address</h4>
+                   <h4 class="mb-0">3. Your shipping address</h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group" v-if="customer.addresses.length > 0">
@@ -224,7 +261,7 @@
             </div><!-- delivery--> 
             <div class="card mb-4" v-if="shipping_method == 'store_pickup'"><!-- store pickup -->
                 <div class="card-header">
-                    <h4 class="mb-0">2. Who will pickup this order?</h4>
+                    <h4 class="mb-0">3. Who will pickup this order?</h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -253,43 +290,6 @@
             </div><!-- store pickkup -->
         </div><!-- col-md-4 -->
         <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4 class="mb-0">3. Payment method</h4>
-                </div>
-                <div class="card-body">
-                    <template v-if="shipping_method != 'store_pickup'">
-                         <div class="form-check mb-2">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="payment_method"
-                                    value="PayPal"
-                                    v-model.trim="$v.payment_method.$model"
-                                    :class="{'is-invalid': $v.payment_method.$error}">PayPal
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="payment_method"
-                                     value="Bank Deposit"
-                                     v-model.trim="$v.payment_method.$model"
-                                    :class="{'is-invalid': $v.payment_method.$error}">Bank Deposit
-                            </label>
-                        </div>   
-                    </template>
-                    <template v-if="shipping_method === 'store_pickup'">
-	                    	<div class="form-check mb-2">
-	                        <label class="form-check-label">
-	                            <input type="radio" class="form-check-input" name="payment_method"
-	                            	value="Cash"
-	                            	v-model.trim="$v.payment_method.$model">Cash
-	                        </label>
-	                    </div>
-                    </template>
-                    <div v-if="$v.payment_method.$error">
-						<span class="error-feedback" v-if="!$v.payment_method.required">Payment method is required</span>
-					</div>
-                </div>
-            </div>
             <div class="card mb-4">
                 <div class="card-header">
                     <h4 class="mb-0">4. Review your orders</h4>

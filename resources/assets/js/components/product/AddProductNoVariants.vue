@@ -12,7 +12,8 @@
 			@ok="submitProduct"
 			@cancel="cancelProduct"
 			@shown="focusOnProdName"
-			:ok-disabled="isBtnClicked">
+			:ok-disabled="isBtnClicked"
+			@hidden="resetModal">
 			<form @submit.stop.prevent="saveProduct">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
 					<ul class="mb-0">
@@ -84,7 +85,7 @@
 			   	<div class="col-sm-9">
 			   		<input type="text" class="form-control" id="coldAddProdCritLvl" 
 			   			placeholder="Enter critical level"
-			   			tabindex="4"
+			   			tabindex="5"
 			   			v-model.trim="$v.critical_level.$model"
 			   			:class="{'is-invalid': $v.critical_level.$error }"
 			   			>
@@ -96,33 +97,27 @@
 						</div>
 			   	</div>
 			  	</div>
-			  		<div class="form-group row">
-			   	<label for="colAddProdStatus" class="col-sm-3 col-form-label">Status:</label>
-			   	<div class="col-sm-9">
-			   	<select class="form-control" id="colAddProdStatus" tabindex="5" v-model="status">
-			   			<option value="1">Enable</option>
-			   			<option value="0">Disable</option>
-			   		</select>
-			   	</div>
-			  	</div>
 			  	<div class="form-group row">
 			   	<label for="colAddProdPrice" class="col-sm-3 col-form-label">Price:</label>
 			   	<div class="col-sm-9">
-			   		<input type="text" class="form-control" id="colAddProdPrice" 
-			   			placeholder="Enter price"
-			   			tabindex="7"
+			   		<money 
+			   			class="form-control"
 			   			v-model.trim="$v.price.$model"
 			   			:class="{'is-invalid': $v.price.$error }"
-			   			>
+			   			tabindex="6"
+			   			:bind="money"></money>
 			   		<div v-if="$v.price.$error">
 							<span class="error-feedback" v-if="!$v.price.required">Price is required</span>
-							<template v-if="$v.price.required">
-								<span class="error-feedback" v-if="!$v.price.moneyRegex">Please enter a valid value</span>
-								<template v-if="$v.price.moneyRegex">
-									<span class="error-feedback" v-if="!$v.price.decimal">Please enter a valid value</span>
-								</template>
-							</template>	
 						</div>
+			   	</div>
+			  	</div>
+			  	<div class="form-group row">
+			   	<label for="colAddProdStatus" class="col-sm-3 col-form-label">Status:</label>
+			   	<div class="col-sm-9">
+			   	<select class="form-control" id="colAddProdStatus" tabindex="7" v-model="status">
+			   			<option value="1">Enable</option>
+			   			<option value="0">Disable</option>
+			   		</select>
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
@@ -166,6 +161,14 @@
 				server_errors: [],
 				readyToSubmit: false,
 				turnOnBeforeUnload: false,
+				money: {
+	         	decimal: '.',
+	         	thousands: ',',
+	         	prefix: '',
+	         	suffix: '',
+	         	precision: 2,
+	         	masked: false
+	        },
 			}
 		},
 		validations() {
@@ -176,7 +179,7 @@
 				stock: { required, numbersOnly },
 				critical_level: { required, numbersOnly },
 				image: { required },
-				price: { required, moneyRegex, decimal }
+				price: { required }
 			}
 		},
 		methods: {
@@ -240,7 +243,7 @@
 							.then((okay) => {
 								if (okay) {
 									this.$refs.refsAddProductModal.hide();
-									this.$nextTick(() => { this.$v.$reset() });
+									this.resetModal();
 									this.$bus.$emit('refreshTable', true);
 								}
 							})
@@ -261,7 +264,7 @@
 				this.saveProduct();
 			},
 			getCategory() {
-				axios.get('/api/category/list')
+				axios.get('/api/category/no-variants')
 				.then((response) => {
 					this.categories = response.data;
 				})
@@ -269,7 +272,7 @@
 					console.log(error.response);
 				});
 			},
-			cancelProduct() {
+			resetModal() {
 				this.product_name = '';
 				this.description = '';
 				this.category = '';
@@ -280,7 +283,11 @@
 				this.image = '';
 				this.server_errors = [];
 				this.categories = [];
+				this.avatar = '/images/default-thumbnail.jpg';
 				this.$nextTick(() => { this.$v.$reset() });
+			},
+			cancelProduct() {
+				this.resetModal();
 			},
 			focusOnProdName() {
 				this.$refs.addProductNameInput.focus();
