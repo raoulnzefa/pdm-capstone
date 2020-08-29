@@ -151,6 +151,8 @@ Route::get('return-request/submitted/{order}', 'Frontend\ReturnController@submit
 Route::get('admin/cancellation-requests', 'Backend\CancellationController@index')->name('cancellation_requests');
 Route::get('admin/replacements', 'Backend\ReplacementRequestController@index')->name('replacements');
 
+Route::get('admin/replacement/{requestId}', 'Backend\ReplacementRequestController@details');
+
 Route::get('admin/order/cancellation/{cancellation}/details', 'Backend\CancellationController@details')->name('cancellation_details');
 
 Route::get('admin/cancellation-request/{cancellation}/decline', 'Backend\CancellationController@declineForm')->name('cancellation_decline_form');

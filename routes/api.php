@@ -149,8 +149,6 @@ Route::get('return-request/list', 'Api\ReturnRequestController@returnRequestList
 Route::get('return-request/{return_request}', 'Api\ReturnRequestController@returnRequestDetails');
 Route::put('return-request/{return_request}', 'Api\ReturnRequestController@updateReturnRequestStatus');
 
-Route::put('return-request/replacement/{return_request}', 'Api\ReturnRequestController@createReplacement');
-Route::get('replacement-products/{return_request}', 'Api\ReturnRequestController@replacementProducts');
 
 Route::get('product/{product}/related', 'Api\ProductController@relatedProducts');
 
@@ -183,7 +181,7 @@ Route::delete('bank-account/{bank_account}/{admin}', 'Api\BankAccountController@
 
 
 Route::delete('product/delete/{product}', 'Api\ProductController@delete');
-Route::post('replacement-request/{order}', 'Api\ReplacementRequestController@saveReplacementRequest');
+
 Route::put('cancellation/withdrawal/{order}', 'Api\CancelOrderRequestController@withdrawCancellation');
 Route::get('invoices', 'Api\InvoiceController@index');
 Route::get('invoice/{invoice}', 'Api\InvoiceController@viewInvoice');
@@ -245,3 +243,9 @@ Route::put('inventory/add-stock/{inventory}', 'Api\InventoryController@addStock'
 
 // order details
 Route::get('order/{orderNum}', 'Api\OrderController@getOrder');
+//replacements
+Route::get('replacements/customer/{customerId}', 'Api\ReplacementRequestController@getCustomerRequests');
+Route::get('replacements', 'Api\ReplacementRequestController@getReplacements');
+Route::get('replacement/{requestId}', 'Api\ReplacementRequestController@details');
+Route::post('replacement/accept', 'Api\ReplacementRequestController@acceptRequest');
+Route::post('replacement/decline', 'Api\ReplacementRequestController@declineRequest');

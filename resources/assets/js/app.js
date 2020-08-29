@@ -221,7 +221,9 @@ Vue.component('cart', require('./components/cart/Cart.vue'));
 
 //Replacement
 Vue.component('request-replacement', require('./components/replacement/RequestReplacement.vue'));
-
+Vue.component('customer-replacements', require('./components/replacement/ReplacementCustomerList.vue'));
+Vue.component('admin-replacements', require('./components/replacement/ReplacementAdminList.vue'));
+Vue.component('admin-replacement-details', require('./components/replacement/AdminReplacementDetails.vue'));
 
 const app = new Vue({
     el: '#app'

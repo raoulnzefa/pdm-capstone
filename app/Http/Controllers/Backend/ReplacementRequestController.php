@@ -18,4 +18,17 @@ class ReplacementRequestController extends Controller
    	$data = 'Replacements';
    	return view('backend.replacement.index', compact('data'));
    }
+
+   public function details($requestId)
+   {
+   	$exists = ReplacementRequest::where('id',$requestId)->exists();
+
+   	if ($exists)
+   	{
+   		$data = 'Replacement Details';
+   		return view('backend.replacement.details', compact('data','requestId'));
+   	}
+
+   	return redirect()->route('replacements');
+   }
 }
