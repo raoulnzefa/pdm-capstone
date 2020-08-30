@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\ReplacementRequest;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -62,15 +63,18 @@ class ReplacementRequestController extends Controller
 
       if (!$request_exists)
       {
+         $product = Inventory::where('number',$request_product->inventory_number)->first();
          $replacement = new ReplacementRequest();
          $replacement->customer_id = (int)$request->customer; 
          $replacement->order_number = $request->order_number;
          $replacement->inventory_number = $request_product->inventory_number;
+         $replacement->product_number = $product->product_number;
          $replacement->product_name = $request_product->product_name;
          $replacement->quantity = (int)$request->quantity;
          $replacement->reason = $request->reason;
          $replacement->status = 'Pending';
          $replacement->request_created = date('Y-m-d H:i:s');
+         $replacement->status_update = 1;
          $replacement->save();
 
          return redirect()->route('replacement.request.submitted', ['order'=>$request->order_number])->with([

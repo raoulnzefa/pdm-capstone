@@ -29,10 +29,6 @@
 			<template v-if="order.order_status === 'Shipped'">
 				<div class="clearfix">
 					<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-					<mark-as-completed
-						:order="order"
-						:admin="admin">
-					</mark-as-completed>
 				</div>
 			</template>
 	</template>

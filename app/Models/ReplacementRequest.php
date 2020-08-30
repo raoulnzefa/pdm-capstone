@@ -15,4 +15,10 @@ class ReplacementRequest extends Model
    {
    	return $this->belongsTo('App\Models\Inventory');
    }
+
+   public function getRequestCreatedAttribute($value)
+   {
+      $time = strtotime($value);
+      return date('m/d/Y h:i A', $time);
+   }
 }

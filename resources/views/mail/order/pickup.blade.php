@@ -23,10 +23,6 @@ Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 
-@component('mail::button', ['url' => $url])
-Order Status
-@endcomponent
-
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

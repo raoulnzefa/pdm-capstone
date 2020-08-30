@@ -18,10 +18,9 @@ class AcceptedReplacementNotification extends Notification
      *
      * @return void
      */
-    public function __construct($replacement, $msg)
+    public function __construct($replacement)
     {
         $this->replacement = $replacement;
-        $this->msg = $msg;
     }
 
     /**
@@ -43,12 +42,11 @@ class AcceptedReplacementNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        // return (new MailMessage)
-        //     ->subject('Declined Replacement')
-        //     ->markdown('mail.order.accepted_replacement', [
-        //         'cancellation' => $this->replacement,
-        //         'url' => route('customer.replacements')
-        //     ]);
+        return (new MailMessage)
+            ->subject('Accepted Replacement')
+            ->markdown('mail.order.accepted_replacement', [
+                'replacement' => $this->replacement
+            ]);
     }
 
     /**

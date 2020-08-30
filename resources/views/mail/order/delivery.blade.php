@@ -10,10 +10,6 @@ You can check your order by visiting the Order Details page. Kindly click the bu
 Shipped: {{ date('M. d, Y h:i: A', strtotime($order->order_shipped)) }}.
 
 
-@component('mail::button', ['url' => $url ])
-Order Details
-@endcomponent
-
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

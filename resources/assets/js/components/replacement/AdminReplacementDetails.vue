@@ -82,8 +82,13 @@
 					</template>
 				</div>
 				<div class="card-footer clearfix" v-if="!loading">
-					<button class="btn btn-primary float-right" @click="acceptRequest">Accept</button>
-					<button class="btn btn-danger float-right mr-2" @click="declineRequest">Decline</button>
+					<template v-if="details.status === 'Pending'">
+						<button class="btn btn-primary float-right" @click="acceptRequest">Accept</button>
+						<button class="btn btn-danger float-right mr-2" @click="declineRequest">Decline</button>
+					</template>
+					<template v-if="details.status === 'Accepted'">
+						<button class="btn btn-primary float-right">Replace product</button>
+					</template>
 				</div>
 			</div><!-- card -->
 			<b-modal ref="requestResponseModal"
@@ -148,21 +153,22 @@
 					  cancelButtonText: 'No'
 					}).then((result) => {
 					  if (result.value) {
-					  	this.$refs.requestResponseModal.show();
-					 //  	axios.delete('/api/cart/remove/'+product.id)
-						// .then(response => {
-						// 	let res = response.data
 
-						// 	if (res.deleted)
-						// 	{
-						// 		this.$bus.$emit('update-qty', true);
-						// 		this.cartDetails();
-						// 		this.cartTotalDetails();
-						// 	}
-						// })
-						// .catch(error => {
-						// 	console.log(error.response)
-						// })
+					  	this.$refs.requestResponseModal.show();
+
+					  	axios.post('/api/replacement/accept')
+						.then(response => {
+							let res = response.data
+							if (res.success) {
+								this.$refs.requestResponseModal.hide();
+								Swal('Replacement has been accepted','', 'success');
+								this.getDetails();
+							}
+						})
+						.catch(error => {
+							this.$refs.requestResponseModal.hide();
+							console.log(error.response)
+						})
 					  }
 					});
 			},
@@ -176,20 +182,22 @@
 				  cancelButtonText: 'No'
 				}).then((result) => {
 				  if (result.value) {
-				 //  	axios.delete('/api/cart/remove/'+product.id)
-					// .then(response => {
-					// 	let res = response.data
+				  	this.$refs.requestResponseModal.show();
 
-					// 	if (res.deleted)
-					// 	{
-					// 		this.$bus.$emit('update-qty', true);
-					// 		this.cartDetails();
-					// 		this.cartTotalDetails();
-					// 	}
-					// })
-					// .catch(error => {
-					// 	console.log(error.response)
-					// })
+				  	axios.post('/api/replacement/decline')
+					.then(response => {
+						let res = response.data
+
+						if (res.success) {
+							this.$refs.requestResponseModal.hide();
+							Swal('Replacement has been declined','', 'success');
+							this.getDetails();
+						}
+					})
+					.catch(error => {
+						this.$refs.requestResponseModal.hide();
+						console.log(error.response)
+					})
 				  }
 				});
 			}

@@ -32,11 +32,8 @@ Shipping fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 
-@component('mail::button', ['url' => $url])
-Order Details
-@endcomponent
-
 @if ($order->order_shipping_method == 'Shipping')
+
 Shipping information:
 
 {{ $order->shipping->shipping_firstname.' '.$order->shipping->shipping_lastname }}<br>

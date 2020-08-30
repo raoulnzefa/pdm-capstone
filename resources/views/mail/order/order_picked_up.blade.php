@@ -18,10 +18,6 @@ This email is to confirm that the products below were picked up on {{ $order->or
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
-@component('mail::button', ['url' => $url])
-Order Details
-@endcomponent
-
 We hope you enjoy your purchase! Thank you for shopping with us.
 
 Sincerely,<br>

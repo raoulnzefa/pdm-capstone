@@ -123,19 +123,30 @@
 				return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(price);
 			},
 			removeProduct(prodId) {
-				axios.delete('/api/cart/remove/'+prodId)
-				.then(response => {
-					let res = response.data
+				Swal({
+				  title: 'You are about to remove this product?',
+				  text: '',
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Yes',
+				  cancelButtonText: 'No'
+				}).then((result) => {
+					if (result.value) {
+				  		axios.delete('/api/cart/remove/'+prodId)
+						.then(response => {
+							let res = response.data
 
-					if (res.deleted)
-					{
-						this.$bus.$emit('update-qty', true);
-						this.getCartNoLoading();
+							if (res.deleted)
+							{
+								this.$bus.$emit('update-qty', true);
+								this.getCartNoLoading();
+							}
+						})
+						.catch(error => {
+							console.log(error.response)
+						})
 					}
-				})
-				.catch(error => {
-					console.log(error.response)
-				})
+				});
 			},
 			updateCart(prodIndex) {
 				let prod = this.cartItems[prodIndex];
@@ -148,6 +159,7 @@
 					if (response.data.success) {
 						this.$bus.$emit('update-qty', true);
 						this.getCartNoLoading();
+						Swal('Cart has been updated','', 'success');
 					}
 				})
 				.catch(error => {

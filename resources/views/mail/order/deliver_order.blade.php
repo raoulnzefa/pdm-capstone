@@ -7,9 +7,6 @@ We are please to tell you that this product(s) is now on its way to you.
 
 You can check the status of your whole order by visiting the Order Details page.
 
-@component('mail::button', ['url' => $url])
-Order Details
-@endcomponent
 
 @component('mail::table')
 

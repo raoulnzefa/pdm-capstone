@@ -25,9 +25,6 @@ Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 You can check the status of your whole order and can print your invoice by visiting the Order Details page.
 
-@component('mail::button', ['url' => $url])
-Order Details
-@endcomponent
 
 Thanks,<br>
 {{ config('app.name') }}
