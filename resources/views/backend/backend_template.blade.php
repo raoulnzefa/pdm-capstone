@@ -65,8 +65,8 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMaintenance">
                                     <a class="nav-link" href="{{ route('categories') }}">Categories</a>
                                     <a class="nav-link" href="{{ route('products') }}">Products</a>
-                                    <a class="nav-link" href="{{ route('bank_account') }}">Bank account</a>
-                                    <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping rate</a>
+                                    <a class="nav-link" href="{{ route('bank_account') }}">Bank Account</a>
+                                    <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping Rate</a>
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
                             </div>
@@ -77,10 +77,12 @@
                             </a>
                             <div class="collapse accordion-link" id="collapseReports" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionReports">
-                                    <a class="nav-link" href="">Sales</a>
-                                    <a class="nav-link" href="">Inventory</a>
-                                    <a class="nav-link" href="">Customers</a>
-                                    <a class="nav-link" href="">Best selling</a>
+                                    <a class="nav-link" href="{{ route('sales_report') }}">Sales</a>
+                                    <a class="nav-link" href="{{ route('inventory_report') }}">Inventory</a>
+                                    <a class="nav-link" href="{{ route('customer_list_report') }}">Customers</a>
+                                    <a class="nav-link" href="{{ route('best_selling_report') }}">Best Selling</a>
+                                    <a class="nav-link" href="{{ route('category_report') }}">Categories</a>
+                                    <a class="nav-link" href="{{ route('user_logs_report') }}">User Logs</a>
                                 </nav>
                             </div>
                         </div>

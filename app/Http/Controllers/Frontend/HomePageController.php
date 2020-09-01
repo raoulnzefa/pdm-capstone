@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -15,9 +15,9 @@ class HomePageController extends Controller
     {   
 
       $data = 'Home';
-      $categories = Category::get();
+      $products = Product::limit(8)->get();
 
-    	return view('frontend.home', compact('data', 'categories'));
+    	return view('frontend.home', compact('data', 'products'));
 
        
     }

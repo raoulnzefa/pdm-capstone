@@ -24,8 +24,9 @@ class CreateReplacementRequestsTable extends Migration
             $table->text('reason');
             $table->string('status');
             $table->dateTime('request_created');
-            $table->dateTime('request_accepted');
-            $table->dateTime('request_declined');
+            $table->dateTime('request_approved')->nullable();
+            $table->dateTime('request_declined')->nullable();
+            $table->dateTime('request_replaced')->nullable();
             $table->tinyInteger('status_update')->default(0);
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers');

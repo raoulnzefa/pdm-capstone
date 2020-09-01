@@ -1,5 +1,9 @@
 @extends('backend.backend_template')
 
 @section('content')
-<sales-component :admin="{{ Auth::guard('admin')->user() }}"></sales-component>
+<div class="row">
+	<div class="col-md-12">
+		<h3>Sales Report</h3>
+	</div>
+</div>
 @endsection

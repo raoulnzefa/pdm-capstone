@@ -4,21 +4,20 @@
 			<h2 class="mb-4 mt-4">Inventory</h2>
 			<div class="row mb-4">
 	        <div class="col-md-3">
-	          <b-form-select v-model="filter_inventory">
-	            <option :value="null" disabled>Filter by stocks</option>
-	            <option value="For pickup">Stocks</option>
-	            <option value="Pending payment">Critical level</option>
+	          <b-form-select v-model="filter_by" @change="filterInventory">
+	            <option :value="null" disabled>Filter by</option>
+	            <option value="in_stock">Stocks</option>
+	            <option value="critical_level">Critical level</option>
 	          </b-form-select>
 	        </div>
 	        <div class="col-md-5">
-	          
 	        </div>
 	        <div class="col-md-4">
 	          <template>
 	            <div class="input-group">
 	              <input type="text" class="form-control float-right" placeholder="Search inventory number" v-model="search_val">
 	              <div class="input-group-append">
-	                <button class="btn btn-secondary" type="button" @click="searchProduct"><i class="fa fa-search"></i> Search</button>
+	                <button class="btn btn-secondary" type="button" @click="searchProduct" :disable="on_search"><i class="fa fa-search"></i> Search</button>
 	                <div class="input-group-append" v-if="on_search">
 	                  <button class="btn btn-outline-danger" type="button" @click="clearSearch">Clear</button>
 	                </div>
@@ -113,6 +112,7 @@
 				pagination: [],
 				filter_inventory: null,
 				on_search: false,
+				filter_by: null,
 			}
 		},
 		components: {
@@ -122,13 +122,18 @@
 			getInventory(pagi) {
 				this.loading = true;
 
-				if (!this.search_val)
+				if (this.search_val)
 				{
-					pagi = pagi || '/api/inventory/get';
+					pagi = '/api/inventory/get/?search='+this.search_val;
+					
+				}
+				else if (this.filter_by)
+				{
+					pagi = pagi || '/api/inventory/get/?filterBy='+this.filter_by;
 				}
 				else
 				{
-					pagi = '/api/inventory/get/?search='+this.search_val;
+					pagi = pagi || '/api/inventory/get';
 				}
 
 				axios.get(pagi)
@@ -154,10 +159,22 @@
 				});
 			},
 			searchProduct() {
+				this.on_search = true;
+
+				if (this.search_val) {
+					this.getInventory();
+				}
 
 			},
 			clearSearch() {
-
+				this.on_search = false;
+				this.search_val = null;
+				this.getInventory();
+			},
+			filterInventory() {
+				if (!this.filter_by) {
+					this.getInventory();
+				}
 			}
 		},
 		mounted() {

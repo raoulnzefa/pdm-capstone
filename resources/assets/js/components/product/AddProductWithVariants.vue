@@ -135,7 +135,7 @@
 					  	</div>
 			  		</div>
 			  	</div>
-			  	<button class="btn btn-sm btn-primary mt-3 mb-3" @click="addVariantForm"><i class="fas fa-plus"></i> Variant form</button>
+			  	<button class="btn btn-sm btn-primary mt-3 mb-3" @click="addVariantForm"><i class="fas fa-plus"></i> Add variant</button>
 			  	<div class="form-group row">
 					<label for="c_image" class="col-sm-3 col-form-label">Product image:</label>
 					<div class="col-sm-4">

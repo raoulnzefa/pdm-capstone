@@ -67,7 +67,7 @@
 											<td class="align-middle">{{details.inventory_number}}</td>
 											<td class="align-middle">
 												<div class="media">
-					                        <img :src="'/storage/products/'+details.inventory.product.product_image" class="media-object mr-2" width="12%" height="8%" alt="product image">
+					                        <img :src="'/storage/products/'+details.product.product_image" class="media-object mr-2" width="12%" height="8%" alt="product image">
 					                        <div class="media-body pt-4">
 					                           <span class="d-block">{{ details.product_name }}</span>
 					                        </div>
@@ -83,11 +83,11 @@
 				</div>
 				<div class="card-footer clearfix" v-if="!loading">
 					<template v-if="details.status === 'Pending'">
-						<button class="btn btn-primary float-right" @click="acceptRequest">Accept</button>
+						<button class="btn btn-primary float-right" @click="approveRequest">Approve</button>
 						<button class="btn btn-danger float-right mr-2" @click="declineRequest">Decline</button>
 					</template>
-					<template v-if="details.status === 'Accepted'">
-						<button class="btn btn-primary float-right">Replace product</button>
+					<template v-if="details.status === 'Approved'">
+						<button class="btn btn-primary float-right" @click="replaceProduct">Replace product</button>
 					</template>
 				</div>
 			</div><!-- card -->
@@ -118,7 +118,7 @@
 	import { HalfCircleSpinner } from 'epic-spinners';
 
 	export default {
-		props: ['id'],
+		props: ['id', 'admin'],
 		data() {
 			return {
 				details: [],
@@ -143,9 +143,9 @@
 					console.log(error.response);
 				});
 			},
-			acceptRequest() {
+			approveRequest() {
 				Swal({
-					  title: 'You are about to accept this replacement request?',
+					  title: 'You are about to approve this replacement request?',
 					  text: '',
 					  type: 'warning',
 					  showCancelButton: true,
@@ -156,12 +156,15 @@
 
 					  	this.$refs.requestResponseModal.show();
 
-					  	axios.post('/api/replacement/accept')
+					  	axios.post('/api/replacement/approve', {
+					  		replacement_id: this.details.id,
+					  		admin_id: this.admin.id,
+					  	})
 						.then(response => {
 							let res = response.data
 							if (res.success) {
 								this.$refs.requestResponseModal.hide();
-								Swal('Replacement has been accepted','', 'success');
+								Swal('Replacement status has been updated','', 'success');
 								this.getDetails();
 							}
 						})
@@ -184,13 +187,48 @@
 				  if (result.value) {
 				  	this.$refs.requestResponseModal.show();
 
-				  	axios.post('/api/replacement/decline')
+				  	axios.post('/api/replacement/decline', {
+				  		replacement_id: this.details.id,
+				  		admin_id: this.admin.id,
+				  	})
 					.then(response => {
 						let res = response.data
 
 						if (res.success) {
 							this.$refs.requestResponseModal.hide();
-							Swal('Replacement has been declined','', 'success');
+							Swal('Replacement status has been updated','', 'success');
+							this.getDetails();
+						}
+					})
+					.catch(error => {
+						this.$refs.requestResponseModal.hide();
+						console.log(error.response)
+					})
+				  }
+				});
+			},
+			replaceProduct() {
+				Swal({
+				  title: 'You are about to replace the product?',
+				  text: '',
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Yes',
+				  cancelButtonText: 'No'
+				}).then((result) => {
+				  if (result.value) {
+				  	this.$refs.requestResponseModal.show();
+
+				  	axios.post('/api/replacement/replaced-product', {
+				  		replacement_id: this.details.id,
+				  		admin_id: this.admin.id,
+				  	})
+					.then(response => {
+						let res = response.data
+
+						if (res.success) {
+							this.$refs.requestResponseModal.hide();
+							Swal('Replacement status has been updated','', 'success');
 							this.getDetails();
 						}
 					})

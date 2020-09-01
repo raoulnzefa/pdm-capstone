@@ -13,7 +13,7 @@
 					<div>
 						<h4>{{ formatMoney(product.product_no_variant.price) }}</h4>
 						<span class="badge badge-success" style="font-size: 16px;">In stock: {{ product.product_no_variant.inventory.inventory_stock}}</span>
-						<h6 class="mb-1 mt-4">Description:</h6>
+						<h6 class="mb-1 mt-4 font-weight-bold">Description:</h6>
 						<p class="text-justify">{{ product.product_description }}</p>
 					</div>
 					<div class="row mt-5">
@@ -35,7 +35,7 @@
 							</template>
 						</template>	
 					</div>
-					<button type="submit" class="btn btn-primary mt-4" :disabled="isBtnClicked">Add to cart</button>
+					<button type="submit" class="btn btn-primary mt-4" :disabled="isBtnClicked"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 				</div>
 			</div>
 			</form>

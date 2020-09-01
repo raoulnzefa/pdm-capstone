@@ -22,8 +22,9 @@
 		</div>
 		<div class="col-md-9">
 			<div class="card">
-				<div class="card-header">
-					<h3 class="mb-0">Order Details</h3>
+				<div class="card-header clearfix">
+					<h3 class="mb-0 float-left">Order Details</h3>
+					<a href="/my-account/orders" class="btn btn-secondary float-right">Back</a>
 				</div>
 				<div class="card-body">
 					@if ($order->order_shipping_method == 'Shipping')

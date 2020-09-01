@@ -12,7 +12,7 @@
 					<div v-if="variant">
 						<h4>{{ formatMoney(variantPrice) }}</h4>
 						<span class="badge badge-success" style="font-size: 16px;">In stock: {{variantInStock}}</span>
-						<h6 class="mb-1 mt-4">Description:</h6>
+						<h6 class="mb-1 mt-4 font-weight-bold">Description:</h6>
 						<p class="text-justify">{{ product.product_description }}</p>
 					</div>
 					<form @submit.prevent="addToCart">
@@ -48,7 +48,7 @@
 							</template>
 						</template>	
 					</div>
-					<button type="submit" class="btn btn-primary mt-4" :disabled="!variant_item">Add to cart</button>
+					<button type="submit" class="btn btn-primary mt-4" :disabled="!variant_item"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 				</form>
 				</div>
 			</div>

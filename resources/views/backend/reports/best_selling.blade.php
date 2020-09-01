@@ -1,5 +1,9 @@
 @extends('backend.backend_template')
 
 @section('content')
-<best-selling-report :admin="{{ Auth::guard('admin')->user() }}"></best-selling-report>
+<div class="row">
+	<div class="col-md-12">
+		<h3>Best Selling Report</h3>
+	</div>
+</div>
 @endsection

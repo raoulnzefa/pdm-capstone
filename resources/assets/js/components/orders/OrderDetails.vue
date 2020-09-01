@@ -1,60 +1,8 @@
 <template>
 <div class="card mb-5">
-	<div class="card-header">
-		<template v-if="order.order_shipping_method === 'Shipping'">
-			<template v-if="order.order_payment_method === 'Bank Deposit'">
-				<div class="clearfix" v-if="order.order_status == 'Pending payment'">
-					<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-					<view-bank-deposit-slip 
-						:order="order"
-						:admin="admin"></view-bank-deposit-slip>
-				</div>
-				<div class="clearfix" v-if="order.order_status === 'Processing'">
-					<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-					<deliver-order
-						:order="order"
-						:admin="admin">
-					</deliver-order>
-				</div>
-			</template>
-			<template v-if="order.order_payment_method === 'PayPal'">
-				<div class="clearfix" v-if="order.order_status === 'Processing'">
-					<h4 class="float-left mb-0 mt-1">Order #{{order.number}}</h4>
-					<deliver-order
-						:order="order"
-						:admin="admin">
-					</deliver-order>
-				</div>
-			</template>
-			<template v-if="order.order_status === 'Shipped'">
-				<div class="clearfix">
-					<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-				</div>
-			</template>
-	</template>
-	<template v-else><!-- if store pickup -->
-		<template v-if="order.order_status === 'For pickup'">
-			<div class="clearfix">
-				<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-				<picked-up-order
-					:order="order"
-					:admin="admin"></picked-up-order>
-			</div>
-		</template>
-	</template>
-	<template v-if="order.order_status === 'Cancelled'">
-		<div class="clearfix">
-			<h4 class="float-left mb-0">Order No. {{order.number}}</h4>
-			<!-- Invoice -->
-		</div>
-	</template>
-	<template v-if="order.order_status === 'Completed'">
-		<div class="clearfix">
-			<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-			<!-- Invoice -->
-			<a :href="'/admin/order/'+order.number+'/invoice'" class="btn btn-primary float-right">Invoice</a>
-		</div>
-	</template>
+	<div class="card-header clearfix">
+		<h3 class="mb-0 float-left">Order Details</h3>
+		<a href="/admin/orders" class="float-right btn btn-secondary">Back</a>
 	</div>
 	<div class="card-body pt-4">
 		<template v-if="loading">
@@ -67,6 +15,60 @@
 			</center>
 		</template>
 		<template v-else>
+			<template v-if="order.order_shipping_method === 'Shipping'">
+				<template v-if="order.order_payment_method === 'Bank Deposit'">
+					<div class="clearfix" v-if="order.order_status == 'Pending payment'">
+						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<view-bank-deposit-slip 
+							:order="order"
+							:admin="admin"></view-bank-deposit-slip>
+					</div>
+					<div class="clearfix" v-if="order.order_status === 'Processing'">
+						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<deliver-order
+							:order="order"
+							:admin="admin">
+						</deliver-order>
+					</div>
+				</template>
+				<template v-if="order.order_payment_method === 'PayPal'">
+					<div class="clearfix" v-if="order.order_status === 'Processing'">
+						<h4 class="float-left mb-0 mt-1">Order #{{order.number}}</h4>
+						<deliver-order
+							:order="order"
+							:admin="admin">
+						</deliver-order>
+					</div>
+				</template>
+				<template v-if="order.order_status === 'Shipped'">
+					<div class="clearfix">
+						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+					</div>
+				</template>
+		</template>
+		<template v-else><!-- if store pickup -->
+			<template v-if="order.order_status === 'For pickup'">
+				<div class="clearfix">
+					<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+					<picked-up-order
+						:order="order"
+						:admin="admin"></picked-up-order>
+				</div>
+			</template>
+		</template>
+		<template v-if="order.order_status === 'Cancelled'">
+			<div class="clearfix">
+				<h4 class="float-left mb-0">Order No. {{order.number}}</h4>
+				<!-- Invoice -->
+			</div>
+		</template>
+		<template v-if="order.order_status === 'Completed'">
+			<div class="clearfix">
+				<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+				<!-- Invoice -->
+				<a :href="'/admin/order/'+order.number+'/invoice'" class="btn btn-primary float-right">Invoice</a>
+			</div>
+		</template>
 			<!-- /header card --> 
 			<div class="row mt-3">
 				<div class="col-md-6">

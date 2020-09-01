@@ -7,7 +7,7 @@
   <!-- Links -->
       <ul class="navbar-nav">
           <li class="nav-item mr-2">
-              <a class="nav-link text-light cool-link" href="{{ url('/products') }}">GO SHOPPING</a>
+              <a class="nav-link text-light cool-link" href="{{ url('/products') }}">PRODUCTS</a>
           </li>
       </ul>
       <ul class="navbar-nav ml-auto">

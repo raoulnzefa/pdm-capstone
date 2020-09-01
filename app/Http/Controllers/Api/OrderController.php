@@ -280,4 +280,33 @@ class OrderController extends Controller
 
       return response()->json(['success'=>true]);
    }
+
+   public function customerOrders(Request $request, $customerId)
+   {
+      // chechk query parameter
+      if ($request->query('search'))
+      {
+          // search value
+          $search_val = $request->query('search');
+          // get orders base on order number
+          $orders = Order::where(['number'=>$search_val,'customer_id'=>$customerId])->paginate(10);
+
+          // appends to pagination
+          $orders->appends($request->only('search'));
+      }
+      elseif ($request->query('status'))
+      {
+          // order status
+          $order_status = $request->query('status');
+          // get orders
+          $orders = Order::where(['order_status'=> $order_status, 'customer_id'=>$customerId])->paginate(10);
+      }
+      else
+      {
+          $orders = Order::where('customer_id',$customerId)->orderBy('viewed','asc')->paginate(10);
+
+      }
+
+      return response()->json($orders);
+   }
 }

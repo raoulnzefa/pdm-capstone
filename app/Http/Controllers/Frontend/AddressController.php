@@ -21,7 +21,7 @@ class AddressController extends Controller
    {
       $data = 'Address';
       $addresses = Address::get();
-   	return view('frontend.address.index', compact('address','addresses'));
+   	return view('frontend.address.index', compact('data','addresses'));
    }
 
    public function create()

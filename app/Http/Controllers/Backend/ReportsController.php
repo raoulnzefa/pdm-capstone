@@ -19,21 +19,37 @@ class ReportsController extends Controller
 
     public function salesReport()
     {
-        return view('backend.reports.sales_report');
+        $data = 'Sales';
+        return view('backend.reports.sales_report', compact('data'));
     }
 
     public function inventoryReportIndex()
     {
-    	return view('backend.reports.inventory_report');
+        $data = 'Inventory';
+    	return view('backend.reports.inventory_report', compact('data'));
     }
 
     public function productsReportIndex()
     {
-    	return view('backend.reports.products_report');
+        $data = 'Products'
+    	return view('backend.reports.products_report', compact('data'));
     }
     
     public function bestSelling()
     {
-        return view('backend.reports.best_selling');
+        $data = 'Best Selling';
+        return view('backend.reports.best_selling', compact('data'));
+    }
+
+    public function customerList()
+    {
+        $data = 'Customer List';
+        return view('backend.reports.customer_list', compact('data'));
+    }
+
+    public function userLogs()
+    {
+        $data = 'User Logs';
+        return view('backend.user_logs.index', compact('data'));
     }
 }

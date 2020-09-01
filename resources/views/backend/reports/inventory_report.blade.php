@@ -1,5 +1,9 @@
 @extends('backend.backend_template')
 
 @section('content')
-<inventory-report :admin="{{ Auth::guard('admin')->user() }}"></inventory-report>
+<div class="row">
+	<div class="col-md-12">
+		<h3>Inventory Report</h3>
+	</div>
+</div>
 @endsection

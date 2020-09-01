@@ -142,6 +142,8 @@ Vue.component('customer-cancelled-orders', require('./components/customer/Cancel
 Vue.component('customer-invoice', require('./components/customer/Invoice.vue'));
 Vue.component('upload-deposit-slip', require('./components/bank_deposit_slip/UploadBankDepositSlip.vue'));
 
+Vue.component('customer-orders', require('./components/customer/Orders.vue'));
+
 // my account sidebar notification
 Vue.component('cancel-request-notif', require('./components/notification_badges/CustCancelRequestBell.vue'));
 

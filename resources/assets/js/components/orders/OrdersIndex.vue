@@ -1,5 +1,5 @@
 <template>
-<div class="row justify-content-center mb-5">
+<div class="row mb-5">
     <div class="col-md-12">
     <h2 class="mt-4 mb-4">Orders</h2>  
       <div class="row mb-4">
@@ -9,7 +9,7 @@
             <option value="For pickup">For pickup</option>
             <option value="Pending payment">Pending payment</option>
             <option value="Processing">Processing</option>
-            <option value="Delivered">Delivered</option>
+            <option value="Shipped">Shipped</option>
             <option value="Completed">Completed</option>
             <option value="Cancelled">Cancelled</option>
           </b-form-select>
@@ -35,7 +35,7 @@
           <thead>
             <tr>
               <th></th>
-              <th>Order #</th>
+              <th>Order No.</th>
               <th>Date</th>
               <th>Status</th>
               <th>Customer</th>
@@ -181,7 +181,6 @@
               axios.get(pagi)
               .then(response => {
                   this.loading = false;
-                  console.log(response.data.data);
                   this.orders = response.data.data;
                   this.pagination = {
                     current_page: response.data.current_page,

@@ -19,6 +19,7 @@ class ReplacementRequestController extends Controller
 
    public function index()
    {
+      $data = 'Replacements';
    	$replacements = ReplacementRequest::with('inventory.product')->get();
 
    	return view('frontend.replacement.index', compact('data','replacements'));

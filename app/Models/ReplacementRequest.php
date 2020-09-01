@@ -16,6 +16,16 @@ class ReplacementRequest extends Model
    	return $this->belongsTo('App\Models\Inventory');
    }
 
+   public function product()
+   {
+      return $this->belongsTo('App\Models\Product', 'product_number');
+   }
+
+   public function customer()
+   {
+      return $this->belongsTo('App\Models\Customer');
+   }
+
    public function getRequestCreatedAttribute($value)
    {
       $time = strtotime($value);

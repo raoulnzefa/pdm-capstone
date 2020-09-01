@@ -29,6 +29,30 @@ class InventoryController extends Controller
 
             //$inventory->appends($request->only('search'));
         }
+        elseif ($request->query('filterBy'))
+        {
+            $filter_by = $request->query('filterBy');
+            // get search result with pagination
+
+            if ($filter_by == 'in_stock')
+            {
+              $inventory = Inventory::where(function($query) use ($filter_by) {
+                            $query->where('inventory_stock', '>', 'inventory_critical_level');
+                        })
+                        ->with('product.category','productWithVariant','productNoVariant')
+                        ->paginate(10);
+            }
+            else
+            {
+              // filter by critical level stocks
+              $inventory = Inventory::where(function($query) use ($filter_by) {
+                            $query->where('inventory_stock', '<=', 'inventory_critical_level');
+                        })
+                        ->with('product.category','productWithVariant','productNoVariant')
+                        ->paginate(10);  
+            }
+            
+        }
         else
         {
             // get inventory with pagination of 5
@@ -54,7 +78,7 @@ class InventoryController extends Controller
 
      	$array_params = [
          'id' => $request->admin_id,
-         'action' => 'Added new stock(s). Inventory no.: '.$inventory->number.'. New added stock: '.$request->inventory_stock.'. Old stock: '.$old_stock.' Total stocks: '.$inventory->inventory_stock,
+         'action' => 'Added new stock(s). Inventory no.: '.$inventory->number.'. New added stock: '.$request->inventory_stock.'. Old stock: '.$old_stock.' Total stocks: '.$inventory->inventory_stock
       ];
 
       $this->createUserLog($array_params);

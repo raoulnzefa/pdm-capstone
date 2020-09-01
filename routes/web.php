@@ -67,8 +67,6 @@ Route::get('admin/sales', 'Backend\SalesController@index');
 
 //Route::get('admin/reason', 'Backend\ReasonController@index')->name('reason');
 
-Route::get('admin/user-logs', 'Backend\UserLogsController@index');
-
 Route::post('admin/decline-cancellation-request', 'Backend\CancellationController@submitDecline')->name('submit_cancellation_decline');
 
 //Frontend
@@ -163,21 +161,20 @@ Route::put('admin/cancellation-request/approve', 'Backend\CancellationController
 Route::get('admin/order/return/{returnRequest}/details', 'Backend\ReturnRequestController@details')->name('return_request_details');;
 
 Route::post('search-product', 'Frontend\ProductPageController@searchProduct')->name('search.product');
-Route::get('terms-and-conditions', function() {
-	return view('frontend.terms_and_conditions');
-});
+Route::get('terms-and-conditions','Frontend\PageController@termsAndConditions')->name('terms_and_conditions');
 
-Route::get('cancel-and-return', function() {
-	return view('frontend.cancel_and_return');
-});
+Route::get('cancel-and-return', 'Frontend\PageController@cancelAndReturn')->name('cancel_and_return');
 
 Route::get('search-product', 'Frontend\ProductPageController@searchResult')->name('search.result');
+
 // reports
-
-Route::get('admin/reports/inventory', 'Backend\ReportsController@inventoryReportIndex');
-Route::get('admin/reports/products', 'Backend\ReportsController@productsReportIndex');
-
-Route::get('admin/reports/sales', 'Backend\ReportsController@salesReport');
+Route::get('admin/reports/inventory', 'Backend\ReportsController@inventoryReportIndex')->name('inventory_report');
+Route::get('admin/reports/products', 'Backend\ReportsController@productsReportIndex')->name('products_report');
+Route::get('admin/reports/sales', 'Backend\ReportsController@salesReport')->name('sales_report');
+Route::get('admin/reports/customer-list', 'Backend\CustomerController@list')->name('customer_list_report');
+Route::get('admin/reports/best-selling', 'Backend\ReportsController@bestSelling')->name('best_selling_report');
+Route::get('admin/reports/categories', 'Backend\ReportsController@categoryReport')->name('category_report');
+Route::get('admin/reports/user-logs', 'Backend\ReportsController@userLogs')->name('user_logs_report');
 
 Route::get('admin/bank-account', 'Backend\BankAccountController@index')->name('bank_account');
 Route::get('admin/invoice/{invoice}', 'Backend\InvoiceController@viewInvoice');
@@ -213,10 +210,6 @@ Route::get('admin/shipping-rate', 'Backend\ShippingRateController@index')->name(
 
 
 Route::get('/admin/user/edit-information', 'Backend\AdminCrudController@editInformation');
-
-Route::get('/admin/reports/customer-list', 'Backend\CustomerController@list');
-
-Route::get('/admin/reports/best-selling', 'Backend\ReportsController@bestSelling');
 
 Route::put('/admin/order/return-request/complete/{returnRequest}', 'Backend\ReturnRequestController@completeReturnRequest')->name('complete_return_request');
 

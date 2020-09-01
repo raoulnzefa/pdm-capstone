@@ -247,5 +247,9 @@ Route::get('order/{orderNum}', 'Api\OrderController@getOrder');
 Route::get('replacements/customer/{customerId}', 'Api\ReplacementRequestController@getCustomerRequests');
 Route::get('replacements', 'Api\ReplacementRequestController@getReplacements');
 Route::get('replacement/{requestId}', 'Api\ReplacementRequestController@details');
-Route::post('replacement/accept', 'Api\ReplacementRequestController@acceptRequest');
+Route::post('replacement/approve', 'Api\ReplacementRequestController@approveRequest');
 Route::post('replacement/decline', 'Api\ReplacementRequestController@declineRequest');
+Route::post('replacement/replaced-product', 'Api\ReplacementRequestController@replaceProduct');
+
+// orders
+Route::get('orders/customer/{customerId}', 'Api\OrderController@customerOrders');
