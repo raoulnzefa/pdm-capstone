@@ -88,7 +88,7 @@ class ProductController extends Controller
 
         $array_params = [
             'id' => $request->admin_id,
-            'action' => 'Add new product. Product #: '.$prodNum->number
+            'action' => 'Add new product. Product ID: '.$prodNum->number
         ];
 
         $this->createUserLog($array_params);
@@ -150,7 +150,7 @@ class ProductController extends Controller
         
         $array_params = [
             'id' => $request->admin_id,
-            'action' => 'Edit product. Product #: '.$product->number
+            'action' => 'Edit product. Product ID: '.$product->number
         ];
 
         $this->createUserLog($array_params);
@@ -225,15 +225,14 @@ class ProductController extends Controller
             $productVariant->variant_status = (int)$variant->variant_status;
             $productVariant->save();
 
+             $array_params = [
+                    'id' => $request->admin_id,
+                    'action' => 'Added product with variants. Product ID: '.$prodNum->number.' . Variant: '.$productVariant->variant_value
+                ];
+
+             $this->createUserLog($array_params);
+
         }
-
-
-        $array_params = [
-            'id' => $request->admin_id,
-            'action' => 'Added product with variants. Product #: '.$prodNum->number
-        ];
-
-        $this->createUserLog($array_params);
 
         $response = array('success'=>true);
         
@@ -274,7 +273,7 @@ class ProductController extends Controller
 
         $array_params = [
             'id' => $request->admin_id,
-            'action' => 'Updated product catalog with variants. Product #: '.$product->number
+            'action' => 'Updated product catalog with variants. Product ID: '.$product->number
         ];
 
         $this->createUserLog($array_params);
@@ -323,7 +322,7 @@ class ProductController extends Controller
 
         $array_params = [
             'id' => $request->admin_id,
-            'action' => 'Updated product catalog no variants. Product #: '.$product->number
+            'action' => 'Updated product catalog no variants. Product ID: '.$product->number
         ];
 
         $this->createUserLog($array_params);
@@ -341,7 +340,7 @@ class ProductController extends Controller
 
          $array_params = [
             'id' => $request->admin_id,
-            'action' => 'Added stock: '.$request->quantity.' Product #: '.$product->number
+            'action' => 'Added stock: '.$request->quantity.' Product ID: '.$product->number
         ];
 
         $this->createUserLog($array_params);  

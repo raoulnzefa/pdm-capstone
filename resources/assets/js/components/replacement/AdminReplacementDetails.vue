@@ -2,8 +2,9 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card mt-4">
-				<div class="card-header">
-					<h2 class="mb-0">Replacement Details</h2>
+				<div class="card-header clearfix">
+					<h2 class="float-left mb-0">Replacement Details</h2>
+					<a href="/admin/replacements" class="float-right btn btn-outline-secondary">Back</a>
 				</div>
 				<div class="card-body pt-4">
 					<template v-if="loading">

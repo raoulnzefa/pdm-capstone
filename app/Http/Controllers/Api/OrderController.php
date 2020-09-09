@@ -116,7 +116,7 @@ class OrderController extends Controller
 
       $userlog_params = [
          'id' => $request->admin_id,
-         'action' => 'Mark as completed: Order #'.$order->number.'.'
+         'action' => 'Mark as completed: Order No.'.$order->number.'.'
       ];
 
       $this->createUserLog($userlog_params);
@@ -143,7 +143,7 @@ class OrderController extends Controller
 
             $userlog_params = [
                 'id' => $request->admin_id,
-                'action' => 'Mark as paid: Order #'.$order->number.'.'
+                'action' => 'Mark as paid: Order No.'.$order->number.'.'
             ];
 
             $this->createUserLog($userlog_params);
@@ -196,7 +196,7 @@ class OrderController extends Controller
 
          $userlog_params = [
              'id' => $request->admin_id,
-             'action' => 'Mark as shipped. Order #: '.$order->number.'.'
+             'action' => 'Mark as shipped. Order No.: '.$order->number.'.'
          ];
 
          $this->createUserLog($userlog_params);
@@ -223,7 +223,7 @@ class OrderController extends Controller
 
       $userlog_params = [
           'id' => $request->admin_id,
-          'action' => 'Mark as completed. Order #: '.$order->number.'.'
+          'action' => 'Mark as completed. Order No.: '.$order->number.'.'
       ];
 
       $this->createUserLog($userlog_params);

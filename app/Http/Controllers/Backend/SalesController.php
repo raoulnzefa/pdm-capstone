@@ -14,6 +14,7 @@ class SalesController extends Controller
 
     public function index()
     {
-    	return view('backend.sales.index');
+    	$data = 'Sales';
+    	return view('backend.sales.index', compact('data'));
     }
 }

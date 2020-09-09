@@ -13,7 +13,21 @@ use Carbon\Carbon;
 
 class SalesController extends Controller
 {
-    
+    public function sales()
+    {
+        $sales = DB::table('invoice_products as invp')
+            ->leftJoin('inventories', 'invp.inventory_number', '=','inventories.number')
+            ->leftJoin('products', 'inventories.product_number', '=', 'products.number')
+            ->leftJoin('categories', 'products.category_id', '=','categories.id')
+            ->selectRaw('invp.*, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
+            ->whereRaw('MONTH(invp.created_at) = MONTH(CURDATE())')
+            ->whereRaw('YEAR(invp.created_at) = YEAR(CURDATE())')
+            ->groupBy('category')
+            ->get();
+
+        return response()->json($sales);
+    }
+
     public function searchSales(Request $request)
     {
         $request->validate([

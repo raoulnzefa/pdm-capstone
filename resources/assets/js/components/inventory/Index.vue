@@ -5,12 +5,18 @@
 			<div class="row mb-4">
 	        <div class="col-md-3">
 	          <b-form-select v-model="filter_by" @change="filterInventory">
-	            <option :value="null" disabled>Filter by</option>
-	            <option value="in_stock">Stocks</option>
+	            <option value="in_stock">All stocks</option>
 	            <option value="critical_level">Critical level</option>
+	            <option value="out_of_stock">Out of stock</option>
 	          </b-form-select>
 	        </div>
 	        <div class="col-md-5">
+	        	<form ref="reportForm" method="POST" action="/admin/report/generate-inventory" v-if="inventories.length">
+	        		<input type="hidden" name="_token" :value="csrf">
+	        		<input type="hidden" name="report_type" :value="filter_by">
+	        		<input type="hidden" name="admin_id" :value="admin.id">
+	        		<button type="submit" class="btn btn-primary" :disable="generateClicked">Generate report</button>
+	        	</form>
 	        </div>
 	        <div class="col-md-4">
 	          <template>
@@ -29,10 +35,10 @@
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Number</th>
+						<th>ID</th>
 						<th width="32%">Product</th>
 						<th>Category</th>
-						<th>Stocks</th>
+						<th>Quantity</th>
 						<th width="10%">Crit. level</th>
 						<th>Action</th>
 					</tr>
@@ -52,7 +58,9 @@
 					<template v-else>
 						<template v-if="!inventories.length">
 							<tr>
-								<td colspan="6" align="center">No Products.</td>
+								<td colspan="6" align="center" v-if="filter_by === 'in_stock'">No products.</td>
+								<td colspan="6" align="center" v-if="filter_by === 'critical_level'">No critical levels.</td>
+								<td colspan="6" align="center" v-if="filter_by === 'out_of_stock'">No out of stock.</td>
 							</tr>
 						</template>
 						<template v-else>
@@ -107,12 +115,14 @@
 		data() {
 			return {
 				inventories: [],
+				generateClicked: false,
+				csrf: document.head.querySelector('meta[name="csrf-token"]').content,
 				loading: false,
 				search_val: null,
 				pagination: [],
 				filter_inventory: null,
 				on_search: false,
-				filter_by: null,
+				filter_by: 'in_stock',
 			}
 		},
 		components: {
@@ -121,6 +131,7 @@
 		methods: {
 			getInventory(pagi) {
 				this.loading = true;
+				this.generateClicked = true;
 
 				if (this.search_val)
 				{
@@ -139,6 +150,7 @@
 				axios.get(pagi)
 				.then(response => {
 					this.loading = false;
+					this.generateClicked = false;
 					this.inventories = response.data.data;
 					this.pagination = {
 	       				current_page: response.data.current_page,
@@ -155,6 +167,7 @@
 				})
 				.catch(error => {
 					this.loading = false;
+					this.generateClicked = false;
 					console.log(error.response);
 				});
 			},
@@ -171,10 +184,12 @@
 				this.search_val = null;
 				this.getInventory();
 			},
-			filterInventory() {
-				if (!this.filter_by) {
-					this.getInventory();
-				}
+			filterInventory(e) {
+				this.filter_by = e;
+				this.getInventory();
+			},
+			generateReport() {
+				alert('report');
 			}
 		},
 		mounted() {

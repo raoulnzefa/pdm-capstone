@@ -95,14 +95,14 @@
 					   	</div>
 					  	</div>
 					  	<div class="form-group row">
-					   	<label for="" class="col-sm-3 col-form-label text-right">Stock:</label>
+					   	<label for="" class="col-sm-3 col-form-label text-right">Quantity:</label>
 					   	<div class="col-sm-9">
 					   		<input type="text" class="form-control"
 					   			v-model.trim="v.inventory_stock.$model"
 					   			:class="{'is-invalid': v.inventory_stock.$error }"
 					   			placeholder="Enter a variant stock">
 					   			<div v-if="v.inventory_stock.$error">
-										<span class="error-feedback" v-if="!v.inventory_stock.required">Please enter a variant stock</span>
+										<span class="error-feedback" v-if="!v.inventory_stock.required">Please enter a variant quantity</span>
 										<template v-if="v.inventory_stock.required">
 											<span class="error-feedback" v-if="!v.inventory_stock.numbersOnly">Please enter a valid value</span>
 										</template>	

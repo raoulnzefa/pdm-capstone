@@ -2,7 +2,7 @@
 <div class="card mb-5">
 	<div class="card-header clearfix">
 		<h3 class="mb-0 float-left">Order Details</h3>
-		<a href="/admin/orders" class="float-right btn btn-secondary">Back</a>
+		<a href="/admin/orders" class="float-right btn btn-outline-secondary">Back</a>
 	</div>
 	<div class="card-body pt-4">
 		<template v-if="loading">

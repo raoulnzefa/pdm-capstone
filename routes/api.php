@@ -54,6 +54,8 @@ Route::post('product-with-variants/create', 'Api\ProductWithVariantController@cr
 //Admin Side
 //Customer list
 Route::get('/customers', 'Api\CustomerController@list');
+Route::get('/customer/{customerId}', 'Api\CustomerController@details');
+
 // Order not view
 Route::get('order/not-view', 'Api\OrderController@orderNotView');
 Route::put('order/viewed/{order}', 'Api\OrderController@updateOrderViewed');
@@ -112,7 +114,7 @@ Route::post('cancel-product-qty', 'Api\CancelOrderController@updateCancelQty');
 Route::post('order/payment-received', 'Api\OrderController@markAsPaid');
 Route::post('order/complete-order', 'Api\OrderController@completeOrder');
 
-Route::get('sales', 'Api\SalesController@salesOrder');
+Route::get('sales', 'Api\SalesController@sales');
 
 Route::get('provinces', 'Api\ProvinceController@list');
 

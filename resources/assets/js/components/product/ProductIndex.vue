@@ -30,7 +30,7 @@
 			<table class="table table-bordered table-striped table-hovered table-condensed">
 				<thead>
 					<tr>
-						<th>Number</th>
+						<th>ID</th>
 						<th width="30%">Product</th>
 						<th>Category</th>
 						<th>Price</th>

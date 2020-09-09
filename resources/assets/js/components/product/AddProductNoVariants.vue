@@ -64,7 +64,7 @@
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-			   	<label for="colAddProdStock" class="col-sm-3 col-form-label">Stock:</label>
+			   	<label for="colAddProdStock" class="col-sm-3 col-form-label">Quantity:</label>
 			   	<div class="col-sm-9">
 			   		<input type="text" class="form-control" id="colAddStock" 
 			   			placeholder="Enter stock"
@@ -73,7 +73,7 @@
 			   			:class="{'is-invalid': $v.stock.$error }"
 			   			>
 			   		<div v-if="$v.stock.$error">
-							<span class="error-feedback" v-if="!$v.stock.required">Stock is required</span>	
+							<span class="error-feedback" v-if="!$v.stock.required">Quantity is required</span>	
 							<template v-if="$v.stock.required">
 								<span class="error-feedback" v-if="!$v.stock.numbersOnly">Please enter a valid value</span>
 							</template>	

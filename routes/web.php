@@ -58,12 +58,12 @@ Route::get('/admin/order/{order}/ship', 'Backend\ShipController@shipOrder');
 
 Route::get('/admin/order/{order}/cancel', 'Backend\OrderController@cancelOrderRefund');
 
-Route::get('/admin/customers', 'Backend\CustomerController@index');
+Route::get('/admin/customers', 'Backend\CustomerController@index')->name('customers');
 
 
 Route::post('/order/cancel', 'Backend\OrderController@cancelOrder');
 
-Route::get('admin/sales', 'Backend\SalesController@index');
+Route::get('admin/sales', 'Backend\SalesController@index')->name('sales');
 
 //Route::get('admin/reason', 'Backend\ReasonController@index')->name('reason');
 
@@ -167,15 +167,6 @@ Route::get('cancel-and-return', 'Frontend\PageController@cancelAndReturn')->name
 
 Route::get('search-product', 'Frontend\ProductPageController@searchResult')->name('search.result');
 
-// reports
-Route::get('admin/reports/inventory', 'Backend\ReportsController@inventoryReportIndex')->name('inventory_report');
-Route::get('admin/reports/products', 'Backend\ReportsController@productsReportIndex')->name('products_report');
-Route::get('admin/reports/sales', 'Backend\ReportsController@salesReport')->name('sales_report');
-Route::get('admin/reports/customer-list', 'Backend\CustomerController@list')->name('customer_list_report');
-Route::get('admin/reports/best-selling', 'Backend\ReportsController@bestSelling')->name('best_selling_report');
-Route::get('admin/reports/categories', 'Backend\ReportsController@categoryReport')->name('category_report');
-Route::get('admin/reports/user-logs', 'Backend\ReportsController@userLogs')->name('user_logs_report');
-
 Route::get('admin/bank-account', 'Backend\BankAccountController@index')->name('bank_account');
 Route::get('admin/invoice/{invoice}', 'Backend\InvoiceController@viewInvoice');
 
@@ -228,4 +219,16 @@ Route::get('order/{order}/request-replacement', 'Frontend\ReplacementRequestCont
 Route::get('my-account/replacements', 'Frontend\ReplacementRequestController@index')->name('customer.replacements');
 Route::post('replacement/request/store', 'Frontend\ReplacementRequestController@store');
 Route::get('order/{order}/replacement-request/submitted', 'Frontend\ReplacementRequestController@submitted')->name('replacement.request.submitted');
+
+// reports pdf
+Route::post('admin/report/generate-inventory', 'Backend\ReportsController@generateInventory');
+Route::post('admin/report/generate-customer', 'Backend\ReportsController@generateCustomer');
+Route::post('admin/report/generate-sales', 'Backend\ReportsController@generateSales');
+Route::post('admin/report/generate-audit-trail', 'Backend\ReportsController@generateAuditTrail');
+
+// customer admin details
+Route::get('admin/customer/{customerId}', 'Backend\CustomerController@view');
+
+// Audit Trail
+Route::get('admin/audit-trail', 'Backend\AuditTrailController@index')->name('audit_trail');
 

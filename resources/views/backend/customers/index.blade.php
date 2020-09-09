@@ -1,5 +1,5 @@
 @extends('backend.backend_template')
 
 @section('content')
-<customer-list></customer-list>
+<customer-list :admin="{{ Auth::guard('admin')->user() }}"></customer-list>
 @endsection

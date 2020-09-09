@@ -1,0 +1,36 @@
+
+.img-responsive {
+    height: auto;
+    width: auto;
+    max-height: 75px;
+    max-width: 250px;
+}
+
+.report-name {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.bg-dark {
+    background-color: #000;
+    color: #fff;
+}
+
+.content {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content th, .content td {
+    border: 1px solid;
+    padding: 10px;
+    text-align: left;
+}
+
+.t-footer td {
+    padding: 10px;
+    font-weight: bold;
+}

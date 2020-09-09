@@ -119,6 +119,8 @@ Vue.component('stocks-component', require('./components/reports/StocksComponent.
 Vue.component('critical-level-component', require('./components/reports/CriticalLevelComponent.vue'));
 Vue.component('out-of-stock-component', require('./components/reports/OutOfStockComponent.vue'));
 Vue.component('sales-component', require('./components/reports/Sales.vue'));
+Vue.component('sales-report', require('./components/reports/SalesReport.vue'));
+
 // user logs
 Vue.component('user-logs', require('./components/user_logs/UserLogsIndex.vue'));
 // notification badges
@@ -226,6 +228,12 @@ Vue.component('request-replacement', require('./components/replacement/RequestRe
 Vue.component('customer-replacements', require('./components/replacement/ReplacementCustomerList.vue'));
 Vue.component('admin-replacements', require('./components/replacement/ReplacementAdminList.vue'));
 Vue.component('admin-replacement-details', require('./components/replacement/AdminReplacementDetails.vue'));
+
+// customer
+Vue.component('customer-admin-details', require('./components/customer_admin/CustomerDetails.vue'));
+
+// audit trail
+Vue.component('audit-trail', require('./components/audit_trail/AuditTrailIndex.vue'));
 
 const app = new Vue({
     el: '#app'

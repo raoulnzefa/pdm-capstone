@@ -56,8 +56,16 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-exchange-alt"></i></div>
                                 Replacements
                             </a>
+                            <a class="nav-link" href="{{ route('sales') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-poll-h"></i></div>
+                                Sales
+                            </a>
+                            <a class="nav-link" href="{{ route('customers') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Customers
+                            </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-sliders-h"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                                 Maintenance
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -70,21 +78,10 @@
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
-                                Reports
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <a class="nav-link" href="{{ route('audit_trail') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                                Audit Trail
                             </a>
-                            <div class="collapse accordion-link" id="collapseReports" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionReports">
-                                    <a class="nav-link" href="{{ route('sales_report') }}">Sales</a>
-                                    <a class="nav-link" href="{{ route('inventory_report') }}">Inventory</a>
-                                    <a class="nav-link" href="{{ route('customer_list_report') }}">Customers</a>
-                                    <a class="nav-link" href="{{ route('best_selling_report') }}">Best Selling</a>
-                                    <a class="nav-link" href="{{ route('category_report') }}">Categories</a>
-                                    <a class="nav-link" href="{{ route('user_logs_report') }}">User Logs</a>
-                                </nav>
-                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -111,8 +108,6 @@
         </div>
        
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-         
-
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('template_js/scripts.js') }}"></script>
