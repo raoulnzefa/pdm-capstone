@@ -1,6 +1,6 @@
 <template>
 <div>
-	<form @submit.prevent="submitAuditTrail" method="POST" ref="auditTrailForm"  action="/admin/report/generate-audit-trail">
+	<form @submit.prevent="submitAuditTrail" target="_blank" method="POST" ref="auditTrailForm"  action="/admin/report/audit-trail">
 		<input type="hidden" name="_token" :value="csrf">
 		<input type="hidden" name="admin_id" :value="admin.id">
 		<div class="form-group">
@@ -29,7 +29,7 @@
              	<span class="error-feedback" v-if="!$v.to_date.required">Please select a date</span>
             </div>
 		</div>
-		<button type="submit" class="btn btn-primary mb-2 mr-1">Generate report</button>
+		<button type="submit" formtarget="_blank" class="btn btn-primary mb-2 mr-1">Generate report</button>
 	</form>
 </div>
 </template>

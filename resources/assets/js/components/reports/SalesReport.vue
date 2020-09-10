@@ -1,6 +1,6 @@
 <template>
 <div>
-	<form @submit.prevent="submitSalesReport" method="POST" ref="salesReportForm"  action="/admin/report/generate-sales">
+	<form @submit.prevent="submitSalesReport" target="_blank" method="POST" ref="salesReportForm"  action="/admin/report/sales">
 		<input type="hidden" name="_token" :value="csrf">
 		<input type="hidden" name="admin_id" :value="admin.id">
 		<div class="form-group">
@@ -29,7 +29,8 @@
              	<span class="error-feedback" v-if="!$v.to_date.required">Please select a date</span>
             </div>
 		</div>
-		<button type="submit" class="btn btn-primary mb-2 mr-1">Generate report</button>
+		<button type="submit" class="btn btn-primary">Generate Sales</button>
+		<button class="btn btn-danger" @click="clearSalesForm">Clear</button>
 	</form>
 </div>
 </template>
@@ -78,6 +79,11 @@
 			},
 			toDateChange(e) {
 				this.$set(this.options.from, 'maxDate',e.date || null);
+			},
+			clearSalesForm() {
+				this.to_date = null;
+				this.from_date = null;
+				this.$nextTick(() => { this.$v.$reset() });
 			}
 		}
 	}

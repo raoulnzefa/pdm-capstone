@@ -26,8 +26,13 @@
             <button class="btn btn-link btn-sm order-1 order-lg-0 mr-auto" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar-->
              <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">{{ Auth::guard('admin')->user()->username }}</a>
+                 <li class="nav-item">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="usernameDropdown" role="button" data-toggle="dropdown"><i class="fa fa-user nav-icon"></i> {{Auth::guard('admin')->user()->username}}</a>
+                        <div class="dropdown-menu" aria-labelledby="usernameDropdown">
+                            <a class="dropdown-item" href="/admin/user/edit-information">Edit information</a>
+                        </div>
+                    </li>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>

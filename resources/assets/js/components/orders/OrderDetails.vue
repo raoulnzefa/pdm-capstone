@@ -33,7 +33,7 @@
 				</template>
 				<template v-if="order.order_payment_method === 'PayPal'">
 					<div class="clearfix" v-if="order.order_status === 'Processing'">
-						<h4 class="float-left mb-0 mt-1">Order #{{order.number}}</h4>
+						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
 						<deliver-order
 							:order="order"
 							:admin="admin">
@@ -66,7 +66,12 @@
 			<div class="clearfix">
 				<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
 				<!-- Invoice -->
-				<a :href="'/admin/order/'+order.number+'/invoice'" class="btn btn-primary float-right">Invoice</a>
+				<form @submit.prevent="generateInvoice" method="POST" target="_blank" ref="invoiceOrderDetails" action="/admin/order/invoice">
+					<input type="hidden" name="_token" :value="csrf">
+					<input type="hidden" name="order_number" :value="order.number">
+					<input type="hidden" name="admin_id" :value="admin.id">
+					<button type="submit" class="btn btn-primary float-right">Invoice</button>
+				</form>
 			</div>
 		</template>
 			<!-- /header card --> 
@@ -176,6 +181,7 @@ export default {
 		return {
 			order: [],
 			loading: false,
+			csrf: document.head.querySelector('meta[name="csrf-token"]').content,
 		}
 	},
 	components:{
@@ -193,6 +199,9 @@ export default {
 				this.loading = false;
 				console.log(error.response);
 			})
+		},
+		generateInvoice() {
+			this.$refs.invoiceOrderDetails.submit();
 		}
 	},
 	mounted() {

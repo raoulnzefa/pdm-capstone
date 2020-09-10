@@ -14,6 +14,10 @@ body {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+	color: blue !important;
+}
+
 .bg-white {
 	background: #fff;
 }
@@ -25,7 +29,6 @@ body {
 .nav-item {
 	font-size: 13px;
 	font-family: myBtnFont; 
-	text-transform: uppercase;
 }
 
 .dropdown-item {
@@ -98,12 +101,12 @@ button {
     color: #e3342f;
 }
 
-.admin-nav-link .nav-link {
+/*.admin-nav-link .nav-link {
     color: #fff !important;
 }
 .admin-nav-link .nav-link:hover {
     color: #ffab06 !important;
-}
+}*/
 
 :disabled {
     cursor: not-allowed;

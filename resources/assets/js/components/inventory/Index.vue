@@ -11,7 +11,7 @@
 	          </b-form-select>
 	        </div>
 	        <div class="col-md-5">
-	        	<form ref="reportForm" method="POST" action="/admin/report/generate-inventory" v-if="inventories.length">
+	        	<form ref="reportForm" target="_blank" method="POST" action="/admin/report/inventory" v-if="inventories.length">
 	        		<input type="hidden" name="_token" :value="csrf">
 	        		<input type="hidden" name="report_type" :value="filter_by">
 	        		<input type="hidden" name="admin_id" :value="admin.id">

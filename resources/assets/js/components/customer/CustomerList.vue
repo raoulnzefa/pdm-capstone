@@ -3,7 +3,7 @@
 	<div class="col-md-12">
 	<div class="clearfix mb-4 mt-4">
 		<h2 class="float-left">Customers</h2>
-		<form method="POST" v-if="customers.length" action="/admin/report/generate-customer">
+		<form method="POST" target="_blank" v-if="customers.length" action="/admin/report/customer-list">
 			<input type="hidden" name="_token" :value="csrf">
 	      <input type="hidden" name="report_type" :value="filter_by">
 	      <input type="hidden" name="admin_id" :value="admin.id">

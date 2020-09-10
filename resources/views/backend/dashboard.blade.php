@@ -4,7 +4,14 @@
 
 <div class="row">
 	<div class="col-md-12">
-			<h2 class="mt-4 mb-4">Sales</h2>
+			<h2 class="mt-4 mb-4">Dashboard</h2>
+	</div>
+</div>
+<div class="row mb-4">
+	<div class="col-md-12">
+		<nav class="navbar navbar-light bg-light">
+			<span class="navbar-brand mb-0 h1">Sales</span>
+		</nav>
 	</div>
 </div>
 <div class="row">

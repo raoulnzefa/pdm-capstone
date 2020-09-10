@@ -1,8 +1,54 @@
+/*@page {
+    margin: 78px 25px;
+}
+
+
+
+footer {
+    position: fixed; 
+    bottom: -60px; 
+    left: 0px; 
+    right: 0px;
+    height: 40px; 
+
+    
+    background-color: #03a9f4;
+    color: white;
+    text-align: center;
+    line-height: 35px;
+}*/
+
+
+footer { 
+    position: fixed; 
+    bottom: -20px; 
+    left: 0px; 
+    right: 0px; 
+    background-color: lightblue !important; 
+    height: 30px; 
+    line-height:25px; 
+    padding-left: 8px;
+}
+
+.content { 
+    page-break-after: auto; 
+}
+
+.invoice-total {
+    width: 100%;
+    border: 0;
+}
+
+.invoice-total th, .invoice-total td {
+    border: 0;
+    padding: 10px;
+    text-align: right;
+}
 
 .img-responsive {
     height: auto;
     width: auto;
-    max-height: 75px;
+    max-height: 70px;
     max-width: 250px;
 }
 
@@ -28,6 +74,10 @@
     border: 1px solid;
     padding: 10px;
     text-align: left;
+}
+
+.content td:last-child {
+    text-align: right !important;
 }
 
 .t-footer td {

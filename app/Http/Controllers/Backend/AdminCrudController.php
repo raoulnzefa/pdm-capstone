@@ -108,6 +108,7 @@ class AdminCrudController extends Controller
 
     public function editInformation()
     {
-        return view('backend.user.edit-information');
+        $data = 'Edit Information';
+        return view('backend.user.edit-information', compact('data'));
     }
 }

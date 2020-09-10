@@ -1,8 +1,10 @@
 <template>
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <h2>Edit Information</h2>
-				<div class="card">
+<div class="row">
+    <div class="col-md-12">
+				<div class="card mt-4 mb-4">
+          <div class="card-header">
+            <h3 class="mb-0">Edit Information</h3>
+          </div>
           <div class="card-body">
             <template>
             </template>
@@ -49,7 +51,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="submit" name="Update information" class="btn btn-success mt-3" :disabled="disabledBtn">
+                  <input type="submit" value="Update" name="Update information" class="btn btn-primary mt-3" :disabled="disabledBtn">
                 </div>
               </form>
             </template>

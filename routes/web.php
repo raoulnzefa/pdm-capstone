@@ -221,14 +221,17 @@ Route::post('replacement/request/store', 'Frontend\ReplacementRequestController@
 Route::get('order/{order}/replacement-request/submitted', 'Frontend\ReplacementRequestController@submitted')->name('replacement.request.submitted');
 
 // reports pdf
-Route::post('admin/report/generate-inventory', 'Backend\ReportsController@generateInventory');
-Route::post('admin/report/generate-customer', 'Backend\ReportsController@generateCustomer');
-Route::post('admin/report/generate-sales', 'Backend\ReportsController@generateSales');
-Route::post('admin/report/generate-audit-trail', 'Backend\ReportsController@generateAuditTrail');
+Route::post('admin/report/inventory', 'Backend\ReportsController@generateInventory');
+Route::post('admin/report/customer-list', 'Backend\ReportsController@generateCustomer');
+Route::post('admin/report/sales', 'Backend\ReportsController@generateSales');
+Route::post('admin/report/audit-trail', 'Backend\ReportsController@generateAuditTrail');
+Route::post('admin/order/invoice', 'Backend\ReportsController@generateInvoice');
+Route::post('admin/report/best-selling', 'Backend\ReportsController@generateBestSelling');
 
 // customer admin details
 Route::get('admin/customer/{customerId}', 'Backend\CustomerController@view');
 
 // Audit Trail
 Route::get('admin/audit-trail', 'Backend\AuditTrailController@index')->name('audit_trail');
+
 
