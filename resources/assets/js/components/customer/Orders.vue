@@ -4,15 +4,21 @@
     <h3 class="mb-4">Orders</h3>  
       <div class="row mb-4">
         <div class="col-md-4">
-          <b-form-select v-model="order_status" @change="filterOrderStatus">
-            <option :value="null" disabled>Filter by</option>
-            <option value="For pickup">For pickup</option>
-            <option value="Pending payment">Pending payment</option>
-            <option value="Processing">Processing</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </b-form-select>
+          <div class="input-group">
+            <select class="custom-select" v-model="order_status" @change="filterOrderStatus">
+              <option :value="null" disabled>Filter by</option>
+              <option value="For pickup">For pickup</option>
+              <option value="Pending payment">Pending payment</option>
+              <option value="Processing">Processing</option>
+              <option value="For shipping">For shipping</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            <div class="input-group-append" v-if="order_status">
+              <button class="btn btn-outline-danger" type="button" @click="clearFilter">Clear</button>
+            </div>
+          </div>
         </div>
         <div class="col-md-6 offset-md-2">
           <template>
@@ -63,13 +69,14 @@
               </template>
               <template v-else>
                 <tr v-for="(order, index) in orders" :key="index">
-                  <td align="middle"><span style="font-size: 20px;" :class="order.viewed > 0 ? 'text-secondary' : 'text-danger'"><i class="fa fa-exclamation-circle"></i></span></td>
+                  <td align="middle"><span style="font-size: 20px;" :class="order.status_update > 0 ? 'text-danger' : 'text-secondary'"><i class="fa fa-exclamation-circle"></i></span></td>
                   <td>{{ order.number }}</td>
                   <td>{{ order.order_created }}</td>
                   <td>
                     <span class="badge badge-info" style="font-size: 14px;" v-if="order.order_status == 'For pickup'">{{ order.order_status }}</span>
                     <span class="badge badge-warning" style="font-size: 14px;" v-if="order.order_status == 'Pending payment'">{{ order.order_status }}</span>
                     <span class="badge badge-primary" style="font-size: 14px;" v-if="order.order_status == 'Processing'">{{ order.order_status }}</span>
+                     <span class="badge badge-primary" style="font-size: 14px;" v-if="order.order_status == 'For shipping'">{{ order.order_status }}</span>
                     <span class="badge badge-secondary" style="font-size: 14px;" v-if="order.order_status == 'Shipped'">{{ order.order_status }}</span>
                     <span class="badge badge-success" style="font-size: 14px;" v-if="order.order_status == 'Completed'">{{ order.order_status }}</span>
                     <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Cancelled'">{{ order.order_status }}</span>
@@ -119,6 +126,7 @@
         on_search: false,
         search_val: null,
         order_status: null,
+        filter_by: null,
       }
     },
     components: {
@@ -181,9 +189,14 @@
         this.getOrders();
       },
       filterOrderStatus(e) {
-        this.order_status = e;
+        this.filter_by = e;
         this.getOrders();
         
+      },
+      clearFilter() {
+        this.order_status = null;
+        this.filter_by = null;
+        this.getOrders();
       }
     },
     mounted() {

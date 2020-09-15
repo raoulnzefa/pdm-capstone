@@ -140,7 +140,7 @@ Route::get('/account/created', 'Frontend\CustomerAuthController@accountCreated')
 
 Route::get('/my-account/change-password', 'Frontend\CustomerController@changePass')->name('customer.change_pass');
 
-Route::get('/order/received', 'Frontend\CheckoutController@orderReceived')->name('order.received');
+Route::get('/order/success', 'Frontend\CheckoutController@orderReceived')->name('order.received');
 
 Route::post('return-request', 'Frontend\ReturnController@store')->name('submit_request');
 
@@ -170,7 +170,7 @@ Route::get('search-product', 'Frontend\ProductPageController@searchResult')->nam
 Route::get('admin/bank-account', 'Backend\BankAccountController@index')->name('bank_account');
 Route::get('admin/invoice/{invoice}', 'Backend\InvoiceController@viewInvoice');
 
-Route::get('my-account/order/{order}/invoice', 'Frontend\InvoiceController@viewInvoice')->name('customer.invoice');
+Route::post('my-account/order/{order}/invoice', 'Frontend\InvoiceController@generateInvoice')->name('customer.invoice');
 
 // Route::get('admin/voucher', 'Backend\VoucherCodeController@index')->name('voucher');
 
@@ -218,7 +218,7 @@ Route::post('cart/add', 'Frontend\CartController@addProduct');
 Route::get('order/{order}/request-replacement', 'Frontend\ReplacementRequestController@requestReplacement');
 Route::get('my-account/replacements', 'Frontend\ReplacementRequestController@index')->name('customer.replacements');
 Route::post('replacement/request/store', 'Frontend\ReplacementRequestController@store');
-Route::get('order/{order}/replacement-request/submitted', 'Frontend\ReplacementRequestController@submitted')->name('replacement.request.submitted');
+Route::get('replacement-request/submitted', 'Frontend\ReplacementRequestController@submitted')->name('replacement.request.submitted');
 
 // reports pdf
 Route::post('admin/report/inventory', 'Backend\ReportsController@generateInventory');

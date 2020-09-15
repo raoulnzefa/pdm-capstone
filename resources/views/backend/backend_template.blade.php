@@ -59,7 +59,7 @@
                             </a>
                             <a class="nav-link" href="{{ route('replacements') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-exchange-alt"></i></div>
-                                Replacements
+                                Replacements <replacement-badge></replacement-badge>
                             </a>
                             <a class="nav-link" href="{{ route('sales') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-poll-h"></i></div>

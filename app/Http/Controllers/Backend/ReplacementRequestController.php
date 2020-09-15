@@ -26,7 +26,7 @@ class ReplacementRequestController extends Controller
    	if ($exists)
    	{ 
    		$replacement = ReplacementRequest::where('id',$requestId)->first();
-         $replacement->status_update = 0;
+         $replacement->viewed = 1;
          $replacement->update();
 
          $data = 'Replacement Details';

@@ -125,10 +125,14 @@ Vue.component('sales-report', require('./components/reports/SalesReport.vue'));
 Vue.component('user-logs', require('./components/user_logs/UserLogsIndex.vue'));
 // notification badges
 Vue.component('order-badge', require('./components/notification_badges/OrderBadge.vue'));
+Vue.component('order-status-badge', require('./components/notification_badges/OrderStatusUpdate.vue'));
 Vue.component('request-badge', require('./components/notification_badges/RequestBadge.vue'));
 Vue.component('inventory-badge', require('./components/notification_badges/InventoryBadge.vue'));
 Vue.component('cancel-request-badge', require('./components/notification_badges/CancelRequestBadge.vue'));
 Vue.component('return-request-badge', require('./components/notification_badges/ReturnRequestBadge.vue'));
+Vue.component('replacement-status-badge', require('./components/notification_badges/ReplacementStatusUpdate.vue'));
+Vue.component('replacement-badge', require('./components/notification_badges/ReplacementBadge.vue'));
+
 //Frontend
 //Customer
 Vue.component('registration-form', require('./components/customer/RegistrationForm.vue'));
@@ -189,6 +193,7 @@ Vue.component('orders-completed', require('./components/orders/OrdersCompleted.v
 Vue.component('view-bank-deposit-slip', require('./components/orders/ViewBankDepositSlip.vue'));
 Vue.component('deliver-order', require('./components/orders/DeliverOrder.vue'));
 Vue.component('mark-as-completed', require('./components/orders/MarkAsCompleted.vue'));
+Vue.component('mark-as-for-shipping', require('./components/orders/MarkAsForShipping.vue'));
 Vue.component('picked-up-order', require('./components/orders/PickedupOrder.vue'));
 
 // Order for Delivery

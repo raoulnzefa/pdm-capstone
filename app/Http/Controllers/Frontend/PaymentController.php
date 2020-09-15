@@ -129,6 +129,7 @@ class PaymentController extends Controller
 		   		'order_subtotal' => (float)$subtotal,
 		   		'order_total' => (float)$request->order_total,
           'order_shipping_discount' => NULL,
+          'order_due_payment' => NULL,
           'order_for_shipping' => NULL,
           'order_for_pickup' => $reserved_until,
 		   		'order_paypal_url' => NULL,
@@ -206,6 +207,7 @@ class PaymentController extends Controller
 
               $this->createAddress($address_params);
           }
+         
 
          if ($request->payment_method == 'Bank Deposit')
          {
@@ -214,6 +216,8 @@ class PaymentController extends Controller
                $process_days = 3;
 
                $estimated_date = strftime("%Y-%m-%d", strtotime("+$process_days weekday"));
+
+               $due_date = strftime("%Y-%m-%d", strtotime("+2 weekday")).' 13:00:00';
 
                $order_params = array(
                   'customer_id' => (int)$request->customer_id,
@@ -227,6 +231,7 @@ class PaymentController extends Controller
                   'order_total' => (float)$request->order_total,
                   'order_shipping_discount' => (float)$request->shipping_discount_amount,
                   'order_for_shipping' => $estimated_date,
+                  'order_due_payment' => $due_date,
                   'order_for_pickup' => NULL,
                   'order_paypal_url' => NULL,
                   'order_payment_date' => NULL,
@@ -547,6 +552,7 @@ class PaymentController extends Controller
               'order_total' => Session::get('chk_total'),
               'order_shipping_discount' => Session::get('chk_discount'),
               'order_for_shipping' => $estimated_date,
+              'order_due_payment' => NULL,
               'order_for_pickup' => NULL,
               'order_paypal_url' => Session::get('paypal_redirect_url'),
               'order_payment_date' => date("Y-m-d H:i:s"),

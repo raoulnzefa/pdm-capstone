@@ -29,6 +29,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('order_shipping_discount',9,2)->nullable();
             $table->string('order_paypal_url')->nullable();
             $table->dateTime('order_payment_date')->nullable();
+            $table->dateTime('order_due_payment')->nullable();
             $table->dateTime('order_cancelled')->nullable();
             $table->dateTime('order_for_pickup')->nullable();
             $table->dateTime('order_for_shipping')->nullable();
@@ -37,6 +38,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('order_warranty')->nullable();
             $table->string('order_remarks')->nullable();
             $table->integer('viewed')->default(0);
+            $table->integer('status_update')->default(0);
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers');
         });

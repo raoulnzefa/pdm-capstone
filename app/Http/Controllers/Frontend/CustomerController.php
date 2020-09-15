@@ -32,6 +32,8 @@ class CustomerController extends Controller
         // $invoice = Invoice::where('order_id', $order)->first();
         $previous_url = url()->previous();
 
+
+
         $order_detail = Order::where('number',$order)->with(
                             'orderProducts.inventory.product',
                             'customer',
@@ -40,6 +42,12 @@ class CustomerController extends Controller
                             'bankDepositSlip',
                             'storePickup'
                         )->first();
+
+        if ($order_detail->status_update > 0)
+        {
+            $order_detail->status_update = 0;
+            $order_detail->update();
+        }
 
          // set timezone
         date_default_timezone_set("Asia/Manila");

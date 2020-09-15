@@ -5,6 +5,7 @@
 			<table class="table table-bordered table-hover table-striped">
 				<thead>
 					<tr>
+						<th></th>
 						<th>ID</th>
 						<th>Order No.</th>
 						<th width="50%">Product</th>
@@ -16,7 +17,7 @@
 				<tbody>
 					<template v-if="loading">
 						<tr>
-							<td colspan="6" class="text-center">
+							<td colspan="7" class="text-center">
 								<center>
 									<half-circle-spinner
 	                         :animation-duration="1000"
@@ -30,6 +31,7 @@
 					<template v-else>
 						<template v-if="replacements.length">
 							<tr v-for="(item, index) in replacements" :key="index">
+								<td class="align-middle"><span style="font-size: 20px;" :class="item.viewed > 0 ? 'text-secondary' : 'text-danger'"><i class="fa fa-exclamation-circle"></i></span></td>
 								<td class="align-middle">{{item.id}}</td>
 								<td class="align-middle">{{item.order_number}}</td>
 								<td class="align-middle">
@@ -41,13 +43,18 @@
 		                     </div>
 								</td>
 								<td class="align-middle">{{item.quantity}}</td>
-								<td class="align-middle">{{item.status}}</td>
+								<td class="align-middle">
+									<span class="badge badge-success" style="font-size: 14px;" v-if="item.status === 'Replaced'">{{item.status}}</span>
+									<span class="badge badge-primary" style="font-size: 14px;" v-if="item.status === 'Approved'">{{item.status}}</span>
+									<span class="badge badge-danger" style="font-size: 14px;" v-if="item.status === 'Declined'">{{item.status}}</span>
+									<span class="badge badge-warning" style="font-size: 14px;" v-if="item.status === 'Pending'">{{item.status}}</span>
+								</td>
 								<td class="align-middle text-center"><a :href="'/admin/replacement/'+item.id" class="btn btn-sm btn-primary">Details</a></td>
 							</tr>
 						</template>
 						<template v-else>
 							<tr>
-								<td class="text-center" colspan="5">No replacements.</td>
+								<td class="text-center" colspan="7">No replacements.</td>
 							</tr>
 						</template>
 					</template>

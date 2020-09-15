@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ApprovedReplacementNotification extends Notification
+class ReplacedProductNotification extends Notification
 {
     use Queueable;
 
@@ -43,7 +43,7 @@ class ApprovedReplacementNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Accepted Replacement')
+            ->subject('Product Replaced')
             ->markdown('mail.order.replaced_product', [
                 'replacement' => $this->replacement
             ]);

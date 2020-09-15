@@ -156,7 +156,8 @@ class CustomerAuthController extends Controller
     {
         if (Session::has('email_created'))
         {
-            $redirect = view('frontend.customer.account_created');
+            $data = 'Account Created';
+            $redirect = view('frontend.customer.account_created', compact('data'));
         }
         else
         {
@@ -169,7 +170,8 @@ class CustomerAuthController extends Controller
     {
         if (Session::has('email_verified'))
         {
-            $redirect = view('frontend.customer.email_verified');
+            $data = 'Email Verified';
+            $redirect = view('frontend.customer.email_verified', compact('data'));
         }
         else
         {

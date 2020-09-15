@@ -25,14 +25,23 @@
 					</div>
 					<div class="clearfix" v-if="order.order_status === 'Processing'">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-						<deliver-order
+						<mark-as-for-shipping
 							:order="order"
 							:admin="admin">
-						</deliver-order>
+						</mark-as-for-shipping>
 					</div>
 				</template>
 				<template v-if="order.order_payment_method === 'PayPal'">
 					<div class="clearfix" v-if="order.order_status === 'Processing'">
+						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<mark-as-for-shipping
+							:order="order"
+							:admin="admin">
+						</mark-as-for-shipping>
+					</div>
+				</template>
+				<template v-if="order.order_status === 'For shipping'">
+					<div class="clearfix">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
 						<deliver-order
 							:order="order"
@@ -138,7 +147,7 @@
 							<th width="50%">Product(s)</th>
 							<th>Price</th>
 							<th>Quantity</th>
-							<th>Amount</th>
+							<th>Total Price</th>
 						</tr>
 					</thead>
 					<tbody>

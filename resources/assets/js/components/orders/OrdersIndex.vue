@@ -4,15 +4,21 @@
     <h2 class="mt-4 mb-4">Orders</h2>  
       <div class="row mb-4">
         <div class="col-md-3">
-          <b-form-select v-model="order_status" @change="filterOrderStatus">
-            <option :value="null" disabled>Filter by Order Status</option>
-            <option value="For pickup">For pickup</option>
-            <option value="Pending payment">Pending payment</option>
-            <option value="Processing">Processing</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </b-form-select>
+          <div class="input-group">
+            <select class="custom-select" v-model="order_status" @change="filterOrderStatus">
+              <option :value="null" disabled>Filter by</option>
+              <option value="For pickup">For pickup</option>
+              <option value="Pending payment">Pending payment</option>
+              <option value="Processing">Processing</option>
+              <option value="For shipping">For shipping</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            <div class="input-group-append" v-if="order_status">
+              <button class="btn btn-outline-danger" type="button" @click="clearFilter">Clear</button>
+            </div>
+          </div>
         </div>
         <div class="col-md-5">
         </div>
@@ -67,13 +73,14 @@
               </template>
               <template v-else>
                 <tr v-for="(order, index) in orders" :key="index">
-                  <td align="middle"><span style="font-size: 20px;" :class="order.viewed > 0 ? 'text-secondary' : 'text-danger'"><i class="fa fa-exclamation-circle"></i></span></td>
+                  <td><span style="font-size: 20px;" :class="order.viewed > 0 ? 'text-secondary' : 'text-danger'"><i class="fa fa-exclamation-circle"></i></span></td>
                   <td>{{ order.number }}</td>
                   <td>{{ order.order_created }}</td>
                   <td>
                     <span class="badge badge-info" style="font-size: 14px;" v-if="order.order_status == 'For pickup'">{{ order.order_status }}</span>
                     <span class="badge badge-warning" style="font-size: 14px;" v-if="order.order_status == 'Pending payment'">{{ order.order_status }}</span>
                     <span class="badge badge-primary" style="font-size: 14px;" v-if="order.order_status == 'Processing'">{{ order.order_status }}</span>
+                     <span class="badge badge-primary" style="font-size: 14px;" v-if="order.order_status == 'For shipping'">{{ order.order_status }}</span>
                     <span class="badge badge-secondary" style="font-size: 14px;" v-if="order.order_status == 'Shipped'">{{ order.order_status }}</span>
                     <span class="badge badge-success" style="font-size: 14px;" v-if="order.order_status == 'Completed'">{{ order.order_status }}</span>
                     <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Cancelled'">{{ order.order_status }}</span>
@@ -138,7 +145,8 @@
               useCurrent: false,
               viewMode: 'days'
             },
-            date_search: false
+            date_search: false,
+            filter_by: null,
           }
       },
       components: {
@@ -253,7 +261,7 @@
             this.getOrders();
           },
           filterOrderStatus(e) {
-            this.order_status = e;
+            this.filter_by = e;
             this.getOrders();
           },
           submitDateRange() {
@@ -270,6 +278,11 @@
             this.from_date = '';
             this.to_date = '';
             this.date_search = false;
+            this.getOrders();
+          },
+          clearFilter() {
+            this.order_status = null;
+            this.filter_by = null;
             this.getOrders();
           }
       },

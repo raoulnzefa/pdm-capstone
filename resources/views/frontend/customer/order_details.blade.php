@@ -24,11 +24,14 @@
 			<div class="card">
 				<div class="card-header clearfix">
 					<h3 class="mb-0 float-left">Order Details</h3>
-					<a href="/my-account/orders" class="btn btn-secondary float-right">Back</a>
+					<a href="/my-account/orders" class="btn btn-outline-secondary float-right">Back</a>
 				</div>
 				<div class="card-body">
 					@if ($order->order_shipping_method == 'Shipping')
 						@if ($order->order_status == "Pending payment")
+							<div class="alert alert-warning">
+								Your due payment: <b>{{ date('F d, Y', strtotime($order->order_due_payment)) }}</b>
+							</div>
 							@if ($order->order_payment_method == 'Bank Deposit')
 							<div class="clearfix">
 								<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
@@ -65,9 +68,13 @@
 							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
 							@if ($isReturnDatePassed == 0)
 								@if (!$order->replacementRequest)
-								<a href="/order/{{$order->number}}/request-replacement" class="btn btn-primary mr-1 float-right">Request replacement</a>
+								<a href="/order/{{$order->number}}/request-replacement" class="btn btn-danger float-right">Request replacement</a>
 								@endif
 							@endif
+							<form target="_blank" method="POST" action="{{route('customer.invoice', ['order'=>$order->number])}}">
+								@csrf
+								<button type="submit" class="btn btn-primary float-right mr-1">Invoice</button>
+							</form>
 						</div>
 					@endif
 					<!-- /header card --> 
@@ -133,7 +140,7 @@
 									<th width="50%">Product(s)</th>
 									<th>Price</th>
 									<th>Quantity</th>
-									<th>Amount</th>
+									<th>Total Price</th>
 								</tr>
 							</thead>
 							<tbody>

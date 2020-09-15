@@ -78,7 +78,7 @@ class ReplacementRequestController extends Controller
          $replacement->status_update = 1;
          $replacement->save();
 
-         return redirect()->route('replacement.request.submitted', ['order'=>$request->order_number])->with([
+         return redirect()->route('replacement.request.submitted')->with([
             'has_request'=>'YES',
             'order_number' => $request->order_number
          ]);
@@ -94,8 +94,9 @@ class ReplacementRequestController extends Controller
    {
       if (session()->has('has_request'))
       {
+         $data = 'Request Submitted';
          $order_number = session()->get('order_number');
-         return view('frontend.replacement.submitted', compact('order_number'));
+         return view('frontend.replacement.submitted', compact('order_number','data'));
       }
 
       return redirect()->route('customer.replacements');

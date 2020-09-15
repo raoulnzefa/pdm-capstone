@@ -22,7 +22,7 @@
 									<th width="45%">Product(s)</th>
 									<th class="text-center" width="13%">Price</th>
 									<th class="text-center" width="10%">Qty</th>
-									<th class="text-center" width="13%">Amount</th>
+									<th class="text-center" width="13%">Total Price</th>
 									<th class="text-center" width="10%">Remove</th>
 								</tr>
 							</thead>
@@ -45,7 +45,7 @@
 									</td>
 									<td class="align-middle" align="center">{{ formatMoney(product.total) }}</td>
 									<td class="align-middle" align="center">
-										<button class="btn btn-danger btn-sm" @click="removeProduct(product.id)">X</button>
+										<button class="btn btn-danger btn-sm" @click="removeProduct(product.id)"><i class="fa fa-remove"></i></button>
 									</td>
 								</tr>
 							</tbody>
@@ -62,7 +62,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<a href="/products" role="button" class="btn btn-secondary" :disable="isQtyUpdating">Continue Shopping</a>
+								<a href="/products" role="button" class="btn btn-outline-secondary" :disable="isQtyUpdating">Continue Shopping</a>
 							</div>
 							<div class="col-md-6">
 								<div class="clearfix mb-2">

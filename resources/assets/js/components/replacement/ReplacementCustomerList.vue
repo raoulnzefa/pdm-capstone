@@ -3,6 +3,7 @@
 		<table class="table table-bordered table-hover table-striped">
 			<thead>
 				<tr>
+					<th></th>
 					<th>ID</th>
 					<th>Order No.</th>
 					<th width="45%">Product</th>
@@ -13,7 +14,7 @@
 			<tbody>
 				<template v-if="loading">
 					<tr>
-						<td colspan="5" class="text-center">
+						<td colspan="6" class="text-center">
 							<center>
 								<half-circle-spinner
                          :animation-duration="1000"
@@ -27,6 +28,9 @@
 				<template v-else>
 					<template v-if="replacements.length">
 						<tr v-for="(item, index) in replacements" :key="index">
+							<td class="align-middle">
+								<span style="font-size: 20px;" :class="item.status_update > 0 ? 'text-danger' : 'text-secondary'"><i class="fa fa-exclamation-circle"></i></span>
+							</td>
 							<td class="align-middle text-center">{{item.id}}</td>
 							<td class="align-middle text-center">{{item.order_number}}</td>
 							<td class="align-middle">
@@ -43,7 +47,7 @@
 					</template>
 					<template v-else>
 						<tr>
-							<td class="text-center" colspan="5">No replacements.</td>
+							<td class="text-center" colspan="6">No replacements.</td>
 						</tr>
 					</template>
 				</template>
@@ -142,6 +146,16 @@
 				this.dateCreated = item.request_created;
 				this.reason = item.reason;
 				this.$refs.replacementDetailsModal.show();
+				axios.put('/api/request-update-status/'+id)
+				.then(response => {
+					if (response.data.success)
+					{
+						this.$bus.$emit('replacement-status-badge', true);
+					}
+				})
+				.catch(error => {
+					console.log(error.response);
+				});
 			},
 			closeDetailsModal() {
 				this.orderNumber = "";

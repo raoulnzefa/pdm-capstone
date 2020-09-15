@@ -58,6 +58,7 @@ class ReplacementRequestController extends Controller
             ])->first();
 
             $replacement->status = 'Approved';
+            $replacement->status_update = 1;
             $replacement->request_approved = date('Y-m-d H:i:s');
             $replacement->update();
 
@@ -99,6 +100,7 @@ class ReplacementRequestController extends Controller
             ])->first();
 
             $replacement->status = 'Declined';
+            $replacement->status_update = 1;
             $replacement->request_declined = date('Y-m-d H:i:s');
             $replacement->update();
 
@@ -140,6 +142,7 @@ class ReplacementRequestController extends Controller
             $inventory->update();
 
             $replacement->status = 'Replaced';
+            $replacement->status_update = 1;
             $replacement->request_replaced = date('Y-m-d H:i:s');
             $replacement->update();
 
@@ -157,5 +160,46 @@ class ReplacementRequestController extends Controller
             return response()->json(['success'=>true]);
         }
 
+    }
+
+    public function replacementStatusUpdate()
+    {
+      try
+      {
+         $status_update = ReplacementRequest::where('status_update','=',1)->count();
+
+         $response = ['count'=> $status_update];
+      }
+      catch(Exception $e)
+      {
+         $response = ['err' =>$e->getMessage()];
+      }
+
+      return response()->json($response);
+        
+   }
+
+    public function updateStatus(ReplacementRequest $replacement)
+    {
+        $replacement->status_update = 0;
+        $replacement->update();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getViewed()
+    {
+        try
+      {
+         $status_update = ReplacementRequest::where('viewed','=',0)->count();
+
+         $response = ['count'=> $status_update];
+      }
+      catch(Exception $e)
+      {
+         $response = ['err' =>$e->getMessage()];
+      }
+
+      return response()->json($response);
     }
 }

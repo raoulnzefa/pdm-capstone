@@ -58,7 +58,7 @@
 								<table class="table table-bordered mt-4">
 									<thead>
 										<tr>
-											<th width="15%">Inventory No.</th>
+											<th width="15%">Inventory ID</th>
 											<th>Product</th>
 											<th width="10%">Stock</th>
 										</tr>
@@ -82,15 +82,17 @@
 						</div>
 					</template>
 				</div>
-				<div class="card-footer clearfix" v-if="!loading">
-					<template v-if="details.status === 'Pending'">
-						<button class="btn btn-primary float-right" @click="approveRequest">Approve</button>
-						<button class="btn btn-danger float-right mr-2" @click="declineRequest">Decline</button>
-					</template>
-					<template v-if="details.status === 'Approved'">
-						<button class="btn btn-primary float-right" @click="replaceProduct">Replace product</button>
-					</template>
-				</div>
+				<template v-if="!loading">
+					<div class="card-footer clearfix" v-if="details.status != 'Replaced'">
+						<template v-if="details.status === 'Pending'">
+							<button class="btn btn-primary float-right" @click="approveRequest">Approve</button>
+							<button class="btn btn-danger float-right mr-2" @click="declineRequest">Decline</button>
+						</template>
+						<template v-if="details.status === 'Approved'">
+							<button class="btn btn-primary float-right" @click="replaceProduct">Replace product</button>
+						</template>
+					</div>
+				</template>
 			</div><!-- card -->
 			<b-modal ref="requestResponseModal"
     		   	title="Sending Email"

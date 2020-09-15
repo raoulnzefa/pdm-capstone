@@ -80,6 +80,7 @@ class OrderController extends Controller
       if ($order->order_payment_status == 'Pending')
       {
         $order->order_status = 'Cancelled';
+        $order->viewed = 0;
         $order->order_cancelled = date('Y-m-d H:i:s');
         $order->order_remarks = 'Cancelled by customer';
         $order->update();
@@ -100,6 +101,7 @@ class OrderController extends Controller
       $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));
 
       $order->order_payment_status = 'Paid';
+      $order->status_update = 1;
       $order->order_status = 'Completed';
       $order->order_payment_date = date('Y-m-d H:i:s');
       $order->order_completed = date('Y-m-d H:i:s');
@@ -133,6 +135,7 @@ class OrderController extends Controller
          try
          {
             $order->order_status = 'Processing';
+            $order->status_update = 1;
             $order->order_payment_status = $request->payment_status;
             $order->order_payment_date = date('Y-m-d H:i:s');
             $order->update();
@@ -185,6 +188,7 @@ class OrderController extends Controller
          $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));
 
          $order->order_status = 'Shipped';
+         $order->status_update = 1;
          $order->order_warranty = date($warranty_date.' 17:00:00');
          $order->order_shipped = date('Y-m-d H:i:s');
          $order->update();
@@ -211,12 +215,36 @@ class OrderController extends Controller
 
    }
 
+   public function markAsForShipping(Request $request, Order $order)
+   {
+      date_default_timezone_set("Asia/Manila");
+
+    
+      $order->order_status = 'For shipping';
+      $order->status_update = 1;
+      $order->update();
+
+      $userlog_params = [
+          'id' => $request->admin_id,
+          'action' => 'Mark as For shipping. Order No.: '.$order->number.'.'
+      ];
+
+      $this->createUserLog($userlog_params);
+
+      $response = ['success'=> true];
+        
+
+      return response()->json($response);
+     
+   }
+
    public function markAsCompleted(Request $request, Order $order)
    {
       date_default_timezone_set("Asia/Manila");
 
     
       $order->order_status = 'Completed';
+      $order->status_update = 1;
       $order->order_completed = date('Y-m-d H:i:s');
       $order->order_remarks = 'Mark as completed by owner';
       $order->update();
@@ -240,6 +268,7 @@ class OrderController extends Controller
       date_default_timezone_set("Asia/Manila");
 
       $order->order_status = 'Completed';
+      $order->viewed = 0;
       $order->order_remarks = 'Received order by customer';
       $order->order_completed = date('Y-m-d H:i:s');
       $order->update();
@@ -309,4 +338,22 @@ class OrderController extends Controller
 
       return response()->json($orders);
    }
+
+   public function orderStatusUpdate()
+   {
+      try
+      {
+         $status_update = Order::where('status_update','=',1)->count();
+
+         $response = ['count'=> $status_update];
+      }
+      catch(Exception $e)
+      {
+         $response = ['err' =>$e->getMessage()];
+      }
+
+      return response()->json($response);
+        
+   }
+
 }

@@ -99,10 +99,17 @@
                         <div class="form-group" v-if="customer.addresses.length > 0">
                             <div class="form-group">
                                 <label for="selectAddr">Your address:</label>
-                                <select class="form-control" id="selectAddr" v-model="addrID" @change="selectAddress">
+                                <select class="form-control" 
+                                    id="selectAddr" 
+                                    v-model="$v.addrID.$model"
+                                    :class="{'is-invalid': $v.addrID.$error}" 
+                                    @change="selectAddress">
                                     <option value="">Select address</option>
                                     <option v-for="(addr,index) in customer.addresses" :key="index" :value="addr.id">{{ addr.address_name }}</option>
                                 </select>
+                                <div v-if="$v.addrID.$error">
+                                    <span class="error-feedback" v-if="!$v.addrID.required">Please select an address</span>
+                                </div>
                             </div>
                        </div>
                        <template v-if="addrID">
@@ -203,8 +210,8 @@
                                <option v-for="(municipality_data, index) in municipality_list" :key="index" :value="municipality_data.id">{{municipality_data.name}}</option>
                             </select>
                             <div v-if="$v.municipality.$error">
-                                        <span class="error-feedback" v-if="!$v.municipality.required">Municipality is required</span>
-                                    </div>
+                                <span class="error-feedback" v-if="!$v.municipality.required">Municipality is required</span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="chckbarangay">Barangay:</label>
@@ -484,6 +491,7 @@
 			if (this.shipping_method == 'shipping') {
                 if (this.useSavedAddress) {
                     return {
+                        addrID: {required},
                         shipping_method: { required },
                         payment_method: { required },
                         terms_condition: { sameAs: sameAs(() => true) }

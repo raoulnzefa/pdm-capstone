@@ -28,6 +28,7 @@ trait OrderTraits
          $order->order_total = $array_params['order_total'];
          $order->order_shipping_discount = $array_params['order_shipping_discount'];
          $order->order_payment_date = $array_params['order_payment_date'];
+         $order->order_due_payment = $array_params['order_due_payment'];
          $order->order_paypal_url = $array_params['order_paypal_url'];
          $order->order_for_shipping = $array_params['order_for_shipping'];
          $order->order_for_pickup = $array_params['order_for_pickup'];

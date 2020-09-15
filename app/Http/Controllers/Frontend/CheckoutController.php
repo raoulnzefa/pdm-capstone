@@ -114,7 +114,8 @@ class CheckoutController extends Controller
     {
         if (Session::has('received_order'))
         {
-            $redirect = view('frontend.customer.order_received');
+            $data = 'Order Success';
+            $redirect = view('frontend.customer.order_received', compact('data'));
         }
         else
         {
@@ -127,8 +128,8 @@ class CheckoutController extends Controller
     {
         if (Session::has('checkout_failed'))
         {
-            $redirect = view('frontend.customer.checkout_failed');
-        
+            $data = 'Checkout Failed';
+            $redirect = view('frontend.customer.checkout_failed', compact('data'));
         }
         else
         {

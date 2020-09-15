@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Invoice;
+use App\Models\InvoiceProduct;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -14,15 +16,24 @@ class InvoiceController extends Controller
     	$this->middleware('auth:customer');
     }
 
-    public function viewInvoice($order)
+    public function generateInvoice(Request $request, $order)
     {
 
-    	$data = 'Invoice';
-    	$previous_url = url()->previous();
-    	$invoice = Invoice::where('order_number', $order)
-    		->with('order.shipping','invoiceProducts')
-    		->first();
+        date_default_timezone_set("Asia/Manila");
 
-    	return view('frontend.invoice_detail', compact('invoice', 'previous_url','data'));
+        $invoice = Invoice::where('order_number', $order)->first();
+
+        $invoiceProduct = InvoiceProduct::where('invoice_number', $invoice->number)->get();
+
+        $data = [
+            'title' => 'Invoice',
+            'invoice' => $invoice,
+            'invoiceProduct' => $invoiceProduct
+        ];
+
+        $pdf = PDF::loadView('frontend.invoice_pdf',$data);  
+        $pdf->getDomPDF()->set_option("enable_php", true);
+      
+        return $pdf->stream();
     }
 }
