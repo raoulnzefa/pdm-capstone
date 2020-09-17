@@ -8,13 +8,13 @@
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $data }} - {{ config('app.name') }}</title>
-        <link rel="icon" type="image/png" href="images/Logo.png">
-        <link href="css/my-admin.css" rel="stylesheet" type="text/css">
-        <link href="template_css/styl" rel="stylesheet" />
-        <link href="css/report_style.css" rel="stylesheet" media="print" type="text/css">
-        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="/images/Logo.png">
+        <link href="/css/my-admin.css" rel="stylesheet" type="text/css">
+        <link href="/template_css/styl" rel="stylesheet" />
+        <link href="/css/report_style.css" rel="stylesheet" media="print" type="text/css">
+        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"> --}}
-        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
        
@@ -112,10 +112,10 @@
         </div><!-- #layoutSidenav -->
         </div>
        
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="js/app.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="template_js/scripts.js"></script>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/js/app.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/template_js/scripts.js"></script>
        
     </body>
 </html>
