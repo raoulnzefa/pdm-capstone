@@ -80,6 +80,7 @@
                     <span class="badge badge-secondary" style="font-size: 14px;" v-if="order.order_status == 'Shipped'">{{ order.order_status }}</span>
                     <span class="badge badge-success" style="font-size: 14px;" v-if="order.order_status == 'Completed'">{{ order.order_status }}</span>
                     <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Cancelled'">{{ order.order_status }}</span>
+                    <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Overdue'">{{ order.order_status }}</span>
                   </td>
                   <td>{{ order.order_quantity }}</td>
                   <td>&#8369;{{ order.order_total }}</td>

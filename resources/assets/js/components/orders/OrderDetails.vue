@@ -65,6 +65,11 @@
 				</div>
 			</template>
 		</template>
+		<template v-if="order.order_status === 'Overdue'">
+			<div class="clearfix">
+				<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+			</div>
+		</template>
 		<template v-if="order.order_status === 'Cancelled'">
 			<div class="clearfix">
 				<h4 class="float-left mb-0">Order No. {{order.number}}</h4>
@@ -109,7 +114,28 @@
 						</tr>
 						<tr>
 							<td>Status:</td>
-							<td>{{ order.order_status }}</td>
+							<td>
+								 <span class="badge badge-info" style="font-size: 16px;" v-if="order.order_status == 'For pickup'">{{ order.order_status }}</span>
+		                    <span class="badge badge-warning" style="font-size: 16px;" v-if="order.order_status == 'Pending payment'">{{ order.order_status }}</span>
+		                    <span class="badge badge-primary" style="font-size: 16px;" v-if="order.order_status == 'Processing'">{{ order.order_status }}</span>
+		                     <span class="badge badge-primary" style="font-size: 16px;" v-if="order.order_status == 'For shipping'">{{ order.order_status }}</span>
+		                    <span class="badge badge-secondary" style="font-size: 16px;" v-if="order.order_status == 'Shipped'">{{ order.order_status }}</span>
+		                    <span class="badge badge-success" style="font-size: 16px;" v-if="order.order_status == 'Completed'">{{ order.order_status }}</span>
+		                    <span class="badge badge-danger" style="font-size: 16px;" v-if="order.order_status == 'Cancelled'">{{ order.order_status }}</span>
+		                    <span class="badge badge-danger" style="font-size: 16px;" v-if="order.order_status == 'Overdue'">{{ order.order_status }}</span>
+							</td>
+						</tr>
+						<tr v-if="order.order_status === 'Pending payment'">
+							<td>Due payment date:</td>
+							<td>{{ order.order_due_payment }}</td>
+						</tr>
+						<tr v-if="order.order_status === 'Overdue'">
+							<td>Remarks:</td>
+							<td>{{ order.order_remarks }}</td>
+						</tr>
+						<tr v-if="order.order_status === 'For pickup'">
+							<td>Pickup date until:</td>
+							<td>{{ order.order_for_pickup }}</td>
 						</tr>
 						<tr v-if="order.order_status === 'Shipped' || order.order_status === 'Completed'">
 							<td>Warranty date:</td>

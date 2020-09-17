@@ -50,9 +50,9 @@ class ReportsController extends Controller
         ];
 
       }
-      elseif ($request->input('critical_level'))
+      elseif ($request->input('report_type') == 'critical_level')
       {
-        $inventories = Inventory::where('inventory_stock', '<=', 'inventory_critical_level')->get();
+        $inventories = Inventory::whereRaw('inventory_stock <= inventory_critical_level')->get();
         $report_type = 'Critical Level';
 
         $data = [
@@ -66,7 +66,7 @@ class ReportsController extends Controller
       }
       else
       {
-        $inventories = Inventory::where('inventory_stock', 0)->get();
+        $inventories = Inventory::whereRaw('inventory_stock = 0')->get();
         $report_type = 'Out of Stock';
 
         $data = [

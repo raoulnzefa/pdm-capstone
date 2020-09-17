@@ -35,6 +35,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('order_for_shipping')->nullable();
             $table->dateTime('order_shipped')->nullable();
             $table->dateTime('order_completed')->nullable();
+            $table->tinyInteger('order_restocked')->default(0);
             $table->dateTime('order_warranty')->nullable();
             $table->string('order_remarks')->nullable();
             $table->integer('viewed')->default(0);

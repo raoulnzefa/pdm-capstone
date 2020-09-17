@@ -63,6 +63,10 @@
 						<div>
 							<h4 class="pt-2">Order No. {{ $order->number }}</h4>
 						</div>
+					@elseif ($order->order_status == "Overdue")
+						<div>
+							<h4 class="pt-2">Order No. {{ $order->number }}</h4>
+						</div>
 					@elseif ($order->order_status == "Completed")
 						<div class="clearfix">
 							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
@@ -105,6 +109,24 @@
 									<td>Status:</td>
 									<td>{{ $order->order_status }}</td>
 								</tr>
+								@if ($order->order_status == 'Pending payment')
+								<tr>
+									<td>Due payment date:</td>
+									<td>{{ $order->order_due_payment }}</td>
+								</tr>
+								@endif
+								@if ($order->order_status == 'For pickup')
+								<tr>
+									<td>Pickup date until:</td>
+									<td>{{ $order->order_for_pickup }}</td>
+								</tr>
+								@endif
+								@if ($order->order_status == 'Shipped' || $order->order_status == 'Completed')
+								<tr>
+									<td>Warranty date:</td>
+									<td>{{ $order->order_warranty }}</td>
+								</tr>
+								@endif
 							</table>
 						</div>
 						<div class="col-md-6">

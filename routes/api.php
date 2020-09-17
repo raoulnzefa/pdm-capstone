@@ -244,6 +244,7 @@ Route::put('voucher/update/{voucher}', 'Api\VoucherController@updateVoucher');
 // inventory
 Route::get('inventory/get', 'Api\InventoryController@getInventory');
 Route::put('inventory/add-stock/{inventory}', 'Api\InventoryController@addStock');
+Route::get('inventory/alert', 'Api\InventoryController@inventoryAlert');
 
 // order details
 Route::get('order/{orderNum}', 'Api\OrderController@getOrder');

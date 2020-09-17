@@ -36,7 +36,8 @@ class CustomerForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('auth.passwords.email-customer');
+        $data = 'Forgot Password'; 
+        return view('auth.passwords.email-customer', compact('data'));
     }
 
     protected function broker()

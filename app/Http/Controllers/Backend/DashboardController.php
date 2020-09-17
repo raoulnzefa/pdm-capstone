@@ -5,17 +5,21 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Order;
-use App\Customer;
-use App\Sales;
-use App\Invoice;
-use App\InvoiceProduct;
-use App\Inventory;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Customer;
+use App\Models\Sales;
+use App\Models\Invoice;
+use App\Models\InvoiceProduct;
+use App\Models\Inventory;
+use App\Http\Controllers\Traits\InventoryManager;
 use DB;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    use InventoryManager;
+
 	public function __construct()
 	{
 		$this->middleware('auth:admin');
@@ -23,6 +27,24 @@ class DashboardController extends Controller
 
     public function index()
     {
+        // check for overdue orders
+        $overdue = Order::where('order_status','!=','Overdue')->where(function($query) {
+            $query->whereRaw('order_for_pickup < CURDATE()')
+            ->orWhereRaw('order_due_payment < CURDATE()');
+        })->get();
+
+        foreach ($overdue as $item)
+        {
+            $this->restockOrder($item->number);
+
+            $order = Order::where('number', $item->number)->first();
+            $order->order_status = 'Overdue';
+            $order->order_restocked = 1;
+            $order->viewed = 0;
+            $order->order_remarks = 'Restocked';
+            $order->update();
+        }
+
         $data = 'Dashboard';
     	$admin = Auth::guard('admin')->user();
 

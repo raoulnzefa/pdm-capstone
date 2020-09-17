@@ -55,9 +55,19 @@ class OrderController extends Controller
         {
             // order status
             $order_status = $request->query('status');
-            // get orders
-            $orders = Order::where('order_status', $order_status)
+            if ($order_status != 'Overdue')
+            {
+              // get orders
+              $orders = Order::where('order_status', $order_status)
+                            ->with('customer')->paginate(10);  
+            }
+            else
+            {
+              $orders = Order::whereRaw('order_for_pickup < CURDATE()')
+                            ->orWhereRaw('order_due_payment < CURDATE()')
                             ->with('customer')->paginate(10);
+            }
+      
 
             //$orders->appends($request->only('status'));
         }

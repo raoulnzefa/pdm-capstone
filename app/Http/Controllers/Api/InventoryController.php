@@ -36,21 +36,21 @@ class InventoryController extends Controller
 
             if ($filter_by == 'in_stock')
             {
-              $inventory = Inventory::where(function($query) use ($filter_by) {
-                            $query->where('inventory_stock', '>', 'inventory_critical_level');
-                        })
+              $inventory = Inventory::with('product.category','productWithVariant','productNoVariant')->paginate(10);
+            }
+            else if ($filter_by == 'critical_level')
+            {
+              $inventory = Inventory::whereRaw('inventory_stock <= inventory_critical_level')
                         ->with('product.category','productWithVariant','productNoVariant')
-                        ->paginate(10);
+                        ->paginate(100);
             }
             else
             {
-              // filter by critical level stocks
-              $inventory = Inventory::where(function($query) use ($filter_by) {
-                            $query->where('inventory_stock', '<=', 'inventory_critical_level');
-                        })
+              $inventory = Inventory::whereRaw('inventory_stock = 0')
                         ->with('product.category','productWithVariant','productNoVariant')
-                        ->paginate(10);  
+                        ->paginate(100); 
             }
+
             
         }
         else
@@ -85,5 +85,23 @@ class InventoryController extends Controller
 
     	return response()->json(['success' => true]);
 
+    }
+
+    public function inventoryAlert()
+    {
+       try
+      {
+         $inventoryAlert = Inventory::whereRaw('inventory_stock <= inventory_critical_level')
+            ->orWhereRaw('inventory_stock = 0')
+            ->count();
+
+         $response = ['count'=> $inventoryAlert];
+      }
+      catch(Exception $e)
+      {
+         $response = ['err' =>$e->getMessage()];
+      }
+
+      return response()->json($response);
     }  
 }

@@ -23,10 +23,12 @@
         </div>  
     </div><!-- row 1 -->
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Reset Password</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="ifg-header mb-3">Reset Password</h4>
                     <customer-reset-password token="{{ $token }}"></customer-reset-password>
                 </div>
             </div>

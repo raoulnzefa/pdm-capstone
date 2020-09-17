@@ -55,7 +55,7 @@
                             </a>
                             <a class="nav-link" href="{{ route('inventory') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                                Inventory
+                                Inventory <inventory-badge></inventory-badge>
                             </a>
                             <a class="nav-link" href="{{ route('replacements') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-exchange-alt"></i></div>

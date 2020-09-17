@@ -30,7 +30,7 @@
                 </tr>
           </table>
           <br>
-          <table class="content">
+          <table class="inventory-content">
             <thead>
                 <tr>
                     <th width="15%">ID</th>

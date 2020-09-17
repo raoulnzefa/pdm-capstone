@@ -82,7 +82,7 @@ Route::get('/email-verified/{email}/{token}', 'Frontend\CustomerAuthController@e
 
 //Customer Password Reset
 // Password Reset Routes...
-Route::get('/password/reset', 'Frontend\CustomerForgotPasswordController@showLinkRequestForm')->name('customer.password.request');
+Route::get('/forgot-password', 'Frontend\CustomerForgotPasswordController@showLinkRequestForm')->name('customer.password.request');
 
 Route::post('/password/email', 'Frontend\CustomerForgotPasswordController@sendResetLinkEmail')->name('customer.password.email');
         

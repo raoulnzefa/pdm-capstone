@@ -16,8 +16,19 @@
         <div class="form-group row">
             <label for="pass" class="col-sm-4 col-form-label">Password:</label>
             <div class="col-sm-8">
-                <input type="password" name="password" id="pass" class="form-control" :class="{'is-invalid' : $v.password.$error}" v-model.trim="$v.password.$model" placeholder="Enter your password" tabindex="2">
-                <div v-if="$v.password.$error">
+            	<div class="input-group">
+                  <input :type="visiblePassword ? 'text' : 'password'" class="form-control"
+                      v-model.trim="$v.password.$model"
+                      :class="{'is-invalid' : $v.password.$error}" 
+                      tabindex="2" 
+                      name="password"
+                      placeholder="Enter you password"
+                      id="cPass">
+                  <div class="input-group-append">
+                      <button class="btn btn-visible-pass" type="button" @click="visiblePass"><i class="fa" :class="visiblePassword ? 'fa-eye' : 'fa-eye-slash'" v-b-tooltip.hover :title="visiblePassword ? 'Hide password' : 'Show password'"></i></button>
+                  </div>
+              </div>
+               <div v-if="$v.password.$error">
                 	<span class="error-feedback d-block" v-if="!$v.password.required">Please enter a password</span>
 	    			<span class="error-feedback d-block" v-if="!$v.password.minLength">Password must be at least {{ $v.password.$params.minLength.min }} characters</span>
 	    			<template v-if="$v.password.minLength">			
@@ -30,8 +41,21 @@
         <div class="form-group row">
             <label for="confirm-pass" class="col-sm-4 col-form-label">Confirm Password:</label>
             <div class="col-sm-8">
-                <input type="password" id="confirm-pass" name="password_confirmation" class="form-control" :class="{'is-invalid' : $v.password_confirmation.$error}" v-model.trim="$v.password_confirmation.$model" placeholder="Re-enter your password" tabindex="3">
-                 <div v-if="$v.password_confirmation.$error">
+            	 <div class="input-group">
+                  <input :type="visibleConfirmPassword ? 'text' : 'password'" class="form-control"
+                      v-model.trim="$v.password_confirmation.$model"
+                      :class="{'is-invalid' : $v.password_confirmation.$error}" 
+                      tabindex="3" 
+                      name="password_confirmation"
+                      id="cConfirmPass"
+                      placeholder="Re-enter your password" 
+                    >
+                  <div class="input-group-append">
+                      <button class="btn btn-visible-pass" type="button" @click="visibleConfirmPass"><i class="fa":class="visibleConfirmPassword ? 'fa-eye' : 'fa-eye-slash'" v-b-tooltip.hover :title="visibleConfirmPassword ? 'Hide password' : 'Show password'"></i></button>
+                  </div>
+              </div>
+               
+              <div v-if="$v.password_confirmation.$error">
 	    			<span class="error-feedback d-block" v-if="!$v.password.sameAs">Password and password confirmation are not match</span>
                 </div>
             </div>
@@ -40,7 +64,7 @@
         <div class="form-group row">
             <label for="" class="col-sm-4 col-form-label"></label>
             <div class="col-sm-8">
-                <button type="submit" class="btn btn-dark ifg-btn" :disabled="submit">Reset Password</button>
+                <button type="submit" class="btn btn-primary" :disabled="submit">Reset Password</button>
             </div>
         </div>
     </form>
@@ -59,7 +83,9 @@
 				submit: false,
 				email: '',
 				password: '',
-				password_confirmation: ''
+				password_confirmation: '',
+				visiblePassword: false,
+            visibleConfirmPassword: false,
 			}
 		},
 		validations() {
@@ -87,7 +113,13 @@
 					this.submit = true;
 					this.$refs.resetPass.submit();
 				}
-			}
+			},
+			visiblePass() {
+             this.visiblePassword = !this.visiblePassword;
+         },
+         visibleConfirmPass() {
+             this.visibleConfirmPassword = !this.visibleConfirmPassword;
+         },
 		},
 		created() {
 

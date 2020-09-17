@@ -19,6 +19,7 @@ class CreateInventoriesTable extends Migration
             $table->string('product_number');
             $table->integer('inventory_stock');
             $table->integer('inventory_critical_level');
+            $table->tinyInteger('alert')->default(0);
             $table->timestamps();
             $table->foreign('product_number')->references('number')->on('products');
             

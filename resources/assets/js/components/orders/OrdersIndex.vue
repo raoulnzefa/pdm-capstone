@@ -14,6 +14,7 @@
               <option value="Shipped">Shipped</option>
               <option value="Completed">Completed</option>
               <option value="Cancelled">Cancelled</option>
+              <option value="Overdue">Overdue</option>
             </select>
             <div class="input-group-append" v-if="order_status">
               <button class="btn btn-outline-danger" type="button" @click="clearFilter">Clear</button>
@@ -84,12 +85,18 @@
                     <span class="badge badge-secondary" style="font-size: 14px;" v-if="order.order_status == 'Shipped'">{{ order.order_status }}</span>
                     <span class="badge badge-success" style="font-size: 14px;" v-if="order.order_status == 'Completed'">{{ order.order_status }}</span>
                     <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Cancelled'">{{ order.order_status }}</span>
+                    <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Overdue'">{{ order.order_status }}</span>
                   </td>
                   <td>{{ order.customer.first_name+' '+order.customer.last_name }}</td>
                   <td>{{ order.order_payment_status }}</td>
                   <td>{{ order.order_quantity }}</td>
                   <td>&#8369;{{ order.order_total }}</td>
-                  <td><a :href="'/admin/order/'+order.number+''" class="btn btn-sm btn-primary">View</a></td>
+                  <td>
+                    <a :href="'/admin/order/'+order.number+''" class="btn btn-sm btn-primary">View</a>
+                   <!--  <template v-if="order.order_status === 'Overdue'">
+                      <button class="btn btn-primary btn-sm" v-if="order.order_restocked == 0" @click="restockOrder(order)">Restock</button>
+                    </template> -->
+                  </td>
                 </tr>
               </template>
             </template>
@@ -117,6 +124,19 @@
           </template>
         </div>
       </template>
+       <!-- Modal Component -->
+        <b-modal id="restockModal"
+                 ref="restockModal"
+                 :title="restock_title"
+                 no-close-on-backdrop
+                 no-close-on-esc
+                 hide-header-close
+                 ok-title="Restock"
+                 :ok-disabled="submit">
+              <div>
+                <h4>You are about to restock {{ restock_qty }} products.</h4>
+              </div>
+          </b-modal>
     </div>
 </div>
 </template>
@@ -129,6 +149,7 @@
           return {
             orders: [],
             delivery_date: '',
+            restock_qty: '',
             order_id: '',
             date_now: new Date(),
             completed: false,
@@ -140,6 +161,7 @@
             order_status: null,
             from_date: '',
             to_date: '',
+            restock_title: '',
             options: {
               format: 'YYYY-MM-DD',
               useCurrent: false,
@@ -153,6 +175,11 @@
           HalfCircleSpinner
       },
       methods: {
+          restockOrder(item) {
+            //this.restock_title = 'Restock order '+item.number;
+            this.restock_qty = item.order_quantity;
+            this.$refs.restockModal.show();
+          },
           getOrders(pagi) {
               if (this.search_val)
               {

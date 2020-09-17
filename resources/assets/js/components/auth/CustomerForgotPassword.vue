@@ -16,7 +16,7 @@
             <div class="form-group row">
                 <label for="" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary ifg-btn" :disabled="submit">Reset Password</button>
+                    <button type="submit" class="btn btn-primary" :disabled="submit">Reset Password</button>
                 </div>
             </div>
         </form>

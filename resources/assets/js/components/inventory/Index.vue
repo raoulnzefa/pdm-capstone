@@ -11,12 +11,14 @@
 	          </b-form-select>
 	        </div>
 	        <div class="col-md-5">
-	        	<form ref="reportForm" target="_blank" method="POST" action="/admin/report/inventory" v-if="inventories.length">
-	        		<input type="hidden" name="_token" :value="csrf">
-	        		<input type="hidden" name="report_type" :value="filter_by">
-	        		<input type="hidden" name="admin_id" :value="admin.id">
-	        		<button type="submit" class="btn btn-primary" :disable="generateClicked">Generate report</button>
-	        	</form>
+	        <template v-if="!loading">
+	        		<form ref="reportForm" target="_blank" method="POST" action="/admin/report/inventory" v-if="inventories.length">
+		        		<input type="hidden" name="_token" :value="csrf">
+		        		<input type="hidden" name="report_type" :value="filter_by">
+		        		<input type="hidden" name="admin_id" :value="admin.id">
+		        		<button type="submit" class="btn btn-primary" :disable="generateClicked">Generate report</button>
+		        	</form>
+	        </template>
 	        </div>
 	        <div class="col-md-4">
 	          <template>
@@ -87,22 +89,22 @@
 				</tbody>
 			</table>
 			<template v-if="!loading">
-			<div class="row" v-if="inventories.length != 0">
-               <div class="col-md-8">
-                 <nav>
-                   <ul class="pagination">
-                     <li :class="{disabled:!pagination.first_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.first_link)" class="page-link">&laquo;</a></li>
-                     <li :class="{disabled:!pagination.prev_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.prev_link)" class="page-link">Prev</a></li>
-                     <li v-for="n in pagination.last_page" v-bind:key="n" :class="{active: pagination.current_page == n}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.path_page + n)" class="page-link">{{ n }}</a></li>
-                     <li :class="{disabled:!pagination.next_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.next_link)" class="page-link">Next</a></li>
-                     <li :class="{disabled:!pagination.last_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.last_link)" class="page-link">&raquo;</a></li>
-                   </ul>
-                 </nav>
-               </div>
-               <div class="col-md-4">
-                 <p class="text-right">Showing {{ pagination.from_page }} to {{ pagination.to_page }} of {{ pagination.total_page }} {{ (pagination.total_page > 1) ? 'entries' : 'entry'}}</p>
-               </div>
-             </div>
+			<div class="row" v-if="filter_by === 'in_stock'">
+            <div class="col-md-8">
+              <nav>
+                <ul class="pagination">
+                  <li :class="{disabled:!pagination.first_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.first_link)" class="page-link">&laquo;</a></li>
+                  <li :class="{disabled:!pagination.prev_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.prev_link)" class="page-link">Prev</a></li>
+                  <li v-for="n in pagination.last_page" v-bind:key="n" :class="{active: pagination.current_page == n}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.path_page + n)" class="page-link">{{ n }}</a></li>
+                  <li :class="{disabled:!pagination.next_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.next_link)" class="page-link">Next</a></li>
+                  <li :class="{disabled:!pagination.last_link}" class="page-item"><a href="javascript:void(0);" @click="getInventory(pagination.last_link)" class="page-link">&raquo;</a></li>
+                </ul>
+              </nav>
+            </div>
+            <div class="col-md-4">
+              <p class="text-right">Showing {{ pagination.from_page }} to {{ pagination.to_page }} of {{ pagination.total_page }} {{ (pagination.total_page > 1) ? 'entries' : 'entry'}}</p>
+            </div>
+          </div>
 		</template>
 		</div>
 	</div>
@@ -136,11 +138,13 @@
 				if (this.search_val)
 				{
 					pagi = '/api/inventory/get/?search='+this.search_val;
+					//this.getFilteredInventory(pagi);
 					
 				}
 				else if (this.filter_by)
 				{
 					pagi = pagi || '/api/inventory/get/?filterBy='+this.filter_by;
+					//this.getFilteredInventory(pagi);
 				}
 				else
 				{
@@ -170,6 +174,7 @@
 					this.generateClicked = false;
 					console.log(error.response);
 				});
+
 			},
 			searchProduct() {
 				this.on_search = true;
@@ -190,7 +195,45 @@
 			},
 			generateReport() {
 				alert('report');
-			}
+			},
+			getAllStocks() {
+				axios.get('/api/inventory/get')
+				.then(response => {
+					this.loading = false;
+					this.generateClicked = false;
+					this.inventories = response.data.data;
+					this.pagination = {
+	       				current_page: response.data.current_page,
+	       				last_page: response.data.last_page,
+	       				from_page: response.data.from,
+	       				to_page: response.data.to,
+	       				total_page: response.data.total,
+	       				path_page: response.data.path+'?page=',
+	       				first_link: response.data.first_page_url,
+	       				last_link: response.data.last_page_url,
+	       				prev_link: response.data.prev_page_url,
+	       				next_link: response.data.next_page_url
+	       			};
+				})
+				.catch(error => {
+					this.loading = false;
+					this.generateClicked = false;
+					console.log(error.response);
+				});
+			},
+			getFilteredInventory(pagi) {
+				axios.get(pagi)
+				.then(response => {
+					this.loading = false;
+					this.generateClicked = false;
+					this.inventories = response.data;
+				})
+				.catch(error => {
+					this.loading = false;
+					this.generateClicked = false;
+					console.log(error.response);
+				});
+			},
 		},
 		mounted() {
 			this.getInventory();

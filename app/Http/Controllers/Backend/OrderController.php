@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\PaypalPayment;
+use App\Models\PaypalPayment;
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Http\Controllers\Traits\InventoryManager;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use PayPal\Api\Amount;
@@ -17,6 +19,8 @@ use Exception;
 
 class OrderController extends Controller
 {
+    use InventoryManager;
+
     private $_api_context;
 
 
@@ -38,6 +42,24 @@ class OrderController extends Controller
 
     public function index()
     {
+        // check for overdue orders
+        $overdue = Order::where('order_status','!=','Overdue')->where(function($query) {
+            $query->whereRaw('order_for_pickup < CURDATE()')
+            ->orWhereRaw('order_due_payment < CURDATE()');
+        })->get();
+
+        foreach ($overdue as $item)
+        {
+            $this->restockOrder($item->number);
+
+            $order = Order::where('number', $item->number)->first();
+            $order->order_status = 'Overdue';
+            $order->order_restocked = 1;
+            $order->viewed = 0;
+            $order->order_remarks = 'Restocked';
+            $order->update();
+        }
+
         $data = 'Orders';
 
         return view('backend.orders.order_list', compact('data'));

@@ -68,6 +68,18 @@ class Order extends Model
         return date('m/d/Y', $time);
     }
 
+    public function getOrderForPickupAttribute($value)
+    {
+        $time = strtotime($value);
+        return date('m/d/Y', $time);
+    }
+
+    public function getOrderDuePaymentAttribute($value)
+    {
+        $time = strtotime($value);
+        return date('m/d/Y', $time);
+    }
+
     public function getOrderWarrantyAttribute($value)
     {
         $time = strtotime($value);
