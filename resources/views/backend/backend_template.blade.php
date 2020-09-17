@@ -8,7 +8,7 @@
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $data }} - {{ config('app.name') }}</title>
-        <link rel="icon" type="image/png" href="{{ asset('images/Logo.png') }}">
+        <link rel="icon" type="image/png" href="images/Logo.png">
         <link href="css/my-admin.css" rel="stylesheet" type="text/css">
         <link href="template_css/styl" rel="stylesheet" />
         <link href="css/report_style.css" rel="stylesheet" media="print" type="text/css">
