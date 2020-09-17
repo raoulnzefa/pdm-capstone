@@ -7,11 +7,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $data }} - {{ config('app.name') }}</title>
         {{-- <title>{{ config('app.name') }}</title> --}}
-        <link rel="icon" type="image/png" href="/images/Logo.png'">
+        <link rel="icon" type="image/png" href="{{ asset('images/Logo.png') }}">
        {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         
-        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/css/mycss.css">
         <!-- Bootstrap core CSS-->
         
@@ -121,10 +121,10 @@
             @show
         </div> {{-- ID app --}}
 
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/js/app.js"></script>
-        <script src="/vendor/popper/dist/umd/popper.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="vendor/popper/dist/umd/popper.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
         @yield('postJquery');
             
