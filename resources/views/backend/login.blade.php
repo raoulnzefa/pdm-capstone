@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Admin Login - Infinity Fightgear</title>
-    <link rel="icon" type="image/png" href="images/Logo.png">
+    <title>{{$data}} - {{ config('app.name') }}</title>
+    <link rel="icon" type="image/png" href="/images/Logo.png">
     <!-- Fonts -->
    {{--  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
@@ -26,12 +26,13 @@
 <body class="bg-dark">
     <div class="container" id="app">
         <div class="mt-3">
-            <img src="/images/logo.jpg" class="img-fluid d-block mr-auto ml-auto" width="300" height="300">
+            <img src="/images/logo.jpg" class="img-fluid d-block mr-auto ml-auto" width="200" height="150">
         </div>
         @yield('content')
     </div>
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
+    <script src="/js/app.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->

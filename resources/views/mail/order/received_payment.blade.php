@@ -18,8 +18,9 @@ Once we've delivered your order, we'll send you another email with updated deliv
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount }}<br>
 @if ($order->order_shipping_method == 'Shipping')
-Delivery fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
+Shipping fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
 @endif
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 

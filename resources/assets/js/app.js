@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 
+require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css');
+
 window.Vue = require('vue');
 
 window.axios = require('axios');
@@ -66,6 +68,7 @@ Vue.component('dashboard-index', require('./components/dashboard/DashboardIndex.
 Vue.component('user-list', require('./components/user/UserList.vue'));
 Vue.component('edit-account', require('./components/user/EditAccount.vue'));
 Vue.component('user-name', require('./components/partial/AdminName.vue'));
+Vue.component('admin-registration', require('./components/user/Registration.vue'));
 //Category
 Vue.component('category-index', require('./components/category/CategoryIndex.vue'));
 
@@ -239,6 +242,9 @@ Vue.component('customer-admin-details', require('./components/customer_admin/Cus
 
 // audit trail
 Vue.component('audit-trail', require('./components/audit_trail/AuditTrailIndex.vue'));
+
+//discount
+Vue.component('discount-maintenance', require('./components/discount/DiscountIndex.vue'));
 
 const app = new Vue({
     el: '#app'

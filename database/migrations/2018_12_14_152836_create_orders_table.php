@@ -24,6 +24,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_payment_method');
             $table->integer('order_quantity');
             $table->decimal('order_subtotal',9,2);
+            $table->decimal('order_discount',9,2)->nullable();
             $table->decimal('order_shipping_fee',9,2)->nullable();
             $table->decimal('order_total',9,2);
             $table->decimal('order_shipping_discount',9,2)->nullable();

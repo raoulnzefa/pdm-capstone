@@ -21,6 +21,7 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->string('role');
             $table->string('status');
+            $table->tinyInteger('new_user');
             $table->rememberToken();
             $table->timestamps();
         });

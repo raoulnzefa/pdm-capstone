@@ -5,12 +5,13 @@
     <div class="col-md-5">
         <div class="card card-login mt-3">
             <div class="card-header">Login</div>
+            <form method="POST" action="{{ route('admin.login') }}">
             <div class="card-body">   
 
                 @if (Session::has('login_failed'))      
                 <p class="alert alert-danger"><b><i class="fa fa-warning"></i></b>&nbsp;{{ Session::get('login_failed') }}</p>
                 @endif
-                <form method="POST" action="{{ route('admin.login') }}">
+                
                     @csrf
                     <div class="form-group">
                         <label class="ifg-label" for="email">Username:</label>
@@ -29,10 +30,14 @@
                         </div>
 
                         <div class="form-group">
-                          <button type="submit" class="btn btn-primary btn-block ifg-btn"><i class="fa fa-sign-in"></i>&nbsp;Login</button>    
+                            
                         </div>
-                    </form> 
+                    
             </div><!-- card-body  -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i>&nbsp;Login</button> 
+            </div>
+            </form> 
             </div> {{-- card --}}
     </div>
 </div>

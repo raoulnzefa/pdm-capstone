@@ -45,6 +45,11 @@ class Order extends Model
         return number_format($value,2);
     }
 
+    public function getOrderDiscountAttribute($value)
+    {
+        return number_format($value,2);
+    }
+
     public function getOrderTotalAttribute($value)
     {
     	return number_format($value,2);

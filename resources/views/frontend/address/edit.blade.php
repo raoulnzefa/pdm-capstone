@@ -24,9 +24,6 @@
 		<div class="col-md-9">
 			<edit-customer-address 
 				:customer="{{ Auth::guard('customer')->user() }}"
-				:provinces="{{$provinces}}"
-				:municipalities="{{$municipalities}}"
-				:barangays="{{$barangays}}"
 				:address="{{$address}}">
 			</edit-customer-address>
 		</div>

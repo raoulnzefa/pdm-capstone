@@ -10,7 +10,7 @@
         <title>{{ $data }} - {{ config('app.name') }}</title>
         <link rel="icon" type="image/png" href="/images/Logo.png">
         <link href="/css/my-admin.css" rel="stylesheet" type="text/css">
-        <link href="/template_css/styl" rel="stylesheet" />
+        <link href="/template_css/styles.css" rel="stylesheet" />
         <link href="/css/report_style.css" rel="stylesheet" media="print" type="text/css">
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"> --}}
@@ -80,6 +80,7 @@
                                     <a class="nav-link" href="{{ route('products') }}">Products</a>
                                     <a class="nav-link" href="{{ route('bank_account') }}">Bank Account</a>
                                     <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping Rate</a>
+                                    <a class="nav-link" href="{{ route('discount') }}">Discount</a>
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
                                 </nav>
                             </div>

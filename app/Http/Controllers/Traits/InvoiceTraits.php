@@ -20,7 +20,7 @@ trait InvoiceTraits
                 $invoice->first_name = $array_params['order']['customer']['first_name'];
                 $invoice->last_name = $array_params['order']['customer']['last_name'];
                 $invoice->subtotal = str_replace(',', '', $array_params['order']['order_subtotal']);
-                $invoice->discount = str_replace(',', '', $array_params['order']['order_shipping_discount']);
+                $invoice->discount = str_replace(',', '', $array_params['order']['order_discount']);
                 $invoice->shipping_fee = str_replace(',', '', $array_params['order']['order_shipping_fee']);
                 $invoice->total = str_replace(',', '', $array_params['order']['order_total']);
                 $invoice->payment_date = $array_params['order']['order_payment_date'];

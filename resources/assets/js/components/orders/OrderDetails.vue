@@ -193,6 +193,10 @@
 						<th class="text-right">Subtotal:</th>
 						<td width="30%" class="text-right">&#8369;{{ order.order_subtotal }}</td>
 					</tr>
+					<tr>
+						<th class="text-right">Discount:</th>
+						<td width="30%" class="text-right">&#8369;{{ order.order_discount }}</td>
+					</tr>
 					<tr v-if="order.order_shipping_method === 'Shipping'">
 						<th class="text-right">Shipping fee:</th>
 						<td class="text-right">&#8369;{{ order.order_shipping_fee }}</td>

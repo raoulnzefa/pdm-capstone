@@ -25,6 +25,7 @@ trait OrderTraits
          $order->order_quantity = $array_params['order_quantity'];
          $order->order_shipping_fee = $array_params['order_shipping_fee'];
          $order->order_subtotal = $array_params['order_subtotal'];
+         $order->order_discount = $array_params['order_discount'];
          $order->order_total = $array_params['order_total'];
          $order->order_shipping_discount = $array_params['order_shipping_discount'];
          $order->order_payment_date = $array_params['order_payment_date'];

@@ -22,6 +22,7 @@ Return Reason : {{$return_replacement->reason->title}}
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($return_replacement->subtotal, 2) }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount }}<br>
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($return_replacement->total, 2) }}<br>
 
 Thanks,<br>

@@ -15,10 +15,7 @@ class CreateShippingRatesTable extends Migration
     {
         Schema::create('shipping_rates', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('manila_rate',9,2);
-            $table->decimal('province_rate',9,2);
-            $table->integer('discount_percentage');
-            $table->integer('order_quantity');
+            $table->decimal('flat_rate',9,2);
             $table->timestamps();
         });
     }

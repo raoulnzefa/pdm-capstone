@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 
-use App\Models\Address;
-use App\Models\Province;
-use App\Models\Municipality;
-use App\Models\Barangay;
+use App\Models\CustomerAddress;
 use App\Models\ShippingRate;
+use App\Models\Discount;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
@@ -45,68 +43,21 @@ class CheckoutController extends Controller
 
         $cart_qty = Cart::where('customer_id', $customer_id)->sum('quantity');
 
-        $shippingRate = ShippingRate::first();
-
         $cart_subtotal = Cart::where('customer_id', $customer_id)->sum('total');
 
-        $discount_percent = $shippingRate->discount_percentage;
-
-        if ((int)$cart_qty >= $shippingRate->order_quantity)
-        {
-            $has_discount = true;
-
-            $manila_rate_discount = ($shippingRate->manila_rate * $discount_percent / 100);
-            $manila_rate = $shippingRate->manila_rate;
-            $manila_rate_discounted = $shippingRate->manila_rate - $manila_rate_discount;
-
-            $province_rate_discount = ($shippingRate->province_rate * $discount_percent / 100);
-            $province_rate = $shippingRate->province_rate;
-            $province_rate_discounted = $shippingRate->province_rate - $province_rate_discount;
-
-        }
-        else
-        {
-            $discount = 0;
-            $has_discount = false;
-            $province_rate_discount = 0;
-            $manila_rate_discount = 0;
-            $manila_rate = $shippingRate->manila_rate;
-            $province_rate = $shippingRate->province_rate;
-            $province_rate_discounted = $shippingRate->province_rate;
-            $manila_rate_discounted = $shippingRate->manila_rate;
-        }
-
-
-        $shipping_rate = array(
-                    'has_discount' => $has_discount,
-                    'manila_rate' => number_format($manila_rate,2),
-                    'province_rate' => number_format($province_rate,2),
-                    'province_rate_discount'=> number_format($province_rate_discount,2),
-                    'manila_rate_discount'=> number_format($manila_rate_discount,2),
-                    'province_rate_discounted'=> number_format($province_rate_discounted,2),
-                    'manila_rate_discounted'=> number_format($manila_rate_discounted,2)
-                );
 
 		$data = 'Checkout';
-            
-        $provinces = Province::all();
 
-        $municipalities = Municipality::all();
+        $shipping_rate = ShippingRate::first()->flat_rate;
 
-        $barangays = Barangay::all();
-        
-        
+        $discount = Discount::first();
 
 		return view('frontend.checkout', compact(
                 'data',
                 'customer',
+                'discount',
                 'cart',
-                'provinces',
-                'municipalities',
-                'barangays',
-                'shipping_rate',
-                'cart_subtotal',
-                'address'
+                'shipping_rate'
             ));
 	}
 

@@ -20,6 +20,7 @@ Your order can be reserved within {{ $due_date['days'] }} business days until {{
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount }}<br>
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 

@@ -26,6 +26,7 @@ Your order can be reserved within {{ $date['days'] }} business days until {{ $da
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount }}<br>
 @if ($order->order_shipping_method == 'Shipping')
 Shipping fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
 @endif

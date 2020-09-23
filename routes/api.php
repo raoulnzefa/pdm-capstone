@@ -117,13 +117,6 @@ Route::post('order/complete-order', 'Api\OrderController@completeOrder');
 
 Route::get('sales', 'Api\SalesController@sales');
 
-Route::get('provinces', 'Api\ProvinceController@list');
-
-Route::get('municipalities/province/{province}', 'Api\MunicipalityController@list');
-
-Route::get('barangays/municipal/{municipal}', 'Api\BarangayController@list');
-
-
 // Shipping Company
 
 Route::get('orders/today', 'Api\OrderController@ordersToday');
@@ -218,9 +211,10 @@ Route::post('return-request/order', 'Api\ReturnRequestApi@saveReturnRequest');
 
 Route::post('get-best-selling-report', 'Api\BestSellingController@getBestSelling');
 
-Route::post('address/save', 'Api\AddressController@saveAddress');
-Route::put('address/update/{address}', 'Api\AddressController@updateAddress');
-Route::delete('address/delete/{address}', 'Api\AddressController@deleteAddress');
+Route::get('customer-address-get', 'Api\CustomerAddressController@getAddresses');
+Route::post('customer-address-save', 'Api\CustomerAddressController@saveAddress');
+Route::put('customer-address-update/{address}', 'Api\CustomerAddressController@updateAddress');
+Route::delete('customer-address-delete/{address}', 'Api\CustomerAddressController@deleteAddress');
 
 
 // orders details admin side
@@ -262,3 +256,11 @@ Route::get('request-not-view', 'Api\ReplacementRequestController@getViewed');
 
 // orders
 Route::get('orders/customer/{customerId}', 'Api\OrderController@customerOrders');
+
+// new deploy admin registration
+Route::post('admin/register', 'Api\AdminController@register');
+
+// discount
+Route::get('get-discount', 'Api\DiscountController@getDiscount');
+Route::post('set-discount', 'Api\DiscountController@setDiscount');
+Route::put('update-discount/{discount}', 'Api\DiscountController@updateDiscount');

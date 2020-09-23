@@ -14,7 +14,7 @@ class ShippingRateController extends Controller
 
    public function getShippingRate()
    {
-   	$shipping_rate = ShippingRate::limit(1)->get();
+   	$shipping_rate = ShippingRate::first();
 
    	return response()->json($shipping_rate);
 
@@ -22,20 +22,18 @@ class ShippingRateController extends Controller
 
    public function setShippingRate(Request $request)
    {
-   	$request->validate([
-            'manila_rate' => "required",
-            'province_rate' => "required",
-            'discount' => 'required',
-            'quantity' => 'required'
-        ]);
+   	  $request->validate([
+        'flat_rate' => "required|regex:^[1-9][0-9]+^"
+      ],
+      [
+        'flat_rate.required' => 'The flat rate field is required.',
+        'flat_rate.regex' => 'The flat rate is invalid.'
+      ]);
 
-   	date_default_timezone_set("Asia/Manila");
+   	  date_default_timezone_set("Asia/Manila");
 
    	$shipping_rate = new ShippingRate();
-   	$shipping_rate->manila_rate = round($request->manila_rate, 2);
-   	$shipping_rate->province_rate = round($request->province_rate, 2); 
-      $shipping_rate->discount_percentage = (int)$request->discount;
-      $shipping_rate->order_quantity = (int)$request->quantity;
+   	$shipping_rate->flat_rate = round($request->flat_rate, 2);
    	$shipping_rate->save();
 
    	$array_params = [
@@ -52,17 +50,18 @@ class ShippingRateController extends Controller
 
    public function updateShippingRate(Request $request, ShippingRate $shippingRate)
    {
-   	$request->validate([
-            'manila_rate' => "required",
-            'province_rate' => "required",
-            'discount' => 'required',
-            'quantity' => 'required'
-        ]);
+    
+      $request->validate([
+        'flat_rate' => "required|regex:^[1-9][0-9]+^"
+      ],
+      [
+        'flat_rate.required' => 'The flat rate field is required.',
+        'flat_rate.regex' => 'The flat rate is invalid.'
+      ]);
 
-   	$shippingRate->manila_rate = round($request->manila_rate, 2);
-   	$shippingRate->province_rate = round($request->province_rate, 2);
-      $shippingRate->discount_percentage = (int)$request->discount;
-      $shippingRate->order_quantity = (int)$request->quantity;
+      date_default_timezone_set("Asia/Manila");
+
+   	$shippingRate->flat_rate = round($request->flat_rate, 2);
    	$shippingRate->update();
 
    	$array_params = [

@@ -127,18 +127,15 @@
                         </div>
                         <div class="form-group">
                             <label>Barangay:</label>
-                            <input type="text" class="form-control" :value="barangay_name" readonly>
-                            <input type="hidden" name="barangay" :value="barangay">
+                            <input type="text" class="form-control" name="barangay" :value="drp_barangay" readonly>
                         </div>
                         <div class="form-group">
                             <label>Municipality:</label>
-                            <input type="text" class="form-control" :value="municipality_name" readonly>
-                            <input type="hidden" name="municipality" :value="municipality">
+                            <input type="text" class="form-control" name="municipality" :value="drp_municipality" readonly>
                         </div>
                         <div class="form-group">
                             <label>Province:</label>
-                            <input type="text" class="form-control" :value="province_name" readonly>
-                            <input type="hidden" name="province" :value="province">
+                            <input type="text" class="form-control" name="province" :value="drp_province" readonly>
                         </div>
                         <div class="form-group">
                             <label>Zip code:</label>
@@ -189,11 +186,11 @@
                             <select class="form-control" id="chckprovince"
                                 v-model.trim="$v.province.$model"
                                 :class="{'is-invalid': $v.province.$error}"
-                                @change="municipalityList"
-                                name="province">
+                                @change="municipalityList">
                                 <option value="">Select province</option>
-                               <option v-for="(province_data, index) in province_list" :key="index" :value="province_data.id">{{province_data.name}}</option>
+                               <option v-for="(item, index) in provinceList" :key="index" :value="item.province_id">{{item.name}}</option>
                             </select>
+                            <input type="hidden" name="province" :value="drp_province">
                             <div v-if="$v.province.$error">
                                 <span class="error-feedback" v-if="!$v.province.required">Province is required</span>
                             </div>
@@ -203,12 +200,12 @@
                             <select class="form-control" id="chckmunicipality"
                                 v-model.trim="$v.municipality.$model"
                                 :class="{'is-invalid': $v.municipality.$error}"
-                                @change="barangayList"
-                                name="municipality">
-                               <option value="" v-if="!municipality_list.length">Select province first</option>
+                                @change="barangayList">
+                               <option value="" v-if="!municipalities.length">Select province first</option>
                                <option value="" v-else>Select municipality</option>
-                               <option v-for="(municipality_data, index) in municipality_list" :key="index" :value="municipality_data.id">{{municipality_data.name}}</option>
+                               <option v-for="(item, index) in municipalities" :key="index" :value="item.city_id">{{item.name}}</option>
                             </select>
+                            <input type="hidden" name="municipality" :value="drp_municipality">
                             <div v-if="$v.municipality.$error">
                                 <span class="error-feedback" v-if="!$v.municipality.required">Municipality is required</span>
                             </div>
@@ -219,13 +216,13 @@
                                 v-model.trim="$v.barangay.$model"
                                 :class="{'is-invalid': $v.barangay.$error}"
                                 name="barangay">
-                               <option value="" v-if="!barangay_list.length">Select municipality first</option>
+                               <option value="" v-if="!barangays.length">Select municipality first</option>
                                <option value="" v-else>Select barangay</option>
-                               <option v-for="(barangay_data, index) in barangay_list" :key="index" :value="barangay_data.id">{{barangay_data.name}}</option>
+                               <option v-for="(item, index) in barangays" :key="index" :value="item.name">{{item.name}}</option>
                             </select>
                             <div v-if="$v.barangay.$error">
-                                    <span class="error-feedback" v-if="!$v.barangay.required">Barangay is required</span>
-                                </div>
+                                <span class="error-feedback" v-if="!$v.barangay.required">Barangay is required</span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="chckzipcode">Zip Code:</label>
@@ -322,29 +319,23 @@
                             <td class="pt-3 pb-1">
                                 <div class="clearfix">
                                     <h5 class="float-left">Subtotal</h5>
-                                    <h5 class="float-right">&#8369;{{cartSubtotal}}</h5>
+                                    <h5 class="float-right">{{ subtotalOrder }}</h5>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3 pb-1">
+                                <div class="clearfix">
+                                    <h5 class="float-left">Discount</h5>
+                                    <h5 class="float-right">{{ discountOrder }}</h5>
                                 </div>
                             </td>
                         </tr>
                         <tr v-if="shipping_method == 'shipping'">
                             <td class="pt-3 pb-1">
-                                <div class="clearfix" v-if="!showDiscountShippingFee">
+                                <div class="clearfix">
                                     <h5 class="float-left">Shipping fee</h5>
                                     <h5 class="float-right">{{ shippingRate }}</h5>
-                                </div>
-                                <div v-if="showDiscountShippingFee">
-                                    <div class="clearfix">
-                                        <h6 class="float-left text-secondary" style="text-decoration: line-through;">Shipping fee</h6>
-                                        <h6 class="float-right text-secondary" style="text-decoration: line-through;">{{ shippingRate }}</h6>
-                                    </div>
-                                    <div class="clearfix">
-                                        <h6 class="float-left">Discount</h6>
-                                        <h6 class="float-right">&#8369;-{{ discount_amount }}</h6>
-                                    </div>
-                                    <div class="clearfix">
-                                        <h5 class="float-left">Shipping fee</h5>
-                                        <h5 class="float-right">{{ discountedShippingFee }}</h5>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -359,9 +350,11 @@
                     </table>
                     <input type="hidden" name="customer_id" :value="customer.id">
                     <input type="hidden" name="order_qty" :value="cartQty">
-                    <input type="hidden" name="cart_subtotal" :value="cart_subtotal">
-                    <input type="hidden" name="shipping_discount_amount" :value="discount_amount">
-                    <input type="hidden" name="shipping_fee" :value="shipping_amount">
+                   <!--  <input type="hidden" name="shipping_discount_amount" :value="discount_amount"> -->
+                    <input type="hidden" name="cart_subtotal" :value="order_subtotal">
+                    <input type="hidden" name="subtotal_with_discount" :value="cartSubtotal">
+                    <input type="hidden" name="discount" :value="orderDiscount">
+                    <input type="hidden" name="shipping_fee" :value="shipping_rate">
                     <input type="hidden" name="order_total" :value="total_order">
                     <input type="hidden" name="_token" :value="csrf">
                     <div class="form-group mb-4 mt-2">
@@ -435,6 +428,9 @@
 	import { required, minLength, maxLength, numeric, sameAs, helpers } from 'vuelidate/lib/validators';
 	import { HalfCircleSpinner } from 'epic-spinners'
 
+    import Autocomplete from 'vue2-autocomplete-js'
+
+
 	const mobileNumber = helpers.regex('mobileNumber', /^(09)\d{9}$/);
 
     const digitsOnly = helpers.regex('digitsOnly', /^[0-9]*$/);
@@ -443,11 +439,8 @@
 		props: [
 			'customer',
 			'cart',
-			'provinces',
-			'municipalities',
-			'barangays',
 			'shipping_rate',
-			'cart_subtotal'
+            'discount',
 		],
 		data() {
 			return {
@@ -462,15 +455,16 @@
 				shipping_method: '',
 				payment_method: '',
 				terms_condition: false,
-				province_list: this.provinces,
-				municipality_list: [],
-				barangay_list: [],
+				provinces: [],
+				municipalities: [],
+				barangays: [],
 				isSubmitted: false,
 				csrf: document.head.querySelector('meta[name="csrf-token"]').content,
 				not_accept_terms_conditions: true,
-				cartSubtotal: this.cart_subtotal,
+                order_subtotal: '',
+				cartSubtotal: '',
+                orderDiscount: '',
 				cartData: this.cart,
-				shipping_rate_data: this.shipping_rate,
 				shipping_amount: 0,
 				total_order: 0,
                 discount_amount: 0,
@@ -485,8 +479,14 @@
                 barangay_name: '',
                 municipality_name: '',
                 province_name: '',
+                drp_province: '',
+                drp_municipality: '',
+                drp_barangay: '',
 			}
 		},
+        components: {
+            Autocomplete
+        },
 		validations() {
 			if (this.shipping_method == 'shipping') {
                 if (this.useSavedAddress) {
@@ -535,6 +535,54 @@
             }
 		},
 		methods: {
+            getProvinces() {
+                axios.get('/api/address/provinces')
+                .then(response => {
+                    this.provinces = response.data;
+                })
+                .catch(error => {
+                    console.log(error.response);
+                });
+            },
+            municipalityList(e) {
+                if (this.province) {
+                    let prv = this.provinces.find(x => x.province_id == this.province);
+
+                    this.drp_province = prv.name;
+
+                    axios.get('/api/address/cities/'+this.province)
+                    .then(response => {
+                        this.municipalities = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error.response)
+                    });
+                } else {
+                    this.municipalities = [];
+                    this.drp_province = '';
+                    this.province = '';
+                }
+            },
+            barangayList(e) {
+                if (this.municipality) {
+
+                    let city = this.municipalities.find(x => x.city_id == this.municipality);
+
+                    this.drp_municipality = city.name;
+
+                    axios.get('/api/address/barangays/'+this.municipality)
+                    .then(response => {
+                        this.barangays = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error.response)
+                    });
+                } else {
+                    this.barangays = [];
+                    this.drp_municipality = '';
+                    this.drp_barangay = '';
+                }
+            },
             selectAddress(e) {
                 const addr = this.customer.addresses.find(x => x.id === this.addrID);
                 this.first_name = addr.firstname;
@@ -544,9 +592,9 @@
                 this.municipality_name = addr.municipality;
                 this.province_name = addr.province;
                 this.zip_code = addr.zip_code;
-                this.barangay = addr.barangay_id;
-                this.municipality = addr.municipality_id;
-                this.province = addr.province_id;
+                this.drp_barangay = addr.barangay;
+                this.drp_municipality = addr.municipality;
+                this.drp_province = addr.province;
                 this.mobile_no = addr.mobile_no;
                  (this.shipping_rate.has_discount) ? this.showDiscountShippingFee = true : this.showDiscountShippingFee = false;
             },
@@ -572,29 +620,6 @@
                 this.notReadAndAccept = true;
                 this.$refs.refTAC.show();
             },
-			municipalityList(e) {
-                this.municipality = '';
-                this.municipality_list = [];
-
-				if (this.province) {
-                    (this.shipping_rate.has_discount) ? this.showDiscountShippingFee = true : this.showDiscountShippingFee = false;
-    				this.municipality_list = this.municipalities.filter(x => x.province_id == this.province)
-				} else {
-					this.municipality_list = [];
-					this.province = '';
-				}
-			},
-			barangayList(e) {
-                this.barangay = '';
-                this.barangay_list = [];
-
-				if (this.municipality) {
-					this.barangay_list = this.barangays.filter(x => x.municipality_id == this.municipality);
-				} else {
-					this.barangay_list = [];
-					this.municipality = '';
-				}
-			},
             setCashPayment(e) {
                if (this.shipping_method == 'store_pickup') {
                     this.payment_method = 'Cash'
@@ -609,67 +634,64 @@
             }
 		},
 		computed: {
+            provinceList() {
+                let items = this.provinces.sort((a,b) => (a.name > b.name) ? 1 : -1);
+                return items;
+            },
 			shippingRate() {
-				let amount = 0;
-				if (this.shipping_method) {
-					if (this.shipping_method == 'shipping') {
-            
-                        if (this.province) {
-                            const province = this.province_list.find(x => x.id === this.province);
-
-                            if (province.name === 'Metro Manila') {
-                                amount = this.shipping_rate_data.manila_rate;
-                            } else {
-                                amount = this.shipping_rate_data.province_rate;
-                            }
-                            
-                            
-                        }
-					
-					}
-				}
-
-				this.shipping_amount = amount;
+				let amount = parseFloat(this.shipping_rate);
 				
 				return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
 			},
-            discountedShippingFee() {
-                let amount = 0;
-                if (this.shipping_method) {
-                    if (this.shipping_method == 'shipping') {
-    
-                        //if no discount
-                        if (this.province) {
-                            const province = this.province_list.find(x => x.id === this.province);
+            subtotalOrder() {
 
-                            if (province.name === 'Metro Manila') {
-                                amount = this.shipping_rate_data.manila_rate_discounted;
-                                this.discount_amount = this.shipping_rate.manila_rate_discount;
-                            } else {
-                                amount = this.shipping_rate_data.province_rate_discounted;
-                                this.discount_amount = this.shipping_rate.province_rate_discount;
-                            }
-                            
-                            
-                        }
-                        
-                    
+                let amount = this.cart.reduce(
+                    (a, b) => a + parseFloat(b.total),
+                    0
+                );
+
+                this.order_subtotal = amount;
+
+                this.cartSubtotal = amount;
+                               
+                return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
+
+            },
+            discountOrder() {
+                let amount = 0;
+
+                if (this.discount.is_disabled == 0)
+                {
+                    if (this.cartQty >= this.discount.order_quantity)
+                    {
+                        amount = this.cartSubtotal * (this.discount.discount_percent / 100);
+
+                        this.orderDiscount = parseFloat(amount);
+
+                        this.cartSubtotal -= parseFloat(this.orderDiscount);
+
+                        return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
                     }
                 }
 
-                this.shipping_amount = amount;
-                
                 return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
             },
 			totalOrder() {
 
-                let subtotal = parseFloat(this.cartSubtotal.replace(/,/g, ''));
-                
-                let amount = (subtotal + parseFloat(this.shipping_amount));    
-               
-				this.total_order = amount;
+                let amount = this.cartSubtotal;
 
-				return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
+                if (this.shipping_method === 'shipping')
+                {
+                    amount += parseFloat(this.shipping_rate)
+
+                    this.total_order = amount;
+
+                    return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
+                }
+
+                this.total_order = amount;
+			     
+                return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
 			},			
             cartQty() {
 				return this.cartData.reduce((a, b) => a + b.quantity, 0);
@@ -682,6 +704,8 @@
                     this.readyToSubmit = false;
                 }
             });
+
+            this.getProvinces();
         }
 		
 	}	

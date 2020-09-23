@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div v-if="$v.password_confirmation.$error">
-                        <span class="error-feedback" v-if="!$v.password.sameAsPassword">Password must be identical</span>
+                        <span class="error-feedback" v-if="!$v.password_confirmation.sameAsPassword">Password must be identical</span>
                     </div>
                 </div>
                 <div class="form-group">

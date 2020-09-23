@@ -138,12 +138,18 @@ class ReportsController extends Controller
           ->whereBetween('invp.created_at', [$from_date, $to_date])
           ->get();
 
-      $total = InvoiceProduct::where(function($query) use($from_date, $to_date) {
+      $total_amount = InvoiceProduct::where(function($query) use($from_date, $to_date) {
                   $query->whereBetween('created_at', [$from_date, $to_date]);
               })
               ->sum('total');
 
+      $total_discount = Invoice::where(function($query) use($from_date, $to_date) {
+                  $query->whereBetween('created_at', [$from_date, $to_date]);
+              })
+              ->sum('discount');
 
+      $total_sales = $total_amount - $total_discount;
+      
       $date_range = 'From:  '.date('F d, Y', strtotime($request->from_date)).'   To:  '.date('F d, Y', strtotime($request->to_date));
 
       $data = [
@@ -152,7 +158,9 @@ class ReportsController extends Controller
         'date_printed' => $now,
         'sales' => $sales,
         'date_range' => $date_range, 
-        'total' => $total
+        'total_amount' => $total_amount,
+        'total_discount' => $total_discount,
+        'total_sales' => $total_sales
       ];
 
       $pdf = PDF::loadView('backend.report_pdf.sales_pdf',$data);  

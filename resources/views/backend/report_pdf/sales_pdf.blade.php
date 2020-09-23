@@ -60,8 +60,16 @@
             </table>
             <table width="100%" class="t-footer">
                 <tr>
+                    <td align="right">Total Amount :</td>
+                    <td width="15%">{{ number_format($total_amount,2) }}</td>
+                </tr>
+                <tr>
+                    <td align="right">Total Discount :</td>
+                    <td width="15%">{{ number_format($total_discount,2) }}</td>
+                </tr>
+                <tr>
                     <td align="right">Total Sales :</td>
-                    <td width="15%">{{ number_format($total,2) }}</td>
+                    <td width="15%">{{ number_format($total_sales,2) }}</td>
                 </tr>
             </table>
         </main>

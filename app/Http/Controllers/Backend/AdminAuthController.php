@@ -15,9 +15,47 @@ class AdminAuthController extends Controller
 		$this->middleware('guest:admin', ['except' => ['logout']]);
 	}
 
+    public function registrationForm()
+    {
+        $data = 'Register Account';
+
+        return view('backend.registration',compact('data'));
+    }
+
+    public function registrationSuccess()
+    {
+        // $adminAccount = Admin::where('status', 'Active')->count();
+
+        // if ($adminAccount <= 0)
+        // {
+        //     return redirect()->route('admin.registration');
+        // }
+        // elseif ($adminAccount > 0)
+        // {
+        //     $data = 'Registration Success';
+
+        //     return view('backend.success_registration',compact('data'));
+        // }
+
+        $data = 'Registration Success';
+
+        return view('backend.success_registration',compact('data'));
+
+
+    }
+
     public function showLoginForm()
     {
-    	return view('backend.login_form');
+        $adminAccount = Admin::where('status', 'Active')->count();
+
+        if ($adminAccount <= 0)
+        {
+            return redirect()->route('admin.registration');
+        }
+
+        $data = 'Login';
+
+    	return view('backend.login_form', compact('data'));
     }
 
     public function login(Request $request)

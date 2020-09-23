@@ -16,6 +16,7 @@ This email is to confirm that the products below were picked up on {{ $order->or
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount }}<br>
 Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 We hope you enjoy your purchase! Thank you for shopping with us.

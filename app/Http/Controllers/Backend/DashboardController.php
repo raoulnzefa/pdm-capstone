@@ -55,7 +55,13 @@ class DashboardController extends Controller
                 ->whereRaw('Date(inv_p.created_at) = CURDATE()')
                 ->groupBy('inv_p.id')
                 ->get();
-        $daily_sales = number_format($daily->sum('totalAmount'), 2);;
+
+        $daily_discount = DB::table('invoices')
+                ->selectRaw('sum(discount) as totalDiscount')
+                ->whereRaw('Date(invoices.created_at) = CURDATE()')
+                ->get();
+
+        $daily_sales = number_format(($daily->sum('totalAmount') - $daily_discount->sum('totalDiscount')),2);
 
         Carbon::setWeekStartsAt(Carbon::SUNDAY);
         
@@ -65,7 +71,12 @@ class DashboardController extends Controller
                 ->groupBy('inv_p.id')
                 ->get();
 
-        $weekly_sales = number_format($weekly->sum('totalAmount'), 2);
+        $weekly_discount = DB::table('invoices')
+                ->selectRaw('sum(discount) as totalDiscount')
+                ->whereBetween('invoices.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfweek()])
+                ->get();
+
+        $weekly_sales = number_format(($weekly->sum('totalAmount') - $weekly_discount->sum('totalDiscount')), 2);
 
 
         $monthly = DB::table('invoice_products as inv_p')
@@ -74,7 +85,12 @@ class DashboardController extends Controller
                 ->groupBy('inv_p.id')
                 ->get();
 
-        $monthly_sales = number_format($monthly->sum('totalAmount'), 2);
+        $monthly_discount = DB::table('invoices')
+                ->selectRaw('sum(discount) as totalDiscount')
+                ->whereRaw('MONTH(invoices.created_at) = ?',[date('m')])
+                ->get();
+
+        $monthly_sales = number_format(($monthly->sum('totalAmount') - $monthly_discount->sum('totalDiscount')), 2);
 
         $yearly = DB::table('invoice_products as inv_p')
                 ->selectRaw('inv_p.*, sum(total) as totalAmount')
@@ -82,7 +98,12 @@ class DashboardController extends Controller
                 ->groupBy('inv_p.id')
                 ->get();
 
-        $yearly_sales = number_format($yearly->sum('totalAmount'), 2);
+        $yearly_discount = DB::table('invoices')
+                ->selectRaw('sum(discount) as totalDiscount')
+                ->whereRaw('YEAR(invoices.created_at) = ?',[date('Y')])
+                ->get();
+
+        $yearly_sales = number_format(($yearly->sum('totalAmount') - $yearly_discount->sum('totalDiscount')), 2);
 
 
     	return view('backend.dashboard', compact(

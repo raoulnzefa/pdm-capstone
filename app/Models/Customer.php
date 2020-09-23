@@ -79,6 +79,6 @@ class Customer extends Authenticatable
 
     public function addresses()
     {
-        return $this->hasMany('App\Models\Address');
+        return $this->hasMany('App\Models\CustomerAddress');
     }
 }

@@ -23,10 +23,7 @@
 		</div>
 		<div class="col-md-9">
 			<create-customer-address 
-				:customer="{{ Auth::guard('customer')->user() }}"
-				:provinces="{{$provinces}}"
-				:municipalities="{{$municipalities}}"
-				:barangays="{{$barangays}}">
+				:customer="{{ Auth::guard('customer')->user() }}">
 			</create-customer-address>
 		</div>
 	</div>

@@ -148,6 +148,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         SamuelTerra22\ReportGenerator\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Yajra\Address\AddressServiceProvider::class,
         /*
          * Package Service Providers...
          */

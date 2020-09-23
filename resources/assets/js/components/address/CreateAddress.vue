@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-danger" v-if="server_errors.length != 0">
-                    <ul>
+                    <ul class="mb-0 pl-2">
                         <li v-for="err in server_errors">{{ err[0] }}</li>
                     </ul>
                 </div>
@@ -62,7 +62,7 @@
                                 :class="{'is-invalid': $v.province_id.$error}"
                                 @change="getMunicipalities"> 
                                 <option value="">Select a province</option>
-                                <option v-for="(prov, index) in provinces" :key="index" :value="prov.id">{{prov.name}}</option>
+                                <option v-for="(prov, index) in provinceList" :key="index" :value="prov.province_id">{{prov.name}}</option>
                             </select>
                             <div v-if="$v.province_id.$error">
                                 <span class="error-feedback" v-if="!$v.province_id.required">Province is required</span>
@@ -77,8 +77,9 @@
                                 v-model.trim="$v.municipality_id.$model"
                                 :class="{'is-invalid': $v.municipality_id.$error}"
                                 @change="getBarangays">
-                                <option value="">Select a province first</option>
-                                <option v-for="(muni, index) in municipality_list" :key="index" :value="muni.id">{{muni.name}}</option>
+                                <option value="" v-if="!municipality_list.length">Select a province first</option>
+                                <option value="" v-else>Select a municipality</option>
+                                <option v-for="(muni, index) in municipality_list" :key="index" :value="muni.city_id">{{muni.name}}</option>
                             </select>
                             <div v-if="$v.municipality_id.$error">
                                 <span class="error-feedback" v-if="!$v.municipality_id.required">Municipality is required</span>
@@ -92,7 +93,8 @@
                                 tabindex="4"
                                 v-model.trim="$v.barangay_id.$model"
                                 :class="{'is-invalid': $v.barangay_id.$error}">
-                                <option value="">Select a municipality first</option>
+                                <option value="" v-if="!barangay_list.length">Select a municipality first</option>
+                                <option value="" v-else>Select a barangay</option>
                                 <option v-for="(barang, index) in barangay_list" :key="index" :value="barang.id">{{barang.name}}</option>
                             </select>
                             <div v-if="$v.barangay_id.$error">
@@ -150,24 +152,25 @@
     export default {
         props: [
             'customer',
-            'provinces',
-            'municipalities',
-            'barangays',
         ],
         data() {
             return {
                 firstname: this.customer.first_name,
                 lastname: this.customer.last_name,
-                stree: '',
+                street: '',
                 province_id: '',
                 municipality_id: '',
                 barangay_id: '',
+                province_name: '',
+                municipality_name: '',
+                barangay_name: '',
                 zip_code: '',
                 mobile_no: '',
                 btnClicked: false,
                 server_errors: [],
                 municipality_list: [],
                 barangay_list: [],
+                province_list: [],
             }
         },
         validations() {
@@ -188,16 +191,24 @@
 
 
                 if (!this.$v.$invalid) {
+
                     this.btnClicked = true;
 
-                    axios.post('/api/address/save', {
+                    let brgy = this.barangay_list.find(x => x.id == this.barangay_id);
+
+                    this.barangay_name = brgy.name;
+
+                    axios.post('/api/customer-address-save', {
                         firstname: this.firstname,
                         lastname: this.lastname,
                         mobile_no: this.mobile_no,
                         street: this.street,
-                        province: this.province_id,
-                        municipality: this.municipality_id,
-                        barangay: this.barangay_id,
+                        province: this.province_name,
+                        municipality: this.municipality_name,
+                        barangay: this.barangay_name,
+                        province_id: this.province_id,
+                        municipality_id: this.municipality_id,
+                        barangay_id: this.barangay_id,
                         zip_code: this.zip_code,
                         customer_id: this.customer.id,
                     })
@@ -228,28 +239,70 @@
                     });
                 }
             },
-            getMunicipalities() {
-                this.municipality_id = '';
-                this.municipality_list = [];
-
-                if (this.province_id) {
-                    this.municipality_list = this.municipalities.filter(x => x.province_id == this.province_id);
-                } else {
-                    this.municipality_list = [];
-                    this.province_id = '';
-                }
+            getProvinces() {
+                axios.get('/api/address/provinces')
+                .then(response => {
+                    this.province_list = response.data;
+                })
+                .catch(error => {
+                    console.log(error.response);
+                });
             },
-            getBarangays() {
+            getMunicipalities(e) {
+                this.municipality_id = '';
                 this.barangay_id = '';
                 this.barangay_list = [];
 
+                if (this.province_id) {
+                    let prv = this.province_list.find(x => x.province_id == this.province_id);
+
+                    this.province_name = prv.name;
+
+                    axios.get('/api/address/cities/'+this.province_id)
+                    .then(response => {
+                        this.municipality_list = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error.response)
+                    });
+                } else {
+                    this.municipality_list = [];
+                    this.province_id = '';
+                    this.province_name = '';
+                }
+            },
+            getBarangays(e) {
+                this.barangay_id = '';
+
                 if (this.municipality_id) {
-                    this.barangay_list = this.barangays.filter(x => x.municipality_id == this.municipality_id);
+
+                    let city = this.municipality_list.find(x => x.city_id == this.municipality_id);
+
+                    this.municipality_name = city.name;
+
+                    axios.get('/api/address/barangays/'+this.municipality_id)
+                    .then(response => {
+                        this.barangay_list = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error.response)
+                    });
                 } else {
                     this.barangay_list = [];
                     this.municipality_id = '';
+                    this.barangay_id = '';
+                    this.barangay_name = '';
                 }
             }
+        },
+        computed: {
+            provinceList() {
+                let items = this.province_list.sort((a,b) => (a.name > b.name) ? 1 : -1);
+                return items;
+            },
+        },
+        mounted() {
+            this.getProvinces();
         }
     }
 </script>

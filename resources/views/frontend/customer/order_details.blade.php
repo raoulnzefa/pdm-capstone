@@ -184,6 +184,10 @@
 								<th class="text-right">Subtotal:</th>
 								<td width="30%" class="text-right">&#8369;{{ $order->order_subtotal }}</td>
 							</tr>
+							<tr>
+								<th class="text-right">Discount:</th>
+								<td width="30%" class="text-right">&#8369;{{ $order->order_discount }}</td>
+							</tr>
 							@if ($order->order_shipping_method == 'Shipping')
 							<tr>
 								<th class="text-right">Shipping fee:</th>

@@ -206,9 +206,9 @@ Route::put('/admin/order/return-request/complete/{returnRequest}', 'Backend\Retu
 
 Route::get('email-verified', 'Frontend\CustomerAuthController@customerVerified')->name('customer_verified');
 
-Route::get('my-account/addresses', 'Frontend\AddressController@index')->name('customer_address');
-Route::get('my-account/addresses/create', 'Frontend\AddressController@create')->name('create_address');
-Route::get('my-account/address/edit/{address}', 'Frontend\AddressController@edit')->name('edit_address');
+Route::get('my-account/addresses', 'Frontend\CustomerAddressController@index')->name('customer_address');
+Route::get('my-account/addresses/create', 'Frontend\CustomerAddressController@create')->name('create_address');
+Route::get('my-account/address/edit/{address}', 'Frontend\CustomerAddressController@edit')->name('edit_address');
 
 
 // orders
@@ -231,7 +231,13 @@ Route::post('admin/report/best-selling', 'Backend\ReportsController@generateBest
 // customer admin details
 Route::get('admin/customer/{customerId}', 'Backend\CustomerController@view');
 
+// admin registration new deployment
+Route::get('admin/register', 'Backend\AdminAuthController@registrationForm')->name('admin.registration');
+Route::get('admin/registration/success', 'Backend\AdminAuthController@registrationSuccess');
+
 // Audit Trail
 Route::get('admin/audit-trail', 'Backend\AuditTrailController@index')->name('audit_trail');
 
 
+// discount 
+Route::get('admin/discount', 'Backend\DiscountController@index')->name('discount');

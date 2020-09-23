@@ -238,4 +238,28 @@ class AdminController extends Controller
         return response()->json(['success'=> true]);
 
     }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'username' =>  'required|string|unique:admins',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'min:6'
+        ]);
+
+        date_default_timezone_set("Asia/Manila");
+
+        $admin = new Admin();
+        $admin->first_name = ucfirst($request->input('first_name'));
+        $admin->last_name = ucfirst($request->input('last_name'));
+        $admin->username = strtolower($request->input('username'));
+        $admin->role = 'Administrator';
+        $admin->status = 'Active';
+        $admin->password = Hash::make($request->password);
+        $admin->save(); 
+
+        return response()->json(['success' => true]);
+    }
 }

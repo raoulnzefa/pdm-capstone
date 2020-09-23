@@ -11,15 +11,22 @@
 @endsection
 @section('content')
 <div class="container">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <checkout-page 
         :customer="{{$customer}}"
         :cart="{{$cart}}"
-        :provinces="{{$provinces}}"
-        :municipalities="{{ $municipalities }}"
-        :barangays="{{ $barangays }}"
-        :shipping_rate="{{json_encode($shipping_rate)}}"
-        cart_subtotal="{{number_format($cart_subtotal,2)}}"
-        ></checkout-page>
+        :discount="{{$discount}}"
+        :shipping_rate="{{json_encode($shipping_rate)}}">
+    </checkout-page>
 </div>
 @endsection
 

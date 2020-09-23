@@ -1,37 +1,39 @@
 <template>
-<div>
-	<form @submit.prevent="submitBestSellingReport" target="_blank" method="POST" ref="bestSellingForm"  action="/admin/report/best-selling">
-		<input type="hidden" name="_token" :value="csrf">
-		<input type="hidden" name="admin_id" :value="admin.id">
-		<div class="form-group">
-			<label class="mr-2" for="">From:</label>
-			<date-picker 
-				v-model="$v.from_date.$model" 
-				name="from_date"
-				:config="options.from"
-				:class="{'is-invalid': $v.from_date.$error}"
-				placeholder="Select a date"
-		     	@dp-change="fromDateChange"></date-picker>
-		     	<div v-if="$v.from_date.$error">
-             	<span class="error-feedback" v-if="!$v.from_date.required">Please select a date</span>
-            </div>
-		</div>
-		<div class="form-group">
-			<label class="mr-2" for="">To:</label>
-			<date-picker 
-				v-model="$v.to_date.$model" 
-				:config="options.to"
-				name="to_date"
-				:class="{'is-invalid': $v.to_date.$error}"
-				placeholder="Select a date"
-		     	@dp-change="toDateChange"></date-picker>
-		     	<div v-if="$v.to_date.$error">
-             	<span class="error-feedback" v-if="!$v.to_date.required">Please select a date</span>
-            </div>
-		</div>
-		<button type="submit" class="btn btn-primary">Generate Best Selling</button>
-		<button class="btn btn-danger" @click="clearBestSellingForm">Clear</button>
-	</form>
+<div class="row">
+	<div class="col-md-4">
+		<form @submit.prevent="submitBestSellingReport" target="_blank" method="POST" ref="bestSellingForm"  action="/admin/report/best-selling">
+			<input type="hidden" name="_token" :value="csrf">
+			<input type="hidden" name="admin_id" :value="admin.id">
+			<div class="form-group">
+				<label class="mr-2" for="">From:</label>
+				<date-picker 
+					v-model="$v.from_date.$model" 
+					name="from_date"
+					:config="options.from"
+					:class="{'is-invalid': $v.from_date.$error}"
+					placeholder="Select a date"
+			     	@dp-change="fromDateChange"></date-picker>
+			     	<div v-if="$v.from_date.$error">
+	             	<span class="error-feedback" v-if="!$v.from_date.required">Please select a date</span>
+	            </div>
+			</div>
+			<div class="form-group">
+				<label class="mr-2" for="">To:</label>
+				<date-picker 
+					v-model="$v.to_date.$model" 
+					:config="options.to"
+					name="to_date"
+					:class="{'is-invalid': $v.to_date.$error}"
+					placeholder="Select a date"
+			     	@dp-change="toDateChange"></date-picker>
+			     	<div v-if="$v.to_date.$error">
+	             	<span class="error-feedback" v-if="!$v.to_date.required">Please select a date</span>
+	            </div>
+			</div>
+			<button type="submit" class="btn btn-primary">Generate Best Selling</button>
+			<button class="btn btn-danger" @click="clearBestSellingForm">Clear</button>
+		</form>
+	</div>
 </div>
 </template>
 <script>

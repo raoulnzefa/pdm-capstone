@@ -99,3 +99,7 @@ footer {
     padding: 10px;
     font-weight: bold;
 }
+
+.t-footer td:last-child {
+    text-align: right !important;
+}
