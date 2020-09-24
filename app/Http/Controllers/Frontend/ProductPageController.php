@@ -54,7 +54,7 @@ class ProductPageController extends Controller
     {
         $search_data = $request->searchProduct;
 
-       return redirect()->route('search.result', ['search'=>$search_data]);
+       return redirect()->route('search.result', ['search'=>$search_data, 'data'=> 'Search']);
     }
 
     public function searchResult(Request $request)
@@ -63,6 +63,9 @@ class ProductPageController extends Controller
 
         $search_result = Product::where('product_name', 'like','%'. $search_data .'%')
                         ->get();
-        return view('frontend.search_result_page', compact('search_result', 'search_data'));
+
+        $data = 'Search';
+
+        return view('frontend.search_result_page', compact('search_result', 'search_data', 'data'));
     }
 }
