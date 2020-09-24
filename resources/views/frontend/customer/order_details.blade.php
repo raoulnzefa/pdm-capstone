@@ -29,9 +29,17 @@
 				<div class="card-body">
 					@if ($order->order_shipping_method == 'Shipping')
 						@if ($order->order_status == "Pending payment")
-							<div class="alert alert-warning">
-								Your due payment: <b>{{ date('F d, Y', strtotime($order->order_due_payment)) }}</b>
-							</div>
+							@if ($order->order_payment_status == 'Pending')
+								@if (!$order->bankDepositSlip)
+									<div class="alert alert-warning">
+										Your due payment: <b>{{ date('F d, Y', strtotime($order->order_due_payment)) }}</b>
+									</div>
+								@else
+									<div class="alert alert-warning">
+										Waiting for the Store Owner/Admin to confirm the bank deposit slip.
+									</div>
+								@endif
+							@endif
 							@if ($order->order_payment_method == 'Bank Deposit')
 							<div class="clearfix">
 								<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>

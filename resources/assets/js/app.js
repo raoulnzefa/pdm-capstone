@@ -6,8 +6,6 @@
 
 require('./bootstrap');
 
-require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css');
-
 window.Vue = require('vue');
 
 window.axios = require('axios');

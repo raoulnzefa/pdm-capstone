@@ -17,7 +17,7 @@
 			<div class="col-md-12">
 				<h4 class="ifg-header mb-5">Cancel and Return</h4>
 				<div>
-					<p class="mb-1"><b>Return, Refund and Replacement</b></p>
+					<p class="mb-1"><b>Replacement</b></p>
 					<p>New merchandise (not washed, worn, altered or soiled), suitable for resale, may be returned for refund or replacement. For return product, you may bring it to the shop or ship it back within 7 days of purchase. Once Infinity Fightgear receives the returned product, a full refund otherwise a replacement of good stock of the same ordered product will be shipped to you after purchasing upon checking the product. All returns or for replacement product will be at the discretion of Infinity Fightgear shop.</p>
 					<p class="mb-1"><b>Return Policy</b></p>
 					<p>All merchandise returned for refund or replacement must be in perfect saleable condition.</p>

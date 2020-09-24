@@ -17,11 +17,26 @@
 		<template v-else>
 			<template v-if="order.order_shipping_method === 'Shipping'">
 				<template v-if="order.order_payment_method === 'Bank Deposit'">
-					<div class="clearfix" v-if="order.order_status == 'Pending payment'">
-						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
-						<view-bank-deposit-slip 
-							:order="order"
-							:admin="admin"></view-bank-deposit-slip>
+					<div v-if="order.order_status == 'Pending payment'">
+						<template v-if="order.order_payment_status === 'Pending'">
+							<template v-if="order.bank_deposit_slip">
+								<div class="alert alert-info" v-if="order.bank_deposit_slip.is_confirmed <= 0">
+								Bank deposit slip has been uploaded.
+								</div>
+							</template>
+							<template v-else>
+								<div class="alert alert-warning">
+								No bank deposit slip yet.
+								</div>
+							</template>
+							<div class="clearfix">
+								<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+								<view-bank-deposit-slip 
+									:order="order"
+									:admin="admin"
+									v-if="order.bank_deposit_slip"></view-bank-deposit-slip>
+							</div>
+						</template>
 					</div>
 					<div class="clearfix" v-if="order.order_status === 'Processing'">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>

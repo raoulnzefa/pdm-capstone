@@ -481,9 +481,6 @@
                 drp_barangay: '',
 			}
 		},
-        components: {
-            Autocomplete
-        },
 		validations() {
 			if (this.shipping_method == 'shipping') {
                 if (this.useSavedAddress) {

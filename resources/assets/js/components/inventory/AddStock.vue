@@ -103,7 +103,8 @@ export default {
 							{
 								this.cancelAddStock();
 								this.$refs.stockModal.hide();
-								this.$bus.$emit('refreshInventoryTable', true)
+								this.$bus.$emit('refreshInventoryTable', true);
+								this.$bus.$emit('update-inventory-badge', true);
 							}
 						});
 					}
