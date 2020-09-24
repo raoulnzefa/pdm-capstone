@@ -53,6 +53,10 @@
 						<div class="clearfix">
 							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
 						</div>
+						@elseif ($order->order_status == "For shipping")
+						<div class="clearfix">
+							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
+						</div>
 						@elseif ($order->order_status == "Shipped")
 						<div class="clearfix">
 							<h4 class="pt-2 float-left">Order No. {{ $order->number }}</h4>
