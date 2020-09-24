@@ -114,7 +114,6 @@
 <script>
 /*variable.toLocaleString() with commas 1,000.00*/
 	import { HalfCircleSpinner } from 'epic-spinners';
-	import { IntegerPlusminus } from 'vue-integer-plusminus';
 	import { required, between } from 'vuelidate/lib/validators';
 
     export default {

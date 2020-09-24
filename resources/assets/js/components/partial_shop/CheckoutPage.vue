@@ -428,9 +428,6 @@
 	import { required, minLength, maxLength, numeric, sameAs, helpers } from 'vuelidate/lib/validators';
 	import { HalfCircleSpinner } from 'epic-spinners'
 
-    import Autocomplete from 'vue2-autocomplete-js'
-
-
 	const mobileNumber = helpers.regex('mobileNumber', /^(09)\d{9}$/);
 
     const digitsOnly = helpers.regex('digitsOnly', /^[0-9]*$/);
