@@ -22,7 +22,7 @@ trait InvoiceTraits
                 $invoice->last_name = $array_params['order']['customer']['last_name'];
                 $invoice->subtotal = str_replace(',', '', $array_params['order']['order_subtotal']);
                 $invoice->discount = str_replace(',', '', $array_params['order']['order_discount']);
-                $invoice->shipping_fee = 0;
+                $invoice->shipping_fee = $shipping_fee;
                 $invoice->total = str_replace(',', '', $array_params['order']['order_total']);
                 $invoice->payment_date = $array_params['order']['order_payment_date'];
                 $invoice->created = date("Y-m-d H:i:s");

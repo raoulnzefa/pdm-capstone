@@ -251,7 +251,7 @@ class PaymentController extends Controller
 						'order_discount' => $order_discount,
 						'order_shipping_fee' => (float)$request->shipping_fee,
 						'order_total' => (float)$request->order_total,
-						'order_shipping_discount' => NULL,
+						'order_shipping_discount' => 0,
 						'order_for_shipping' => $estimated_date,
 						'order_due_payment' => $due_date,
 						'order_for_pickup' => NULL,
