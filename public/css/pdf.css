@@ -103,3 +103,8 @@ footer {
 .t-footer td:last-child {
     text-align: right !important;
 }
+
+.inv-footer td {
+    padding: 10px;
+    font-weight: bold;
+}

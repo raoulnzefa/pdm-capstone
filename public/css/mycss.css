@@ -20,6 +20,11 @@ body {
 	border-bottom-left-radius: 3px;
 }
 
+.badge-for-shipping {
+	background-color: #663399;
+	color: #fff;
+}
+
 .prod-name-link {
 	font-size: 16px;
 }

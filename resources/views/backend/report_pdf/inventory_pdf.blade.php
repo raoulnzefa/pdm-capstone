@@ -61,7 +61,7 @@
             </tbody>
         </table>
         @if ($report_type == 'All Stocks')
-        <table width="100%" class="t-footer">
+        <table width="100%" class="inv-footer">
             <tr>
                 <td align="right">Total Count :</td>
                 <td width="15%">{{$total}}</td>

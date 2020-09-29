@@ -36,7 +36,9 @@ class InventoryController extends Controller
 
             if ($filter_by == 'in_stock')
             {
-              $inventory = Inventory::with('product.category','productWithVariant','productNoVariant')->paginate(10);
+              $inventory = Inventory::with('product.category','productWithVariant','productNoVariant')
+                ->orderBy('number')
+                ->paginate(10);
             }
             else if ($filter_by == 'critical_level')
             {

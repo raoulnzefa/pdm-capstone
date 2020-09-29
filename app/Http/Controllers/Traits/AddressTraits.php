@@ -19,6 +19,9 @@ trait AddressTraits
             $address->barangay = $array_params['barangay'];
             $address->municipality = $array_params['municipality'];
             $address->province = $array_params['province'];
+            $address->barangay_id = $array_params['barangay_id'];
+            $address->municipality_id = $array_params['municipality_id'];
+            $address->province_id = $array_params['province_id'];
             $address->zip_code = $array_params['zip_code'];
             $address->mobile_no = $array_params['mobile_no'];
             $address->save();

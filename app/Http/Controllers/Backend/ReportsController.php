@@ -133,8 +133,8 @@ class ReportsController extends Controller
           ->leftJoin('inventories', 'invp.inventory_number', '=','inventories.number')
           ->leftJoin('products', 'inventories.product_number', '=', 'products.number')
           ->leftJoin('categories', 'products.category_id', '=','categories.id')
-          ->selectRaw('invp.*, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
-          ->groupBy('category')
+          ->selectRaw('invp.*, sum(invp.quantity) quantity, sum(invp.total) total, categories.name category')
+          ->groupBy(['invp.id','category'])
           ->whereBetween('invp.created_at', [$from_date, $to_date])
           ->get();
 
@@ -249,17 +249,26 @@ class ReportsController extends Controller
 
       $date_range = 'From:  '.date('F d, Y', strtotime($request->from_date)).'   To:  '.date('F d, Y', strtotime($request->to_date));
 
-      $best_selling = DB::table('invoice_products as invp')
-            ->leftJoin('inventories', 'invp.inventory_number', '=','inventories.number')
-            ->leftJoin('products', 'inventories.product_number', '=', 'products.number')
-            ->leftJoin('categories', 'products.category_id', '=','categories.id')
-            ->selectRaw('invp.*, FORMAT(invp.price, 2) price, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
-            ->whereBetween('invp.created_at', [$from_date, $to_date])
-            ->groupBy('category')
-            ->orderBy('quantity', 'DESC')
-            ->having('quantity', '>', 2)
-            ->limit(5)
-            ->get();
+      // return $best_selling = DB::table('invoice_products as invp')
+      //       ->leftJoin('inventories', 'invp.inventory_number', '=','inventories.number')
+      //       ->leftJoin('products', 'inventories.product_number', '=', 'products.number')
+      //       ->leftJoin('categories', 'products.category_id', '=','categories.id')
+      //       ->selectRaw('invp.*, sum(invp.quantity) as quantity, sum(invp.total) as total, categories.name as category')
+      //       ->whereBetween('invp.created_at', [$from_date, $to_date])
+      //       ->groupBy(['invp.id','category'])
+      //       ->having('invp.quantity', '>', 2)
+      //       ->limit(5)
+      //       ->get();
+
+      $best_selling = DB::select('select invp.product_name, invp.price,c.name as category, sum(invp.quantity) as total_qty, sum(invp.total) as total_price 
+        from invoice_products as invp left join inventories
+        on invp.inventory_number = inventories.number left join products
+        on inventories.product_number = products.number left join categories as c
+        on products.category_id = c.id
+        where invp.created_at between :from and :to
+        group by invp.product_name, invp.price, c.name 
+        having sum(invp.quantity) >= 2
+        limit 5', ['from'=>$from_date,'to'=>$to_date]);
 
       $data = [
         'title' => 'Best Selling',

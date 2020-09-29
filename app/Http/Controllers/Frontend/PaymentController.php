@@ -77,6 +77,7 @@ class PaymentController extends Controller
 
 	public function checkoutSubmit(Request $request)
 	{
+		//dd($request->all());
 
 		$request->validate([
 			'shipping_method' => 'required',
@@ -95,8 +96,8 @@ class PaymentController extends Controller
 			'shipping_fee' => 'sometimes|required'
 		]);
 
-    //dd($request->all());
-    // set time zone
+    	//dd($request->all());
+    	// set time zone
 		date_default_timezone_set("Asia/Manila");
 
 		$subtotal = str_replace(',', '', $request->cart_subtotal);
@@ -108,7 +109,7 @@ class PaymentController extends Controller
 
 		$cart_products = Cart::where('customer_id', (int)$request->customer_id)->get();
 
-		$order_discount = NULL;
+		$order_discount = 0;
 
 		$has_discount = false;
 
@@ -122,7 +123,7 @@ class PaymentController extends Controller
 			else
 			{
 				$has_discount = false;
-				$order_discount = NULL;
+				$order_discount = 0;
 			} 
 		}
 
@@ -144,11 +145,11 @@ class PaymentController extends Controller
 					'order_payment_status' => 'Pending',
 					'order_payment_method' => ucfirst($request->payment_method),
 					'order_quantity' => (int)$request->order_qty,
-					'order_shipping_fee' => NULL,
+					'order_shipping_fee' => 0,
 					'order_subtotal' => (float)$subtotal,
 					'order_discount' => $order_discount,
 					'order_total' => (float)$request->order_total,
-					'order_shipping_discount' => NULL,
+					'order_shipping_discount' => 0,
 					'order_due_payment' => NULL,
 					'order_for_shipping' => NULL,
 					'order_for_pickup' => $reserved_until,
@@ -218,6 +219,9 @@ class PaymentController extends Controller
 					'barangay' => $barangay,
 					'municipality' => $municipality,
 					'province' => $province,
+					'barangay_id' => $request->barangay_id,
+					'municipality_id' => $request->municipality_id,
+					'province_id' => $request->province_id,
 					'zip_code' => $request->zip_code,
 					'mobile_no' => $request->mobile_no
 				);
@@ -335,14 +339,16 @@ class PaymentController extends Controller
 
 				}
 
-				$discount_amount = new Item();
-				$discount_amount->setName('Discount')
-				->setCurrency('PHP')
-				->setQuantity(1)
-				->setPrice('-'.$order_discount);
+				if ($has_discount)
+				{
+					$discount_amount = new Item();
+					$discount_amount->setName('Discount')
+					->setCurrency('PHP')
+					->setQuantity(1)
+					->setPrice('-'.$order_discount);
 
-				array_push($item, $discount_amount);
-
+					array_push($item, $discount_amount);
+				}
 
 				$item_list = new ItemList();
 				$item_list->setItems($item);

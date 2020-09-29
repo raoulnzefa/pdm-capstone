@@ -25,8 +25,8 @@ class OrdersController extends Controller
 
         // check for overdue orders
         $overdue = Order::where('order_status','!=','Overdue')->where('customer_id',$customer_id)->where(function($query) {
-            $query->whereRaw('order_for_pickup < CURDATE()')
-            ->orWhereRaw('order_due_payment < CURDATE()');
+            $query->whereRaw('order_for_pickup < CURRENT_DATE')
+            ->orWhereRaw('order_due_payment < CURRENT_DATE');
         })->get();
 
         foreach ($overdue as $item)

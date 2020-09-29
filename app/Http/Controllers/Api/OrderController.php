@@ -106,6 +106,9 @@ class OrderController extends Controller
    {
       date_default_timezone_set("Asia/Manila");
 
+
+      dd($order);
+
       $days_warranty = 7;
         
       $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));

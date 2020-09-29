@@ -186,6 +186,7 @@
                             <select class="form-control" id="chckprovince"
                                 v-model.trim="$v.province.$model"
                                 :class="{'is-invalid': $v.province.$error}"
+                                name="province_id"
                                 @change="municipalityList">
                                 <option value="">Select province</option>
                                <option v-for="(item, index) in provinceList" :key="index" :value="item.province_id">{{item.name}}</option>
@@ -200,7 +201,8 @@
                             <select class="form-control" id="chckmunicipality"
                                 v-model.trim="$v.municipality.$model"
                                 :class="{'is-invalid': $v.municipality.$error}"
-                                @change="barangayList">
+                                @change="barangayList"
+                                name="municipality_id">
                                <option value="" v-if="!municipalities.length">Select province first</option>
                                <option value="" v-else>Select municipality</option>
                                <option v-for="(item, index) in municipalities" :key="index" :value="item.city_id">{{item.name}}</option>
@@ -215,11 +217,13 @@
                             <select class="form-control" id="chckbarangay"
                                 v-model.trim="$v.barangay.$model"
                                 :class="{'is-invalid': $v.barangay.$error}"
-                                name="barangay">
+                                name="barangay_id"
+                                @change="getBarangay">
                                <option value="" v-if="!barangays.length">Select municipality first</option>
                                <option value="" v-else>Select barangay</option>
-                               <option v-for="(item, index) in barangays" :key="index" :value="item.name">{{item.name}}</option>
+                               <option v-for="(item, index) in barangays" :key="index" :value="item.id">{{item.name}}</option>
                             </select>
+                            <input type="hidden" name="barangay" :value="drp_barangay">
                             <div v-if="$v.barangay.$error">
                                 <span class="error-feedback" v-if="!$v.barangay.required">Barangay is required</span>
                             </div>
@@ -539,6 +543,11 @@
                 });
             },
             municipalityList(e) {
+                this.municipality = '';
+                this.barangay = '';
+                this.barangays = [];
+                this.drp_barangay = '';
+
                 if (this.province) {
                     let prv = this.provinces.find(x => x.province_id == this.province);
 
@@ -558,6 +567,8 @@
                 }
             },
             barangayList(e) {
+                this.barangay = '';
+
                 if (this.municipality) {
 
                     let city = this.municipalities.find(x => x.city_id == this.municipality);
@@ -577,6 +588,17 @@
                     this.drp_barangay = '';
                 }
             },
+            getBarangay(e) {
+                if (this.barangay) {
+                    let brgy = this.barangays.find(x => x.id == this.barangay);
+
+                    this.drp_barangay = brgy.name;   
+
+                } else {
+                    this.barangay = '';
+                    this.drp_barangay = '';
+                }
+            },
             selectAddress(e) {
                 const addr = this.customer.addresses.find(x => x.id === this.addrID);
                 this.first_name = addr.firstname;
@@ -590,7 +612,6 @@
                 this.drp_municipality = addr.municipality;
                 this.drp_province = addr.province;
                 this.mobile_no = addr.mobile_no;
-                 (this.shipping_rate.has_discount) ? this.showDiscountShippingFee = true : this.showDiscountShippingFee = false;
             },
 			placeOrder(e) {
 				this.$v.$touch();

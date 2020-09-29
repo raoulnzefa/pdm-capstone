@@ -40,7 +40,7 @@
 			<div class="card-body">
 				<h2 class="text-center mb-3 dash-txt-name">Monthly</h2>
 				<h2 class="text-center bg-white">
-					&#8369;{{$monthly_sales}}</span>
+					&#8369;{{$monthly_sales}}
 				</h2>	
 			</div>
 		</div><!-- card -->

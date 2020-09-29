@@ -36,17 +36,17 @@ class BestSellingController extends Controller
          //                ->limit(5)
          //                ->get();
 
-                $best_selling = DB::table('invoice_products as invp')
-                        ->leftJoin('inventories', 'invp.inventory_sku', '=','inventories.sku')
-                        ->leftJoin('products', 'inventories.product_sku', '=', 'products.sku')
-                        ->leftJoin('categories', 'products.category_id', '=','categories.id')
-                        ->selectRaw('invp.*, FORMAT(invp.price, 2) price, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
-                        ->whereBetween('invp.created_at', [$from_date, $to_date])
-                        ->groupBy('invp.inventory_sku', 'invp.product_name')
-                        ->orderBy('quantity', 'DESC')
-                        ->having('quantity', '>', 2)
-                        ->limit(5)
-                        ->get();
+                // $best_selling = DB::table('invoice_products as invp')
+                //         ->leftJoin('inventories', 'invp.inventory_sku', '=','inventories.sku')
+                //         ->leftJoin('products', 'inventories.product_sku', '=', 'products.sku')
+                //         ->leftJoin('categories', 'products.category_id', '=','categories.id')
+                //         ->selectRaw('invp.*, FORMAT(invp.price, 2) price, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
+                //         ->whereBetween('invp.created_at', [$from_date, $to_date])
+                //         ->groupBy('invp.inventory_sku', 'invp.product_name')
+                //         ->orderBy('quantity', 'DESC')
+                //         ->having('quantity', '>', 2)
+                //         ->limit(5)
+                //         ->get();
 
 
                 $gross_sales = InvoiceProduct::where(function($query) use($from_date, $to_date) {

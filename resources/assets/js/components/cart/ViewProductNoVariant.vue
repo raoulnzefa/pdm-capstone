@@ -12,7 +12,7 @@
 					<h3 class="card-title">{{ product.product_name }}</h3>
 					<div>
 						<h4>{{ formatMoney(product.product_no_variant.price) }}</h4>
-						<span class="badge badge-success" style="font-size: 16px;">In stock: {{ product.product_no_variant.inventory.inventory_stock}}</span>
+						<span class="badge badge-success" style="font-size: 16px;">Available: {{ quantityLimit }}</span>
 						<h6 class="mb-1 mt-4 font-weight-bold">Description:</h6>
 						<p class="text-justify">{{ product.product_description }}</p>
 					</div>

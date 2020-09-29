@@ -18,6 +18,11 @@ body {
 	color: blue !important;
 }
 
+.badge-for-shipping {
+	background-color: #663399;
+	color: #fff;
+}
+
 .bg-white {
 	background: #fff;
 }

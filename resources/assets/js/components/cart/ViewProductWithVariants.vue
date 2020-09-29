@@ -11,7 +11,7 @@
 					<h3 class="card-title">{{ product.product_name }}</h3>
 					<div v-if="variant">
 						<h4>{{ formatMoney(variantPrice) }}</h4>
-						<span class="badge badge-success" style="font-size: 16px;">In stock: {{variantInStock}}</span>
+						<span class="badge badge-success" style="font-size: 16px;">Available: {{quantityLimit}}</span>
 						<h6 class="mb-1 mt-4 font-weight-bold">Description:</h6>
 						<p class="text-justify">{{ product.product_description }}</p>
 					</div>
@@ -161,16 +161,16 @@
 
 						if (item) {
 
-							return qtyLimit = this.inventoryStock - item.quantity;
+							return qtyLimit = this.variantInStock - item.quantity;
 						} else {
-							return qtyLimit = this.inventoryStock;
+							return qtyLimit = this.variantInStock;
 						}
 
 					} else {
-						return qtyLimit = this.inventoryStock;
+						return qtyLimit = this.variantInStock;
 					}
 				}
-				return this.inventoryStock;
+				return qtyLimit;
 			}
 		},
 		mounted() {

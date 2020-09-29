@@ -48,7 +48,7 @@
                             <td>{{ $item->product_name }}</td>
                             <td>{{ number_format($item->price,2) }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ $item->total }}</td>
+                            <td>{{ number_format($item->total,2) }}</td>
                         </tr>
                         @endforeach
                    @else

@@ -38,14 +38,14 @@ class SalesController extends Controller
         $formatted_to_date = date('F d, Y', strtotime($to_date));
 
         // get search result
-        $sales_result = DB::table('invoice_products as invp')
-            ->leftJoin('inventories', 'invp.inventory_sku', '=','inventories.sku')
-            ->leftJoin('products', 'inventories.product_sku', '=', 'products.sku')
-            ->leftJoin('categories', 'products.category_id', '=','categories.id')
-            ->selectRaw('invp.*, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
-            ->groupBy('invp.inventory_sku')
-            ->whereBetween('invp.created_at', [$from_date, $to_date])
-            ->get();
+        // $sales_result = DB::table('invoice_products as invp')
+        //     ->leftJoin('inventories', 'invp.inventory_sku', '=','inventories.sku')
+        //     ->leftJoin('products', 'inventories.product_sku', '=', 'products.sku')
+        //     ->leftJoin('categories', 'products.category_id', '=','categories.id')
+        //     ->selectRaw('invp.*, sum(invp.quantity) quantity, FORMAT(sum(invp.total),2) total, categories.name category')
+        //     ->groupBy('invp.inventory_sku')
+        //     ->whereBetween('invp.created_at', [$from_date, $to_date])
+        //     ->get();
         // $sales_result = DB::table('invoices as inv')
         //     ->select('inv.number','invp.inventory_sku', 'invp.product_name','invp.quantity', 'invp.total', 'inv.created')
         //     ->join('invoice_products as invp', 'inv.number', '=', 'invp.invoice_number')

@@ -13,6 +13,7 @@ trait InvoiceTraits
                 // set timezone
                 date_default_timezone_set("Asia/Manila");
 
+                $shipping_fee = str_replace(',', '', $array_params['order']['order_shipping_fee']);
                 // create invoice
                 $invoice = new Invoice;
                 $invoice->number = str_random(4);
@@ -21,7 +22,7 @@ trait InvoiceTraits
                 $invoice->last_name = $array_params['order']['customer']['last_name'];
                 $invoice->subtotal = str_replace(',', '', $array_params['order']['order_subtotal']);
                 $invoice->discount = str_replace(',', '', $array_params['order']['order_discount']);
-                $invoice->shipping_fee = str_replace(',', '', $array_params['order']['order_shipping_fee']);
+                $invoice->shipping_fee = 0;
                 $invoice->total = str_replace(',', '', $array_params['order']['order_total']);
                 $invoice->payment_date = $array_params['order']['order_payment_date'];
                 $invoice->created = date("Y-m-d H:i:s");

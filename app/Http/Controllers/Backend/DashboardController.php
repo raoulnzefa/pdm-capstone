@@ -29,8 +29,8 @@ class DashboardController extends Controller
     {
         // check for overdue orders
         $overdue = Order::where('order_status','!=','Overdue')->where(function($query) {
-            $query->whereRaw('order_for_pickup < CURDATE()')
-            ->orWhereRaw('order_due_payment < CURDATE()');
+            $query->whereRaw('order_for_pickup < CURRENT_DATE')
+            ->orWhereRaw('order_due_payment < CURRENT_DATE');
         })->get();
 
         foreach ($overdue as $item)
@@ -51,17 +51,21 @@ class DashboardController extends Controller
         date_default_timezone_set("Asia/Manila");
 
     	$daily = DB::table('invoice_products as inv_p')
-                ->selectRaw('inv_p.*, sum(total) as totalAmount')
-                ->whereRaw('Date(inv_p.created_at) = CURDATE()')
+                ->selectRaw("inv_p.*, sum(total) as totalAmount")
+                ->whereRaw("date_trunc('day', created_at) = CURRENT_DATE")
                 ->groupBy('inv_p.id')
                 ->get();
 
+        //$daily = DB::select("select *, sum(total) as totalAmount from invoice_products where date_trunc('day',created_at) = current_date group by id");
+
         $daily_discount = DB::table('invoices')
                 ->selectRaw('sum(discount) as totalDiscount')
-                ->whereRaw('Date(invoices.created_at) = CURDATE()')
+                ->whereRaw("date_trunc('day',invoices.created_at) = CURRENT_DATE")
                 ->get();
 
-        $daily_sales = number_format(($daily->sum('totalAmount') - $daily_discount->sum('totalDiscount')),2);
+        $daily_sales = number_format(($daily->sum('totalamount') - $daily_discount->sum('totaldiscount')),2);
+
+        //$daily_sales = $daily->sum('totalamount');
 
         Carbon::setWeekStartsAt(Carbon::SUNDAY);
         
@@ -76,41 +80,39 @@ class DashboardController extends Controller
                 ->whereBetween('invoices.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfweek()])
                 ->get();
 
-        $weekly_sales = number_format(($weekly->sum('totalAmount') - $weekly_discount->sum('totalDiscount')), 2);
+        $weekly_sales = number_format(($weekly->sum('totalamount') - $weekly_discount->sum('totaldiscount')), 2);
 
 
         $monthly = DB::table('invoice_products as inv_p')
-                ->selectRaw('inv_p.*, sum(total) as totalAmount')
-                ->whereRaw('MONTH(inv_p.created_at) = ?',[date('m')])
-                ->groupBy('inv_p.id')
+                ->selectRaw("sum(total) as totalAmount, date_trunc('month',created_at) as monthly_sales")
+                ->groupBy('monthly_sales')
                 ->get();
 
         $monthly_discount = DB::table('invoices')
-                ->selectRaw('sum(discount) as totalDiscount')
-                ->whereRaw('MONTH(invoices.created_at) = ?',[date('m')])
+                ->selectRaw("sum(discount) as totalDiscount, date_trunc('month',created_at) as monthly_discount")
+                ->groupBy('monthly_discount')
                 ->get();
 
-        $monthly_sales = number_format(($monthly->sum('totalAmount') - $monthly_discount->sum('totalDiscount')), 2);
+        $monthly_sales = number_format(($monthly->sum('totalamount') - $monthly_discount->sum('totaldiscount')), 2);
 
         $yearly = DB::table('invoice_products as inv_p')
-                ->selectRaw('inv_p.*, sum(total) as totalAmount')
-                ->whereRaw('YEAR(inv_p.created_at) = ?',[date('Y')])
-                ->groupBy('inv_p.id')
+                ->selectRaw("sum(total) as totalAmount, date_trunc('year',created_at) as yearly_sales")
+                ->groupBy('yearly_sales')
                 ->get();
 
         $yearly_discount = DB::table('invoices')
-                ->selectRaw('sum(discount) as totalDiscount')
-                ->whereRaw('YEAR(invoices.created_at) = ?',[date('Y')])
+                ->selectRaw("sum(discount) as totalDiscount, date_trunc('year',created_at) as yearly_discount")
+                ->groupBy('yearly_discount')
                 ->get();
 
-        $yearly_sales = number_format(($yearly->sum('totalAmount') - $yearly_discount->sum('totalDiscount')), 2);
+        $yearly_sales = number_format(($yearly->sum('totalamount') - $yearly_discount->sum('totaldiscount')), 2);
 
 
     	return view('backend.dashboard', compact(
     		'admin',
     		'daily_sales',
     		'weekly_sales',
-    		'monthly_sales',
+            'monthly_sales',
             'yearly_sales',
             'data'
     	));

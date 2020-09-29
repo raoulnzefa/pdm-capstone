@@ -33,7 +33,6 @@
 			                        <img :src="'/storage/products/'+product.inventory.product.product_image" class="media-object mr-2" width="20%" height="13%" alt="product image">
 			                        <div class="media-body pt-4">
 			                           <span class="d-block">{{ product.product_name }}</span>
-												<span class="d-block text-success">In stock: {{product.in_stock}}</span>
 			                        </div>
 			                     </div>
 									</td>
