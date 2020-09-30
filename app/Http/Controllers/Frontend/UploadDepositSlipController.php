@@ -30,7 +30,7 @@ class UploadDepositSlipController extends Controller
         $imageName = time().str_replace(' ', '-', $request->file('deposit_slip')->getClientOriginalName());
 
         // save image into storage
-        $request->deposit_slip->storeAs('/public/storage_images/deposit_slip/', $imageName);
+        $request->deposit_slip->storeAs('/public/deposit_slip/', $imageName);
 
         $order = Order::where('number', $request->order_number)->with('bankDepositPayment')->first();
 

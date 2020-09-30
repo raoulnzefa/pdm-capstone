@@ -70,7 +70,7 @@
 								<td class="align-middle">{{ inventory.number  }}</td>
 								<td class="align-middle">
 									<div class="media">
-	                          	<img :src="'/storage_images/products/'+inventory.product.product_image" class="media-object mr-2" width="20%" height="13%">
+	                          	<img :src="'/storage/products/'+inventory.product.product_image" class="media-object mr-2" width="20%" height="13%">
 	                           <div class="media-body pt-4">
 	                              <span v-if="inventory.product_with_variant">{{inventory.product.product_name+' '+inventory.product_with_variant.variant_value}}</span>
 	                              <span v-else="inventory.product_no_variant">{{inventory.product.product_name }}</span>
