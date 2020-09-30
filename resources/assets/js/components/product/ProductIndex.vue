@@ -61,7 +61,7 @@
 								<td class="align-middle">{{prod.number}}</td>
 								<td class="align-middle">
 									<div class="media">
-	                          	<img :src="'/storage/products/'+prod.product_image" class="media-object mr-2" width="20%" height="13%">
+	                          	<img :src="'/storage_images/products/'+prod.product_image" class="media-object mr-2" width="20%" height="13%">
 	                           <div class="media-body pt-4">
 	                              <span class="d-block">{{ prod.product_name }}</span>
 	                           </div>
