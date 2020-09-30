@@ -22,7 +22,7 @@ class InventoryController extends Controller
 
         $data = 'Inventory';
 
-    	return view('backend.inventory.index', compact('data', 'inventories'));
+    	return view('backend.inventory.index', compact('data'));
     }
 
 }
