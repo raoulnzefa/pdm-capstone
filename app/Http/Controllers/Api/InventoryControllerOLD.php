@@ -20,7 +20,7 @@ class InventoryController extends Controller
             $search_val = $request->query('search');
             // get search result with pagination
             $inventory = Inventory::where(function($query) use ($search_val) {
-                            $query->where('number', 'LIKE', '%'. $search_val .'%')
+                            $query->where('number', 'LIKE', '%'. $search_val .'%');
                         })
                         ->with('product.category','inventoryVariant.productWithVariant')
                         ->paginate(10);
