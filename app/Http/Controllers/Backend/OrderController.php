@@ -43,7 +43,7 @@ class OrderController extends Controller
     public function index()
     {
         // check for overdue orders
-        $overdue = Order::where('order_status','!=','Overdue')->where(function($query) {
+        $overdue = Order::where(['order_status'=>'For pickup', 'order_status'=>'Pending payment'])->where(function($query) {
             $query->whereRaw('order_for_pickup < CURRENT_DATE')
             ->orWhereRaw('order_due_payment < CURRENT_DATE');
         })->get();

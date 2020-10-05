@@ -61,7 +61,7 @@ class ProductPageController extends Controller
     {
         $search_data = $request->query('search');
 
-        $search_result = Product::where('product_name', 'like','%'. $search_data .'%')
+        $search_result = Product::where('product_name', 'ILIKE','%'. $search_data .'%')
                         ->get();
 
         $data = 'Search';

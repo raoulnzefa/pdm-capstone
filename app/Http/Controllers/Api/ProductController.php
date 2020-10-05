@@ -53,7 +53,7 @@ class ProductController extends Controller
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
             // save image into storage
-            $request->product_image->storeAs('/public/products/', $imageName);
+            $request->product_image->storeAs('products', $imageName);
         }
 
         // set product url
@@ -132,10 +132,10 @@ class ProductController extends Controller
         {
             $imageName = time().str_replace(' ', '.', $request->file('product_image')->getClientOriginalName());
 
-            $request->product_image->storeAs('/public/products/', $imageName);
+            $request->product_image->storeAs('products', $imageName);
             $product->product_image = $imageName;
 
-            Storage::delete('/public/products/'.$old_image);
+            Storage::delete('products/'.$old_image);
         }
 
         $product->product_status = $request->product_status;
@@ -187,7 +187,7 @@ class ProductController extends Controller
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
             // save image into storage
-            $request->product_image->storeAs('/public/products/', $imageName);
+            $request->product_image->storeAs('products', $imageName);
         }
 
         // set product url
@@ -262,7 +262,7 @@ class ProductController extends Controller
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
             // save image into storage
-            $request->product_image->storeAs('/public/products/', $imageName);
+            $request->product_image->storeAs('products', $imageName);
         }
 
         // set product url
@@ -307,7 +307,7 @@ class ProductController extends Controller
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
             // save image into storage
-            $request->product_image->storeAs('/public/products/', $imageName);
+            $request->product_image->storeAs('products', $imageName);
         }
 
         // set product url
@@ -360,7 +360,7 @@ class ProductController extends Controller
 
         if ($product->delete())
         {
-            Storage::delete('/public/products/'.$imageName);
+            Storage::delete('products/'.$imageName);
             $response = array('deleted'=>true, 'message'=> 'Product has been deleted.');
         }
         else
