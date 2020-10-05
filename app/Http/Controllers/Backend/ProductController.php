@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+
 class ProductController extends Controller
 {
     /**
@@ -22,6 +23,7 @@ class ProductController extends Controller
 
     public function index()
     {
+        
         $data = 'Product Catalog';
 
         return view('backend.product.index', compact('data'));

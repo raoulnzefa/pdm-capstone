@@ -39,26 +39,22 @@
 						  	<div class="form-group row">
 						   	<label for="variantAdd2" class="col-sm-3 col-form-label text-right">Price:</label>
 						   	<div class="col-sm-6">
-						   		<input type="text" class="form-control" id="variantAdd2" 
-						   			placeholder="Enter variant price"
-						   			tabindex="1"
+						   		<money 
+						   			class="form-control"
+						   			id="variantAdd2" 
 						   			v-model.trim="$v.variantsEdit.price.$model"
-						   			:class="{'is-invalid': $v.variantsEdit.price.$error}">
+						   			:class="{'is-invalid': $v.variantsEdit.price.$error}"
+						   			tabindex="2"
+						   			:bind="money"></money>
 						   		<div v-if="$v.variantsEdit.price.$error">
 				                	<span class="error-feedback" v-if="!$v.variantsEdit.price.required">Please enter a variant price</span>
-				                	<template v-if="$v.variantsEdit.price.required">
-				                		<span class="error-feedback" v-if="!$v.variantsEdit.price.moneyRegex">Please enter a valid value</span>
-				                		<template v-if="$v.variantsEdit.price.moneyRegex">
-					                		<span class="error-feedback" v-if="!$v.variantsEdit.price.decimal">Please enter a valid value</span>
-					                	</template>
-				                	</template>
 				                </div>
 						   	</div>
 						  	</div>
 						  	<div class="form-group row">
 						   	<label for="variantAdd3" class="col-sm-3 col-form-label text-right">Status:</label>
 						   	<div class="col-sm-6">
-						   		<select class="form-control" v-model="variantsEdit.status">
+						   		<select class="form-control" tabindex="3" v-model="variantsEdit.status">
 						   			<option value="1">Enable</option>
 						   			<option value="0">Disable</option>
 						   		</select>
@@ -94,19 +90,15 @@
 						  	<div class="form-group row">
 						   	<label for="addVar2" class="col-sm-3 col-form-label text-right">Price:</label>
 						   	<div class="col-sm-6">
-						   		<input type="text" class="form-control" id="addVar2" 
-						   			placeholder="Enter variant price"
-						   			tabindex="1"
+						   		<money 
+						   			class="form-control"
+						   			id="addVar2" 
 						   			v-model.trim="$v.variantsAdd.price.$model"
-						   			:class="{'is-invalid': $v.variantsAdd.price.$error}">
+						   			:class="{'is-invalid': $v.variantsAdd.price.$error}"
+						   			tabindex="2"
+						   			:bind="money"></money>
 						   		<div v-if="$v.variantsAdd.price.$error">
 				                	<span class="error-feedback" v-if="!$v.variantsAdd.price.required">Please enter a variant price</span>
-				                	<template v-if="$v.variantsAdd.price.required">
-				                		<span class="error-feedback" v-if="!$v.variantsAdd.price.moneyRegex">Please enter a valid value</span>
-				                		<template v-if="$v.variantsAdd.price.moneyRegex">
-					                		<span class="error-feedback" v-if="!$v.variantsAdd.price.decimal">Please enter a valid value</span>
-					                	</template>
-				                	</template>
 				                </div>
 						   	</div>
 						  	</div>
@@ -115,7 +107,7 @@
 						   	<div class="col-sm-6">
 						   		<input type="text" class="form-control" id="addVar3" 
 						   			placeholder="Enter variant stock"
-						   			tabindex="1"
+						   			tabindex="3"
 						   			v-model.trim="$v.variantsAdd.stock.$model"
 						   			:class="{'is-invalid': $v.variantsAdd.stock.$error}">
 						   		<div v-if="$v.variantsAdd.stock.$error">
@@ -145,7 +137,7 @@
 						  	<div class="form-group row">
 						   	<label for="variantAdd3" class="col-sm-3 col-form-label text-right">Status:</label>
 						   	<div class="col-sm-6">
-						   		<select class="form-control" v-model="variantsAdd.status">
+						   		<select class="form-control" tabindex="5" v-model="variantsAdd.status">
 						   			<option value="1">Enable</option>
 						   			<option value="0">Disable</option>
 						   		</select>
@@ -162,7 +154,7 @@
 					<table class="table mt-3">
 						<thead>
 							<tr class="bg-light">
-								<th>Id</th>
+								<th>ID</th>
 								<th>Variant</th>
 								<th>Price</th>
 								<th>Status</th>
@@ -191,7 +183,7 @@
 								</template>
 								<template v-else>
 									<tr v-for="(variant,index) in product_with_variants" :key="index">
-										<td>{{ variant.id }}</td>
+										<td>{{ variant.inventory_number }}</td>
 										<td>{{ variant.variant_value }}</td>
 										<td>{{ formatMoney(variant.variant_price) }}</td>
 										<td>{{ (variant.variant_status > 0) ? 'Enabled' : 'Disabled' }}</td>
@@ -243,7 +235,15 @@
 					status: 1,
 					stock: '',
 					critical_level: ''
-				}
+				},
+				money: {
+	         	decimal: '.',
+	         	thousands: ',',
+	         	prefix: '',
+	         	suffix: '',
+	         	precision: 2,
+	         	masked: false
+	        },
 			}
 		},
 		components: {
@@ -256,8 +256,6 @@
 						value: { required },
 						price: {
 							required,
-							moneyRegex,
-							decimal
 						}
 					}
 				}
@@ -267,8 +265,6 @@
 						value: { required },
 						price: {
 							required,
-							moneyRegex,
-							decimal
 						},
 						stock: {
 							required,
@@ -306,7 +302,7 @@
 				this.hideAddBtn = true;
 			},
 			editVariant(variant) {
-				this.variant_id = variant.id;
+				this.variant_id = variant.inventory_number;
 				this.variantsEdit.value = variant.variant_value;
 				this.variantsEdit.price = variant.variant_price;
 				this.variantsEdit.status = variant.variant_status;

@@ -298,7 +298,7 @@
               this.first_name = '';
               this.last_name = '';
               this.server_errors = [];
-              this.role = false;
+              this.role = '';
               this.edit = false;
               this.submitBtn = false;
               this.modal_title = 'Add user';

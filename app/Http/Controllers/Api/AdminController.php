@@ -103,7 +103,7 @@ class AdminController extends Controller
 
     public function list()
     {
-        $list = Admin::all();
+        $list = Admin::orderBy('id')->get();
 
         return response()->json($list);
     }

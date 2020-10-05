@@ -21,7 +21,7 @@
 						@foreach ($search_result as $product)
 						<div class="col-md-3 d-flex align-items-stretch">
 								<div class="card">
-				            	<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_url]) }}"><img class="card-img-top" src="{{ asset('storage/products/'.$product->product_image)}}" alt="{{ $product->produc_name }}"></a>
+				            	<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_url]) }}"><img class="card-img-top" src="{{ url('storage/products/'.$product->product_image)}}" alt="{{ $product->produc_name }}"></a>
 				              	<div class="card-body d-flex flex-column">
 				               	<span class="card-title text-center prod-name-link">
 				               		<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_name]) }}">{{ $product->product_name }}</a>

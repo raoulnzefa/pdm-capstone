@@ -111,7 +111,7 @@ class BankAccountController extends Controller
 
     public function get()
     {
-    	$bank_accounts = BankAccount::all();
+    	$bank_accounts = BankAccount::orderBy('id')->get();
 
     	return response()->json($bank_accounts);	
     }

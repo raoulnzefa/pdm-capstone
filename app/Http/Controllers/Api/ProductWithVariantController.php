@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use App\Models\ProductWithVariant;
 use App\Models\Inventory;
-use App\Models\InventoryVariant;
 use App\Http\Controllers\Traits\UserLogs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,13 +16,17 @@ class ProductWithVariantController extends Controller
 
    public function list($product_number)
    {
-   	$productWithVariants = ProductWithVariant::where('product_number',$product_number)->with('product')->get();
+   	$productWithVariants = ProductWithVariant::where('product_number',$product_number)
+        ->with('product')
+        ->orderBy('inventory_number')
+        ->get();
 
    	return response()->json($productWithVariants);
    }
 
    public function updateVariant(Request $request, ProductWithVariant $productVariant)
    {
+    
    	$request->validate([
          'variant_value' => [
               	'required',
@@ -85,16 +88,13 @@ class ProductWithVariantController extends Controller
       $inventoryUpdate->update();
 
       $productVariant = new ProductWithVariant();
+      $productVariant->inventory_number = $inventoryUpdate->number;
       $productVariant->product_number = $request->product_number;
       $productVariant->variant_value = $request->variant_value;
       $productVariant->variant_price = (float)$request->variant_price;
       $productVariant->variant_status = (int)$request->variant_status;
       $productVariant->save();
 
-      $inventoryVariant = new InventoryVariant();
-      $inventoryVariant->inventory_number = $inventoryUpdate->number;
-      $inventoryVariant->variant_id = (int)$productVariant->id;
-      $inventoryVariant->save();
 
       $array_params = [
             'id' => $request->admin_id,

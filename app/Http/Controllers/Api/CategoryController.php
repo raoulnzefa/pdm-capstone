@@ -110,7 +110,7 @@ class CategoryController extends Controller
 
     public function list()
     {
-        $list = Category::all();
+        $list = Category::orderBy('id')->get();
 
         return response()->json($list);
     }

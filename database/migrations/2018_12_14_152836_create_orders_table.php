@@ -23,11 +23,11 @@ class CreateOrdersTable extends Migration
             $table->string('order_payment_status');
             $table->string('order_payment_method');
             $table->integer('order_quantity');
-            $table->decimal('order_subtotal',9,2);
-            $table->decimal('order_discount',9,2)->nullable();
-            $table->decimal('order_shipping_fee',9,2)->nullable();
-            $table->decimal('order_total',9,2);
-            $table->decimal('order_shipping_discount',9,2)->nullable();
+            $table->decimal('order_subtotal',10,2);
+            $table->decimal('order_discount',10,2)->default(0);
+            $table->decimal('order_shipping_fee',10,2)->default(0);
+            $table->decimal('order_total',10,2);
+            $table->decimal('order_shipping_discount',10,2)->nullable();
             $table->string('order_paypal_url')->nullable();
             $table->dateTime('order_payment_date')->nullable();
             $table->dateTime('order_due_payment')->nullable();

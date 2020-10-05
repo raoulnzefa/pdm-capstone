@@ -1,5 +1,7 @@
 /node_modules
 /public/hot
+/public/storage/products
+/public/storage/deposit_slip
 /storage/*.key
 /vendor
 /.idea

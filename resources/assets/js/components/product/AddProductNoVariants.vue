@@ -14,7 +14,7 @@
 			@shown="focusOnProdName"
 			:ok-disabled="isBtnClicked"
 			@hidden="resetModal">
-			<form @submit.stop.prevent="saveProduct">
+			<form @submit.stop.prevent="saveProduct" enctype="multipart/form-data">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
 					<ul class="mb-0">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>

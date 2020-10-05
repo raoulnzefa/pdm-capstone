@@ -14,7 +14,7 @@
 			@cancel="cancelProductCatalog"
 			@shown="focusOnProdName"
 			:ok-disabled="isBtnClicked">
-			<form @submit.stop.prevent="saveProductCatalog">
+			<form @submit.stop.prevent="saveProductCatalog" enctype="multipart/form-data">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
 					<ul class="mb-0">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
@@ -66,19 +66,14 @@
 			  	 <div class="form-group row">
 			   	<label class="col-sm-3 col-form-label">Price:</label>
 			   	<div class="col-sm-9">
-			   		<input type="text" class="form-control" 
-			   			placeholder="Enter product price"
-			   			tabindex="4"
+			   		<money 
+			   			class="form-control"
 			   			v-model.trim="$v.price.$model"
-			   			:class="{'is-invalid': $v.price.$error}">
+			   			:class="{'is-invalid': $v.price.$error }"
+			   			tabindex="6"
+			   			:bind="money"></money>
 			   		<div v-if="$v.price.$error">
 	                	<span class="error-feedback" v-if="!$v.price.required">Price is required</span>
-	                	<template v-if="$v.price.required">
-	                		<span class="error-feedback" v-if="!$v.price.moneyRegex">Please enter a valid value</span>
-	                		<template v-if="$v.price.moneyRegex">
-		                		<span class="error-feedback" v-if="!$v.price.decimal">Please enter a valid value</span>
-		                	</template>
-	                	</template>
 	                </div>
 			   	</div>
 			  	</div>
@@ -124,6 +119,14 @@
 				prodNumber: '',
 				server_errors: [],
 				categories: [],
+				money: {
+	         	decimal: '.',
+	         	thousands: ',',
+	         	prefix: '',
+	         	suffix: '',
+	         	precision: 2,
+	         	masked: false
+	        },
 			}
 		},
 		validations() {
@@ -132,9 +135,7 @@
 				category: { required },
 				description: { required },
 				price: { 
-					required,
-					moneyRegex,
-					decimal
+					required
 				}
 			}
 		},
@@ -207,7 +208,10 @@
 					form.append('category', this.category);
 					form.append('product_status', this.status);
 					form.append('product_price', this.price);
-					form.append('product_image', this.image);
+
+					if (this.image) {
+						form.append('product_image', this.image);
+					}
 
 					axios.post('/api/product/catalog/no-variants/'+this.prodNumber, form)
 					.then(response => {

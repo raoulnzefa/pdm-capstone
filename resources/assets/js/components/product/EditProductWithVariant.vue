@@ -178,7 +178,10 @@
 					form.append('product_description', this.description);
 					form.append('category', this.category);
 					form.append('product_status', this.status);
-					form.append('product_image', this.image);
+					
+					if (this.image) {
+						form.append('product_image', this.image);
+					}
 
 					axios.post('/api/product/catalog/'+this.prodNumber, form)
 					.then(response => {

@@ -20,8 +20,8 @@ class CreateInvoicesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->decimal('subtotal',10,2);
-            $table->decimal('discount',10,2)->nullable();
-            $table->decimal('shipping_fee',10,2)->nullable();
+            $table->decimal('discount',10,2)->default(0);
+            $table->decimal('shipping_fee',10,2)->default(0);
             $table->decimal('total',10,2);
             $table->string('status');
             $table->dateTime('created');

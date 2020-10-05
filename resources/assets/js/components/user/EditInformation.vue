@@ -63,6 +63,7 @@
           </div>
           <div class="card-footer">
           	<input type="submit" value="Save" name="Update information" class="btn btn-primary" :disabled="disabledBtn">
+            <a href="/admin/dashboard" class="btn btn-danger">Cancel</a>
           </div>
        	</form>
         </div><!-- card -->

@@ -110,6 +110,7 @@ class ProductController extends Controller
 
     public function updateNoVariant(Request $request, Product $product)
     {   
+        dd($request->all());
         $request->validate([
             'category' => 'required',
             'product_name' => "required|string|max:75|unique:products,product_name,$product->id",
@@ -128,14 +129,12 @@ class ProductController extends Controller
 
         $old_image = $product->product_image;
 
-        if ($request->hasFile('product_image') && $request->filled('product_image'))
+        if ($request->hasFile('product_image'))
         {
             $imageName = time().str_replace(' ', '.', $request->file('product_image')->getClientOriginalName());
 
             $request->product_image->storeAs('products', $imageName);
             $product->product_image = $imageName;
-
-            Storage::delete('products/'.$old_image);
         }
 
         $product->product_status = $request->product_status;
@@ -242,6 +241,7 @@ class ProductController extends Controller
 
     public function updateProductCatalog(Request $request, Product $product)
     {
+
         $request->validate([
             'category' => 'required',
             'product_name' => "required|string|max:75|unique:products,product_name,$product->id",
@@ -255,14 +255,18 @@ class ProductController extends Controller
         $product->product_description = $request->product_description;
         $product->product_status = (int)$request->product_status;  
         
+        $old_image = $product->product_image;
+
         // check if has image file
-        if ($request->hasFile('product_image') && $request->filled('product_image'))
+        if ($request->hasFile('product_image'))
         {   
             // set image nam
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
             // save image into storage
             $request->product_image->storeAs('products', $imageName);
+
+            Storage::delete('products/'.$old_image);
         }
 
         // set product url
@@ -285,6 +289,7 @@ class ProductController extends Controller
 
     public function updateCatalogNoVariant(Request $request, Product $product)
     {
+
         $request->validate([
             'category' => 'required',
             'product_name' => "required|string|max:75|unique:products,product_name,$product->id",
@@ -300,14 +305,19 @@ class ProductController extends Controller
         $product->product_description = $request->product_description;
         $product->product_status = (int)$request->product_status;  
         
+        $old_image = $product->product_image;
+
         // check if has image file
-        if ($request->hasFile('product_image') && $request->filled('product_image'))
+        if ($request->hasFile('product_image'))
         {   
+
             // set image nam
             $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
             $product->product_image = $imageName;
             // save image into storage
             $request->product_image->storeAs('products', $imageName);
+
+            Storage::delete('products/'.$old_image);
         }
 
         // set product url
@@ -380,8 +390,8 @@ class ProductController extends Controller
             $search_val = $request->query('search');
             // get products result
             $products = Product::where(function($query) use ($search_val) {
-                            $query->where('number','LIKE','%'. $search_val .'%')
-                            ->orWhere('product_name', 'LIKE','%'. $search_val .'%');
+                            $query->where('number','ILIKE','%'. $search_val .'%')
+                            ->orWhere('product_name', 'ILIKE','%'. $search_val .'%');
                         })
                         ->with('category', 'productWithVariants', 'productNoVariant')->paginate(10);
 
@@ -390,7 +400,9 @@ class ProductController extends Controller
         else
         {  
             // get products data
-            $products = Product::with('category', 'productWithVariants', 'productNoVariant')->paginate(10);
+            $products = Product::with('category', 'productWithVariants', 'productNoVariant')
+                ->orderBy('number')
+                ->paginate(10);
         }
 
         return response()->json($products);
