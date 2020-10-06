@@ -31,6 +31,7 @@ class ViewProductController extends Controller
 
 
             $product_variants = ProductWithVariant::where('product_number',$prod->number)
+                    ->orderBy('inventory_number')
                     ->with('inventory')
                     ->get();
 

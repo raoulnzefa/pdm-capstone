@@ -85,13 +85,8 @@
 							this.$bus.$emit('update-qty', true);
 
 							Swal('Product has been added to cart','', 'success')
-							.then(okay => {
-								if (okay.value)
-								{
-									this.quantity = 1;
-									this.getCart();
-								}
-							})
+							this.quantity = 1;
+							this.getCart();
 						}
 					})
 					.catch(error => {

@@ -16,6 +16,7 @@ use PayPal\Rest\ApiContext;
 use PayPal\Exception\PayPalConnectionException;
 use Config;
 use Exception;
+use DB;
 
 class OrderController extends Controller
 {
@@ -43,13 +44,19 @@ class OrderController extends Controller
     public function index()
     {
         // check for overdue orders
-        $overdue = Order::where('order_status','For pickup')
-            ->orWhere('order_status','Pending payment')
-            ->where(function($query) {
-                $query->whereRaw('order_for_pickup < CURRENT_DATE')
-            ->orWhereRaw('order_due_payment < CURRENT_DATE');
-        })->get();
 
+        $overdue = Order::where('order_status','For pickup')
+            ->where(function($query) {
+                    $query->whereRaw('order_for_pickup < CURRENT_DATE');
+            });
+
+        $overdue = $overdue->where('order_status','Pending payment')
+            ->where(function($query) {
+                    $query->whereRaw('order_due_payment < CURRENT_DATE');
+            });
+
+        $overdue = $overdue->get();
+        
         foreach ($overdue as $item)
         {
             $this->restockOrder($item->number);

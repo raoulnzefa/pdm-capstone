@@ -8,7 +8,7 @@ use App\Models\Barangay;
 use App\Models\OrderProduct;
 use App\Models\Order;
 use App\Models\Customer;
-use App\Models\Address;
+use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -135,9 +135,9 @@ class CustomerController extends Controller
     {
         $basic_info = Customer::where('id',$customerId)->first();
 
-        $addresses = Address::where('customer_id', $customerId)->get();
+        $addresses = CustomerAddress::where('customer_id', $customerId)->get();
 
-        $orders = Order::where('customer_id', $customerId)->with('orderProducts.inventory.product','shipping')->get();
+        $orders = Order::where('customer_id', $customerId)->with('orderProducts.inventory.product','shipping')->orderBy('number')->get();
 
         return response()->json([
             'basic_info' => $basic_info,

@@ -24,7 +24,7 @@
 									v-model.trim="$v.variant_item.$model"
 									:class="{'is-invalid': $v.variant_item.$error}">
 									<option value="" disabled>Select a variant</option>
-									<option v-for="(x,index) in product.product_with_variants" :key="index" :value="x.inventory_number">{{ x.variant_value }}</option>
+									<option v-for="(x,index) in product_variants" :key="index" :value="x.inventory_number">{{ x.variant_value }}</option>
 								</select>
 								<div v-if="$v.variant_item.$error">
 									<span class="error-feedback" v-if="!$v.variant_item.required">Please select a variant</span>	

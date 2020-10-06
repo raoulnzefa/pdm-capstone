@@ -55,6 +55,21 @@ class Order extends Model
     	return number_format($value,2);
     }
 
+    public function storePickup()
+    {
+        return $this->hasOne('App\Models\StorePickup');
+    }
+
+    public function shipping()
+    {
+        return $this->hasOne('App\Models\ShippingAddress');
+    }
+
+    public function replacementRequest()
+    {
+        return $this->hasOne('App\Models\ReplacementRequest');
+    }
+
     public function getOrderCreatedAttribute($value)
     {
         $time = strtotime($value);
@@ -89,21 +104,6 @@ class Order extends Model
     {
         $time = strtotime($value);
         return date('m/d/Y', $time);
-    }
-
-    public function storePickup()
-    {
-        return $this->hasOne('App\Models\StorePickup');
-    }
-
-    public function shipping()
-    {
-        return $this->hasOne('App\Models\ShippingAddress');
-    }
-
-    public function replacementRequest()
-    {
-        return $this->hasOne('App\Models\ReplacementRequest');
     }
 
 }

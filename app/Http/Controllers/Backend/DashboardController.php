@@ -29,11 +29,17 @@ class DashboardController extends Controller
     {
         // check for overdue orders
         $overdue = Order::where('order_status','For pickup')
-            ->orWhere('order_status','Pending payment')
             ->where(function($query) {
-                $query->whereRaw('order_for_pickup < CURRENT_DATE')
-            ->orWhereRaw('order_due_payment < CURRENT_DATE');
-        })->get();
+                    $query->whereRaw('order_for_pickup < CURRENT_DATE');
+            });
+
+        $overdue = $overdue->where('order_status','Pending payment')
+            ->where(function($query) {
+                    $query->whereRaw('order_due_payment < CURRENT_DATE');
+            });
+
+        $overdue = $overdue->get();
+        
 
         foreach ($overdue as $item)
         {
