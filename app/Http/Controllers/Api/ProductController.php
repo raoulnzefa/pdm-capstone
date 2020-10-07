@@ -50,10 +50,18 @@ class ProductController extends Controller
         if ($request->hasFile('product_image'))
         {   
             // set image nam
-            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
-            $product->product_image = $imageName;
+            $imageName = time().'.'.str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
+
             // save image into storage
-            $request->product_image->storeAs('products', $imageName);
+            $path = $request->file('product_image')->storeAs(
+                'products',
+                $imageName,
+                's3'
+            );
+
+            $product->product_image_url = Storage::disk('s3')->url($path);
+            $product->product_image_path = $path;
+
         }
 
         // set product url
@@ -127,14 +135,24 @@ class ProductController extends Controller
         $product->product_name = ucwords($request->product_name);
         $product->product_description = ucfirst($request->product_description);
 
-        $old_image = $product->product_image;
+        $old_image = $product->product_image_path;
 
         if ($request->hasFile('product_image'))
         {
-            $imageName = time().str_replace(' ', '.', $request->file('product_image')->getClientOriginalName());
+             // set image nam
+            $imageName = time().'.'.str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
 
-            $request->product_image->storeAs('products', $imageName);
-            $product->product_image = $imageName;
+            // save image into storage
+            $path = $request->file('product_image')->storeAs(
+                'products',
+                $imageName,
+                's3'
+            );
+
+            $product->product_image_url = Storage::disk('s3')->url($path);
+            $product->product_image_path = $path;
+
+            Storage::disk('s3')->delete($old_image);
         }
 
         $product->product_status = $request->product_status;
@@ -182,11 +200,18 @@ class ProductController extends Controller
         // check if has image file
         if ($request->hasFile('product_image'))
         {   
-            // set image nam
-            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
-            $product->product_image = $imageName;
+             // set image nam
+            $imageName = time().'.'.str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
+
             // save image into storage
-            $request->product_image->storeAs('products', $imageName);
+            $path = $request->file('product_image')->storeAs(
+                'products',
+                $imageName,
+                's3'
+            );
+
+            $product->product_image_url = Storage::disk('s3')->url($path);
+            $product->product_image_path = $path;
         }
 
         // set product url
@@ -255,18 +280,25 @@ class ProductController extends Controller
         $product->product_description = $request->product_description;
         $product->product_status = (int)$request->product_status;  
         
-        $old_image = $product->product_image;
+        $old_image = $product->product_image_path;
 
         // check if has image file
         if ($request->hasFile('product_image'))
         {   
-            // set image nam
-            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
-            $product->product_image = $imageName;
-            // save image into storage
-            $request->product_image->storeAs('products', $imageName);
+             // set image nam
+            $imageName = time().'.'.str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
 
-            Storage::delete('products/'.$old_image);
+            // save image into storage
+            $path = $request->file('product_image')->storeAs(
+                'products',
+                $imageName,
+                's3'
+            );
+
+            $product->product_image_url = Storage::disk('s3')->url($path);
+            $product->product_image_path = $path;
+
+            Storage::disk('s3')->delete($old_image);
         }
 
         // set product url
@@ -305,19 +337,25 @@ class ProductController extends Controller
         $product->product_description = $request->product_description;
         $product->product_status = (int)$request->product_status;  
         
-        $old_image = $product->product_image;
+        $old_image = $product->product_image_path;
 
         // check if has image file
         if ($request->hasFile('product_image'))
         {   
 
-            // set image nam
-            $imageName = time().str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
-            $product->product_image = $imageName;
-            // save image into storage
-            $request->product_image->storeAs('products', $imageName);
+           $imageName = time().'.'.str_replace(' ', '-', $request->file('product_image')->getClientOriginalName());
 
-            Storage::delete('products/'.$old_image);
+            // save image into storage
+            $path = $request->file('product_image')->storeAs(
+                'products',
+                $imageName,
+                's3'
+            );
+
+            $product->product_image_url = Storage::disk('s3')->url($path);
+            $product->product_image_path = $path;
+
+            Storage::disk('s3')->delete($old_image);
         }
 
         // set product url
@@ -366,11 +404,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $imageName = $product->image;
+        $imageName = $product->product_image_path;
 
         if ($product->delete())
         {
-            Storage::delete('products/'.$imageName);
+            Storage::disk('s3')->delete($old_image);
             $response = array('deleted'=>true, 'message'=> 'Product has been deleted.');
         }
         else

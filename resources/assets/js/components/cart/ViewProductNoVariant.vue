@@ -2,7 +2,7 @@
 	<div class="row product-frame mb-4">
 		<div class="col-sm-6 col-lg-6">
 			<div class="">
-				<img :src="'/storage/products/'+product.product_image" class="img-fluid">	
+				<img :src="product.product_image_url" class="img-fluid">	
 			</div>
 		</div>
 		<div class="col-sm-6 col-lg-6">

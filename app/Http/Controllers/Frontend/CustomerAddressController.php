@@ -29,6 +29,7 @@ class CustomerAddressController extends Controller
 
    public function edit(CustomerAddress $address)
    {
+      
       $data = 'Edit Address';
 
       return view('frontend.address.edit', compact(

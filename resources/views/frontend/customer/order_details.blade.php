@@ -181,7 +181,7 @@
 								@foreach ($order->orderProducts as $orderProd)
 								<tr>
 									<td>
-										<img src="/storage/products/{{$orderProd->inventory->product->product_image}}" class="img-fluid" width="20%" height="13%">
+										<img src="{{$orderProd->inventory->product->product_image_url}}" class="img-fluid" width="20%" height="13%">
 										<span class="align-middle">{{ $orderProd->product_name }}</span>
 									</td>
 									<td class="align-middle">&#8369;{{ $orderProd->price }}</td>

@@ -68,7 +68,7 @@
 											<td class="align-middle">{{details.inventory_number}}</td>
 											<td class="align-middle">
 												<div class="media">
-					                        <img :src="'/storage/products/'+details.product.product_image" class="media-object mr-2" width="12%" height="8%" alt="product image">
+					                        <img :src="details.product.product_image_url" class="media-object mr-2" width="12%" height="8%" alt="product image">
 					                        <div class="media-body pt-4">
 					                           <span class="d-block">{{ details.product_name }}</span>
 					                        </div>

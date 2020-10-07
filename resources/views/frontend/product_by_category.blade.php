@@ -26,7 +26,7 @@
 							<div class="col-md-4">
 								<div class="card">
 									<a href="/product/view/{{$product->url}}" class="product-link">
-										<img src="{{ asset('storage/products/'.$product->image)}}" class="img-fluid prod-img-frame card-img-top" alt="" width="500" height="500">
+										<img src="{{$product->product_image_url}}" class="img-fluid prod-img-frame card-img-top" alt="" width="500" height="500">
 									</a>
 									<div class="card-body">
 										<h6 class="text-center">{{ $product->name }}</h6>

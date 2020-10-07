@@ -37,7 +37,7 @@
 			viewBankDeposit() {
 				
 				if (this.hasBankDepositSlip) {
-					this.bank_deposit_slip = `/storage/deposit_slip/${this.order.bank_deposit_slip.image}`;
+					this.bank_deposit_slip = this.order.bank_deposit_slip.image;
 					this.$refs.depositSlipModal.show();
 				} else {
 					Swal('No uploaded bank deposit slip', '', 'error')

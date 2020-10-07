@@ -139,7 +139,7 @@
                         if (res.success)
                         {
                             this.$bus.$emit('update-name', true)
-                            Swal('Update Details', res.message, 'success')
+                            Swal('Account details has been updated','','success')
                             .then(okay => {
                                 if (okay.value)
                                 {

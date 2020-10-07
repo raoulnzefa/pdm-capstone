@@ -106,9 +106,6 @@ class OrderController extends Controller
    {
       date_default_timezone_set("Asia/Manila");
 
-
-      dd($order);
-
       $days_warranty = 7;
         
       $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));
@@ -345,7 +342,7 @@ class OrderController extends Controller
       }
       else
       {
-          $orders = Order::where('customer_id',$customerId)->orderBy('viewed','asc')->paginate(10);
+          $orders = Order::where('customer_id',$customerId)->orderBy('number')->paginate(10);
 
       }
 

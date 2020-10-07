@@ -126,7 +126,7 @@
         <script src="/vendor/popper/dist/umd/popper.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        @yield('postJquery');
+        @yield('postJquery')
             
         
     </body>

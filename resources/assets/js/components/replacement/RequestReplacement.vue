@@ -67,7 +67,7 @@
 				<tr v-for="(product, index) in orderedProducts" :key="index">
 					<td class="align-middle">
 						<div class="media">
-                     <img :src="'/storage/products/'+product.inventory.product.product_image" class="media-object mr-2" width="17%" height="10%" alt="product image">
+                     <img :src="product.inventory.product.product_image_url" class="media-object mr-2" width="17%" height="10%" alt="product image">
                      <div class="media-body pt-4">
                         <span class="d-block">{{ product.product_name }}</span>
                      </div>

@@ -10,6 +10,7 @@
 			hide-header-close
 			ok-title="Create"
 			:ok-disabled="isBtnClicked"
+			:cancel-disabled="isBtnClicked"
 			@ok="submitProductVariant"
 			@cancel="cancelProductWithVariant"
 			@shown="focusOnProdName"
@@ -65,7 +66,7 @@
 			  	<div class="card mt-3" v-for="(v, index) in $v.forms.variants.$each.$iter" :key="index">
 			  		<div class="card-header clearfix">
 			  			Variant {{ parseInt(index) + 1 }}
-			  			<button class="btn btn-sm btn-danger float-right" @click="removeVariantForm(index)"><i class="fa fa-times"></i> Remove</button>
+			  			<button class="btn btn-sm btn-danger float-right" @click="removeVariantForm(index)" :disabled="isBtnClicked"><i class="fa fa-times"></i> Remove</button>
 
 			  		</div>
 			  		<div class="card-body">
@@ -135,7 +136,7 @@
 					  	</div>
 			  		</div>
 			  	</div>
-			  	<button class="btn btn-sm btn-primary mt-3 mb-3" @click="addVariantForm"><i class="fas fa-plus"></i> Add variant</button>
+			  	<button class="btn btn-sm btn-primary mt-3 mb-3" @click="addVariantForm" :disabled="isBtnClicked"><i class="fas fa-plus"></i> Add variant</button>
 			  	<div class="form-group row">
 					<label for="c_image" class="col-sm-3 col-form-label">Product image:</label>
 					<div class="col-sm-4">

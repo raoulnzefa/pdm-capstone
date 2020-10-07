@@ -109,7 +109,7 @@
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th>Number</th>
+								<th>Order No.</th>
 								<th>Date</th>
 								<th>Status</th>
 								<th>Qty.</th>
@@ -147,7 +147,7 @@
 				                    <span class="badge badge-danger" style="font-size: 14px;" v-if="order.order_status == 'Overdue'">{{ order.order_status }}</span>
 										</td>
 										<td>{{ order.order_quantity }}</td>
-										<td>{{ order.order_total }}</td>
+										<td>&#8369;{{ order.order_total }}</td>
 										<td align="center">
 											<button class="btn btn-sm btn-primary" @click="viewOrderDetails(order)">Details</button>
 										</td>
@@ -249,7 +249,7 @@
 							<tbody>
 								<tr v-for="(orderProd,index) in orderProducts" :key="index">
 									<td>
-										<img :src="'/storage/products/'+orderProd.inventory.product.product_image" class="img-fluid" width="20%" height="13%">
+										<img :src="orderProd.inventory.product.product_image_url" class="img-fluid" width="20%" height="13%">
 										<span class="align-middle">{{ orderProd.product_name }}</span>
 									</td>
 									<td class="align-middle">&#8369;{{ orderProd.price }}</td>
@@ -330,14 +330,18 @@
 				this.orderCreated = order.order_created;
 				this.orderTotal = order.order_total;
 				this.orderShippingMethod = order.order_shipping_method;
-				this.orderPaymentStatus = order.order_payment_method;
+				this.orderPaymentStatus = order.order_payment_status;
 				this.orderStatus = order.order_status;
 				this.orderPaymentMethod = order.order_payment_method;
 				this.orderWarranty = order.order_warranty;
-				this.shippingCustomerName = order.shipping.shipping_firstname+' '+order.shipping.shipping_lastname;
-				this.shippingStreet = order.shipping.shipping_street; 
-				this.shippingAddress = order.shipping.shipping_barangay+', '+order.shipping.shipping_municipality+', '+order.shipping.shipping_province+', '+order.shipping.shipping_zip_code
-				this.shippingMobileNo = order.shipping.shipping_mobile_no;
+				
+				if (this.orderShippingMethod === 'Shipping') {
+					this.shippingCustomerName = order.shipping.shipping_firstname+' '+order.shipping.shipping_lastname;
+					this.shippingStreet = order.shipping.shipping_street; 
+					this.shippingAddress = order.shipping.shipping_barangay+', '+order.shipping.shipping_municipality+', '+order.shipping.shipping_province+', '+order.shipping.shipping_zip_code
+					this.shippingMobileNo = order.shipping.shipping_mobile_no;
+				}
+
 				this.orderSubtotal = order.order_subtotal;
 				this.orderShippingFee = order.order_shipping_fee;
 				this.orderProducts = order.order_products;

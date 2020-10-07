@@ -13,6 +13,7 @@
 			@cancel="cancelProduct"
 			@shown="focusOnProdName"
 			:ok-disabled="isBtnClicked"
+			:cancel-disabled="isBtnClicked"
 			@hidden="resetModal">
 			<form @submit.stop.prevent="saveProduct" enctype="multipart/form-data">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">

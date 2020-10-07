@@ -13,7 +13,8 @@
 			@ok="submitProductCatalog"
 			@cancel="cancelProductCatalog"
 			@shown="focusOnProdName"
-			:ok-disabled="isBtnClicked">
+			:ok-disabled="isBtnClicked"
+			:cancel-disabled="isBtnClicked">
 			<form @submit.stop.prevent="saveProductCatalog">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
 					<ul class="mb-0">
@@ -148,7 +149,7 @@
 				this.category = this.product.category_id;
 				this.description = this.product.product_description;
 				this.status = this.product.product_status;
-				this.avatar = `/storage/products/${this.product.product_image}`
+				this.avatar = this.product.product_image_url;
 				this.getCategory();
 				this.$refs.refsProductCatalogModal.show();
 			},

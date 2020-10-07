@@ -65,7 +65,6 @@ class CustomerAddressController extends Controller
 
    public function updateAddress(Request $request, CustomerAddress $address)
    {
-
    	$request->validate([
             'street' => 'required',
             'province' =>  'required',

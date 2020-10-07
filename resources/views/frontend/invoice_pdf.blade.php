@@ -102,10 +102,14 @@
               @endforeach
             </tbody>
           </table>
-          <table border="1" width="100%" class="invoice-total">
+          <table border="0" width="100%" class="invoice-total">
             <tr>
               <td align="right" width="80%"><b>Subtotal:</b></td>
               <td align="right">PHP {{$invoice->order->order_subtotal}}</td>
+            </tr>
+            <tr>
+              <td align="right" width="80%"><b>Discount:</b></td>
+              <td align="right">PHP {{$invoice->order->order_discount}}</td>
             </tr>
             @if ($invoice->order->order_shipping_method == 'Shipping')
             <tr>

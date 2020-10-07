@@ -15,7 +15,7 @@ class HomePageController extends Controller
     {   
 
       $data = 'Home';
-      $products = Product::limit(8)->get();
+      $products = Product::limit(8)->orderBy('id')->get();
 
     	return view('frontend.home', compact('data', 'products'));
 

@@ -7,6 +7,7 @@ use Auth;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class UploadDepositSlipController extends Controller
 {
@@ -27,10 +28,10 @@ class UploadDepositSlipController extends Controller
     	]);
 
     	// set image name
-        $imageName = time().str_replace(' ', '-', $request->file('deposit_slip')->getClientOriginalName());
+        $imageName = time().'.'.str_replace(' ', '-', $request->file('deposit_slip')->getClientOriginalName());
 
         // save image into storage
-        $request->deposit_slip->storeAs('deposit_slip', $imageName);
+        $path = $request->deposit_slip->storeAs('deposit_slip', $imageName, 's3');
 
         $order = Order::where('number', $request->order_number)->with('bankDepositPayment')->first();
 
@@ -40,7 +41,7 @@ class UploadDepositSlipController extends Controller
         $depositSlip->order_number = $request->order_number;
         $depositSlip->customer_id = $order->customer_id;
         $depositSlip->bank_deposit_payment_id = $order->bankDepositPayment->id;
-        $depositSlip->image = $imageName;
+        $depositSlip->image = Storage::disk('s3')->url($path);
         $depositSlip->save();
 
         $order->viewed = 0;

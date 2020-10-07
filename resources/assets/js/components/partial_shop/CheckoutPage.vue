@@ -307,7 +307,7 @@
                         <tr v-for="(cart_data, index) in cartData" :key="index">
                             <td>
                                 <div class="media">
-                                    <img class="media-object mr-2" :src="'/storage/products/'+cart_data.inventory.product.product_image" style="width: 72px; height: 72px;">
+                                    <img class="media-object mr-2" :src="cart_data.inventory.product.product_image_url" style="width: 72px; height: 72px;">
                                     <div class="media-body">
                                         <h6>{{cart_data.product_name}}</h6>
                                         <h6>Price: {{formatMoney(cart_data.price)}}</h6>
@@ -330,7 +330,8 @@
                         <tr>
                             <td class="pt-3 pb-1">
                                 <div class="clearfix">
-                                    <h5 class="float-left">Discount</h5>
+                                    <h5 class="float-left" v-if="!has_discount">Discount</h5>
+                                    <h5 class="float-left" v-else>Discount ({{discount.discount_percent}}%)</h5>
                                     <h5 class="float-right">{{ discountOrder }}</h5>
                                 </div>
                             </td>
@@ -483,6 +484,7 @@
                 drp_province: '',
                 drp_municipality: '',
                 drp_barangay: '',
+                has_discount: false,
 			}
 		},
 		validations() {
@@ -685,9 +687,13 @@
 
                         this.cartSubtotal -= parseFloat(this.orderDiscount);
 
+                        this.has_discount = true;
+
                         return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
                     }
                 }
+
+                this.has_discount = false;
 
                 return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount);
             },
