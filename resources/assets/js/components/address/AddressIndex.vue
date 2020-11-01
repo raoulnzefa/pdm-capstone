@@ -56,6 +56,7 @@
 	import { HalfCircleSpinner } from 'epic-spinners';
 
 	export default {
+		props: ['customer'],
 		data() {
 			return {
 				addresses: [],
@@ -68,7 +69,7 @@
 		methods: {
 			getAddresses() {
 				this.loading = true;
-				axios.get('/api/customer-address-get')
+				axios.get('/api/customer-address-get/'+this.customer.id)
 				.then(response => {
 					this.loading = false;
 					this.addresses = response.data;

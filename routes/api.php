@@ -58,7 +58,7 @@ Route::get('/customer/{customerId}', 'Api\CustomerController@details');
 
 // Order not view
 Route::get('order/not-view', 'Api\OrderController@orderNotView');
-Route::get('order/status-update', 'Api\OrderController@orderStatusUpdate');
+Route::get('order-status-update/{customer}', 'Api\OrderController@orderStatusUpdate');
 Route::put('order/viewed/{order}', 'Api\OrderController@updateOrderViewed');
 
 //Customer Registration
@@ -211,7 +211,7 @@ Route::post('return-request/order', 'Api\ReturnRequestApi@saveReturnRequest');
 
 Route::post('get-best-selling-report', 'Api\BestSellingController@getBestSelling');
 
-Route::get('customer-address-get', 'Api\CustomerAddressController@getAddresses');
+Route::get('customer-address-get/{customer}', 'Api\CustomerAddressController@getAddresses');
 Route::post('customer-address-save', 'Api\CustomerAddressController@saveAddress');
 Route::put('customer-address-update/{address}', 'Api\CustomerAddressController@updateAddress');
 Route::delete('customer-address-delete/{address}', 'Api\CustomerAddressController@deleteAddress');
@@ -249,7 +249,7 @@ Route::get('replacement/{requestId}', 'Api\ReplacementRequestController@details'
 Route::post('replacement/approve', 'Api\ReplacementRequestController@approveRequest');
 Route::post('replacement/decline', 'Api\ReplacementRequestController@declineRequest');
 Route::post('replacement/replaced-product', 'Api\ReplacementRequestController@replaceProduct');
-Route::get('request-status-update', 'Api\ReplacementRequestController@replacementStatusUpdate');
+Route::get('request-status-update/{customer}', 'Api\ReplacementRequestController@replacementStatusUpdate');
 Route::put('request-update-status/{replacement}', 'Api\ReplacementRequestController@updateStatus');
 
 Route::get('request-not-view', 'Api\ReplacementRequestController@getViewed');

@@ -91,7 +91,7 @@
                        <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="useSavedAddr" name="use_saved_addr" value="true" v-model="useSavedAddress">
                             <label class="form-check-label" for="useSavedAddr">
-                                Use your saved address
+                                Use my saved address
                             </label>
                         </div>
                     </div>

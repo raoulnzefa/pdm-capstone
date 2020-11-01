@@ -43,7 +43,7 @@ class Customer extends Authenticatable
     public function getCreatedAtAttribute($value)
     {
         $time = strtotime($value);
-        return date('m/d/Y, H:iA', $time);
+        return date('m/d/Y, h:iA', $time);
     }
 
     public function orders()

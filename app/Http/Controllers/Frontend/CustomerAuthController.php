@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Barangay;
-use App\Models\Municipality;
-use App\Models\Province;
+use App\Models\CustomerAddress;
 use App\Notifications\ActivationLink;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -60,7 +58,7 @@ class CustomerAuthController extends Controller
         $redirect_back = url()->previous();
 
         return view('frontend.registration')->with([
-            'data'=> 'Registration',
+            'data'=> 'Create an Account',
             'prev_url' => $redirect_back
         ]);
     }
@@ -72,11 +70,17 @@ class CustomerAuthController extends Controller
             'last_name' => 'required|string|max:20',
             'email' => 'required|string|email|unique:customers',
             'password' => 'required|string|min:6|confirmed',
-            'password_confirmation' => 'required'
+            'password_confirmation' => 'required',
+            'street' => 'required',
+            'province' => 'required',
+            'municipality' => 'required',
+            'barangay' => 'required',
+            'zip_code' => 'required',
+            'mobile_no' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return redirect('/register')
+            return redirect('/create-account')
                         ->withErrors($validator)
                         ->withInput($request->except('password'));
         }
@@ -84,16 +88,34 @@ class CustomerAuthController extends Controller
         // set Manila timezone
         date_default_timezone_set("Asia/Manila");
 
-        $cust = new Customer;
+        $cust = new Customer();
         $cust->email = $request->email;
-        $cust->first_name = ucfirst($request->first_name);
-        $cust->last_name = ucfirst($request->last_name);
+        $cust->first_name = ucwords($request->first_name);
+        $cust->last_name = ucwords($request->last_name);
         $cust->password = Hash::make($request->password);
         $cust->status = 'Inactive';
         $cust->token = Str::random(40);
         $cust->registered = date('Y-m-d H:i:s');
         $cust->save();
-        
+
+        $addrCount = CustomerAddress::where('customer_id', $cust->id)->count();
+
+        $custAddress = new CustomerAddress();
+        $custAddress->customer_id = (int)$cust->id;
+        $custAddress->address_name = ($addrCount < 1) ? 'Address 1'  : 'Address '.$addrCount;
+        $custAddress->firstname = ucwords($request->first_name);
+        $custAddress->lastname = ucwords($request->last_name);
+        $custAddress->street = ucfirst($request->street);
+        $custAddress->barangay = $request->barangay_name;
+        $custAddress->municipality = $request->municipality_name;
+        $custAddress->province = $request->province_name;
+        $custAddress->barangay_id = (int)$request->barangay;
+        $custAddress->municipality_id = (int)$request->municipality;
+        $custAddress->province_id = (int)$request->province;
+        $custAddress->zip_code = $request->zip_code;
+        $custAddress->mobile_no = $request->mobile_no;
+        $custAddress->save();
+
         $cust_data = Customer::where('id', $cust->id)->first();
         // $cust_data->number = 'CUS-'.date('Y').'-'.str_pad($cust_data->id, 4, '0', STR_PAD_LEFT);
 

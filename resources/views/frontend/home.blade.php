@@ -36,11 +36,11 @@
 					<div class="row">
 						@foreach ($products as $product)
 							<div class="col-md-3 d-flex align-items-stretch">
-								<div class="card">
-				            	<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_url]) }}"><img class="card-img-top" src="{{ $product->product_image_url }}" alt="{{ $product->produc_name }}"></a>
+								<div class="card product-card">
+				            	<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_url]) }}"><img class="card-img-top" src="{{ $product->product_image_url }}" alt="{{ $product->product_name }}"></a>
 				              	<div class="card-body d-flex flex-column">
 				               	<span class="card-title text-center prod-name-link">
-				               		<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_name]) }}">{{ $product->product_name }}</a>
+				               		<a href="{{ route('customer_view_product', ['category'=>$product->category->url, 'product'=>$product->product_name]) }}" class="product-card-link">{{ $product->product_name }}</a>
 				               	</span>
 				                	<div class="text-center mb-3">
 				                		<input type="hidden" name="p_num" id="p_num"  value="{{$product->number}}">
@@ -59,7 +59,7 @@
 					                	@endif
 				                	</div>
 				                	@auth('customer')
-				                		<a href="{{ route('customer_view_product', ['category' => $product->category->url, 'product'=> $product->product_url]) }}" class="btn btn-primary mt-auto">View</a>
+				                		<a href="{{ route('customer_view_product', ['category' => $product->category->url, 'product'=> $product->product_url]) }}" class="btn btn-outline-primary mt-auto">View</a>
 				                	@endauth
 				              	</div>
 				            </div>
@@ -67,7 +67,7 @@
 						@endforeach
 					</div>
 					<center>
-						<a href="/products" class="btn btn-primary mb-4">View more</a>
+						<a href="/products" class="btn btn-outline-primary mb-4">View more</a>
 					</center>
 				@else
 					<div class="alert alert-warning text-center">

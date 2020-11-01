@@ -25,7 +25,7 @@
               </tr>
           </table>
           <br>
-          <table class="content">
+          <table class="customer-content">
             <thead>
                 <tr>
                    <th>ID</th>
@@ -43,7 +43,7 @@
                       <td>{{ $customer->first_name.' '.$customer->last_name }}</td>
                       <td>{{ $customer->email }}</td>
                       <td>{{ $customer->status }}</td>
-                      <td>{{ $customer->registered }}</td>
+                      <td>{{ $customer->created_at }}</td>
                     </tr>
                   @endforeach
                 @else

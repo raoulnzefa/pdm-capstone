@@ -48,7 +48,7 @@
 							</template>
 						</template>	
 					</div>
-					<button type="submit" class="btn btn-primary mt-4" :disabled="!variant_item"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+					<button type="submit" class="btn btn-outline-primary btn-block mt-4" :disabled="!variant_item"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 				</form>
 				</div>
 			</div>
@@ -97,7 +97,7 @@
 						if (response.data.success) {
 							this.$bus.$emit('update-qty', true);
 
-							Swal('Product has been added to cart','', 'success')
+							Swal('Product added to cart','', 'success')
 							.then(okay => {
 								if (okay.value)
 								{

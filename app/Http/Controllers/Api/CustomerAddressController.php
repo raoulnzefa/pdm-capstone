@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 
 class CustomerAddressController extends Controller
 {
-   public function getAddresses()
+   public function getAddresses($customer)
    {
-      $addresses = CustomerAddress::get();
+      $addresses = CustomerAddress::where('customer_id', $customer)->get();
 
       return response()->json($addresses);
    }
@@ -32,10 +32,11 @@ class CustomerAddressController extends Controller
 
       $redirect_back = route('customer_address');
 
+      $addrCount = CustomerAddress::where('customer_id', (int)$request->customer_id)->count();
 
    	$address = new CustomerAddress();
    	$address->customer_id = $request->customer_id;
-   	$address->address_name = str_random(4);
+   	$address->address_name = 'Address '.$addrCount;
       $address->firstname = ucfirst($request->firstname);
       $address->lastname = ucfirst($request->lastname);
    	$address->street = $request->street;
@@ -48,11 +49,6 @@ class CustomerAddressController extends Controller
    	$address->zip_code = $request->zip_code;
       $address->mobile_no = $request->mobile_no;
    	$address->save();
-
-   	$addr = CustomerAddress::where('id', $address->id)->first();
-
-   	$addr->address_name = 'Address '.$address->id;
-   	$addr->update();
 
    	$response = [
    		'success' => true,
@@ -76,6 +72,8 @@ class CustomerAddressController extends Controller
       date_default_timezone_set("Asia/Manila");
 
       $redirect_back = route('customer_address');
+
+      $addrCount = CustomerAddress::where('customer_id', $request->customer_id)->count();
 
       $address->firstname = ucfirst($request->firstname);
       $address->lastname = ucfirst($request->lastname);

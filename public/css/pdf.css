@@ -38,6 +38,14 @@ footer {
     page-break-after: auto; 
 }
 
+.customer-content { 
+    page-break-after: auto; 
+}
+
+.audit-trail-content { 
+    page-break-after: auto; 
+}
+
 .invoice-total {
     width: 100%;
     border: 0;
@@ -90,6 +98,28 @@ footer {
 }
 
 .inventory-content th, .inventory-content td {
+    border: 1px solid;
+    padding: 10px;
+    text-align: left;
+}
+
+.customer-content {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.customer-content th, .customer-content td {
+    border: 1px solid;
+    padding: 10px;
+    text-align: left;
+}
+
+.audit-trail-content {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.audit-trail-content th, .audit-trail-content td {
     border: 1px solid;
     padding: 10px;
     text-align: left;

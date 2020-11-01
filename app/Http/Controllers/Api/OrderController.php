@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;
 use Carbon\Carbon;
+use Auth;
 
 class OrderController extends Controller
 {
@@ -349,11 +350,13 @@ class OrderController extends Controller
       return response()->json($orders);
    }
 
-   public function orderStatusUpdate()
+   public function orderStatusUpdate($customer)
    {
       try
       {
-         $status_update = Order::where('status_update','=',1)->count();
+         $status_update = Order::where('status_update','=',1)
+                ->where('customer_id', (int)$customer)
+                ->count();
 
          $response = ['count'=> $status_update];
       }

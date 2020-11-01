@@ -7,9 +7,12 @@ use App\Models\UserLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Traits\UserLogs;
 
 class AdminAuthController extends Controller
 {
+    use UserLogs;
+
 	public function __construct()
 	{
 		$this->middleware('guest:admin', ['except' => ['logout']]);
@@ -75,6 +78,14 @@ class AdminAuthController extends Controller
                         'status'=>'Active'
                     ]))
     	{
+            $admin = Auth::guard('admin')->user();
+
+            $array_params = [
+                'id' => $admin->id,
+                'action' => 'Logged In. User ID: '.$admin->id.', Admin Name: '.$admin->first_name.' '.$admin->last_name.'.'
+            ];
+
+            $this->createUserLog($array_params);
            
     		return redirect()->route('admin_dashboard');
     	}
@@ -85,6 +96,14 @@ class AdminAuthController extends Controller
 
     public function logout()
     {   
+        $admin = Auth::guard('admin')->user();
+
+        $array_params = [
+            'id' => $admin->id,
+            'action' => 'Logged Out. User ID: '.$admin->id.', Admin Name: '.$admin->first_name.' '.$admin->last_name.'.'
+        ];
+
+        $this->createUserLog($array_params); 
 
         // logout admin session
         Auth::guard('admin')->logout();

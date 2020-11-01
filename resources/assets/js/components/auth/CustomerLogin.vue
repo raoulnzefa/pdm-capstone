@@ -45,7 +45,7 @@
 					</div>
 					<div>
 						 <center>
-						 		<p class="mb-2 mt-4">New customer? <a :href="create_account">Create account</a></p>
+						 		<p class="mb-2 mt-4">New customer? <a :href="create_account">Create an account</a></p>
 						 		<a href="/forgot-password" class="d-block">Forgot your password?</a>
 						 </center>
 					</div>

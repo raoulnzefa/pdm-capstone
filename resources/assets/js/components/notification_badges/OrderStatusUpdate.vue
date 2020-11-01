@@ -3,6 +3,7 @@
 </template>
 <script>
 	export default {
+		props: ['customer'],
 		data() {
 			return {
 				statusUpdate: null
@@ -10,7 +11,7 @@
 		},
 		methods: {
 			getOrderStatusUpdate() {
-				axios.get('/api/order/status-update')
+				axios.get('/api/order-status-update/'+this.customer.id)
 				.then((response) => {
 					if (response.data.count > 0)
 					{

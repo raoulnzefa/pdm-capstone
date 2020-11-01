@@ -162,13 +162,22 @@ class ReplacementRequestController extends Controller
 
     }
 
-    public function replacementStatusUpdate()
+    public function replacementStatusUpdate($customer)
     {
       try
       {
-         $status_update = ReplacementRequest::where('status_update','=',1)->count();
+        $has_order = Order::where('customer_id', $customer)->count();
 
-         $response = ['count'=> $status_update];
+        if ($has_order > 0)
+        {
+            $status_update = ReplacementRequest::where('status_update','=',1)->count();    
+        } 
+        else
+        {
+            $status_update = null;
+        }
+
+        $response = ['count'=> $status_update];
       }
       catch(Exception $e)
       {

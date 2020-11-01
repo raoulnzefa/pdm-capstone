@@ -48,10 +48,6 @@
                     <td>Invoice Date:</td>
                     <td>{{$invoice->created}}</td>
                   </tr>
-                  <tr>
-                    <td>Status:</td>
-                    <td>{{$invoice->status}}</td>
-                  </tr>
                 </table>
               </td>
               <td width="50%">

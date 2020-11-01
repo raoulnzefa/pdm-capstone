@@ -21,7 +21,7 @@
 			@include('frontend.customer.list_bar')
 		</div>
 		<div class="col-md-9">
-			<index-customer-address></index-customer-address>
+			<index-customer-address :customer="{{Auth::guard('customer')->user()}}"></index-customer-address>
 		</div>
 	</div>
 

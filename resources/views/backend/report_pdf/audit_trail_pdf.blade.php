@@ -31,7 +31,7 @@
         </tr>
     </table>
     <br>
-    <table class="content">
+    <table class="audit-trail-content">
             <thead>
                 <tr>
                   <th>ID</th>
