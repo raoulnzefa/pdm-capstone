@@ -76,12 +76,14 @@
                             </a>
                             <div class="collapse accordion-link" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMaintenance">
-                                    <a class="nav-link" href="{{ route('categories') }}">Categories</a>
-                                    <a class="nav-link" href="{{ route('products') }}">Products</a>
+                                    <a class="nav-link" href="{{ route('company_details') }}">Company Details</a>
                                     <a class="nav-link" href="{{ route('bank_account') }}">Bank Account</a>
                                     <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping Rate</a>
                                     <a class="nav-link" href="{{ route('discount') }}">Discount</a>
+                                    <a class="nav-link" href="{{ route('categories') }}">Categories</a>
+                                    <a class="nav-link" href="{{ route('products') }}">Products</a>
                                     <a class="nav-link" href="{{ route('users') }}">Users</a>
+                                    
                                 </nav>
                             </div>
                             <a class="nav-link" href="{{ route('audit_trail') }}">

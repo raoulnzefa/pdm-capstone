@@ -244,6 +244,9 @@ Vue.component('audit-trail', require('./components/audit_trail/AuditTrailIndex.v
 //discount
 Vue.component('discount-maintenance', require('./components/discount/DiscountIndex.vue'));
 
+//company details
+Vue.component('company-details', require('./components/company_details/Index.vue'));
+
 const app = new Vue({
     el: '#app'
 });

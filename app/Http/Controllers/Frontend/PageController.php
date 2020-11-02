@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +11,8 @@ class PageController extends Controller
 	
    public function aboutUs()
    {
-   	return view('frontend.about_us')->with('data','About Us');
+      $about_us = CompanyDetails::first()->about_us;
+   	return view('frontend.about_us')->with(['data'=>'About Us', 'about_us'=>$about_us]);
    }
 
    public function termsAndConditions()

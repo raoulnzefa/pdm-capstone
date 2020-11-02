@@ -264,3 +264,8 @@ Route::post('admin/register', 'Api\AdminController@register');
 Route::get('get-discount', 'Api\DiscountController@getDiscount');
 Route::post('set-discount', 'Api\DiscountController@setDiscount');
 Route::put('update-discount/{discount}', 'Api\DiscountController@updateDiscount');
+
+// company details
+Route::post('company-details/save', 'Api\CompanyDetailsController@saveCompanyDetails');
+Route::post('company-details/update/{companyDetail}', 'Api\CompanyDetailsController@updateCompanyDetails');
+Route::get('company-details/get', 'Api\CompanyDetailsController@getCompanyDetails');

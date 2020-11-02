@@ -241,3 +241,6 @@ Route::get('admin/audit-trail', 'Backend\AuditTrailController@index')->name('aud
 
 // discount 
 Route::get('admin/discount', 'Backend\DiscountController@index')->name('discount');
+
+// company details
+Route::get('admin/company-details', 'Backend\CompanyDetailsController@index')->name('company_details');
