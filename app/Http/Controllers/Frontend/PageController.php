@@ -11,17 +11,28 @@ class PageController extends Controller
 	
    public function aboutUs()
    {
-      $about_us = CompanyDetails::first()->about_us;
-   	return view('frontend.about_us')->with(['data'=>'About Us', 'about_us'=>$about_us]);
+      $company = CompanyDetails::first();
+   	return view('frontend.about_us')->with([
+         'data'=>'About Us', 
+         'company'=>$company
+      ]);
    }
 
    public function termsAndConditions()
    {
-   	return view('frontend.terms_and_conditions')->with('data','Terms and Conditions');
+       $company = CompanyDetails::first();
+   	return view('frontend.terms_and_conditions')->with([
+         'data' => 'Terms and Conditions',
+         'company' => $company
+      ]);
    }
 
    public function cancelAndReturn()
    {
-   	return view('frontend.cancel_and_return')->with('data','Cancel and Return');
+      $company = CompanyDetails::first();
+   	return view('frontend.cancel_and_return')->with([
+         'data' => 'Return Policy',
+         'company' => $company
+      ]);
    } 
 }

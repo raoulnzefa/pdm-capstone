@@ -15,11 +15,14 @@
           <table border="0" width="100%">
                <tr>
                   <td align="center" colspan="2">
-                     <img src="{{ public_path('images/logo.jpg') }}" class="img-responsive">
+                     <img src="{{$company->logo_url}}" class="img-responsive">
                   </td>
               </tr>
               <tr>
-                  <td align="center" colspan="2">Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan</td> 
+                  <td align="center" colspan="2">{{$company->address}}</td> 
+              </tr>
+              <tr>
+                  <td align="center" colspan="2">TIN: {{$company->tin_number}}</td> 
               </tr>
               <tr>
                   <td colspan="2" align="center">

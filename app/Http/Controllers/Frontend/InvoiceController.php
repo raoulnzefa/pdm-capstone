@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Order;
@@ -29,6 +30,7 @@ class InvoiceController extends Controller
             'title' => 'Invoice',
             'invoice' => $invoice,
             'invoiceProduct' => $invoiceProduct
+            'company' => CompanyDetails::first()
         ];
 
         $pdf = PDF::loadView('frontend.invoice_pdf',$data);  

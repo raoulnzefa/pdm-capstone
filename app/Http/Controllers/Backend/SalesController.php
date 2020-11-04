@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +16,7 @@ class SalesController extends Controller
     public function index()
     {
     	$data = 'Sales';
-    	return view('backend.sales.index', compact('data'));
+    	$company = CompanyDetails::first();
+    	return view('backend.sales.index', compact('data','company'));
     }
 }

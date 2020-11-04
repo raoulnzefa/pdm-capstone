@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-
+use App\Models\CompanyDetails;
 use App\Models\CustomerAddress;
 use App\Models\ShippingRate;
 use App\Models\Discount;
@@ -52,12 +52,15 @@ class CheckoutController extends Controller
 
         $discount = Discount::first();
 
+        $company = CompanyDetails::first();
+
 		return view('frontend.checkout', compact(
                 'data',
                 'customer',
                 'discount',
                 'cart',
-                'shipping_rate'
+                'shipping_rate',
+                'company'
             ));
 	}
 
@@ -65,8 +68,9 @@ class CheckoutController extends Controller
     {
         if (Session::has('received_order'))
         {
+            $company = CompanyDetails::first();
             $data = 'Order Success';
-            $redirect = view('frontend.customer.order_received', compact('data'));
+            $redirect = view('frontend.customer.order_received', compact('data','company'));
         }
         else
         {
@@ -79,8 +83,9 @@ class CheckoutController extends Controller
     {
         if (Session::has('checkout_failed'))
         {
+            $company = CompanyDetails::first();
             $data = 'Checkout Failed';
-            $redirect = view('frontend.customer.checkout_failed', compact('data'));
+            $redirect = view('frontend.customer.checkout_failed', compact('data','company'));
         }
         else
         {

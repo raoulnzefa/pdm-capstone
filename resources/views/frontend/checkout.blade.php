@@ -4,7 +4,7 @@
 <nav class="navbar navbar-light bg-dark" id="checkout-header">
     <div class="container-fluid">
         <div class="navbar-brand">
-            <img src="{{ asset('images/logo.jpg') }}" width="125" height="60" alt="INFINITY FIGHTGEAR LOGO">
+            <img src="{{ (!is_null($company)) ? $company->logo_url : '' }}" width="125" height="60" alt="INFINITY FIGHTGEAR LOGO">
         </div>
     </div>
 </nav>
@@ -13,7 +13,6 @@
 <div class="container">
     @if ($errors->any())
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -25,6 +24,7 @@
         :customer="{{$customer}}"
         :cart="{{$cart}}"
         :discount="{{$discount}}"
+        :company="{{$company}}"
         :shipping_rate="{{json_encode($shipping_rate)}}">
     </checkout-page>
 </div>
@@ -34,7 +34,7 @@
 <div class="row bg-dark">
 	<div class="col-md-12">
 		<div id="checkout-footer">
-			<center class="">{{ config('app.name') }} &copy; {{ date('Y') }}</center>	
+			<center class="">{{ (!is_null($company)) ? $company->name : '' }} &copy; {{ date('Y') }}</center>	
 		</div>
 		
 	</div>

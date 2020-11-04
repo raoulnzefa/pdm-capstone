@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\BankDepositSlip;
 use Auth;
 use App\Models\Order;
@@ -18,7 +19,11 @@ class UploadDepositSlipController extends Controller
 
     public function index(Order $order)
     {
-    	return view('frontend.upload_deposit_slip.index')->with(['order'=>$order, 'data'=>'Upload Deposit Slip']);
+    	return view('frontend.upload_deposit_slip.index')->with([
+            'order'=>$order, 
+            'data'=>'Upload Deposit Slip'
+            'company' => CompanyDetails::first()
+        ]);
     }
 
     public function store(Request $request)
@@ -58,6 +63,7 @@ class UploadDepositSlipController extends Controller
     			->with([
     				'order_number'=>$order->number,
     				'data'=>'Deposit Slip Uploaded'
+                    'company' => CompanyDetails::first()
     			]);
     }
 

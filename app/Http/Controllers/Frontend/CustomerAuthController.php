@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\CustomerAddress;
 use App\Notifications\ActivationLink;
 use App\Models\Customer;
@@ -25,10 +26,11 @@ class CustomerAuthController extends Controller
     public function showLoginForm()
     {
         $redirect_back = url()->previous();
-
+        $company = CompanyDetails::first();
     	return view('frontend.login')->with([
                     'data' => 'Login',
-                    'prev_url' => $redirect_back
+                    'prev_url' => $redirect_back,
+                    'company'=>$company
                 ]);
     }
 
@@ -56,10 +58,11 @@ class CustomerAuthController extends Controller
     public function showRegisterForm()
     {
         $redirect_back = url()->previous();
-
+        $company = CompanyDetails::first();
         return view('frontend.registration')->with([
             'data'=> 'Create an Account',
-            'prev_url' => $redirect_back
+            'prev_url' => $redirect_back,
+            'company' => $company
         ]);
     }
 
@@ -109,9 +112,9 @@ class CustomerAuthController extends Controller
         $custAddress->barangay = $request->barangay_name;
         $custAddress->municipality = $request->municipality_name;
         $custAddress->province = $request->province_name;
-        $custAddress->barangay_id = (int)$request->barangay;
-        $custAddress->municipality_id = (int)$request->municipality;
-        $custAddress->province_id = (int)$request->province;
+        $custAddress->barangay_id = $request->barangay;
+        $custAddress->municipality_id = $request->municipality;
+        $custAddress->province_id = $request->province;
         $custAddress->zip_code = $request->zip_code;
         $custAddress->mobile_no = $request->mobile_no;
         $custAddress->save();
@@ -144,7 +147,9 @@ class CustomerAuthController extends Controller
             $customer->token = NULL;
             $customer->update();
                        
-            return redirect()->route('customer_verified')->with('email_verified', $email);   
+            return redirect()->route('customer_verified')->with([
+                'email_verified' => $email
+            ]);   
         }
         else
         {
@@ -179,7 +184,10 @@ class CustomerAuthController extends Controller
         if (Session::has('email_created'))
         {
             $data = 'Account Created';
-            $redirect = view('frontend.customer.account_created', compact('data'));
+            $redirect = view('frontend.customer.account_created')->with([
+                'data' => $data,
+                'company' => CompanyDetails::first()
+            ]);
         }
         else
         {
@@ -193,7 +201,10 @@ class CustomerAuthController extends Controller
         if (Session::has('email_verified'))
         {
             $data = 'Email Verified';
-            $redirect = view('frontend.customer.email_verified', compact('data'));
+            $redirect = view('frontend.customer.email_verified')->with([
+                'data' => $data,
+                'company' => CompanyDetails::first()
+            ]);
         }
         else
         {

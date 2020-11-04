@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Inventory;
@@ -20,6 +21,7 @@ class CartController extends Controller
     public function index()
     {
     	$data = 'Cart';	
-    	return view('frontend.cart', compact('data'));
+    	$company = CompanyDetails::first();
+    	return view('frontend.cart', compact('data','company'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +16,7 @@ class ShippingRateController extends Controller
  	public function index()
  	{
  		$data = 'Shipping rate';
- 		return view('backend.shipping_rate.index', compact('data'));
+ 		$company = CompanyDetails::first();
+ 		return view('backend.shipping_rate.index', compact('data','company'));
  	}
 }

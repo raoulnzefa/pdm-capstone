@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -26,8 +27,9 @@ class AdminCrudController extends Controller
         }
 
         $data = 'Users';
+        $company = CompanyDetails::first();
 
-        return view('backend.user.index', compact('data'));
+        return view('backend.user.index', compact('data', 'company'));
     }
 
     /**
@@ -109,6 +111,7 @@ class AdminCrudController extends Controller
     public function editInformation()
     {
         $data = 'Edit Information';
-        return view('backend.user.edit-information', compact('data'));
+        $company = CompanyDetails::first();
+        return view('backend.user.edit-information', compact('data', 'company'));
     }
 }

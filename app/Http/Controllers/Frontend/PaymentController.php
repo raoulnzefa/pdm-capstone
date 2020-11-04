@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use Illuminate\Support\Facades\Input;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
@@ -100,6 +101,8 @@ class PaymentController extends Controller
     	// set time zone
 		date_default_timezone_set("Asia/Manila");
 
+		$company = CompanyDetails::first();
+
 		$subtotal = str_replace(',', '', $request->cart_subtotal);
 
 		$discount = Discount::where('is_disabled', 0)->first();
@@ -133,7 +136,7 @@ class PaymentController extends Controller
 			{
 				$shipping_method = str_replace('_', ' ', $request->shipping_method);
 
-				$reserved_days = 2;
+				$reserved_days = (int)$company->reserved_days;
         //db format
 				$reserved_until = strftime("%Y-%m-%d", strtotime("+$reserved_days weekday"));
 
@@ -153,6 +156,7 @@ class PaymentController extends Controller
 					'order_due_payment' => NULL,
 					'order_for_shipping' => NULL,
 					'order_for_pickup' => $reserved_until,
+					'order_follow_up_email' => NULL,
 					'order_paypal_url' => NULL,
 					'order_payment_date' => NULL,
 					'cart_products' => $cart_products
@@ -234,11 +238,14 @@ class PaymentController extends Controller
 			{
 				try
 				{
-					$process_days = 3;
+					$due_payment_days = (int)$company->due_payment_days;
 
-					$estimated_date = strftime("%Y-%m-%d", strtotime("+$process_days weekday"));
+					$estimated_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday"));
 
-					$due_date = strftime("%Y-%m-%d", strtotime("+2 weekday")).' 13:00:00';
+					$due_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday")).' 13:00:00';
+					$follow_up_days = (int)$company->follow_up_days;
+
+					$follow_up_date = strftime("%Y-%m-%d", strtotime("+$follow_up_days weekday")).' 13:00:00';
 
 					$order_params = array(
 						'customer_id' => (int)$request->customer_id,
@@ -252,8 +259,9 @@ class PaymentController extends Controller
 						'order_shipping_fee' => (float)$request->shipping_fee,
 						'order_total' => (float)$request->order_total,
 						'order_shipping_discount' => 0,
-						'order_for_shipping' => $estimated_date,
+						'order_for_shipping' => NULL,
 						'order_due_payment' => $due_date,
+						'order_follow_up_email' => $follow_up_date,
 						'order_for_pickup' => NULL,
 						'order_paypal_url' => NULL,
 						'order_payment_date' => NULL,
@@ -264,7 +272,7 @@ class PaymentController extends Controller
 
 					$this->updateInventory($order_number);
 
-					$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$process_days weekday"));
+					$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$due_payment_days weekday"));
 
 					$shipping_params = array(
 						'order_number' => $order_number,
@@ -285,7 +293,7 @@ class PaymentController extends Controller
                //Send Confirmation Email for Bank Deposit
                //Containing Bank Account Detail
 
-					$dateData = ['date'=>$due_date_email,'days'=> $process_days];
+					$dateData = ['date'=>$due_date_email,'days'=> $due_payment_days];
 
                // get bank account
 					$bank_account = BankAccount::where('active', 1)->first();
@@ -499,8 +507,11 @@ class PaymentController extends Controller
        	/**Execute the payment **/
        	$result = $payment->execute($execution, $this->_api_context);
 
+       	$company = CompanyDetails::first();
+
        	if ($result->getState() == 'approved')
        	{
+
        		try
        		{
        			$customer_id = Session::get('chk_cust_id');
@@ -537,7 +548,7 @@ class PaymentController extends Controller
        			}
 
             //delivery working days....
-       			$delivery_days = 3;
+       			$delivery_days = (int)$company->delivery_days;
             //db format
        			$estimated_date = strftime("%Y-%m-%d", strtotime("+$delivery_days weekday"));          
 
@@ -564,6 +575,7 @@ class PaymentController extends Controller
        				'order_discount' => Session::get('chk_discount'),
        				'order_shipping_discount' => NULL,
        				'order_for_shipping' => $estimated_date,
+       				'order_follow_up_email' => NULL,
        				'order_due_payment' => NULL,
        				'order_for_pickup' => NULL,
        				'order_paypal_url' => Session::get('paypal_redirect_url'),

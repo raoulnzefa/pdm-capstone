@@ -87,67 +87,65 @@
                    <h4 class="mb-0">3. Your shipping address</h4>
                 </div>
                 <div class="card-body">
-                    <div class="form-group" v-if="customer.addresses.length > 0">
+                    <div class="form-group">
                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="useSavedAddr" name="use_saved_addr" value="true" v-model="useSavedAddress">
-                            <label class="form-check-label" for="useSavedAddr">
-                                Use my saved address
+                            <input class="form-check-input" type="checkbox" id="shipToDiffAddr" name="ship_to_diff_addr" value="true" v-model="shipToDiffAddr" @change="shipToDiffAddress">
+                            <label class="form-check-label" for="shipToDiffAddr">
+                               Ship to different address
                             </label>
                         </div>
                     </div>
-                    <template v-if="useSavedAddress">
-                        <div class="form-group" v-if="customer.addresses.length > 0">
-                            <div class="form-group">
-                                <label for="selectAddr">Your address:</label>
-                                <select class="form-control" 
-                                    id="selectAddr" 
-                                    v-model="$v.addrID.$model"
-                                    :class="{'is-invalid': $v.addrID.$error}" 
-                                    @change="selectAddress">
-                                    <option value="">Select address</option>
-                                    <option v-for="(addr,index) in customer.addresses" :key="index" :value="addr.id">{{ addr.address_name }}</option>
-                                </select>
-                                <div v-if="$v.addrID.$error">
-                                    <span class="error-feedback" v-if="!$v.addrID.required">Please select an address</span>
-                                </div>
+                    <template v-if="!shipToDiffAddr">
+                        <div class="form-group">
+                            <label for="selectAddr">Your address:</label>
+                            <select class="form-control" 
+                                id="selectAddr" 
+                                v-model="$v.addrID.$model"
+                                :class="{'is-invalid': $v.addrID.$error}" 
+                                @change="selectAddress">
+                                <option value="">Select address</option>
+                                <option v-for="(addr,index) in customer.addresses" :key="index" :value="addr.id">{{ addr.address_name }}</option>
+                            </select>
+                            <div v-if="$v.addrID.$error">
+                                <span class="error-feedback" v-if="!$v.addrID.required">Please select an address</span>
                             </div>
-                       </div>
-                       <template v-if="addrID">
-                        <div class="form-group">
-                            <label>Firstname:</label>
-                            <input type="text" class="form-control" name="first_name" :value="first_name" readonly>
                         </div>
-                        <div class="form-group">
-                            <label>Lastname:</label>
-                            <input type="text" class="form-control" name="last_name" :value="last_name" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Street:</label>
-                            <input type="text" class="form-control" name="street" :value="street" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Barangay:</label>
-                            <input type="text" class="form-control" name="barangay" :value="drp_barangay" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Municipality:</label>
-                            <input type="text" class="form-control" name="municipality" :value="drp_municipality" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Province:</label>
-                            <input type="text" class="form-control" name="province" :value="drp_province" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Zip code:</label>
-                            <input type="text" class="form-control" name="zip_code" :value="zip_code" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Mobile no:</label>
-                            <input type="text" class="form-control" name="mobile_no" :value="mobile_no" readonly>
-                        </div> 
+                        <template v-if="addrID">
+                            <div class="form-group">
+                                <label>Firstname:</label>
+                                <input type="text" class="form-control" name="first_name" :value="first_name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Lastname:</label>
+                                <input type="text" class="form-control" name="last_name" :value="last_name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Street:</label>
+                                <input type="text" class="form-control" name="street" :value="street" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Barangay:</label>
+                                <input type="text" class="form-control" name="barangay" :value="drp_barangay" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Municipality:</label>
+                                <input type="text" class="form-control" name="municipality" :value="drp_municipality" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Province:</label>
+                                <input type="text" class="form-control" name="province" :value="drp_province" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Zip code:</label>
+                                <input type="text" class="form-control" name="zip_code" :value="zip_code" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile no:</label>
+                                <input type="text" class="form-control" name="mobile_no" :value="mobile_no" readonly>
+                            </div> 
                        </template><!-- your saved address -->
                     </template>
-                    <template v-if="!useSavedAddress"><!-- fill up new address -->
+                    <template v-else><!-- ship to different address -->
                         <div class="form-group">
                             <label for="chckfname">Firstname:</label>
                             <input type="text" class="form-control" id="chckfname"
@@ -256,15 +254,7 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="form-group">
-                           <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="saveThisAddr" name="save_this_address" v-model="saveAddr" value="true">
-                                <label class="form-check-label" for="saveThisAddr">
-                                Save this address
-                                </label>
-                            </div>
-                       </div>
-                    </template><!-- fill up new addres -->
+                    </template><!-- ship to different address -->
                 </div>
             </div><!-- delivery--> 
             <div class="card mb-4" v-if="shipping_method == 'store_pickup'"><!-- store pickup -->
@@ -377,7 +367,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-block btn-success btn-lg" :disabled="isSubmitted">PLACE ORDER</button>
+                    <button class="btn btn-block btn-success btn-lg" :disabled="isSubmitted"><i class="fa fa-refresh fa-spin" v-if="isSubmitted"></i> PLACE ORDER</button>
                     
                 </div>
             </div>  
@@ -446,6 +436,7 @@
 		],
 		data() {
 			return {
+                shipToDiffAddr:false,
 				first_name: this.customer.first_name,
 				last_name: this.customer.last_name,
 				street: '',
@@ -489,7 +480,7 @@
 		},
 		validations() {
 			if (this.shipping_method == 'shipping') {
-                if (this.useSavedAddress) {
+                if (!this.shipToDiffAddr) {
                     return {
                         addrID: {required},
                         shipping_method: { required },
@@ -535,6 +526,19 @@
             }
 		},
 		methods: {
+            shipToDiffAddress() {
+                if (this.shipToDiffAddr) {
+                    this.addrID = '';
+                    this.first_name = '';
+                    this.last_name = '';
+                    this.street = '';
+                    this.province = '';
+                    this.municipality = '';
+                    this.barangay = '';
+                    this.zip_code = '';
+                    this.mobile_no = '';
+                } 
+            },
             getProvinces() {
                 axios.get('/api/address/provinces')
                 .then(response => {
@@ -621,8 +625,9 @@
     			if (!this.$v.$invalid) {
 
                     this.readyToSubmit = true;
-                    this.$refs.checkout.submit();
                     this.isSubmitted = true
+                    this.$refs.checkout.submit();
+                    
     			}
 			},
             openTAC() {

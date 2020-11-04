@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{$data}} - {{ config('app.name') }}</title>
+    <title>{{$data}} - {{ $company->name }}</title>
     <link rel="icon" type="image/png" href="/images/Logo.png">
     <!-- Fonts -->
    {{--  <link rel="dns-prefetch" href="https://fonts.gstatic.com">

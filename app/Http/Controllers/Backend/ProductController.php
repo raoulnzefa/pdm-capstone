@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use App\Models\ProductWithVariant;
 use App\Models\ProductNoVariant;
 use App\Models\Product;
@@ -25,8 +26,9 @@ class ProductController extends Controller
     {
         
         $data = 'Product Catalog';
+        $company = CompanyDetails::first();
 
-        return view('backend.product.index', compact('data'));
+        return view('backend.product.index', compact('data','company'));
     }
     
   

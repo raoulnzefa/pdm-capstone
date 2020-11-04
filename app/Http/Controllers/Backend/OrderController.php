@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use App\Models\PaypalPayment;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -70,8 +71,9 @@ class OrderController extends Controller
         }
 
         $data = 'Orders';
+        $company = CompanyDetails::first();
 
-        return view('backend.orders.order_list', compact('data'));
+        return view('backend.orders.order_list', compact('data','company'));
     }
     
     public function viewOrder($order)
@@ -88,12 +90,14 @@ class OrderController extends Controller
                 'shipping'
             )
             ->first();
+
         
     	return view('backend.orders.order_details')->with([
             'order' => $orderData,
             'previous_url'=>$previous_url,
             'order_num'=>$order,
-            'data' => $data
+            'data' => $data,
+            'company' => CompanyDetails::first()
         ]);
     } 
 }

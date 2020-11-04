@@ -117,8 +117,6 @@ Route::post('order/complete-order', 'Api\OrderController@completeOrder');
 
 Route::get('sales', 'Api\SalesController@sales');
 
-// Shipping Company
-
 Route::get('orders/today', 'Api\OrderController@ordersToday');
 
 Route::post('reason', 'Api\ReasonController@store');
@@ -267,5 +265,5 @@ Route::put('update-discount/{discount}', 'Api\DiscountController@updateDiscount'
 
 // company details
 Route::post('company-details/save', 'Api\CompanyDetailsController@saveCompanyDetails');
-Route::post('company-details/update/{companyDetail}', 'Api\CompanyDetailsController@updateCompanyDetails');
+Route::post('company-details/update/{company}', 'Api\CompanyDetailsController@updateCompanyDetails');
 Route::get('company-details/get', 'Api\CompanyDetailsController@getCompanyDetails');

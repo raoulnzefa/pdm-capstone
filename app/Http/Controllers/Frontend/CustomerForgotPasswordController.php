@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Auth;
@@ -36,8 +37,9 @@ class CustomerForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
+        $company = CompanyDetails::first();
         $data = 'Forgot Password'; 
-        return view('auth.passwords.email-customer', compact('data'));
+        return view('auth.passwords.email-customer', compact('data','company'));
     }
 
     protected function broker()

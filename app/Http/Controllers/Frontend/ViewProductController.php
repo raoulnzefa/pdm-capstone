@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use Auth;
+use App\Models\CompanyDetails;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductWithVariant;
@@ -40,7 +41,8 @@ class ViewProductController extends Controller
     			'prod' => $prod, 
     			'data'=> 'View Product',
     			'variant' => $variant,
-                'product_variants' => $product_variants
+                'product_variants' => $product_variants,
+                'company' => CompanyDetails::first()
     		]);
     }
 }

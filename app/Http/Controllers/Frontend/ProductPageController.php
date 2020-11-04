@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -30,10 +31,15 @@ class ProductPageController extends Controller
             $products = Product::where('product_status',1)
                 ->where('category_id',$category_id)->paginate(12);
         }
-        
+        $company = CompanyDetails::first();
         $categories = Category::where('status', 1)->get();
 
-    	return view('frontend.product_page')->with(['categories'=>$categories, 'products'=>$products, 'data'=>$this->data]);
+    	return view('frontend.product_page')->with([
+            'categories'=>$categories, 
+            'products'=>$products, 
+            'data'=>$this->data,
+            'company' => $company
+        ]);
     }
 
     public function productsByCategory($category)
@@ -65,7 +71,11 @@ class ProductPageController extends Controller
                         ->get();
 
         $data = 'Search';
-
-        return view('frontend.search_result_page', compact('search_result', 'search_data', 'data'));
+        $company = CompanyDetails::first();
+        return view('frontend.search_result_page')->with([
+            'data' => $data,
+            'search_result'=> $search_result,
+            'company' => $company
+        ]);
     }
 }

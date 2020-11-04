@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -115,6 +116,7 @@ class DashboardController extends Controller
 
         $yearly_sales = number_format(($yearly->sum('totalamount') - $yearly_discount->sum('totaldiscount')), 2);
 
+        $company = CompanyDetails::first();
 
     	return view('backend.dashboard', compact(
     		'admin',
@@ -122,7 +124,8 @@ class DashboardController extends Controller
     		'weekly_sales',
             'monthly_sales',
             'yearly_sales',
-            'data'
+            'data',
+            'company'
     	));
     }
 }

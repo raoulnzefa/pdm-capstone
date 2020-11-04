@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Reason;
+use App\Models\CompanyDetails;
 use App\Models\ReplacementRequest;
 use App\Models\Order;
 use App\Models\Invoice;
@@ -76,6 +76,7 @@ class CustomerController extends Controller
                     'previous_url'=>$previous_url,
                     'data'=>'Order Details',
                     'isReturnDatePassed' => $returnDate,
+                    'company' => CompanyDetails::first()
                 ]);
     }
 

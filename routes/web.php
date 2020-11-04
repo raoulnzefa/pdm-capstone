@@ -163,7 +163,7 @@ Route::get('admin/order/return/{returnRequest}/details', 'Backend\ReturnRequestC
 Route::post('search-product', 'Frontend\ProductPageController@searchProduct')->name('search.product');
 Route::get('terms-and-conditions','Frontend\PageController@termsAndConditions')->name('terms_and_conditions');
 
-Route::get('cancel-and-return', 'Frontend\PageController@cancelAndReturn')->name('cancel_and_return');
+Route::get('return-policy', 'Frontend\PageController@cancelAndReturn')->name('return_policy');
 
 Route::get('search-product', 'Frontend\ProductPageController@searchResult')->name('search.result');
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use App\Models\InventoryVariant;
 use App\Models\Inventory;
 use App\Models\Product;
@@ -20,9 +21,10 @@ class InventoryController extends Controller
     public function index()
     {
 
-        $data = 'Inventory';
+      $data = 'Inventory';
+      $company = CompanyDetails::first();
 
-    	return view('backend.inventory.index', compact('data'));
+    	return view('backend.inventory.index', compact('data', 'company'));
     }
 
 }

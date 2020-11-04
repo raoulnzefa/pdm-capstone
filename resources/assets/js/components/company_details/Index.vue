@@ -29,7 +29,8 @@
 			    	<input type="file" name="company_image" class="form-control"
 			    		@change="onImageChange"
 			    		tabindex="2"
-			    		:class="{'is-invalid': $v.companyDetails.image.$error}">
+			    		:class="{'is-invalid': $v.companyDetails.image.$error}"
+			    		accept="image/png, image/jpeg">
 			    	<div v-if="$v.companyDetails.image.$error">
                	<span class="error-feedback" v-if="!$v.companyDetails.image.required">Company Image is required</span>
               	</div>
@@ -90,10 +91,23 @@
 		  	<div class="form-group row">
 			   <label for="" class="col-sm-3 col-form-label">About Us:</label>
 			   <div class="col-sm-9">
-			   	<textarea class="form-control" rows="9"
-			   		tabindex="7"
-			   		v-model="$v.companyDetails.aboutUs.$model"
-			   		:class="{'is-invalid': $v.companyDetails.aboutUs.$error}"></textarea>
+			   	<editor
+				       api-key="bu1i2eie2y8vnn92dwnqamlwqn0up5l7tpeh8eop0vyyp0s8"
+				       v-model="$v.companyDetails.aboutUs.$model"
+				       :init="{
+				         height: 500,
+				         menubar: false,
+				         plugins: [
+				           'advlist autolink lists link image charmap print preview anchor',
+				           'searchreplace visualblocks code fullscreen',
+				           'insertdatetime media table paste code help wordcount'
+				         ],
+				         toolbar:
+				           'undo redo | formatselect | bold italic backcolor | \
+				           alignleft aligncenter alignright alignjustify | \
+				           bullist numlist outdent indent | removeformat | help'
+				       }"
+				     />
 			   	<div v-if="$v.companyDetails.aboutUs.$error">
                	<span class="error-feedback" v-if="!$v.companyDetails.aboutUs.required">About Us is required</span>
               	</div>
@@ -102,10 +116,23 @@
 		  	<div class="form-group row">
 			   <label for="" class="col-sm-3 col-form-label">Terms and Conditions:</label>
 			   <div class="col-sm-9">
-			   	<textarea class="form-control" rows="9"
-			   		tabindex="8"
-			   		v-model="$v.companyDetails.termsAndConditions.$model"
-			   		:class="{'is-invalid': $v.companyDetails.termsAndConditions.$error}"></textarea>
+			   	<editor
+				       api-key="bu1i2eie2y8vnn92dwnqamlwqn0up5l7tpeh8eop0vyyp0s8"
+				       v-model="$v.companyDetails.termsAndConditions.$model"
+				       :init="{
+				         height: 500,
+				         menubar: false,
+				         plugins: [
+				           'advlist autolink lists link image charmap print preview anchor',
+				           'searchreplace visualblocks code fullscreen',
+				           'insertdatetime media table paste code help wordcount'
+				         ],
+				         toolbar:
+				           'undo redo | formatselect | bold italic backcolor | \
+				           alignleft aligncenter alignright alignjustify | \
+				           bullist numlist outdent indent | removeformat | help'
+				       }"
+				     />
 			   	<div v-if="$v.companyDetails.termsAndConditions.$error">
                	<span class="error-feedback" v-if="!$v.companyDetails.termsAndConditions.required">Terms and Conditions is required</span>
               	</div>
@@ -114,20 +141,48 @@
 		  	<div class="form-group row">
 			   <label for="" class="col-sm-3 col-form-label">Return Policy:</label>
 			   <div class="col-sm-9">
-			   	<textarea class="form-control" rows="9"
-			   		tabindex="9"
-			   		v-model="$v.companyDetails.returnPolicy.$model"
-			   		:class="{'is-invalid': $v.companyDetails.returnPolicy.$error}"></textarea>
+			   	<editor
+				       api-key="bu1i2eie2y8vnn92dwnqamlwqn0up5l7tpeh8eop0vyyp0s8"
+				       v-model="$v.companyDetails.returnPolicy.$model"
+				       :init="{
+				         height: 500,
+				         menubar: false,
+				         plugins: [
+				           'advlist autolink lists link image charmap print preview anchor',
+				           'searchreplace visualblocks code fullscreen',
+				           'insertdatetime media table paste code help wordcount'
+				         ],
+				         toolbar:
+				           'undo redo | formatselect | bold italic backcolor | \
+				           alignleft aligncenter alignright alignjustify | \
+				           bullist numlist outdent indent | removeformat | help'
+				       }"
+				     />
 			   	<div v-if="$v.companyDetails.returnPolicy.$error">
                	<span class="error-feedback" v-if="!$v.companyDetails.returnPolicy.required">Return Policy is required</span>
               	</div>
 			   </div>
 		  	</div>
 		  	<div class="form-group row">
-			    <label for="" class="col-sm-3 col-form-label">Number of delivery days:</label>
+			    <label for="" class="col-sm-3 col-form-label">Number of reserved days for Store pickup:</label>
 			    <div class="col-sm-3">
 			      <input type="text" class="form-control" id=""
 			      	tabindex="10"
+			      	v-model.trim="$v.companyDetails.reserveDays.$model"
+			      	:class="{'is-invalid': $v.companyDetails.reserveDays.$error}">
+			      <div v-if="$v.companyDetails.reserveDays.$error">
+               	<span class="error-feedback" v-if="!$v.companyDetails.reserveDays.required">Number of reserved days is required</span>
+               	<template v-if="$v.companyDetails.reserveDays.required">
+               		<span class="error-feedback" v-if="!$v.companyDetails.reserveDays.numbersOnly">Please enter a numeric value only</span>
+               	</template>
+              	</div>
+			    </div>
+		  	</div>
+		  	<div class="form-group row">
+			    <label for="" class="col-sm-3 col-form-label">Number of delivery days:</label>
+			    <div class="col-sm-3">
+			      <input type="text" class="form-control" id=""
+			      	tabindex="11"
 			      	v-model.trim="$v.companyDetails.numOfDeliveryDays.$model"
 			      	:class="{'is-invalid': $v.companyDetails.numOfDeliveryDays.$error}">
 			      <div v-if="$v.companyDetails.numOfDeliveryDays.$error">
@@ -142,7 +197,7 @@
 			    <label for="" class="col-sm-3 col-form-label">Number of due payment days:</label>
 			    <div class="col-sm-3">
 			      <input type="text" class="form-control" id=""
-			      	tabindex="11"
+			      	tabindex="12"
 			      	v-model.trim="$v.companyDetails.numOfDuePaymentDays.$model"
 			      	:class="{'is-invalid': $v.companyDetails.numOfDuePaymentDays.$error}">
 			      <div v-if="$v.companyDetails.numOfDuePaymentDays.$error">
@@ -157,7 +212,7 @@
 			    <label for="" class="col-sm-3 col-form-label">Number of days for follow up email:</label>
 			    <div class="col-sm-3">
 			      <input type="text" class="form-control" id=""
-			      	tabindex="12"
+			      	tabindex="13"
 			      	v-model.trim="$v.companyDetails.numOfFollowUpEmailDays.$model"
 			      	:class="{'is-invalid': $v.companyDetails.numOfFollowUpEmailDays.$error}">
 			      <div v-if="$v.companyDetails.numOfFollowUpEmailDays.$error">
@@ -182,7 +237,24 @@
    import Editor from '@tinymce/tinymce-vue';
 
    const numbersOnly = helpers.regex('numbersOnly', /^([1-9])[0-9]*$/);
+   const fileSizeValidation = (value, vm) =>  {
+	  	if (!value) {
+	   	return true;
+	  	}
+	  	let file = value;
+	  	return (file.size < 65338);
+	};
 
+	const isValidFileSize = (options = {}) => {
+	  return helpers.withParams(options, value => {
+	    if (!value) {
+	      return true
+	    }
+	    const fileSizeinKb = value.size / 1024
+	    const size = Math.round(fileSizeinKb * 100) / 100 // convert up to 2 decimal place
+	    return size <= options.maxFileSizeInB / 1024
+	  })
+	}
 	export default {
 		props: ['admin'],
 		data() {
@@ -199,6 +271,7 @@
 					aboutUs: '',
 					termsAndConditions: '',
 					returnPolicy: '',
+					reserveDays: '',
 					numOfDeliveryDays: '',
 					numOfDuePaymentDays: '',
 					numOfFollowUpEmailDays: ''
@@ -207,6 +280,9 @@
 				hasCompanyDetails: false,
 				server_errors: [],
 				submitted: false,
+				placeHolderTxt: '',
+					
+				
 			}
 		},
 		components: {
@@ -214,20 +290,41 @@
 			HalfCircleSpinner
 		},
 		validations() {
-			return {
+			if (!this.hasCompanyDetails) {
+				return {
 				companyDetails: {
-					logo: { required },
-					image: { required },
-					name: { required },
-					address: { required },
-					contactNumber: { required },
-					tinNumber: { required, numbersOnly },
-					aboutUs: { required },
-					termsAndConditions: { required },
-					returnPolicy: { required },
-					numOfDeliveryDays: { required, numbersOnly },
-					numOfDuePaymentDays: { required, numbersOnly },
-					numOfFollowUpEmailDays: { required, numbersOnly },
+						logo: { required },
+						image: { required },
+						name: { required },
+						address: { required },
+						contactNumber: { required },
+						tinNumber: { required, numbersOnly },
+						aboutUs: { required },
+						termsAndConditions: { required },
+						returnPolicy: { required },
+						reserveDays: { required, numbersOnly }, 
+						numOfDeliveryDays: { required, numbersOnly },
+						numOfDuePaymentDays: { required, numbersOnly },
+						numOfFollowUpEmailDays: { required, numbersOnly },
+					}
+				}
+			} else {
+				return {
+					companyDetails: {
+						logo: { },
+						image: { },
+						name: { required },
+						address: { required },
+						contactNumber: { required },
+						tinNumber: { required, numbersOnly },
+						aboutUs: { required },
+						termsAndConditions: { required },
+						returnPolicy: { required },
+						reserveDays: { required, numbersOnly },
+						numOfDeliveryDays: { required, numbersOnly },
+						numOfDuePaymentDays: { required, numbersOnly },
+						numOfFollowUpEmailDays: { required, numbersOnly },
+					}
 				}
 			}
 		},
@@ -283,12 +380,12 @@
 						this.companyDetails.aboutUs = companyData.about_us;
 						this.companyDetails.termsAndConditions = companyData.terms_and_conditions;
 						this.companyDetails.returnPolicy = companyData.return_policy;
+						this.companyDetails.reserveDays = companyData.reserved_days;
 						this.companyDetails.numOfDeliveryDays = companyData.delivery_days;
 						this.companyDetails.numOfDuePaymentDays = companyData.due_payment_days;
 						this.companyDetails.numOfFollowUpEmailDays = companyData.follow_up_days;
+						this.compandyDetailsId = companyData.id;
 					}
-
-					this.hasCompanyDetails = false;
 				})
 				.catch(error => {
 					this.hasCompanyDetails = false;
@@ -313,9 +410,11 @@
 					form.append('about_us', this.companyDetails.aboutUs);
 					form.append('terms_and_conditions', this.companyDetails.termsAndConditions);
 					form.append('return_policy', this.companyDetails.returnPolicy);
+					form.append('reserved_days', this.companyDetails.reserveDays);
 					form.append('num_delivery_days', this.companyDetails.numOfDeliveryDays);
 					form.append('num_due_payment_days', this.companyDetails.numOfDuePaymentDays);
 					form.append('num_follow_up_email', this.companyDetails.numOfFollowUpEmailDays);
+					form.append('admin_id', this.admin.id);
 
 					this.submitted = true;
 
@@ -324,7 +423,31 @@
 						.then(response => {
 							this.submitted = false;
 							if (response.data.success) {
+								Swal('Company details saved.', '', 'success').
+								then(result => {
+									if (result) {
+										window.location.reload();
+									}
+								})
+							}
+						})
+						.catch(error => { 
+							this.submitted = false;
+							if(error.response.status == 422) {
+								this.server_errors = error.response.data.errors;
+							}
+						});
+					} else {
+						axios.post(`/api/company-details/update/${this.compandyDetailsId}`, form)
+						.then(response => {
+							this.submitted = false;
+							if (response.data.success) {
 								Swal('Company details saved.', '', 'success')
+								.then(result => {
+									if (result) {
+										window.location.reload();
+									}
+								})
 							}
 						})
 						.catch(error => { 

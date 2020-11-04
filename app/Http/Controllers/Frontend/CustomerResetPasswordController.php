@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class CustomerResetPasswordController extends Controller
     {
 
         return view('auth.passwords.reset-customer')->with(
-            ['token' => $token, 'email' => $request->email, 'data'=> 'Reset Password']
+            ['token' => $token, 'email' => $request->email, 'data'=> 'Reset Password','company' => CompanyDetails::first()]
         );
     }
 

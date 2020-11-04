@@ -27,6 +27,7 @@ class CreateCompanyDetailsTable extends Migration
             $table->text('about_us');
             $table->text('terms_and_conditions');
             $table->text('return_policy');
+            $table->integer('reserved_days');
             $table->integer('delivery_days');
             $table->integer('due_payment_days');
             $table->integer('follow_up_days');

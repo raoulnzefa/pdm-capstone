@@ -6,7 +6,7 @@
 				<div class="card-header">
 					<h5 class="mb-0">Request Form</h5>
 				</div>
-				<form @submit.prevent="submitRequest" ref="replacementForm" method="post" action="/replacement/request/store">
+				<form @submit.prevent="submitRequest" ref="replacementForm" method="post" enctype="multipart/form-data">
 				<div class="card-body">
 					<input type="hidden" name="_token" :value="csrf">
 					<input type="hidden" name="order_number" :value="order.number">
@@ -37,6 +37,17 @@
                   		v-model.trim="$v.reason.$model"
                   		:class="{'is-invalid': $v.reason.$error}" 
                   		placeholder="Enter your reason"></textarea>
+                  	<div v-if="$v.reason.$error">
+                     	<span class="error-feedback" v-if="!$v.reason.required">Please enter your reason</span>
+                     </div>
+                  </div>
+              	</div>
+              		<div class="form-group row">
+                  <label class="col-sm-3 col-form-label text-right">Upload photos:</label>
+                  <div class="col-sm-8">
+                  	<input type="file" name="defective_product"
+                  	tabindex="3"
+                  	>
                   	<div v-if="$v.reason.$error">
                      	<span class="error-feedback" v-if="!$v.reason.required">Please enter your reason</span>
                      </div>
@@ -115,13 +126,15 @@
 				productName: '',
 				productQty: '',
 				reason: '',
+				defectivePhotos: '',
 				qty: 1,
 			}
 		},
 		validations() {
 			return {
 				qty: {required},
-				reason: { required }
+				reason: { required },
+				defectivePhotos: { required }
 			}
 		},
 		methods: {

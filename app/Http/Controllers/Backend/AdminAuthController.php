@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use App\Models\Admin;
 use App\Models\UserLog;
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ class AdminAuthController extends Controller
     public function registrationForm()
     {
         $data = 'Register Account';
-
-        return view('backend.registration',compact('data'));
+        $company = CompanyDetails::first();
+        return view('backend.registration',compact('data','company'));
     }
 
     public function registrationSuccess()
@@ -41,8 +42,8 @@ class AdminAuthController extends Controller
         // }
 
         $data = 'Registration Success';
-
-        return view('backend.success_registration',compact('data'));
+        $company = CompanyDetails::first();
+        return view('backend.success_registration',compact('data', 'company'));
 
 
     }
@@ -57,8 +58,8 @@ class AdminAuthController extends Controller
         }
 
         $data = 'Login';
-
-    	return view('backend.login_form', compact('data'));
+        $company = CompanyDetails::first();
+    	return view('backend.login_form', compact('data','company'));
     }
 
     public function login(Request $request)

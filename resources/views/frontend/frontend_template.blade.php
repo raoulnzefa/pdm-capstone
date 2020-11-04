@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ $data }} - {{ config('app.name') }}</title>
+        <title>{{ $data }} - {{ (!is_null($company)) ? $company->name : '' }}</title>
         {{-- <title>{{ config('app.name') }}</title> --}}
-        <link rel="icon" type="image/png" href="/images/Logo.png">
+        <link rel="icon" type="image/png" href="{{(!is_null($company)) ? $company->logo_url : ''}}">
        {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         
@@ -24,7 +24,7 @@
                 <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <!-- Brand -->
                     <a class="navbar-brand" href="{{route('frontend_homepage')}}">
-                        <img src="/images/logo.jpg" class="img-responsive" alt="Logo">
+                        <img src="{{(!is_null($company)) ? $company->logo_url : ''}}" class="img-responsive" alt="Infinity Fightgear Logo">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -98,22 +98,22 @@
                                         <li><a href="/products">Products</a></li>
                                         <li><a href="/about-us">About Us</a></li>
                                         <li><a href="/terms-and-conditions">Terms and Conditions</a></li>
-                                        <li><a href="/cancel-and-return">Cancel and Return</a></li>
+                                        <li><a href="/return-policy">Return Policy</a></li>
                                         <!--  -->
                                     </ul>
                                 </div>
                                 <div class="col-sm-4 footer-col">
                                     <h5>CONTACT US</h5>
                                     <ul>
-                                       <li>INFINITY FIGHTGEAR</li>
-                                       <li>Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan</li>
-                                       <li>Call us at 09987901118</li>
+                                       <li>{{ (!is_null($company)) ? $company->name : ''}}</li>
+                                       <li><address>{{(!is_null($company)) ? $company->address : ''}}</address></li>
+                                       <li>Call us at {{ (!is_null($company)) ? $company->contact_number : ''}}</li>
                                     </ul>
                                 </div>
                                
                             </div><!-- row -->
                             <hr>
-                            <p style="color: #fff;">{{ config('app.name') }} &copy; {{ date('Y') }}</p>
+                            <p style="color: #fff;">{{ (!is_null($company)) ? $company->name : '' }} &copy; {{ date('Y') }}</p>
                         </div><!-- container -->
                     </div><!-- col 12 -->
                 </div><!-- row -->
@@ -127,7 +127,6 @@
         <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
         @yield('postJquery')
-            
         
     </body>
 </html>

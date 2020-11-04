@@ -33,6 +33,7 @@ class CreateOrdersTable extends Migration
             $table->dateTime('order_due_payment')->nullable();
             $table->dateTime('order_cancelled')->nullable();
             $table->dateTime('order_for_pickup')->nullable();
+            $table->dateTime('order_follow_up_email')->nullable();
             $table->dateTime('order_for_shipping')->nullable();
             $table->dateTime('order_shipped')->nullable();
             $table->dateTime('order_completed')->nullable();

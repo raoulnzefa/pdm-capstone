@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\ReplacementRequest;
@@ -22,7 +23,11 @@ class ReplacementRequestController extends Controller
       $data = 'Replacements';
    	$replacements = ReplacementRequest::with('inventory.product')->get();
 
-   	return view('frontend.replacement.index', compact('data','replacements'));
+   	return view('frontend.replacement.index')->with([
+         'data' => $data,
+         'replacements' => $replacements,
+         'company' => CompanyDetails::first()
+      ]);
    }
 
    public function requestReplacement($orderNum)
@@ -38,7 +43,11 @@ class ReplacementRequestController extends Controller
          $data = 'Request Replacement';
          $order = Order::where('number',$orderNum)->with('orderProducts.inventory.product')->first();
 
-         return view('frontend.replacement.request_replacement', compact('data','order'));
+         return view('frontend.replacement.request_replacement')->with([
+            'data' => $data,
+            'order' => $order,
+            'company' => CompanyDetails::first()
+         ]);
       }
       else
       {
@@ -96,7 +105,8 @@ class ReplacementRequestController extends Controller
       {
          $data = 'Request Submitted';
          $order_number = session()->get('order_number');
-         return view('frontend.replacement.submitted', compact('order_number','data'));
+         $company = CompanyDetails::first();
+         return view('frontend.replacement.submitted', compact('order_number','data', 'company'));
       }
 
       return redirect()->route('customer.replacements');

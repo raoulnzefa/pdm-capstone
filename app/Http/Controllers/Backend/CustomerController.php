@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +16,8 @@ class CustomerController extends Controller
     public function index()
     {
         $data = 'Customers';
-    	return view('backend.customers.index', compact('data'));
+        $company = CompanyDetails::first();
+    	return view('backend.customers.index', compact('data','company'));
     }
 
     public function list()
@@ -26,6 +28,7 @@ class CustomerController extends Controller
     public function view($customerId)
     {
         $data = 'View Customer';
-        return view('backend.customers.details', compact('data', 'customerId'));
+        $company = CompanyDetails::first();
+        return view('backend.customers.details', compact('data', 'customerId','company'));
     }
 }

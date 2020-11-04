@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\CompanyDetails;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Inventory;
@@ -51,7 +52,8 @@ class OrdersController extends Controller
     	return view('frontend.customer.orders')
     			->with([
     				'data'=>'Orders',
-    				'orders'=>$orders
+    				'orders'=>$orders,
+                    'company' => CompanyDetails::first()
     			]);
     }
 }
