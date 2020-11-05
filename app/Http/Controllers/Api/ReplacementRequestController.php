@@ -10,15 +10,77 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Customer;
 use App\Models\Inventory;
+use App\Models\ReplacementProductPhoto;
+use App\Models\DefectiveProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\UserLogs;
+use App\Http\Controllers\Traits\InventoryManager;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class ReplacementRequestController extends Controller
 {
 
     use UserLogs;
+
+    public function submitRequest(Request $request)
+    {
+        $request->validate([
+            'reason' => 'required',
+            'quantity' => 'required',
+            'photos' => 'required',
+            'photos.*' => 'required|image|mimes:jpeg,png,jpg'
+        ]);
+
+        date_default_timezone_set("Asia/Manila");
+
+        //dd($request->all());
+        $replacement = new ReplacementRequest();
+        $replacement->customer_id = (int)$request->customer;
+        $replacement->order_number = $request->order_number;
+        $replacement->inventory_number = $request->inventory_number;
+        $replacement->product_name = $request->product_name;
+        $replacement->quantity = (int)$request->quantity;
+        $replacement->reason = ucfirst($request->reason);
+        $replacement->status = 'Pending';
+        $replacement->request_created = date('Y-m-d H:i:s');
+        $replacement->status_update = 1;
+        $replacement->save();
+
+        $response = [];
+
+        foreach ($request->file('photos') as $photo ) {
+            try
+            {
+                // set image name
+                $imageName = time().'.'.str_replace(' ', '-', $photo->getClientOriginalName());
+
+                // save image into storage
+                $path = $photo->storeAs(
+                    'replacement_photos',
+                    $imageName,
+                    's3'
+                );
+
+            }
+            catch (Exception $e)
+            {
+                $response = ['error' => $e->getMessage()];
+            }
+           
+            $photos = new ReplacementProductPhoto();
+            $photos->replacement_request_id = (int)$replacement->id;
+            $photos->product_photo_url = Storage::disk('s3')->url($path);
+            $photos->product_photo_path = $path;
+            $photos->save();
+
+        }
+        
+        return response()->json(['success' => true]);
+
+
+    }
 
 	public function getCustomerRequests($customerId)
     {
@@ -37,7 +99,7 @@ class ReplacementRequestController extends Controller
 
     public function details($requestId)
     {
-        $details = ReplacementRequest::where('id',$requestId)->with('inventory','product')->first();
+        $details = ReplacementRequest::where('id',$requestId)->with('inventory.product','replacementProductPhotos')->first();
 
         return response()->json($details);
     }
@@ -145,6 +207,19 @@ class ReplacementRequestController extends Controller
             $replacement->status_update = 1;
             $replacement->request_replaced = date('Y-m-d H:i:s');
             $replacement->update();
+
+            if ($request->additional_action == 'restock')
+            {
+                $this->restockItem($replacement->inventory_number, (int)$replacement->quantity);
+            }
+
+            if ($request->additional_action == 'record_as_defective')
+            {
+                $defective = new DefectiveProduct();
+                $defective->inventory_number = $replacement->inventory_number;
+                $defective->replacement_request_id = (int)$replacement->id;
+                $defective->save();
+            }
 
             $customer = Customer::where('id',$replacement->customer_id)->first();
             // send email

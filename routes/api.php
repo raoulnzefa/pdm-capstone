@@ -250,6 +250,7 @@ Route::post('replacement/replaced-product', 'Api\ReplacementRequestController@re
 Route::get('request-status-update/{customer}', 'Api\ReplacementRequestController@replacementStatusUpdate');
 Route::put('request-update-status/{replacement}', 'Api\ReplacementRequestController@updateStatus');
 
+Route::post('replacement/submit','Api\ReplacementRequestController@submitRequest');
 Route::get('request-not-view', 'Api\ReplacementRequestController@getViewed');
 
 // orders

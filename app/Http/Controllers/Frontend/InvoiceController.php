@@ -29,7 +29,7 @@ class InvoiceController extends Controller
         $data = [
             'title' => 'Invoice',
             'invoice' => $invoice,
-            'invoiceProduct' => $invoiceProduct
+            'invoiceProduct' => $invoiceProduct,
             'company' => CompanyDetails::first()
         ];
 

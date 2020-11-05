@@ -7,7 +7,7 @@
   	</li>
   	<li class="list-group-item d-flex justify-content-between align-items-center">
    	<a href="{{ route('customer.replacements') }}" class="list-group-item-action">Replacements</a>
-   	<replacement-status-badge :customer="{{Auth::guard('customer')->user()}}"></replacement-status-badge>
+   	{{-- <replacement-status-badge :customer="{{Auth::guard('customer')->user()}}"></replacement-status-badge> --}}
   	</li>
   	<li class="list-group-item d-flex justify-content-between align-items-center">
    	<a href="{{ route('customer_address') }}" class="list-group-item-action">Addresses</a>

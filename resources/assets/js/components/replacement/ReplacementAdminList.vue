@@ -49,7 +49,7 @@
 									<span class="badge badge-danger" style="font-size: 14px;" v-if="item.status === 'Declined'">{{item.status}}</span>
 									<span class="badge badge-warning" style="font-size: 14px;" v-if="item.status === 'Pending'">{{item.status}}</span>
 								</td>
-								<td class="align-middle text-center"><a :href="'/admin/replacement/'+item.id" class="btn btn-sm btn-primary">Details</a></td>
+								<td class="align-middle text-center"><a :href="'/admin/replacement/'+item.id" class="btn btn-sm btn-primary" v-b-tooltip.hover title="View Details">View</a></td>
 							</tr>
 						</template>
 						<template v-else>

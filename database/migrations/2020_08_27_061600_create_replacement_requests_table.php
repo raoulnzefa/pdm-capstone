@@ -22,8 +22,6 @@ class CreateReplacementRequestsTable extends Migration
             $table->integer('quantity');
             $table->text('reason');
             $table->string('status');
-            $table->string('image_url');
-            $table->string('image_path');
             $table->dateTime('request_created');
             $table->dateTime('request_approved')->nullable();
             $table->dateTime('request_declined')->nullable();

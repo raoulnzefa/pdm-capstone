@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{$data}} - {{ $company->name }}</title>
-    <link rel="icon" type="image/png" href="/images/Logo.png">
+    <link rel="icon" type="image/png" href="{{ (!is_null($company)) ? $company->logo_url : '' }}">
     <!-- Fonts -->
    {{--  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
@@ -26,7 +26,7 @@
 <body class="bg-dark">
     <div class="container" id="app">
         <div class="mt-3">
-            <img src="/images/logo.jpg" class="img-fluid d-block mr-auto ml-auto" width="200" height="150">
+            <img src="{{ (!is_null($company)) ? $company->logo_url : '' }}" class="img-fluid d-block mr-auto ml-auto" width="200" height="150">
         </div>
         @yield('content')
     </div>

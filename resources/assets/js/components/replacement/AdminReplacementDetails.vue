@@ -55,6 +55,9 @@
 			                     <textarea class="form-control text-justify" :value="details.reason" rows="6" readonly></textarea>
 			                  </div>
 			              	</div>
+			              	<div class="col-sm-6 offset-sm-3">
+			              		<button class="btn btn-outline-danger" @click="viewPhotos">View Photos</button>
+			              	</div>
 								<table class="table table-bordered mt-4">
 									<thead>
 										<tr>
@@ -68,7 +71,8 @@
 											<td class="align-middle">{{details.inventory_number}}</td>
 											<td class="align-middle">
 												<div class="media">
-					                        <img :src="details.product.product_image_url" class="media-object mr-2" width="12%" height="8%" alt="product image">
+													
+					                        <img :src="details.inventory.product.product_image_url" class="media-object mr-2" width="12%" height="8%" alt="product image">
 					                        <div class="media-body pt-4">
 					                           <span class="d-block">{{ details.product_name }}</span>
 					                        </div>
@@ -78,6 +82,20 @@
 										</tr>
 									</tbody>
 								</table>
+								<div class="alert alert-info" v-if="details.status === 'Approved'">
+						        	<div class="form-check mb-2">
+						          	<input class="form-check-input" type="radio" name="additional_action" id="gridRadios2" value="record_as_defective" v-model="additionalAction">
+						          	<label class="form-check-label" for="gridRadios2">
+						            Record as Defective product
+						          	</label>
+						        	</div>
+						        	<div class="form-check">
+						          	<input class="form-check-input" type="radio" name="additional_action" id="gridRadios1" value="restock" v-model="additionalAction">
+						          	<label class="form-check-label" for="gridRadios1">
+						            Re-stock the product
+						          	</label>
+						        	</div>
+								</div>
 							</div>
 						</div>
 					</template>
@@ -114,6 +132,27 @@
 			      <span class="mt-2 d-block">&nbsp;Sending email...</span>
 			   </center>
 			</b-modal>
+			<b-modal ref="viewPhotosModal"
+    		   	title="View Photos"
+	    		   no-close-on-backdrop
+	    		   no-close-on-esc
+	    		   hide-header-close
+	    		   no-fade
+	    		   centered
+	    		   ok-only
+	    		   ok-title="Close"
+	    		   ok-variant="danger"
+	    		   @ok="closeViewPhotos"
+	    		   size="lg">
+			   <div>
+			   	<div class="d-flex flex-row mb-2">
+			   		<img :src="avatar" class="img-main">
+			   	</div>
+			   	<div class="d-flex flex-row">
+			   		<img :src="photo.product_photo_url" @click="clickPhoto" class="img-bottom" v-for="(photo, index) in details.replacement_product_photos" :key="index">
+			   	</div>
+			   </div>
+			</b-modal>
 		</div><!-- col-md-12 -->
 	</div><!-- row -->
 </template>
@@ -127,12 +166,25 @@
 				details: [],
 				loading: false,
 				product_image: '',
+				additionalAction:'',
+				avatar: '/images/default-thumbnail.jpg',
 			}
 		},
 		components: {
 			HalfCircleSpinner
 		},
 		methods: {
+			clickPhoto(e) {
+				const bigPhoto = document.querySelector('.img-main');
+
+				bigPhoto.src = e.target.currentSrc;
+			},
+			viewPhotos() {
+				this.$refs.viewPhotosModal.show();
+			},
+			closeViewPhotos() {
+				this.$refs.viewPhotosModal.hide();
+			},
 			getDetails() {
 				this.loading = true;
 				axios.get('/api/replacement/'+this.id)
@@ -140,6 +192,7 @@
 					this.loading = false;
 					this.details = response.data;
 					this.product_image = this.details.inventory.product.product_image;
+					this.avatar = Object.values(this.details.replacement_product_photos)[0].product_photo_url;
 				})
 				.catch(error => {
 					this.loading = false;
@@ -167,7 +220,7 @@
 							let res = response.data
 							if (res.success) {
 								this.$refs.requestResponseModal.hide();
-								Swal('Replacement status has been updated','', 'success');
+								Swal('Status has been updated','', 'success');
 								this.getDetails();
 							}
 						})
@@ -199,7 +252,7 @@
 
 						if (res.success) {
 							this.$refs.requestResponseModal.hide();
-							Swal('Replacement status has been updated','', 'success');
+							Swal('Status has been updated','', 'success');
 							this.getDetails();
 						}
 					})
@@ -225,13 +278,14 @@
 				  	axios.post('/api/replacement/replaced-product', {
 				  		replacement_id: this.details.id,
 				  		admin_id: this.admin.id,
+				  		additional_action: this.additionalAction,
 				  	})
 					.then(response => {
 						let res = response.data
 
 						if (res.success) {
 							this.$refs.requestResponseModal.hide();
-							Swal('Replacement status has been updated','', 'success');
+							Swal('Status has been updated','', 'success');
 							this.getDetails();
 						}
 					})

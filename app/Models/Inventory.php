@@ -15,6 +15,11 @@ class Inventory extends Model
         return $this->belongsTo('App\Models\Product');
     }
 
+    public function replacementRequest()
+    {
+        return $this->hasOne('App\Models\ReplacementRequest');
+    }
+
     public function productWithVariant()
     {
         return $this->hasOne('App\Models\ProductWithVariant','inventory_number');

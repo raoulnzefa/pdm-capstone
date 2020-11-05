@@ -8,6 +8,23 @@
 	src: url(/fonts/static/Sora-Medium.ttf);
 }
 
+.img-bottom {
+	width: 150px;
+	height: 150px;
+	opacity: 0.6;
+}
+.img-bottom:hover {
+	cursor: pointer;
+	opacity: 1;
+	transition: 0.2s;
+}
+
+.img-main {
+	width: 100%;
+	max-height: 600px;
+}
+
+
 body {
 	font-family: myFrontEndFont, "Helvetica", "Arial", sans-serif !important; 
 	overflow: -moz-scrollbars-vertical;

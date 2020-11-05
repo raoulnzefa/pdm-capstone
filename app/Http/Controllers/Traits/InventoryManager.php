@@ -43,4 +43,12 @@ trait InventoryManager
         }
 	}
 
+    public function restockItem($inventory_number,$quantity)
+    {
+
+        $inventory = Inventory::where('number',$inventory_number)->first();
+        $inventory->inventory_stock += $quantity;
+        $inventory->update();
+    }
+
 }

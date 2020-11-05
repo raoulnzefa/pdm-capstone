@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReplacementRequest extends Model
 {
+   public function replacementProductPhotos()
+   {
+      return $this->hasMany('App\Models\ReplacementProductPhoto');
+   }
+
    public function order()
    {
    	return $this->belongsTo('App\Models\Order');

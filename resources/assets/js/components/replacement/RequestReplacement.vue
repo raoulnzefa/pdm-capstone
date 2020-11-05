@@ -8,10 +8,13 @@
 				</div>
 				<form @submit.prevent="submitRequest" ref="replacementForm" method="post" enctype="multipart/form-data">
 				<div class="card-body">
-					<input type="hidden" name="_token" :value="csrf">
-					<input type="hidden" name="order_number" :value="order.number">
-					<input type="hidden" name="customer" :value="customer.id">
-					<input type="hidden" name="order_product_id" :value="orderProductId">
+					<template v-if="server_errors.length != 0">
+	              <div class="alert alert-danger">
+	                <ul class="mb-0">
+	                  <li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
+	                </ul>
+	              </div>
+	            </template>
 					<div class="form-group row mt-4">
                   <label class="col-sm-3 col-form-label text-right">Product:</label>
                   <div class="col-sm-8">
@@ -42,24 +45,27 @@
                      </div>
                   </div>
               	</div>
-              		<div class="form-group row">
+              	<div class="form-group row">
                   <label class="col-sm-3 col-form-label text-right">Upload photos:</label>
                   <div class="col-sm-8">
                   	<input type="file" name="defective_product"
                   	tabindex="3"
-                  	>
+                  	class="form-control"
+                  	:class="{'is-invalid': $v.defectivePhotos.$error}"
+                  	@change="selectPhotos"
+                  	multiple>
                   	<div v-if="$v.reason.$error">
-                     	<span class="error-feedback" v-if="!$v.reason.required">Please enter your reason</span>
+                     	<span class="error-feedback" v-if="!$v.defectivePhotos.required">Photos are required</span>
                      </div>
                   </div>
               	</div>
               	<div class="alert alert-warning mb-1 mt-4">
-              		By submitting this request for replacement you are agreeing to our <a href="javascript:void(0);" @click="showPolicy">replacement policy.</a>
+              		By submitting this request for replacement you are agreeing to our <a href="/return-policy" target="_blank">return policy.</a>
               	</div>
 				</div>
 				<div class="card-footer clearfix">
-					<button class="btn btn-primary float-right" type="submit" :disable="submitted">Submit</button>
-					<button class="btn btn-danger float-right mr-2" @click="cancelRequest">Cancel</button>
+					<button class="btn btn-primary float-right" type="submit" :disabled="submitted"><i class="fa fa-refresh fa-spin" v-if="submitted"></i> Submit</button>
+					<button class="btn btn-danger float-right mr-2" @click="cancelRequest" :disabled="submitted">Cancel</button>
 				</div>
 				</form>
 			</div>
@@ -85,28 +91,11 @@
                   </div>
 					</td>
 					<td class="align-middle text-center">{{ product.quantity }}</td>
-					<td class="align-middle text-center"><button class="btn btn-sm btn-primary" @click="selectProduct(product.id)" :disabled="disabledSelect">Select</button></td>
+					<td class="align-middle text-center"><button class="btn btn-sm btn-primary" @click="selectProduct(product)" :disabled="disabledSelect">Select</button></td>
 				</tr>
 			</tbody>
 		</table>
 		</template>
-		<!-- Modal Component -->
-        <b-modal id="replacementRequestModal"
-                 ref="replacementRequestModal"
-                 title="Replacement Policy"
-                 ok-only
-                 no-close-on-backdrop
-                 no-close-on-esc
-                 size="lg">
-            <div>
-               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-               quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-               consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-               cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-               proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-        </b-modal>
 	</div>
 </template>
 
@@ -125,9 +114,11 @@
 				orderProductId: '',
 				productName: '',
 				productQty: '',
+				inventoryNumber: '',
 				reason: '',
-				defectivePhotos: '',
+				defectivePhotos: [],
 				qty: 1,
+				server_errors: [],
 			}
 		},
 		validations() {
@@ -138,11 +129,20 @@
 			}
 		},
 		methods: {
-			selectProduct(prodId) {
-				this.orderProductId = prodId;
+			selectPhotos(e) {
+				const file = e.target.files;
+
+				if (!file.length)
+					return;
+
+				this.defectivePhotos = file;
+			},
+			selectProduct(product) {
+				this.orderProductId = product.id;
+				this.inventoryNumber = product.inventory_number;
 				this.hasSelected = true;
 				this.disabledSelect = true;
-				let prod = this.orderedProducts.find(x => x.id == prodId);
+				let prod = this.orderedProducts.find(x => x.id == product.id);
 				this.productName = prod.product_name;
 				this.productQty = prod.quantity;
 			},
@@ -154,13 +154,50 @@
 				this.reason = "";
 				this.qty = 1;
 				this.orderProductId = "";
+				this.defectivePhotos = "";
+				this.$nextTick(() => {this.$v.$reset()});
+
 			},
 			submitRequest() {
 				this.$v.$touch();
 
 				if (!this.$v.$invalid) {
 					this.submitted = true;
-					this.$refs.replacementForm.submit();
+
+					const form = new FormData();
+					form.append('order_product_id', this.orderProductId);
+					form.append('customer', this.customer.id);
+					form.append('order_number', this.order.number);
+					form.append('product_name', this.productName);
+					form.append('inventory_number', this.inventoryNumber);
+					form.append('reason', this.reason);
+					form.append('quantity', this.qty);
+
+					for (let i = 0; i < this.defectivePhotos.length; i++) {
+						form.append(`photos[${i}]`, this.defectivePhotos[i]);
+					}
+				
+
+					axios.post('/api/replacement/submit', form)
+					.then(response => {
+						this.submitted = false;
+						if (response.data.success) {
+							Swal('Request submitted.', '','success')
+							.then(okay => {
+								if (okay) {
+									window.location.href='/my-account/replacements';
+								}
+							});
+						}
+					})
+					.catch(error => {
+						this.submitted = false;
+						if (error.response.status === 422) {
+							this.server_errors = error.response.data.errors;
+						}
+					});
+
+					
 				}
 			},
 			showPolicy() {
