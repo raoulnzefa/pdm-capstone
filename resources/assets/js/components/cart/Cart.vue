@@ -16,7 +16,7 @@
 				</template>
 				<template v-else>
 					<template v-if="cartItems.length">
-						<table class="table table-bordered mt-4">
+						<table class="table table-bordered mt-4 table-striped">
 							<thead>
 								<tr>
 									<th width="45%">Product(s)</th>

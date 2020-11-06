@@ -7,7 +7,7 @@
             <div class="card-header">Register Account</div>
             <div class="card-body pt-3">
                 <div class="alert alert-danger" v-if="server_errors.length != 0">
-                    <ul>
+                    <ul class="rm-bullets">
                         <li v-for="err in server_errors">{{ err[0] }}</li>
                     </ul>
                 </div>

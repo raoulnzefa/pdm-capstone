@@ -16,7 +16,7 @@
 			@shown="focusOnProdName"
 			@hidden="cancelProductWithVariant">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
-					<ul class="mb-0">
+					<ul class="mb-0 rm-bullets">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
 					</ul>
 				</div>
@@ -149,7 +149,9 @@
 						</div>
 					</div>
 				</div>
-			
+				<template slot="modal-ok" v-if="isBtnClicked">
+					<i class="fas fa-sync-alt fa-spin"></i> Create
+				</template>
 	  	</b-modal>
 	</div>
 </template>
@@ -283,14 +285,10 @@
 		       			this.isBtnClicked = false;
 		       			this.readyToSubmit = false;
 		       			if (response.data.success) {
-		       				Swal('Product has been created', '', 'success')
-								.then((okay) => {
-									if (okay) {
-										this.$refs.refsAddWithVariantModal.hide();
-										this.$v.forms.$reset();
-										this.$bus.$emit('refreshTable', true);
-									}
-								})
+		       				Swal('Product has been created', '', 'success');
+		       				this.$refs.refsAddWithVariantModal.hide();
+								this.$v.forms.$reset();
+								this.$bus.$emit('refreshTable', true);
 		       			}
 		       			
 		       		})

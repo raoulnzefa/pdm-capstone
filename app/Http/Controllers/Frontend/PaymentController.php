@@ -159,6 +159,9 @@ class PaymentController extends Controller
 					'order_follow_up_email' => NULL,
 					'order_paypal_url' => NULL,
 					'order_payment_date' => NULL,
+					'order_reserved_days' => $reserved_days,
+					'order_processing_days' => NULL,
+					'order_due_payment_days' => NULL,
 					'cart_products' => $cart_products
 				);
 
@@ -242,10 +245,10 @@ class PaymentController extends Controller
 
 					$estimated_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday"));
 
-					$due_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday")).' 13:00:00';
+					$due_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday"));
 					$follow_up_days = (int)$company->follow_up_days;
 
-					$follow_up_date = strftime("%Y-%m-%d", strtotime("+$follow_up_days weekday")).' 13:00:00';
+					$follow_up_date = strftime("%Y-%m-%d", strtotime("+$follow_up_days weekday"));
 
 					$order_params = array(
 						'customer_id' => (int)$request->customer_id,
@@ -265,6 +268,9 @@ class PaymentController extends Controller
 						'order_for_pickup' => NULL,
 						'order_paypal_url' => NULL,
 						'order_payment_date' => NULL,
+						'order_reserved_days' => NULL,
+						'order_processing_days' => NULL,
+						'order_due_payment_days' => $due_payment_days,
 						'cart_products' => $cart_products
 					);
 
@@ -578,6 +584,9 @@ class PaymentController extends Controller
        				'order_follow_up_email' => NULL,
        				'order_due_payment' => NULL,
        				'order_for_pickup' => NULL,
+       				'order_reserved_days' => NULL,
+						'order_processing_days' => $delivery_days,
+						'order_due_payment_days' => NULL,
        				'order_paypal_url' => Session::get('paypal_redirect_url'),
        				'order_payment_date' => date("Y-m-d H:i:s"),
        				'cart_products' => Session::get('chk_cart_products')

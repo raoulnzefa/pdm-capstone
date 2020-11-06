@@ -227,6 +227,7 @@ Route::post('admin/report/sales', 'Backend\ReportsController@generateSales');
 Route::post('admin/report/audit-trail', 'Backend\ReportsController@generateAuditTrail');
 Route::post('admin/order/invoice', 'Backend\ReportsController@generateInvoice');
 Route::post('admin/report/best-selling', 'Backend\ReportsController@generateBestSelling');
+Route::post('admin/report/defective-products', 'Backend\ReportsController@generateDefectiveProducts');
 
 // customer admin details
 Route::get('admin/customer/{customerId}', 'Backend\CustomerController@view');

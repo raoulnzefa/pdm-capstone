@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ $data }} - {{ (!is_null($company)) ? $company->name : '' }}</title>
+        <title>{{ $data }} - {{ (!is_null($company)) ? $company->name : 'Infinity Fightgear' }}</title>
         {{-- <title>{{ config('app.name') }}</title> --}}
-        <link rel="icon" type="image/png" href="{{(!is_null($company)) ? $company->logo_url : ''}}">
+        <link rel="icon" type="image/png" href="{{(!is_null($company)) ? $company->logo_url : asset('images/logo.jpg')}}">
        {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         
@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="/css/mycss.css">
         <!-- Bootstrap core CSS-->
         
-
     </head>
     <body>
         <div id="app"> {{-- ID app --}}
@@ -24,7 +23,7 @@
                 <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <!-- Brand -->
                     <a class="navbar-brand" href="{{route('frontend_homepage')}}">
-                        <img src="{{(!is_null($company)) ? $company->logo_url : ''}}" class="img-responsive" alt="Infinity Fightgear Logo">
+                        <img src="{{(!is_null($company)) ? $company->logo_url : asset('images/logo.jpg')}}" class="img-responsive" alt="Infinity Fightgear Logo">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -113,7 +112,7 @@
                                
                             </div><!-- row -->
                             <hr>
-                            <p style="color: #fff;">{{ (!is_null($company)) ? $company->name : '' }} &copy; {{ date('Y') }}</p>
+                            <p style="color: #fff;">{{ (!is_null($company)) ? $company->name : 'Infinity Fightgear' }} &copy; {{ date('Y') }}</p>
                         </div><!-- container -->
                     </div><!-- col 12 -->
                 </div><!-- row -->

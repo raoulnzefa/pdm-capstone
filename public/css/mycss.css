@@ -15,9 +15,14 @@ body {
 	font-family: myBtnFont,"Helvetica", "Arial", sans-serif !important; 
 }
 
-.reg-error li {
+.reg-error {
 	list-style-type: none;
 }
+
+.rm-bullets {
+	list-style-type: none;
+}
+
 
 .product-card:hover {
   	box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.40);

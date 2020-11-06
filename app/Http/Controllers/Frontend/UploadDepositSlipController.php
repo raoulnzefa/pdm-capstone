@@ -21,7 +21,7 @@ class UploadDepositSlipController extends Controller
     {
     	return view('frontend.upload_deposit_slip.index')->with([
             'order'=>$order, 
-            'data'=>'Upload Deposit Slip'
+            'data'=>'Upload Deposit Slip',
             'company' => CompanyDetails::first()
         ]);
     }
@@ -62,7 +62,7 @@ class UploadDepositSlipController extends Controller
     	return view('frontend.upload_deposit_slip.uploaded_msg')
     			->with([
     				'order_number'=>$order->number,
-    				'data'=>'Deposit Slip Uploaded'
+    				'data'=>'Deposit Slip Uploaded',
                     'company' => CompanyDetails::first()
     			]);
     }

@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-danger" v-if="server_errors.length != 0">
-                    <ul>
+                    <ul class="rm-bullets">
                         <li v-for="err in server_errors">{{ err[0] }}</li>
                     </ul>
                 </div>

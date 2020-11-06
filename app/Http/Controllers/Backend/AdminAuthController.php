@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\BankAccount;
 use App\Models\CompanyDetails;
 use App\Models\Admin;
 use App\Models\UserLog;
@@ -9,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Traits\UserLogs;
+use App\Notifications\BankDepositEmail; 
+use Exception;
 
 class AdminAuthController extends Controller
 {
@@ -80,6 +85,44 @@ class AdminAuthController extends Controller
                     ]))
     	{
             $admin = Auth::guard('admin')->user();
+            //send email
+            try
+            {
+                $orders = Order::where('order_payment_method','Bank Deposit')
+                    ->where('order_payment_status', 'Pending')
+                    ->where('order_sent_follow_up', 0)
+                    ->where(function($query) {
+                            $query->whereRaw('order_follow_up_email = CURRENT_DATE');
+                });
+
+                if (count($orders) > 0)
+                {
+
+                    // get bank account
+                    $bank_account = BankAccount::where('active', 1)->first();
+
+
+                    foreach ($orders as $item) {
+
+                        if ($item->order_sent_follow_up > 0)
+                        {    
+                            $days = $item->order_due_payment_days;
+                            $due_date_email = strftime("%A, %B %d, %Y", strtotime("+days weekday"));
+
+                            $dateData = ['date'=>$due_date_email,'days'=> $days];
+                            
+                            $customer = Customer::where('id',$item->customer_id)->first();
+
+                            $customer->notify(new BankDepositEmail($item, $dateData, $bank_account));
+                        }
+                    }
+                }
+
+            }
+            catch(Exception $ex)
+            {
+
+            }
 
             $array_params = [
                 'id' => $admin->id,

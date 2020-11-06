@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\ReplacementRequest;
+use App\Models\DefectiveProduct;
 use App\Models\UserLog;
 use App\Models\Admin;
 use App\Models\Product;
@@ -284,5 +286,29 @@ class ReportsController extends Controller
       return $pdf->stream();
 
     }
-  
+    
+    public function generateDefectiveProducts(Request $request)
+    {
+      date_default_timezone_set("Asia/Manila");
+
+      $admin = Admin::where('id',$request->input('admin_id'))->first();
+
+      $printed_by = $admin->first_name.' '.$admin->last_name;
+
+      $now = date('F d, Y h:iA'); 
+
+      $defective_products = DefectiveProduct::with('inventory.product','replacementRequest')->get();
+
+      $data = [
+        'title' => 'Defective Products',
+        'printed_by' => $printed_by,
+        'date_printed' => $now,
+        'defective_products' => $defective_products
+      ];
+
+      $pdf = PDF::loadView('backend.report_pdf.defective_products_pdf',$data);  
+      $pdf->getDomPDF()->set_option("enable_php", true);
+      
+      return $pdf->stream();
+    }
 }

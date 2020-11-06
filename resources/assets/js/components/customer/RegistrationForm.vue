@@ -36,7 +36,7 @@
                                     placeholder="Enter you password"
                                     id="cPass">
                                 <div class="input-group-append">
-                                    <button class="btn btn-visible-pass" type="button" @click="visiblePass"><i class="fa" :class="visiblePassword ? 'fa-eye-slash' : 'fa-eye'" v-b-tooltip.hover :title="visiblePassword ? 'Hide password' : 'Show password'"></i></button>
+                                    <button class="btn btn-visible-pass" type="button" @click="visiblePass"><i class="fa" :class="visiblePassword ? 'fa-eye' : 'fa-eye-slash'" v-b-tooltip.hover :title="visiblePassword ? 'Hide password' : 'Show password'"></i></button>
                                 </div>
                             </div>
                             <div v-if="$v.password.$error">
@@ -58,7 +58,7 @@
                                     placeholder="Re-enter your password" 
                                   >
                                 <div class="input-group-append">
-                                    <button class="btn btn-visible-pass" type="button" @click="visibleConfirmPass"><i class="fa":class="visibleConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" v-b-tooltip.hover :title="visibleConfirmPassword ? 'Hide password' : 'Show password'"></i></button>
+                                    <button class="btn btn-visible-pass" type="button" @click="visibleConfirmPass"><i class="fa":class="visibleConfirmPassword ? 'fa-eye' : 'fa-eye-slash'" v-b-tooltip.hover :title="visibleConfirmPassword ? 'Hide password' : 'Show password'"></i></button>
                                 </div>
                             </div>
                             <div v-if="$v.password_confirmation.$error">
@@ -201,7 +201,7 @@
                 <input type="hidden" name="_token" :value="csrf">
                 <div class="col-md-8 offset-md-4">
                    <div class="clearfix">
-                        <button type="submit" class="mt-3 mb-3 btn ifg-btn btn-dark float-left" :disabled="submit"><span v-if="submit"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Submit</button>
+                        <button type="submit" class="mt-3 mb-3 btn ifg-btn btn-dark float-left" :disabled="submit"><span v-if="submit"><i class="fa fa-refresh fa-spin"></i>&nbsp;</span>Submit</button>
                         <p class="mb-0 mt-4 mb-3 float-right">Registered customer? <a href="/login">Login here</a></p>
                    </div>
                 </div>

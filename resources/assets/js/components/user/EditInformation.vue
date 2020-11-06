@@ -13,7 +13,7 @@
 		            </template>
 		            <template>
 		            	<div class="alert alert-danger" v-if="server_errors.length != 0">
-								<ul class="mb-0 pl-3">
+								<ul class="mb-0 pl-3 rm-bullets">
 									<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
 								</ul>
 							</div>

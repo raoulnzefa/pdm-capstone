@@ -17,7 +17,7 @@
 			@hidden="resetModal">
 			<form @submit.stop.prevent="saveProduct" enctype="multipart/form-data">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
-					<ul class="mb-0">
+					<ul class="mb-0 rm-bullets">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
 					</ul>
 				</div>
@@ -133,7 +133,11 @@
 						</div>
 					</div>
 				</div>
+				
 			</form>
+			<template slot="modal-ok" v-if="isBtnClicked">
+            <i class="fas fa-sync-alt fa-spin"></i> Create
+         </template>
 	  	</b-modal>
 	</div>
 </template>
@@ -240,14 +244,10 @@
 	       			this.readyToSubmit = false;
 	       			
 	       			if (response.data.success) {
-	       				Swal('Product has been created', '', 'success')
-							.then((okay) => {
-								if (okay) {
-									this.$refs.refsAddProductModal.hide();
-									this.resetModal();
-									this.$bus.$emit('refreshTable', true);
-								}
-							})
+	       				Swal('Product has been created', '', 'success');
+	       				this.$refs.refsAddProductModal.hide();
+							this.resetModal();
+							this.$bus.$emit('refreshTable', true);
 	       			}
 	       			
 	       		})

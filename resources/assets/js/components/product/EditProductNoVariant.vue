@@ -17,7 +17,7 @@
 			:cancel-disabled="isBtnClicked">
 			<form @submit.stop.prevent="saveProductCatalog" enctype="multipart/form-data">
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
-					<ul class="mb-0">
+					<ul class="mb-0 rm-bullets">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
 					</ul>
 				</div>
@@ -97,6 +97,9 @@
 					</div>
 				</div>
 			</form>
+			<template slot="modal-ok" v-if="isBtnClicked">
+            <i class="fas fa-sync-alt fa-spin"></i> Update
+         </template>
 	  	</b-modal>
 	</div>
 </template>
@@ -217,14 +220,11 @@
 					axios.post('/api/product/catalog/no-variants/'+this.prodNumber, form)
 					.then(response => {
 						if (response.data.success) {
-							Swal('Product has been updated', '', 'success')
-							.then((okay) => {
-								if (okay) {
-									this.$refs.refsCatalogNoVariantModal.hide();
-									this.$nextTick(() => { this.$v.$reset() });
-									this.$bus.$emit('refreshTable', true);
-								}
-							})
+							Swal('Product has been updated', '', 'success');
+							this.$refs.refsCatalogNoVariantModal.hide();
+							this.$nextTick(() => { this.$v.$reset() });
+							this.$bus.$emit('refreshTable', true);
+
 						}
 						this.isBtnClicked = false;
 					})

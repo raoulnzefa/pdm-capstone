@@ -33,7 +33,7 @@ class CompanyDetailsController extends Controller
    		'terms_and_conditions' => 'required',
    		'return_policy' => 'required',
          'reserved_days' => 'required',
-   		'num_delivery_days' => 'required',
+   		'num_processing_days' => 'required',
    		'num_due_payment_days' => 'required',
    		'num_follow_up_email' => 'required'
    	]);
@@ -81,7 +81,7 @@ class CompanyDetailsController extends Controller
       $company->terms_and_conditions = $request->terms_and_conditions;
       $company->return_policy = $request->return_policy;
       $company->reserved_days = (int)$request->reserved_days;
-      $company->delivery_days = (int)$request->num_delivery_days;
+      $company->delivery_days = (int)$request->num_processing_days;
       $company->due_payment_days = (int)$request->num_due_payment_days;
       $company->follow_up_days = (int)$request->num_follow_up_email;
       $company->save();
@@ -106,7 +106,7 @@ class CompanyDetailsController extends Controller
          'about_us' => 'required',
          'terms_and_conditions' => 'required',
          'return_policy' => 'required',
-         'num_delivery_days' => 'required',
+         'num_processing_days' => 'required',
          'num_due_payment_days' => 'required',
          'num_follow_up_email' => 'required',
          'reserved_days' => 'required'

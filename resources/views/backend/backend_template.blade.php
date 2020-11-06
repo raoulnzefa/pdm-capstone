@@ -7,14 +7,15 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ $data }} - {{ (!is_null($company)) ? $company->name : '' }}</title>
-        <link rel="icon" type="image/png" href="{{ (!is_null($company)) ? $company->logo_url : '' }}">
+        <title>{{ $data }} - {{ (!is_null($company)) ? $company->name : 'Infinity Fightgear' }}</title>
+        <link rel="icon" type="image/png" href="{{ (!is_null($company)) ? $company->logo_url : asset('images/logo.jpg') }}">
         <link href="/css/my-admin.css" rel="stylesheet" type="text/css">
         <link href="/template_css/styles.css" rel="stylesheet" />
-        <link href="/css/report_style.css" rel="stylesheet" media="print" type="text/css">
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"> --}}
         <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        
+        <link href="/css/report_style.css" rel="stylesheet" media="print" type="text/css">
        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
        
@@ -22,7 +23,7 @@
     <body class="sb-nav-fixed">
         <div id="app">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ route('admin_dashboard') }}">{{ (!is_null($company)) ? $company->name : '' }}</a>
+            <a class="navbar-brand" href="{{ route('admin_dashboard') }}">{{ (!is_null($company)) ? $company->name : 'Infinity Fightgear' }}</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0 mr-auto" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar-->
              <ul class="navbar-nav">
@@ -107,7 +108,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; {{ (!is_null($company)) ? $company->name : ''  }} {{ date('Y') }}</div>
+                            <div class="text-muted">Copyright &copy; {{ (!is_null($company)) ? $company->name : 'Infinity Fightgear'  }} {{ date('Y') }}</div>
                         </div>
                     </div>
                 </footer>

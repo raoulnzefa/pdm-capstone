@@ -46,6 +46,10 @@ footer {
     page-break-after: auto; 
 }
 
+.defective-products-content { 
+    page-break-after: auto; 
+}
+
 .invoice-total {
     width: 100%;
     border: 0;
@@ -106,6 +110,17 @@ footer {
 .customer-content {
     width: 100%;
     border-collapse: collapse;
+}
+
+.defective-products-content {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.defective-products-content th, .defective-products-content td {
+    border: 1px solid;
+    padding: 10px;
+    text-align: left;
 }
 
 .customer-content th, .customer-content td {

@@ -140,6 +140,8 @@ class CustomerAuthController extends Controller
     {
         $exists = Customer::where(['email'=>$email, 'token'=>$token])->exists();
 
+        $data = 'User not found';
+        $company = CompanyDetails::first();
         if ($exists)
         {
             $customer = Customer::where(['email'=>$email, 'token'=>$token])->first();
@@ -148,12 +150,14 @@ class CustomerAuthController extends Controller
             $customer->update();
                        
             return redirect()->route('customer_verified')->with([
-                'email_verified' => $email
+                'email_verified' => $email,
+                'data'=> 'Email Verified',
+                'company' => $company
             ]);   
         }
         else
         {
-            return view('frontend.customer.email_not_found');
+            return view('frontend.customer.email_not_found', compact('data','company'));
         }
         
     }

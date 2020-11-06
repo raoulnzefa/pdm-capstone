@@ -5,7 +5,7 @@
 		</div>
 		<form @submit.prevent="saveCompanyDetails" method="POST" enctype="multipart/form-data">
 		<div class="alert alert-danger" v-if="server_errors.length != 0">
-			<ul class="mb-0">
+			<ul class="mb-0 rm-bullets">
 				<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
 			</ul>
 		</div>
@@ -179,14 +179,14 @@
 			    </div>
 		  	</div>
 		  	<div class="form-group row">
-			    <label for="" class="col-sm-3 col-form-label">Number of delivery days:</label>
+			    <label for="" class="col-sm-3 col-form-label">Number of processing days:</label>
 			    <div class="col-sm-3">
 			      <input type="text" class="form-control" id=""
 			      	tabindex="11"
 			      	v-model.trim="$v.companyDetails.numOfDeliveryDays.$model"
 			      	:class="{'is-invalid': $v.companyDetails.numOfDeliveryDays.$error}">
 			      <div v-if="$v.companyDetails.numOfDeliveryDays.$error">
-               	<span class="error-feedback" v-if="!$v.companyDetails.numOfDeliveryDays.required">Number of delivery days is required</span>
+               	<span class="error-feedback" v-if="!$v.companyDetails.numOfDeliveryDays.required">Number of processing days is required</span>
                	<template v-if="$v.companyDetails.numOfDeliveryDays.required">
                		<span class="error-feedback" v-if="!$v.companyDetails.numOfDeliveryDays.numbersOnly">Please enter a numeric value only</span>
                	</template>
@@ -411,7 +411,7 @@
 					form.append('terms_and_conditions', this.companyDetails.termsAndConditions);
 					form.append('return_policy', this.companyDetails.returnPolicy);
 					form.append('reserved_days', this.companyDetails.reserveDays);
-					form.append('num_delivery_days', this.companyDetails.numOfDeliveryDays);
+					form.append('num_processing_days', this.companyDetails.numOfDeliveryDays);
 					form.append('num_due_payment_days', this.companyDetails.numOfDuePaymentDays);
 					form.append('num_follow_up_email', this.companyDetails.numOfFollowUpEmailDays);
 					form.append('admin_id', this.admin.id);

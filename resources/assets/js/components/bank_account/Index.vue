@@ -74,7 +74,7 @@
                  @shown="focusOnBankName">
             <template v-if="server_errors.length != 0">
               <div class="alert alert-danger">
-                <ul class="">
+                <ul class="rm-bullets">
                   <li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
                 </ul>
               </div>

@@ -1,7 +1,7 @@
 <template>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h2 class="mt-4 mb-4">Categories</h2>
+        <h2 class="mt-4 mb-4">Categories {{submit}}</h2>
             <div class="mb-4">
               <button type="button" class="btn btn-primary" @click="addCategoryModal"><i class="fas fa-plus"></i> Add category</button>
             </div>
@@ -53,13 +53,14 @@
                  hide-header-close
                  :ok-title="ok_title"
                  :ok-disabled="submit"
+                 :cancel-disabled="submit"
                  @ok="submitCategory"
                  @cancel="cancelCategory"
                  @hidden="cancelCategory"
                  @shown="focusOnCategoryName">
             <template v-if="server_errors.length != 0">
               <div class="alert alert-danger">
-                <ul class="mb-0">
+                <ul class="mb-0 rm-bullets">
                   <li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
                 </ul>
               </div>
@@ -164,14 +165,10 @@
                   .then((response) => {
                     this.submit = false;
                     if (response.data.success) {
-                      Swal('Category has been created','', 'success')
-                      .then((okay) => {
-                        if (okay) {
-                            this.$refs.categoryModal.hide();
-                            this.resetModal();
-                            this.getCategories();
-                        }
-                      });
+                      Swal('Category has been created','', 'success');
+                      this.$refs.categoryModal.hide();
+                      this.resetModal();
+                      this.getCategories();
                     }
                   })
                   .catch((error) => {
@@ -190,14 +187,10 @@
                   .then((response) => {
                     this.submit = false;
                     if (response.data.success) {
-                      Swal('Category has been updated','', 'success')
-                      .then((okay) => {
-                        if (okay) {
-                            this.$refs.categoryModal.hide();
-                            this.resetModal();
-                            this.getCategories();
-                        }
-                      });
+                      Swal('Category has been updated','', 'success');
+                      this.$refs.categoryModal.hide();
+                      this.resetModal();
+                      this.getCategories();
                     }
                   })
                   .catch((error) => {
@@ -235,6 +228,7 @@
                 this.has_variant = category.has_variant;
                 this.modal_title = 'Edit category';
                 this.ok_title = 'Update';
+                this.submit = false;
                 this.$refs.categoryModal.show();
             },
             focusOnCategoryName(e)

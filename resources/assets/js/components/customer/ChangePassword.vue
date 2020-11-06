@@ -3,7 +3,7 @@
 	<div class="col-md-8">
 		<h2 class="mb-4">Change Password</h2>
 		<div class="alert alert-danger" v-if="server_errors.length != 0">
-            <ul>
+            <ul class="rm-bullets">
                 <li v-for="err in server_errors">{{ err[0] }}</li>
             </ul>
         </div>

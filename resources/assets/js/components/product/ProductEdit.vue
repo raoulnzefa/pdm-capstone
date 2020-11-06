@@ -9,7 +9,7 @@
 					<!-- <button class="btn btn-danger float-right" @click="btnDeleteProduct">Delete</button> -->
 				</div>
 				<div class="alert alert-danger" v-if="server_errors.length != 0">
-					<ul class="mb-0">
+					<ul class="mb-0 rm-bullets">
 						<li v-for="(err,index) in server_errors" :key="index">{{ err[0] }}</li>
 					</ul>
 				</div>

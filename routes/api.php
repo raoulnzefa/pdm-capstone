@@ -268,3 +268,6 @@ Route::put('update-discount/{discount}', 'Api\DiscountController@updateDiscount'
 Route::post('company-details/save', 'Api\CompanyDetailsController@saveCompanyDetails');
 Route::post('company-details/update/{company}', 'Api\CompanyDetailsController@updateCompanyDetails');
 Route::get('company-details/get', 'Api\CompanyDetailsController@getCompanyDetails');
+
+// defective products
+Route::get('get-defective-products', 'Api\DefectiveProductsController@getDefectiveProducts');

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-
+use App\Models\CompanyDetails;
 use App\Notifications\OrderPickedUpNotification;
 use App\Notifications\PaymentReceived;
 use App\Notifications\DeliveryConfirmation;
@@ -116,7 +116,7 @@ class OrderController extends Controller
       $order->order_status = 'Completed';
       $order->order_payment_date = date('Y-m-d H:i:s');
       $order->order_completed = date('Y-m-d H:i:s');
-      $order->order_warranty = date($warranty_date.' 17:00:00');
+      $order->order_warranty = date($warranty_date);
       $order->update();
 
       $store_pickup = StorePickup::where('order_number', $order->number)->first();
@@ -140,6 +140,7 @@ class OrderController extends Controller
    public function markAsPaid(Request $request, Order $order)
    {
       date_default_timezone_set("Asia/Manila");
+      $company = CompanyDetails::first();
 
       if ($order->order_payment_method == 'Bank Deposit')
       {
@@ -164,7 +165,7 @@ class OrderController extends Controller
 
             $customer = Customer::where('id', (int)$order->customer_id)->first();
 
-            $processing_days = 3;
+            $processing_days = (int)$company->delivery_days;
 
             $date = strftime("%A, %B %d, %Y", strtotime("+$processing_days weekday"));
 

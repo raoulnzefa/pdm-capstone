@@ -26,7 +26,7 @@
 					<h3>Upload Deposit Slip</h3>
 					@if ($errors->any())
 			            <div class="alert alert-danger">
-			                <ul>
+			                <ul class="rm-bullets">
 			                    @foreach ($errors->all() as $error)
 			                        <li>{{ $error }}</li>
 			                    @endforeach

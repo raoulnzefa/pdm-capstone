@@ -10,7 +10,7 @@ use App\Models\Product;
 trait OrderTraits
 {
 	public function createOrder($array_params)
-	{
+	{    
 		 // set timezone
         date_default_timezone_set("Asia/Manila");
 
@@ -34,6 +34,9 @@ trait OrderTraits
          $order->order_paypal_url = $array_params['order_paypal_url'];
          $order->order_for_shipping = $array_params['order_for_shipping'];
          $order->order_for_pickup = $array_params['order_for_pickup'];
+         $order->order_reserved_days = $array_params['order_reserved_days'];
+         $order->order_processing_days = $array_params['order_processing_days'];
+         $order->order_due_payment_days = $array_params['order_due_payment_days'];
          $order->order_created = date("Y-m-d H:i:s");
 
          $order->save();
