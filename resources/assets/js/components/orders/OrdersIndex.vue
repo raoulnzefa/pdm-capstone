@@ -92,7 +92,7 @@
                   <td>{{ order.order_quantity }}</td>
                   <td>&#8369;{{ order.order_total }}</td>
                   <td>
-                    <a :href="'/admin/order/'+order.number+''" class="btn btn-sm btn-primary">View</a>
+                    <a :href="'/admin/order/'+order.number+''" class="btn btn-sm btn-primary" v-b-tooltip.hover title="View Details">View</a>
                    <!--  <template v-if="order.order_status === 'Overdue'">
                       <button class="btn btn-primary btn-sm" v-if="order.order_restocked == 0" @click="restockOrder(order)">Restock</button>
                     </template> -->

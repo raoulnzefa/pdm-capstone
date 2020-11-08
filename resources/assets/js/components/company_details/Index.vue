@@ -225,7 +225,7 @@
 		  	</div>
 		</div>
 		<div class="card-footer">
-			<button type="submit" class="btn btn-primary" :disabled="submitted">Save details</button>
+			<button type="submit" class="btn btn-primary" :disabled="submitted"><i class="fas fa-sync-alt fa-spin" v-if="submitted"></i> Save details</button>
 		</div>
 		</form>
 	</div>

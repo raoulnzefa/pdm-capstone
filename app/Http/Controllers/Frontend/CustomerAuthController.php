@@ -217,6 +217,4 @@ class CustomerAuthController extends Controller
 
         return $redirect;
     }
-
-   
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\CompanyDetails;
 use App\Models\ReplacementRequest;
 use App\Models\DefectiveProduct;
 use App\Models\UserLog;
@@ -36,6 +37,8 @@ class ReportsController extends Controller
       
       $now = date('F d, Y h:iA');
 
+      $company = CompanyDetails::first();
+
       if ($request->input('report_type') == 'in_stock')
       {
         $report_type = 'All Stocks';
@@ -48,7 +51,8 @@ class ReportsController extends Controller
           'total' => $total_qty,
           'printed_by' => $printed_by,
           'date_printed' => $now,
-          'report_type' => $report_type
+          'report_type' => $report_type,
+          'company' => $company
         ];
 
       }
@@ -62,7 +66,8 @@ class ReportsController extends Controller
           'inventories' => $inventories,
           'printed_by' => $printed_by,
           'date_printed' => $now,
-          'report_type' => $report_type
+          'report_type' => $report_type,
+          'company' => $company
         ];
 
       }
@@ -76,7 +81,8 @@ class ReportsController extends Controller
           'inventories' => $inventories,
           'printed_by' => $printed_by,
           'date_printed' => $now,
-          'report_type' => $report_type
+          'report_type' => $report_type,
+          'company' => $company
         ];
 
       }
@@ -99,11 +105,14 @@ class ReportsController extends Controller
 
       $customers = Customer::all();
 
+      $company = CompanyDetails::first();
+
       $data = [
         'title' => 'Customer List',
         'printed_by' => $printed_by,
         'date_printed' => $now,
-        'customers' => $customers
+        'customers' => $customers,
+        'company' => $company
       ];
 
       $pdf = PDF::loadView('backend.report_pdf.customers_pdf',$data);  
@@ -154,6 +163,8 @@ class ReportsController extends Controller
       
       $date_range = 'From:  '.date('F d, Y', strtotime($request->from_date)).'   To:  '.date('F d, Y', strtotime($request->to_date));
 
+      $company = CompanyDetails::first();
+
       $data = [
         'title' => 'Sales Report',
         'printed_by' => $printed_by,
@@ -162,7 +173,8 @@ class ReportsController extends Controller
         'date_range' => $date_range, 
         'total_amount' => $total_amount,
         'total_discount' => $total_discount,
-        'total_sales' => $total_sales
+        'total_sales' => $total_sales,
+        'company' => $company
       ];
 
       $pdf = PDF::loadView('backend.report_pdf.sales_pdf',$data);  
@@ -195,13 +207,15 @@ class ReportsController extends Controller
           ->with('admin')
           ->get();
 
+      $company = CompanyDetails::first();
 
       $data = [
         'title' => 'Audit Trail',
         'date_range' => $date_range,
         'printed_by' => $printed_by,
         'date_printed' => $now,
-        'audit_trail' => $audit_trail
+        'audit_trail' => $audit_trail,
+        'company' => $company
       ];
 
 
@@ -219,10 +233,13 @@ class ReportsController extends Controller
 
       $invoiceProduct = InvoiceProduct::where('invoice_number', $invoice->number)->get();
 
+      $company = CompanyDetails::first();
+
       $data = [
         'title' => 'Invoice',
         'invoice' => $invoice,
-        'invoiceProduct' => $invoiceProduct
+        'invoiceProduct' => $invoiceProduct,
+        'company' => $company
       ];
 
       $pdf = PDF::loadView('backend.report_pdf.invoice_pdf',$data);  
@@ -272,12 +289,15 @@ class ReportsController extends Controller
         having sum(invp.quantity) >= 2
         limit 5', ['from'=>$from_date,'to'=>$to_date]);
 
+      $company = CompanyDetails::first();
+
       $data = [
         'title' => 'Best Selling',
         'printed_by' => $printed_by,
         'date_printed' => $now,
         'date_range' => $date_range,
-        'best_selling' => $best_selling
+        'best_selling' => $best_selling,
+        'company' => $company
       ];
 
       $pdf = PDF::loadView('backend.report_pdf.best_selling_pdf',$data);  
@@ -299,11 +319,14 @@ class ReportsController extends Controller
 
       $defective_products = DefectiveProduct::with('inventory.product','replacementRequest')->get();
 
+      $company = CompanyDetails::first();
+
       $data = [
         'title' => 'Defective Products',
         'printed_by' => $printed_by,
         'date_printed' => $now,
-        'defective_products' => $defective_products
+        'defective_products' => $defective_products,
+        'company' => $company
       ];
 
       $pdf = PDF::loadView('backend.report_pdf.defective_products_pdf',$data);  

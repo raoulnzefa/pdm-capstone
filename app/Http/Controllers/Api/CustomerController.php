@@ -133,17 +133,27 @@ class CustomerController extends Controller
 
     public function details($customerId)
     {
-        $basic_info = Customer::where('id',$customerId)->first();
+        $basic_info = Customer::where('id','=',$customerId)->first();
 
-        $addresses = CustomerAddress::where('customer_id', $customerId)->get();
+        $addresses = CustomerAddress::where('customer_id','=', $customerId)->get();
 
-        $orders = Order::where('customer_id', $customerId)->with('orderProducts.inventory.product','shipping')->orderBy('number')->get();
+        $orders = Order::where('customer_id', $customerId)
+            ->with('orderProducts.inventory.product','shipping')
+            ->orderBy('number')
+            ->get();
 
         return response()->json([
             'basic_info' => $basic_info,
             'addresses' => $addresses,
             'orders' => $orders
         ]);
+    }
+
+    public function checkCustomerEmail(Request $request)
+    {
+       $customer = Customer::where('email', $request->query('email'))->exists();
+
+       return response()->json($customer);
     }
 
 }

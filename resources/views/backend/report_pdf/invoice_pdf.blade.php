@@ -22,6 +22,12 @@
                   <td align="center" colspan="2">Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan</td> 
               </tr>
               <tr>
+                  <td align="center" colspan="2">Contact no.: {{$company->contact_number}}</td> 
+              </tr>
+              <tr>
+                  <td align="center" colspan="2">TIN: {{$company->tin_number}}</td> 
+              </tr>
+              <tr>
                   <td colspan="2" align="center">
                      <span class="report-name">{{ $title }}</span>
                   </td>

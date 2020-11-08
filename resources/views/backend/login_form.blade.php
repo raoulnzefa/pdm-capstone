@@ -35,7 +35,7 @@
                     
             </div><!-- card-body  -->
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i>&nbsp;Login</button> 
+                <button type="submit" class="btn btn-primary btn-block">Login</button> 
             </div>
             </form> 
             </div> {{-- card --}}

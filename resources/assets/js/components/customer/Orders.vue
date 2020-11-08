@@ -84,7 +84,7 @@
                   </td>
                   <td>{{ order.order_quantity }}</td>
                   <td>&#8369;{{ order.order_total }}</td>
-                  <td><a :href="'/my-account/order/'+order.number" class="btn btn-sm btn-primary">Details</a></td>
+                  <td><a :href="'/my-account/order/'+order.number" class="btn btn-sm btn-primary" v-b-tooltip.hover title="View Details">View</a></td>
                 </tr>
               </template>
             </template>

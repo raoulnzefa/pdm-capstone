@@ -251,6 +251,7 @@
                                 <span class="error-feedback" v-if="!$v.mobile_no.required">Mobile no. is required</span>
                                 <template v-if="$v.mobile_no.required">
                                    <span class="error-feedback d-block" v-if="!$v.mobile_no.mobileNumber">Mobile number must be a valid format ex.09454545454 and must be 11 digits</span>
+                                    <span class="error-feedback d-block" v-if="!$v.mobile_no.isUnique">This mobile no. is already registered</span>
                                 </template>
                             </div>
                         </div>
@@ -481,6 +482,11 @@
                             required,
                             maxLength: maxLength(11),
                             mobileNumber,
+                            async isUnique(value) {
+                                if (value === '') return true
+                                const response = await fetch(`/api/customer-check-mobile/?mobile=${value}`)
+                                return Boolean(await (response.json()) ? false : true)
+                            }
                         },
                         shipping_method: { required },
                         payment_method: { required },

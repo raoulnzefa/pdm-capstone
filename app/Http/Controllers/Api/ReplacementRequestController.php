@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Storage;
 class ReplacementRequestController extends Controller
 {
 
-    use UserLogs;
+    use UserLogs, InventoryManager;
 
     public function submitRequest(Request $request)
     {
@@ -200,37 +200,59 @@ class ReplacementRequestController extends Controller
 
         if ($inventory->inventory_stock > $replacement->quantity)
         {
-            $inventory->inventory_stock -= $replacement->quantity;
-            $inventory->update();
+           
+
+            if ($request->additional_action == 'restock')
+            {
+                $this->restockItem($replacement->inventory_number, (int)$replacement->quantity);
+            }
+            elseif ($request->additional_action == 'record_as_defective')
+            {
+                $defective = new DefectiveProduct();
+                $defective->inventory_number = $replacement->inventory_number;
+                $defective->replacement_request_id = (int)$replacement->id;
+                $defective->save();
+
+                $inventory->inventory_stock -= $replacement->quantity;
+                $inventory->update();
+            }
+            else
+            {
+                $inventory->inventory_stock -= $replacement->quantity;
+                $inventory->update();
+            }
 
             $replacement->status = 'Replaced';
             $replacement->status_update = 1;
             $replacement->request_replaced = date('Y-m-d H:i:s');
             $replacement->update();
 
-            if ($request->additional_action == 'restock')
-            {
-                $this->restockItem($replacement->inventory_number, (int)$replacement->quantity);
-            }
-
-            if ($request->additional_action == 'record_as_defective')
-            {
-                $defective = new DefectiveProduct();
-                $defective->inventory_number = $replacement->inventory_number;
-                $defective->replacement_request_id = (int)$replacement->id;
-                $defective->save();
-            }
-
             $customer = Customer::where('id',$replacement->customer_id)->first();
             // send email
             $customer->notify(new ReplacedProductNotification($replacement));
 
+
             $array_params = [
                 'id' => $request->admin_id,
-                'action' => 'Replaced product. Inventory number: '.$replacement->inventory_number,' Order number: '.$replacement->order_number.' Quntity: '.$replacement->quantity
+                'action' => 'Replaced product. Inventory number: '.$replacement->inventory_number.', Order number: '.$replacement->order_number.', Quntity: '.$replacement->quantity
             ];
 
             $this->createUserLog($array_params);
+
+            if (!is_null($request->additional_action))
+            {
+
+                $restock_msg = 'Restock product. Inventory number: '.$replacement->inventory_number.', Quntity: '.$replacement->quantity;
+
+                $defective_msg = 'Recorded as defective product. Inventory number: '.$replacement->inventory_number.', Quntity: '.$replacement->quantity;
+
+                $array_params = [
+                    'id' => $request->admin_id,
+                    'action' => ($request->additional_action == 'restock') ? $restock_msg : $defective_msg
+                ];
+
+                $this->createUserLog($array_params);
+            }
 
             return response()->json(['success'=>true]);
         }

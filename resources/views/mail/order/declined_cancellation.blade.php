@@ -20,7 +20,7 @@ Reason: {{$cancellation->reason->title}}
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_subtotal, 2) }}<br>
-Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_discount, 2) }}<br>
 @if ($cancellation->order->order_shipping_method == 'Shipping')
 Shipping fee:&nbsp;&nbsp;&nbsp;&#8369;{{ number_format($cancellation->order->order_shipping_fee, 2) }}<br>
 @endif

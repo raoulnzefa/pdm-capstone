@@ -271,3 +271,9 @@ Route::get('company-details/get', 'Api\CompanyDetailsController@getCompanyDetail
 
 // defective products
 Route::get('get-defective-products', 'Api\DefectiveProductsController@getDefectiveProducts');
+
+// check customer email async call
+Route::get('customer-check-email', 'Api\CustomerController@checkCustomerEmail');
+
+// check mobile no
+Route::get('customer-check-mobile', 'Api\CustomerAddressController@checkMobileNumber');

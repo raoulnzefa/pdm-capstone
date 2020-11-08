@@ -8,6 +8,7 @@ This is your order confirmation for Order #{{ $order->number }} placed on {{ $or
 
 @if ($order->order_shipping_method == 'Shipping')
 Your order will be ship in {{ $date['days'] }} business days. Estimated delivery date {{ $date['date'] }}.<br>
+
 Once we've shipped your order, we'll send you another email with updated delivery details.
 @else
 You may pickup and pay your order in our store in Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan.

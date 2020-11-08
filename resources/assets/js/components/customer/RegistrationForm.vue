@@ -21,7 +21,12 @@
                             <div v-if="$v.email.$error">
                                 <span class="error-feedback" v-if="!$v.email.required">Email is required</span>
                                 <span class="error-feedback" v-if="!$v.email.custEmail">Please input a valid email</span>
+                                <template v-if="$v.email.custEmail">
+                                    <span class="error-feedback" v-if="!$v.email.isUniqueEmail">This email is already registered</span>    
+                                </template>
+                                
                             </div>
+
                         </div>
                     </div>
                     <div class="form-group row">
@@ -191,6 +196,9 @@
                                 :class="{'is-invalid': $v.mobile_no.$error}">
                                 <div v-if="$v.mobile_no.$error">
                                     <span class="error-feedback" v-if="!$v.mobile_no.required">Mobile no. is required</span>
+                                    <template v-if="$v.mobile_no.required">
+                                        <span class="error-feedback" v-if="!$v.mobile_no.isUnique">This mobile no. is already registered</span>
+                                    </template>
                                 </div>
                         </div>
                     </div>
@@ -257,7 +265,12 @@
                 email: {
                     required,
                     custEmail,
-                    maxLength: maxLength(50)
+                    maxLength: maxLength(50),
+                    async isUniqueEmail(value) {
+                        if (value === '') return true
+                        const response = await fetch(`/api/customer-check-email/?email=${value}`)
+                        return Boolean(await (response.json()) ? false : true)
+                    }
                 },
                 password: {
                     required,
@@ -277,7 +290,14 @@
                     maxLength: maxLength(20),
                     lettersSpace
                 },
-                mobile_no: { required },
+                mobile_no: { 
+                    required,
+                    async isUnique(value) {
+                        if (value === '') return true
+                        const response = await fetch(`/api/customer-check-mobile/?mobile=${value}`)
+                        return Boolean(await (response.json()) ? false : true)
+                    }
+                },
                 street: { required },
                 province_id: { required },
                 municipality_id: { required },

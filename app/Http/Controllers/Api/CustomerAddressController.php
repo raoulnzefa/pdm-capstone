@@ -108,4 +108,11 @@ class CustomerAddressController extends Controller
      	return response()->json($response);
    }
 
+   public function checkMobileNumber(Request $request)
+   {
+      $customer = CustomerAddress::where('mobile_no', $request->query('mobile'))->exists();
+
+      return response()->json($customer);
+   }
+
 }

@@ -97,7 +97,8 @@ class PaymentController extends Controller
 			'shipping_fee' => 'sometimes|required'
 		]);
 
-    	//dd($request->all());
+    	//dd((bool)$request->ship_to_diff_addr);
+
     	// set time zone
 		date_default_timezone_set("Asia/Manila");
 
@@ -211,11 +212,9 @@ class PaymentController extends Controller
 			$municipality = $request->municipality;
 			$barangay = $request->barangay;
 
-			$save_new_address = false;
-
 			$shipping_method = str_replace('_', ' ', $request->shipping_method);
 
-			if ($request->has('save_this_address'))
+			if ((bool)$request->ship_to_diff_addr)
 			{
               //save new address
 				$address_params = array(
@@ -474,7 +473,6 @@ class PaymentController extends Controller
                 	Session::put('chk_shipping_fee', (float)$request->shipping_fee);
                 	Session::put('chk_total', (float)$request->order_total);
                 	Session::put('chk_cart_products', $cart_products);
-                	Session::put('chk_save_new_address', $save_new_address);
 
                 	return Redirect::away($redirect_url);
                 }
@@ -513,7 +511,7 @@ class PaymentController extends Controller
        	/**Execute the payment **/
        	$result = $payment->execute($execution, $this->_api_context);
 
-       	$company = CompanyDetails::first();
+  
 
        	if ($result->getState() == 'approved')
        	{
@@ -553,9 +551,10 @@ class PaymentController extends Controller
 
        			}
 
-            //delivery working days....
+       			$company = CompanyDetails::first();
+            	//delivery working days....
        			$delivery_days = (int)$company->delivery_days;
-            //db format
+            	//db format
        			$estimated_date = strftime("%Y-%m-%d", strtotime("+$delivery_days weekday"));          
 
        			$payment_status = 'Paid';
@@ -589,6 +588,9 @@ class PaymentController extends Controller
 						'order_due_payment_days' => NULL,
        				'order_paypal_url' => Session::get('paypal_redirect_url'),
        				'order_payment_date' => date("Y-m-d H:i:s"),
+       				'order_reserved_days' => $delivery_days,
+						'order_processing_days' => NULL,
+						'order_due_payment_days' => NULL,
        				'cart_products' => Session::get('chk_cart_products')
        			);
 
@@ -657,7 +659,6 @@ class PaymentController extends Controller
        			Session::forget('chk_cart_products');
        			Session::forget('paypal_payment_id');
        			Session::forget('paypal_redirect_url');
-       			Session::forget('chk_save_new_address');
 
        			return redirect()->route('order.received')->with([
        				'order'=> $orderData,

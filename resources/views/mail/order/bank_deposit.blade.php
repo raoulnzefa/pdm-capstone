@@ -33,6 +33,7 @@ Once your payment has been received we will start processing your order.
 @endcomponent
 
 Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
+Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount}}<br>
 @if ($order->order_shipping_method == 'Shipping')
 Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
 @endif
