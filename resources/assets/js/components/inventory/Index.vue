@@ -144,7 +144,7 @@
 									<td>{{item.inventory_number}}</td>
 									<td>{{item.inventory.product.product_name}}</td>
 									<td>{{item.replacement_request.quantity}}</td>
-									<td><button class="btn btn-sm btn-primary">View</button></td>
+									<td><a :href="'/admin/replacement/'+item.id" class="btn btn-sm btn-primary" v-b-tooltip.hover title="View Replacement Details">View</a></td>
 								</tr>
 							</template>
 							<template v-else>
