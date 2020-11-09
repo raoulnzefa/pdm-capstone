@@ -29,7 +29,6 @@ class ReplacementRequestController extends Controller
         $request->validate([
             'reason' => 'required',
             'quantity' => 'required',
-            'photos' => 'required',
             'photos.*' => 'required|image|mimes:jpeg,png,jpg'
         ]);
 
@@ -50,31 +49,34 @@ class ReplacementRequestController extends Controller
 
         $response = [];
 
-        foreach ($request->file('photos') as $photo ) {
-            try
-            {
-                // set image name
-                $imageName = time().'.'.str_replace(' ', '-', $photo->getClientOriginalName());
+        if ($request->hasFile('photos'))
+        {
+            foreach ($request->file('photos') as $photo ) {
+                try
+                {
+                    // set image name
+                    $imageName = time().'.'.str_replace(' ', '-', $photo->getClientOriginalName());
 
-                // save image into storage
-                $path = $photo->storeAs(
-                    'replacement_photos',
-                    $imageName,
-                    's3'
-                );
+                    // save image into storage
+                    $path = $photo->storeAs(
+                        'replacement_photos',
+                        $imageName,
+                        's3'
+                    );
+
+                }
+                catch (Exception $e)
+                {
+                    $response = ['error' => $e->getMessage()];
+                }
+               
+                $photos = new ReplacementProductPhoto();
+                $photos->replacement_request_id = (int)$replacement->id;
+                $photos->product_photo_url = Storage::disk('s3')->url($path);
+                $photos->product_photo_path = $path;
+                $photos->save();
 
             }
-            catch (Exception $e)
-            {
-                $response = ['error' => $e->getMessage()];
-            }
-           
-            $photos = new ReplacementProductPhoto();
-            $photos->replacement_request_id = (int)$replacement->id;
-            $photos->product_photo_url = Storage::disk('s3')->url($path);
-            $photos->product_photo_path = $path;
-            $photos->save();
-
         }
         
         return response()->json(['success' => true]);

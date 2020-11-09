@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class DeclinedReplacementNotification extends Notification
 {
@@ -43,9 +44,10 @@ class DeclinedReplacementNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Declined Replacement')
+            ->subject('Request Declined')
             ->markdown('mail.order.declined_replacement', [
-                'replacement' => $this->replacement
+                'replacement' => $this->replacement,
+                'company'=>CompanyDetails::first()
             ]);
     }
 

@@ -18,7 +18,7 @@ Your order can be reserved within {{ $date['days'] }} business days until {{ $da
 
 @component('mail::table')
 
-| Product       | Price       | Qty 	 | Amount	   |
+| Product       | Price       | Qty      | Amount      |
 | ------------- |:-----------:| --------:|------------:|
 @foreach ($order->orderProducts as $product)
 |{{ $product->product_name }}|&#8369;{{ $product->price }}|{{ $product->quantity }}|&#8369;{{ $product->total }}
@@ -45,5 +45,6 @@ Shipping information:
 @endif
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent
+

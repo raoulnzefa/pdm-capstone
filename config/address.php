@@ -34,4 +34,5 @@ return [
         'city'     => City::class,
         'barangay' => Barangay::class,
     ],
+
 ];

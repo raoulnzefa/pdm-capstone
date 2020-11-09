@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hello {{ $order->customer->first_name }},
 
-# Thank you for your order.
+Thank you for your order.
 
 Your order is being processed. This is your order confirmation for Order Number {{ $order->number }} placed on {{ $order->order_created }}.<br>
 
@@ -25,5 +25,5 @@ Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
 
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent

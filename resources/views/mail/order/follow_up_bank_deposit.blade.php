@@ -1,4 +1,5 @@
-@component('mail::message')
+@component('mail::message')	
+
 # Hi {{ $order->customer->first_name }},
 
 Hope you're doing well. This is just to remind your payment for Order #{{$order->number}}.
@@ -20,34 +21,10 @@ Once your payment has been received we will start processing your order.
 # Placed on: {{ $order->order_created }}
 # Total Payment: &#8369;{{ $order->order_total }}
 
-@component('mail::table')
-
-| Product       | Price       | Qty 	 | Amount	   |
-| ------------- |:-----------:| --------:|------------:|
-@foreach ($order->orderProducts as $product)
-|{{ $product->product_name }}|&#8369;{{ $product->price }}|{{ $product->quantity }}|&#8369;{{ $product->total }}
-@endforeach
-
+@component('mail::button', ['url' => $url])
+Order Details
 @endcomponent
 
-Subtotal:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_subtotal }}<br>
-Discount:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_discount}}<br>
-@if ($order->order_shipping_method == 'Shipping')
-Shipping Fee:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_shipping_fee }}<br>
-@endif
-Total:&nbsp;&nbsp;&nbsp;&#8369;{{ $order->order_total }}<br>
-
-
-@if ($order->order_shipping_method == 'Shipping')
-
-Shipping information:
-
-{{ $order->shipping->shipping_firstname.' '.$order->shipping->shipping_lastname }}<br>
-{{ $order->shipping->shipping_street.', '.$order->shipping->shipping_barangay }}<br>
-{{ $order->shipping->shipping_municipality.', '.$order->shipping->shipping_province.', '.$order->shipping->shipping_zip_code }}<br>
-{{ $order->shipping->shipping_mobile_no }}
-@endif
-
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent

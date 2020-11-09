@@ -4,7 +4,7 @@
 <nav class="navbar navbar-light bg-dark" id="checkout-header">
     <div class="container-fluid">
         <div class="navbar-brand">
-            <img src="{{ (!is_null($company)) ? $company->logo_url : '' }}" width="125" height="60" alt="INFINITY FIGHTGEAR LOGO">
+            <img src="{{ (!is_null($company)) ? $company->logo_url : asset('images/logo.jpg') }}" width="125" height="60" alt="{{$company->name}}">
         </div>
     </div>
 </nav>

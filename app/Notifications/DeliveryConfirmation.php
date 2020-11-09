@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class DeliveryConfirmation extends Notification
 {
@@ -43,7 +44,11 @@ class DeliveryConfirmation extends Notification
     {
         return (new MailMessage)
                     ->subject('Shipping Confirmation')
-                    ->markdown('mail.order.delivery', ['order' => $this->order, 'url'=> route('customer.view_order', ['order'=>$this->order->number])]);
+                    ->markdown('mail.order.delivery', [
+                        'order' => $this->order, 
+                        'url'=> route('customer.view_order', ['order'=>$this->order->number]),
+                        'company'=>CompanyDetails::first()
+                    ]);
     }
 
     /**

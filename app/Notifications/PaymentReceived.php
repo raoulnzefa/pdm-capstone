@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class PaymentReceived extends Notification
 {
@@ -44,7 +45,12 @@ class PaymentReceived extends Notification
     public function toMail($notifiable)
     {
 
-        return (new MailMessage)->markdown('mail.order.received_payment', ['url' => route('customer.view_order', ['order' => $this->order->number]), 'order' => $this->order, 'date' => $this->date]);
+        return (new MailMessage)->markdown('mail.order.received_payment', [
+            'url' => route('customer.view_order', ['order' => $this->order->number]), 
+            'order' => $this->order, 
+            'date' => $this->date,
+            'company' => CompanyDetails::first()
+        ]);
     }
 
     /**

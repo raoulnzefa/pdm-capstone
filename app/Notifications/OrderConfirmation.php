@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class OrderConfirmation extends Notification
 {
@@ -43,7 +44,12 @@ class OrderConfirmation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.order.confirmation', ['order' => $this->order, 'date'=> $this->date, 'url' => route('customer.view_order', ['order'=> $this->order->number])]);
+        return (new MailMessage)->markdown('mail.order.confirmation', [
+            'order' => $this->order, 
+            'date'=> $this->date, 
+            'url' => route('customer.view_order', ['order'=> $this->order->number]),
+            'company' => CompanyDetails::first()
+        ]);
     }
 
     /**

@@ -51,5 +51,5 @@ Shipping information:
 @endif
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent

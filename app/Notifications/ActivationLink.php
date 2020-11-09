@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class ActivationLink extends Notification
 {
@@ -46,13 +47,11 @@ class ActivationLink extends Notification
 
         return (new MailMessage)
                     ->subject('Email Verification')
-                    ->greeting('Hi '.$this->cust->first_name.',')
-                    ->line('Thank you for creating your account at INFINITY FIGHTGEAR.')
-                    ->line('To verify your email please click the button below.')
-                    ->action('Verify Email', $url)
-                    ->line('Thank you.');
-                    // ->subject('Email Verification')
-                    // ->markdown('notification.activation_link', ['url'=>$url]);
+                    ->markdown('notification.activation_link', [
+                        'url'=>$url,
+                        'company'=>CompanyDetails::first(),
+                        'customer' => $this->cust
+                    ]);
     }
 
     /**

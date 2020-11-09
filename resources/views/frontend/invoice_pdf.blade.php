@@ -15,7 +15,7 @@
           <table border="0" width="100%">
                <tr>
                   <td align="center" colspan="2">
-                     <img src="{{ public_path('images/logo.jpg') }}" class="img-responsive">
+                     <img src="{{ (!is_null($company)) ? $company->logo_url : public_path('images/logo.jpg') }}" class="img-responsive">
                   </td>
               </tr>
               <tr>

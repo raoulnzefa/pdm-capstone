@@ -215,6 +215,7 @@ return [
         'ExcelReport'   => SamuelTerra22\ReportGenerator\Facades\ExcelReportFacade::class,
         'CSVReport'     => SamuelTerra22\ReportGenerator\Facades\CSVReportFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Company' => App\Http\Company::class,
     ],
 
 ];

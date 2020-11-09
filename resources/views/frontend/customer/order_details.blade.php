@@ -52,14 +52,26 @@
 						@elseif ($order->order_status == "Processing")
 						<div class="clearfix">
 							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
+							<form target="_blank" method="POST" action="{{route('customer.invoice', ['order'=>$order->number])}}">
+								@csrf
+								<button type="submit" class="btn btn-primary float-right mr-1">Invoice</button>
+							</form>
 						</div>
 						@elseif ($order->order_status == "For shipping")
 						<div class="clearfix">
 							<h4 class="float-left pt-2">Order No. {{ $order->number }}</h4>
+							<form target="_blank" method="POST" action="{{route('customer.invoice', ['order'=>$order->number])}}">
+								@csrf
+								<button type="submit" class="btn btn-primary float-right mr-1">Invoice</button>
+							</form>
 						</div>
 						@elseif ($order->order_status == "Shipped")
 						<div class="clearfix">
 							<h4 class="pt-2 float-left">Order No. {{ $order->number }}</h4>
+							<form target="_blank" method="POST" action="{{route('customer.invoice', ['order'=>$order->number])}}">
+								@csrf
+								<button type="submit" class="btn btn-primary float-right mr-1">Invoice</button>
+							</form>
 							<customer-receive-order :order="{{$order}}"></customer-receive-order>
 						</div>
 						@endif

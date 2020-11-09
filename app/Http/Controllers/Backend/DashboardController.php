@@ -16,6 +16,7 @@ use App\Models\InvoiceProduct;
 use App\Models\Inventory;
 use App\Http\Controllers\Traits\InventoryManager;
 use App\Notifications\FollowUpBankDepositEmail;
+use App\Notifications\DueDateBankDepositEmail;
 use DB;
 use Carbon\Carbon;
 
@@ -33,8 +34,10 @@ class DashboardController extends Controller
         $orders = Order::where('order_payment_method','Bank Deposit')
             ->where('order_payment_status', 'Pending')
             ->where('order_sent_follow_up', 0)
+            ->orWhere('order_sent_due_email', 0)
             ->where(function($query) {
-                    $query->whereRaw('order_follow_up_email = CURRENT_DATE');
+                    $query->whereRaw('order_follow_up_email = CURRENT_DATE')
+                        ->orWhereRaw('order_due_payment = CURRENT_DATE');
         })->get();
 
         if (count($orders) > 0)
@@ -49,7 +52,7 @@ class DashboardController extends Controller
                 {    
                     $days = $item->order_due_payment_days;
 
-                    $due_date_email = strftime("%A, %B %d, %Y", strtotime("+$days weekday"));
+                    $due_date_email = strftime("%A, %B %d, %Y", strtotime("+$days days"));
 
                     $dateData = ['date'=>$due_date_email,'days'=> $days];
                     
@@ -57,6 +60,22 @@ class DashboardController extends Controller
 
                     $customer->notify(new FollowUpBankDepositEmail($item, $dateData, $bank_account));
                     $item->order_sent_follow_up = 1;
+                    $item->update();
+                }
+                
+                if ($item->order_sent_due_email < 1)
+                {
+                    //send due date
+                    $days = $item->order_due_payment_days;
+
+                    $due_date_email = strftime("%A, %B %d, %Y", strtotime("+$days days"));
+
+                    $dateData = ['date'=>$due_date_email,'days'=> $days];
+                    
+                    $customer = Customer::where('id',$item->customer_id)->first();
+
+                    $customer->notify(new DueDateBankDepositEmail($item, $dateData, $bank_account));
+                    $item->order_sent_due_email = 1;
                     $item->update();
                 }
             }

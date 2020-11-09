@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\UserLogs;
 use Illuminate\Support\Facades\Storage;
-use Config;
 
 class CompanyDetailsController extends Controller
 {

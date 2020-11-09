@@ -149,8 +149,8 @@
 						</div>
 					</div>
 				</div>
-				<template slot="modal-ok" v-if="isBtnClicked">
-					<i class="fas fa-sync-alt fa-spin"></i> Create
+				<template slot="modal-ok">
+					<i class="fas fa-sync-alt fa-spin" v-if="isBtnClicked"></i> Create
 				</template>
 	  	</b-modal>
 	</div>
@@ -289,6 +289,8 @@
 		       				this.$refs.refsAddWithVariantModal.hide();
 								this.$v.forms.$reset();
 								this.$bus.$emit('refreshTable', true);
+								this.isBtnClicked = false;
+		       				this.readyToSubmit = false;
 		       			}
 		       			
 		       		})

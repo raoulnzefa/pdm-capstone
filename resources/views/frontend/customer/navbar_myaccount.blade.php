@@ -1,7 +1,7 @@
 <nav id="mainNavbar" class="navbar navbar-expand-sm bg-dark">
   <!-- Brand -->
   <a class="navbar-brand" href="{{route('frontend_homepage')}}">
-      <img src="{{ (!is_null($company)) ? $company->logo_url : '' }}" width="125" height="60" alt="">
+      <img src="{{ (!is_null($company)) ? $company->logo_url : asset('images/logo.jpg') }}" width="125" height="60" alt="{{$company->name}}">
   </a>
   <div class="container-fluid">
   <!-- Links -->

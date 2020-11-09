@@ -3,7 +3,7 @@
 
 Greetings from Admin!
 
-Your replacement request has been approved for the following item in your order {{ $replacement->order_number }}
+Your replacement request has been approved for the following item in your Order #{{ $replacement->order_number }}.
 
 Item: {{ $replacement->product_name }}
 
@@ -15,5 +15,5 @@ We apologize for any inconvenience caused to you.
 
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent

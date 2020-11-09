@@ -44,6 +44,7 @@ class CreateOrdersTable extends Migration
             $table->integer('order_reserved_days')->nullable();
             $table->integer('order_processing_days')->nullable();
             $table->integer('order_sent_follow_up')->default(0);
+            $table->integer('order_sent_due_email')->default(0);
             $table->integer('order_due_payment_days')->nullable();
             $table->integer('status_update')->default(0);
             $table->timestamps();

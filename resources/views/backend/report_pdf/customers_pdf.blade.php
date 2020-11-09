@@ -12,11 +12,11 @@
            <table border="0" width="100%">
                <tr>
                   <td align="center" colspan="2">
-                     <img src="{{ public_path('images/logo.jpg') }}" class="img-responsive">
+                     <img src="{{ (!is_null($company)) ? $company->logo_url : public_path('images/logo.jpg') }}" class="img-responsive">
                   </td>
               </tr>
               <tr>
-                  <td align="center" colspan="2">Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan</td> 
+                  <td align="center" colspan="2">{{$company->address}}</td> 
               </tr>
               <tr>
                   <td colspan="2" align="center">
@@ -32,7 +32,7 @@
                    <th>Customer</th>
                    <th>Email</th>
                    <th>Status</th>
-                   <th>Date Registered</th>
+                   <th width="25%">Date Registered</th>
                 </tr>
             </thead>
             <tbody>

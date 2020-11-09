@@ -27,7 +27,7 @@
 					<h3 class="mb-0">Request Replacement</h3>
 				</div>
 				<div class="card-body">
-					<request-replacement :order="{{$order}}" :customer="{{Auth::guard('customer')->user()}}"></request-replacement>
+					<request-replacement :order="{{$order}}" :customer="{{Auth::guard('customer')->user()}}" :company="{{$company}}"></request-replacement>
 				</div>
 			</div>
 		</div>

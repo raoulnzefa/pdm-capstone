@@ -40,6 +40,12 @@
 					</div>
 					<div class="clearfix" v-if="order.order_status === 'Processing'">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<form @submit.prevent="generateInvoice" method="POST" target="_blank" ref="invoiceOrderDetails" action="/admin/order/invoice">
+							<input type="hidden" name="_token" :value="csrf">
+							<input type="hidden" name="order_number" :value="order.number">
+							<input type="hidden" name="admin_id" :value="admin.id">
+							<button type="submit" class="btn btn-primary float-right">Invoice</button>
+						</form>
 						<mark-as-for-shipping
 							:order="order"
 							:admin="admin">
@@ -49,6 +55,12 @@
 				<template v-if="order.order_payment_method === 'PayPal'">
 					<div class="clearfix" v-if="order.order_status === 'Processing'">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<form @submit.prevent="generateInvoice" method="POST" target="_blank" ref="invoiceOrderDetails" action="/admin/order/invoice">
+							<input type="hidden" name="_token" :value="csrf">
+							<input type="hidden" name="order_number" :value="order.number">
+							<input type="hidden" name="admin_id" :value="admin.id">
+							<button type="submit" class="btn btn-primary float-right">Invoice</button>
+						</form>
 						<mark-as-for-shipping
 							:order="order"
 							:admin="admin">
@@ -58,6 +70,12 @@
 				<template v-if="order.order_status === 'For shipping'">
 					<div class="clearfix">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<form @submit.prevent="generateInvoice" method="POST" target="_blank" ref="invoiceOrderDetails" action="/admin/order/invoice">
+							<input type="hidden" name="_token" :value="csrf">
+							<input type="hidden" name="order_number" :value="order.number">
+							<input type="hidden" name="admin_id" :value="admin.id">
+							<button type="submit" class="btn btn-primary float-right">Invoice</button>
+						</form>
 						<deliver-order
 							:order="order"
 							:admin="admin">
@@ -67,6 +85,12 @@
 				<template v-if="order.order_status === 'Shipped'">
 					<div class="clearfix">
 						<h4 class="float-left mb-0 mt-1">Order No. {{order.number}}</h4>
+						<form @submit.prevent="generateInvoice" method="POST" target="_blank" ref="invoiceOrderDetails" action="/admin/order/invoice">
+							<input type="hidden" name="_token" :value="csrf">
+							<input type="hidden" name="order_number" :value="order.number">
+							<input type="hidden" name="admin_id" :value="admin.id">
+							<button type="submit" class="btn btn-primary float-right">Invoice</button>
+						</form>
 					</div>
 				</template>
 		</template>

@@ -624,7 +624,8 @@
             },
             disagreeTAC(e) {
                 this.notReadAndAccept = true;
-                this.$refs.refTAC.show();
+                this.terms_condition = false;
+                this.$refs.refTAC.hide();
             },
             setCashPayment(e) {
                if (this.shipping_method == 'store_pickup') {

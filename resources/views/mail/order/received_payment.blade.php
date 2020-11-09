@@ -28,5 +28,5 @@ You can check the status of your whole order and can print your invoice by visit
 
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent

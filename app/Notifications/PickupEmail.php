@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class PickupEmail extends Notification
 {
@@ -44,7 +45,12 @@ class PickupEmail extends Notification
     {
         return (new MailMessage)
                     ->subject('Order Confirmation')
-                    ->markdown('mail.order.pickup', ['order' => $this->order, 'url'=> route('customer.view_order', ['order'=>$this->order->number]), 'due_date'=>$this->due_date]);
+                    ->markdown('mail.order.pickup', [
+                        'order' => $this->order, 
+                        'url'=> route('customer.view_order', ['order'=>$this->order->number]), 
+                        'due_date'=>$this->due_date,
+                        'company' => CompanyDetails::first()
+                    ]);
     }
 
     /**

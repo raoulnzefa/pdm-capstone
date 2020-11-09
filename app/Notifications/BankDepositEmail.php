@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\CompanyDetails;
 
 class BankDepositEmail extends Notification
 {
@@ -47,7 +48,12 @@ class BankDepositEmail extends Notification
     {
         return (new MailMessage)
                     ->subject('Order Confirmation')
-                    ->markdown('mail.order.bank_deposit',['order'=>$this->order, 'url' => route('customer.view_order',['order'=>$this->order->number]), 'due_date'=>$this->due_date, 'bank_account'=> $this->bank_account]);
+                    ->markdown('mail.order.bank_deposit',[
+                        'order'=>$this->order, 
+                        'url' => route('customer.view_order',['order'=>$this->order->number]), 
+                        'due_date'=>$this->due_date, 'bank_account'=> $this->bank_account,
+                        'company' =>CompanyDetails::first()
+                    ]);
     }
 
     /**

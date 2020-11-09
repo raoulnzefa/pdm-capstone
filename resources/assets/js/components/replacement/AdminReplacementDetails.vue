@@ -55,7 +55,7 @@
 			                     <textarea class="form-control text-justify" :value="details.reason" rows="6" readonly></textarea>
 			                  </div>
 			              	</div>
-			              	<div class="col-sm-6 offset-sm-3">
+			              	<div class="col-sm-6 offset-sm-3" v-if="details.replacement_product_photos">
 			              		<button class="btn btn-outline-danger" @click="viewPhotos">View Photos</button>
 			              	</div>
 								<table class="table table-bordered mt-4">
@@ -148,7 +148,7 @@
 			   	<div class="d-flex flex-row mb-2">
 			   		<img :src="avatar" class="img-main">
 			   	</div>
-			   	<div class="d-flex flex-row">
+			   	<div class="d-flex flex-row" v-if="details.replacement_product_photos">
 			   		<img :src="photo.product_photo_url" @click="clickPhoto" class="img-bottom" v-for="(photo, index) in details.replacement_product_photos" :key="index">
 			   	</div>
 			   </div>

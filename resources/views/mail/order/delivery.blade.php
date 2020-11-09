@@ -11,5 +11,5 @@ Shipped: {{ date('M. d, Y h:i: A', strtotime($order->order_shipped)) }}.
 
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ $company->name }}
 @endcomponent

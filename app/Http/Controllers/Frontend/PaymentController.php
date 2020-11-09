@@ -139,7 +139,7 @@ class PaymentController extends Controller
 
 				$reserved_days = (int)$company->reserved_days;
         //db format
-				$reserved_until = strftime("%Y-%m-%d", strtotime("+$reserved_days weekday"));
+				$reserved_until = strftime("%Y-%m-%d", strtotime("+$reserved_days days"));
 
         // Cash payment only
 				$order_params = array(
@@ -178,7 +178,7 @@ class PaymentController extends Controller
 
 				$this->updateInventory($order_number);
 
-				$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$reserved_days weekday"));
+				$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$reserved_days days"));
 
 				$orderData = Order::where('number', $order_number)->first();
 
@@ -242,12 +242,12 @@ class PaymentController extends Controller
 				{
 					$due_payment_days = (int)$company->due_payment_days;
 
-					$estimated_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday"));
+					$estimated_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days days"));
 
-					$due_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days weekday"));
+					$due_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days days"));
 					$follow_up_days = (int)$company->follow_up_days;
 
-					$follow_up_date = strftime("%Y-%m-%d", strtotime("+$follow_up_days weekday"));
+					$follow_up_date = strftime("%Y-%m-%d", strtotime("+$follow_up_days days"));
 
 					$order_params = array(
 						'customer_id' => (int)$request->customer_id,
@@ -277,7 +277,7 @@ class PaymentController extends Controller
 
 					$this->updateInventory($order_number);
 
-					$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$due_payment_days weekday"));
+					$due_date_email = strftime("%A, %B %d, %Y", strtotime("+$due_payment_days days"));
 
 					$shipping_params = array(
 						'order_number' => $order_number,
@@ -555,7 +555,7 @@ class PaymentController extends Controller
             	//delivery working days....
        			$delivery_days = (int)$company->delivery_days;
             	//db format
-       			$estimated_date = strftime("%Y-%m-%d", strtotime("+$delivery_days weekday"));          
+       			$estimated_date = strftime("%Y-%m-%d", strtotime("+$delivery_days days"));          
 
        			$payment_status = 'Paid';
 
@@ -563,7 +563,7 @@ class PaymentController extends Controller
 
        			$date_now = $dt->toDateString();
 
-       			$emailDate = strftime("%A, %B %d, %Y", strtotime("+$delivery_days weekday"));
+       			$emailDate = strftime("%A, %B %d, %Y", strtotime("+$delivery_days days"));
 
        			$dateData = ['date'=>$emailDate, 'days'=> $delivery_days];
 

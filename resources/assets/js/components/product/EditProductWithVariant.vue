@@ -84,8 +84,8 @@
 					</div>
 				</div>
 			</form>
-			<template slot="modal-ok" v-if="isBtnClicked">
-            <i class="fas fa-sync-alt fa-spin"></i> Update
+			<template slot="modal-ok">
+            <i class="fas fa-sync-alt fa-spin" v-if="isBtnClicked"></i> Update
          </template>
 	  	</b-modal>
 	</div>

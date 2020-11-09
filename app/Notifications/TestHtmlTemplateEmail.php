@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\CompanyDetails;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,11 +44,9 @@ class TestHtmlTemplateEmail extends Notification
      */
     public function toMail($notifiable)
     {
-        Mail::send('frontend.UserNotify', ['content' => '', 'logo' =>'',' title' => '', 'branch_name' => ''], function ($message) {
-           $message->from('From Email Address', 'Test Email');
-           $message->to('Sender Email Address');
-           $message->subject('Email Subject');
-        });
+       return (new MailMessage)->markdown('mail.order.test_mail',[
+        'company' => CompanyDetails::first()
+       ]);
     }
 
     /**

@@ -1,7 +1,10 @@
 <html>
 <head>
   <title>{{$title}}</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="icon" type="image/png" href="{{ (!is_null($company)) ? $company->logo_url : asset('images/logo.jpg') }}">
   <link rel="stylesheet" type="text/css" href="{{ public_path('css/pdf.css') }}">
 </head>
 <body>
@@ -13,11 +16,11 @@
      <table border="0" width="100%">
          <tr>
             <td align="center" colspan="2">
-               <img src="{{ public_path('images/logo.jpg') }}" class="img-responsive">
+               <img src="{{ (!is_null($company)) ? $company->logo_url : public_path('images/logo.jpg') }}" class="img-responsive">
             </td>
         </tr>
         <tr>
-            <td align="center" colspan="2">Bunlo, Mac Arthur Hi-way, 2500 Bocaue, Bulacan</td> 
+            <td align="center" colspan="2">{{$company->address}}</td> 
         </tr>
         <tr>
             <td colspan="2" align="center">

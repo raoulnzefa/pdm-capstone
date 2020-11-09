@@ -2,23 +2,26 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => route('frontend_homepage')])
-            {{ config('app.name') }}
+            {{ $company->name }}
         @endcomponent
     @endslot
 {{-- Body --}}
-    This is our main message {{ $url }}
-{{-- Subcopy --}}
-    @isset($subcopy)
-        @slot('subcopy')
-            @component('mail::subcopy')
-                {{ $subcopy }}
-            @endcomponent
-        @endslot
-    @endisset
+    #Hi {{$customer->first_name}}.
+
+    Thank you for creating your account at {{$company->name}}.
+
+    To verify your email please click the button below.
+    
+    @component('mail::button', ['url' => $url])
+    Verify Email
+    @endcomponent
+
+    Thanks,<br>
+    {{ $company->name }}
 {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            © {{ date('Y') }} {{ config('app.name') }}
+            © {{ date('Y') }} {{ $company->name }}
         @endcomponent
     @endslot
 @endcomponent

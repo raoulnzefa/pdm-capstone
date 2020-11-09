@@ -46,22 +46,31 @@
                   </div>
               	</div>
               	<div class="form-group row">
-                  <label class="col-sm-3 col-form-label text-right">Upload photos:</label>
+                  <label class="col-sm-3 col-form-label text-right">Photo (optional):</label>
                   <div class="col-sm-8">
                   	<input type="file" name="defective_product"
                   	tabindex="3"
                   	class="form-control"
-                  	:class="{'is-invalid': $v.defectivePhotos.$error}"
                   	@change="selectPhotos"
                   	multiple>
-                  	<div v-if="$v.reason.$error">
-                     	<span class="error-feedback" v-if="!$v.defectivePhotos.required">Photos are required</span>
-                     </div>
                   </div>
               	</div>
-              	<div class="alert alert-warning mb-1 mt-4">
-              		By submitting this request for replacement you are agreeing to our <a href="/return-policy" target="_blank">return policy.</a>
-              	</div>
+              	<div class="form-group row mt-4">
+				     	<div class="col-sm-8 offset-sm-3">
+				     		<div class="form-check">
+						      <input class="form-check-input" type="checkbox" id="returnPolicyId" name="return_policy" 
+						         :class="{'is-invalid' : $v.returnPolicy.$error}"
+						         v-model.trim="$v.returnPolicy.$model"
+						         :disabled="notReadAndAccept">
+						      <label class="form-check-label" for="returnPolicyId">
+						      I have read and agreed with the <b><a href="javascript:void(0)" @click="openRP">return policy.</a></b>
+						      </label>
+						    </div>
+						    <div v-if="$v.returnPolicy.$error">
+					         <span class="error-feedback" v-if="!$v.returnPolicy.required">Please read and agree with our return policy</span>
+					     	</div>
+				     	</div>
+				 	</div>
 				</div>
 				<div class="card-footer clearfix">
 					<button class="btn btn-primary float-right" type="submit" :disabled="submitted"><i class="fa fa-refresh fa-spin" v-if="submitted"></i> Submit</button>
@@ -96,14 +105,28 @@
 			</tbody>
 		</table>
 		</template>
+		<b-modal 
+        title="Return Policy"
+        ref="refReturnPolicy"
+        size="lg"
+        ok-title="I agree"
+        cancel-title="I disagree"
+        hide-header-close
+        no-close-on-backdrop
+        no-close-on-esc
+        @ok="agreedRP"
+        @cancel="disagreeRP">
+        <div id="c_rp">
+        </div>
+      </b-modal>
 	</div>
 </template>
 
 <script>
-	import { required } from 'vuelidate/lib/validators';
+	import { sameAs, required } from 'vuelidate/lib/validators';
 
 	export default {
-		props: ['order', 'customer'],
+		props: ['order', 'customer','company'],
 		data() {
 			return {
 				orderedProducts: this.order.order_products,
@@ -119,16 +142,33 @@
 				defectivePhotos: [],
 				qty: 1,
 				server_errors: [],
+				notReadAndAccept: true,
+				returnPolicy: false,
 			}
 		},
 		validations() {
 			return {
 				qty: {required},
 				reason: { required },
-				defectivePhotos: { required }
+				returnPolicy: { 
+					sameAs: sameAs(() => true) 
+				},
 			}
 		},
 		methods: {
+			agreedRP() {
+				this.notReadAndAccept = false;
+				this.returnPolicy = true;
+				this.$refs.refReturnPolicy.hide();
+			},
+			disagreeRP() {
+				this.notReadAndAccept = true;
+				this.returnPolicy = false;
+				this.$refs.refReturnPolicy.hide();
+			},
+			openRP() {
+				this.$refs.refReturnPolicy.show();
+			},
 			selectPhotos(e) {
 				const file = e.target.files;
 
@@ -203,6 +243,10 @@
 			showPolicy() {
 				this.$refs.replacementRequestModal.show();
 			}
+		},
+		mounted() {
+			const divReturnPolicy = document.getElementById('c_rp');
+			divReturnPolicy.innerHTML = this.company.return_policy;
 		}
 	}
 </script>
