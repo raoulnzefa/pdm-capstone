@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class CustomerResetPasswordNotification extends Notification
 {
@@ -44,6 +45,7 @@ class CustomerResetPasswordNotification extends Notification
     {
         return (new MailMessage)
                     ->subject('Reset Password')
+                    ->from(Company::getEmail(), Company::getCompanyName())
                     ->greeting('Hello!')
                     ->line('Please click the button below to reset your password.')
                     ->action('Reset Password', route('customer.password.reset', $this->token))

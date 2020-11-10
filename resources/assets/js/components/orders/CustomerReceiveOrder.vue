@@ -1,6 +1,6 @@
 <template>
 <div>
-	<button class="btn btn-primary float-right" @click="receiveOrder" :disabled="isBtnClicked"><span v-if="isBtnClicked"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Receive order</button>
+	<button class="btn btn-success mr-1 float-right" @click="receiveOrder" :disabled="isBtnClicked"><span v-if="isBtnClicked"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Receive order</button>
 	
   </b-modal>
 </div>

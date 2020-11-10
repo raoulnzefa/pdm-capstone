@@ -1,6 +1,6 @@
 <template>
 <div>
-	<button class="btn btn-primary float-right" @click="pickedupOrder" :disabled="isBtnClicked">Mark as completed</button>
+	<button class="btn btn-success float-right" @click="pickedupOrder" :disabled="isBtnClicked">Mark as completed</button>
 </div>
 </template>
 <script>

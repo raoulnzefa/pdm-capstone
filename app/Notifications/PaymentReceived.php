@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class PaymentReceived extends Notification
 {
@@ -45,7 +46,10 @@ class PaymentReceived extends Notification
     public function toMail($notifiable)
     {
 
-        return (new MailMessage)->markdown('mail.order.received_payment', [
+        return (new MailMessage)
+            ->subject('Payment Received')
+            ->from(Company::getEmail(), Company::getCompanyName())
+            ->markdown('mail.order.received_payment', [
             'url' => route('customer.view_order', ['order' => $this->order->number]), 
             'order' => $this->order, 
             'date' => $this->date,

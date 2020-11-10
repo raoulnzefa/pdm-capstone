@@ -34,6 +34,8 @@ class CustomerAddressController extends Controller
 
       $addrCount = CustomerAddress::where('customer_id', (int)$request->customer_id)->count();
 
+      $addrCount += 1;
+
    	$address = new CustomerAddress();
    	$address->customer_id = $request->customer_id;
    	$address->address_name = 'Address '.$addrCount;

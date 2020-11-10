@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class FollowUpBankDepositEmail extends Notification
 {
@@ -48,6 +49,7 @@ class FollowUpBankDepositEmail extends Notification
     {
         return (new MailMessage)
                     ->subject('Payment for Order #'.$this->order->number)
+                    ->from(Company::getEmail(), Company::getCompanyName())
                     ->markdown('mail.order.follow_up_bank_deposit',[
                         'order'=>$this->order, 
                         'url' => route('customer.view_order',['order'=>$this->order->number]), 

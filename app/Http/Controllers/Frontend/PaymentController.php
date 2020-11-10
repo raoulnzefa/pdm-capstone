@@ -244,7 +244,8 @@ class PaymentController extends Controller
 
 					$estimated_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days days"));
 
-					$due_date = strftime("%Y-%m-%d", strtotime("+$due_payment_days days"));
+					$due_date = strftime("%Y-%m-%d %T", strtotime("+$due_payment_days days"));
+					
 					$follow_up_days = (int)$company->follow_up_days;
 
 					$follow_up_date = strftime("%Y-%m-%d", strtotime("+$follow_up_days days"));
@@ -585,7 +586,6 @@ class PaymentController extends Controller
        				'order_for_pickup' => NULL,
        				'order_reserved_days' => NULL,
 						'order_processing_days' => $delivery_days,
-						'order_due_payment_days' => NULL,
        				'order_paypal_url' => Session::get('paypal_redirect_url'),
        				'order_payment_date' => date("Y-m-d H:i:s"),
        				'order_reserved_days' => $delivery_days,

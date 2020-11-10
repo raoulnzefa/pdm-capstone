@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class ActivationLink extends Notification
 {
@@ -45,13 +46,14 @@ class ActivationLink extends Notification
     {
         $url = url('/email-verified/'.$this->cust->email.'/'.$this->cust->token);
 
+
         return (new MailMessage)
                     ->subject('Email Verification')
-                    ->markdown('notification.activation_link', [
-                        'url'=>$url,
-                        'company'=>CompanyDetails::first(),
-                        'customer' => $this->cust
-                    ]);
+                    ->from(Company::getEmail(), Company::getCompanyName())
+                    ->greeting('Hi '.$this->cust->first_name.',')
+                    ->line('To verify your email please click the button below.')
+                    ->action('Verify Email', $url)
+                    ->line('Thank you for creating your account at '.Company::getCompanyName().'.');
     }
 
     /**

@@ -7,7 +7,9 @@ Your replacement request has been declined for the following item in your Order 
 
 Item: {{ $replacement->product_name }}
 
-Replacement ID for this request is: {{ $replacement->id }}
+Request Quantity: {{ $replacement->quantity }}
+
+Replacement ID: {{ $replacement->id }}
 
 
 We apologize for any inconvenience caused to you.

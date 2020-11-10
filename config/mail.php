@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Company;
+
 return [
 
     /*
@@ -56,8 +58,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'paghubasan.ivan@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'INFINITY FIGHTGEAR'),
+        'address' => env('MAIL_FROM_ADDRESS', ''),
+        'name' => env('MAIL_FROM_NAME', ''),
     ],
 
     /*

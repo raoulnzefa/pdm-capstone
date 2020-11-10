@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hello {{ $order->customer->first_name }},
 
-Here is an update on your Order Number {{ $order->number }} placed on {{ $order->order_created }}.
+Here is an update on your Order Number {{ $order->number }} placed on {{ strftime("%B %d, %Y", strtotime($order->order_created)) }}.
 
 We are please to tell you that this product(s) is now on its way to you.
 

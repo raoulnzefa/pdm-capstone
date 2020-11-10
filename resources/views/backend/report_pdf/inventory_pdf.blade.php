@@ -19,6 +19,9 @@
                     <td align="center" colspan="2">{{$company->address}}</td> 
                 </tr>
                 <tr>
+                    <td align="center" colspan="2">Contact No. {{$company->contact_number}}</td> 
+                </tr>
+                <tr>
                     <td colspan="2" align="center">
                         <span class="report-name">{{ $title }}</span>
                     </td>

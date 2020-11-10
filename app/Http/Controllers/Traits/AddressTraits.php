@@ -9,10 +9,14 @@ trait AddressTraits
 	public function createAddress($array_params)
 	{
 		date_default_timezone_set("Asia/Manila");
-      
+            
+            $addrCounter = CustomerAddress::where('customer_id', $array_params['customer_id'])->count();
+
+            $addrCounter += 1;
+
             $address = new CustomerAddress();
             $address->customer_id = $array_params['customer_id'];
-            $address->address_name = str_random(4);
+            $address->address_name = 'Address '.$addrCounter;
             $address->firstname = $array_params['firstname'];
             $address->lastname = $array_params['lastname'];
             $address->street = $array_params['street'];
@@ -25,10 +29,6 @@ trait AddressTraits
             $address->zip_code = $array_params['zip_code'];
             $address->mobile_no = $array_params['mobile_no'];
             $address->save();
-
-            $addrUpdate = CustomerAddress::where('id', $address->id)->first();
-            $addrUpdate->address_name = 'Address '.$address->id;
-            $addrUpdate->update();
 
 	}
 }

@@ -7,7 +7,9 @@ Your replacement request has been approved for the following item in your Order 
 
 Item: {{ $replacement->product_name }}
 
-Replacement ID for this request is: {{ $replacement->id }}
+Request Quantity: {{ $replacement->quantity }}
+
+Replacement ID: {{ $replacement->id }}
 
 The store owner will now take further actions on this replacement request. You can track the status of your replacement request in the replacements page in customer page.
 

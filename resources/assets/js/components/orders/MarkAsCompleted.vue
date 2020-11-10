@@ -1,6 +1,6 @@
 <template>
 <div>
-	<button class="btn btn-primary float-right" @click="markAsCompleted" :disabled="isBtnClicked"><span v-if="isBtnClicked"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Mark as completed</button>
+	<button class="btn btn-success float-right mr-1" @click="markAsCompleted" :disabled="isBtnClicked"><span v-if="isBtnClicked"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>Mark as completed</button>
 	
   </b-modal>
 </div>

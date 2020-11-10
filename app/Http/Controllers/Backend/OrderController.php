@@ -44,32 +44,6 @@ class OrderController extends Controller
 
     public function index()
     {
-        // check for overdue orders
-
-        $overdue = Order::where('order_status','For pickup')
-            ->where(function($query) {
-                    $query->whereRaw('order_for_pickup < CURRENT_DATE');
-            });
-
-        $overdue = $overdue->where('order_status','Pending payment')
-            ->where(function($query) {
-                    $query->whereRaw('order_due_payment < CURRENT_DATE');
-            });
-
-        $overdue = $overdue->get();
-        
-        foreach ($overdue as $item)
-        {
-            $this->restockOrder($item->number);
-
-            $order = Order::where('number', $item->number)->first();
-            $order->order_status = 'Overdue';
-            $order->order_restocked = 1;
-            $order->viewed = 0;
-            $order->order_remarks = 'Restocked';
-            $order->update();
-        }
-
         $data = 'Orders';
         $company = CompanyDetails::first();
 

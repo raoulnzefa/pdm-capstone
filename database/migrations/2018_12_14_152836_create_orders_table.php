@@ -30,7 +30,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('order_shipping_discount',10,2)->nullable();
             $table->string('order_paypal_url')->nullable();
             $table->dateTime('order_payment_date')->nullable();
-            $table->date('order_due_payment')->nullable();
+            $table->dateTime('order_due_payment')->nullable();
             $table->dateTime('order_cancelled')->nullable();
             $table->date('order_for_pickup')->nullable();
             $table->date('order_follow_up_email')->nullable();

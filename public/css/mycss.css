@@ -55,7 +55,12 @@ a.product-card-link:hover {
 }
 
 .badge-for-shipping {
-	background-color: #663399;
+	background-color: #A52A2A;
+	color: #fff;
+}
+
+.badge-for-shipped {
+	background-color: #8B008B;
 	color: #fff;
 }
 

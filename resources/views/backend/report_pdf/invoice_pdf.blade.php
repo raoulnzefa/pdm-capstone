@@ -22,7 +22,7 @@
                   <td align="center" colspan="2">{{$company->address}}</td> 
               </tr>
               <tr>
-                  <td align="center" colspan="2">Contact no.: {{$company->contact_number}}</td> 
+                  <td align="center" colspan="2">Contact No. {{$company->contact_number}}</td> 
               </tr>
               <tr>
                   <td align="center" colspan="2">TIN: {{$company->tin_number}}</td> 

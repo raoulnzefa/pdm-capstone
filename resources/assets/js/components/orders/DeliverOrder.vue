@@ -1,6 +1,6 @@
 <template>
 <div>
-	<button class="btn btn-primary float-right" @click="deliverOrder">Ship order</button>
+	<button class="btn btn-success float-right mr-1" @click="deliverOrder">Ship order</button>
 	<b-modal ref="deliverOrderModal"
     		   title="Sending Email"
     		   no-close-on-backdrop

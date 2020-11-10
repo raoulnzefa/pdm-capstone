@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class DeclinedReplacementNotification extends Notification
 {
@@ -45,6 +46,7 @@ class DeclinedReplacementNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Request Declined')
+            ->from(Company::getEmail(), Company::getCompanyName())
             ->markdown('mail.order.declined_replacement', [
                 'replacement' => $this->replacement,
                 'company'=>CompanyDetails::first()

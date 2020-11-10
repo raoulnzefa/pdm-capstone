@@ -55,7 +55,7 @@
 			                     <textarea class="form-control text-justify" :value="details.reason" rows="6" readonly></textarea>
 			                  </div>
 			              	</div>
-			              	<div class="col-sm-6 offset-sm-3" v-if="details.replacement_product_photos">
+			              	<div class="col-sm-6 offset-sm-3">
 			              		<button class="btn btn-outline-danger" @click="viewPhotos">View Photos</button>
 			              	</div>
 								<table class="table table-bordered mt-4">
@@ -63,6 +63,7 @@
 										<tr>
 											<th width="15%">Inventory ID</th>
 											<th>Product</th>
+											<th width="14%">Request Qty</th>
 											<th width="10%">Stock</th>
 										</tr>
 									</thead>
@@ -78,6 +79,7 @@
 					                        </div>
 					                     </div>
 											</td>
+											<td class="align-middle">{{details.quantity}}</td>
 											<td class="align-middle">{{details.inventory.inventory_stock}}</td>
 										</tr>
 									</tbody>
@@ -103,11 +105,13 @@
 				<template v-if="!loading">
 					<div class="card-footer clearfix" v-if="details.status != 'Replaced'">
 						<template v-if="details.status === 'Pending'">
-							<button class="btn btn-primary float-right" @click="approveRequest">Approve</button>
-							<button class="btn btn-danger float-right mr-2" @click="declineRequest">Decline</button>
+							<button class="btn btn-primary float-right" @click="approveRequest" v-if="details.inventory.inventory_stock > 0">Approve</button>
+							<button class="btn btn-danger float-right mr-2" @click="declineRequest" v-if="details.inventory.inventory_stock > 0">Decline</button>
+							<button class="btn btn-secondary float-right" v-if="details.inventory.inventory_stock < 1" disabled>Out of stock</button>	
 						</template>
 						<template v-if="details.status === 'Approved'">
-							<button class="btn btn-primary float-right" @click="replaceProduct">Replace product</button>
+							<button class="btn btn-primary float-right" @click="replaceProduct" v-if="details.inventory.inventory_stock > 0">Replace product</button>
+							<button class="btn btn-secondary float-right" v-if="details.inventory.inventory_stock < 1" disabled>Out of stock</button>	
 						</template>
 					</div>
 				</template>

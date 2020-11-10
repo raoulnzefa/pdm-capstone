@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class ReplacedProductNotification extends Notification
 {
@@ -45,6 +46,7 @@ class ReplacedProductNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Product Replaced')
+            ->from(Company::getEmail(), Company::getCompanyName())
             ->markdown('mail.order.replaced_product', [
                 'replacement' => $this->replacement,
                 'company'=>CompanyDetails::first()

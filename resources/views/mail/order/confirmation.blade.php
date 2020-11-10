@@ -4,7 +4,7 @@
 # Thank you for your order.
 
 Your order is being processed.
-This is your order confirmation for Order #{{ $order->number }} placed on {{ $order->order_created }}.<br>
+This is your order confirmation for Order #{{ $order->number }} placed on {{ strftime("%B %d, %Y", strtotime($order->order_created)) }}.<br>
 
 @if ($order->order_shipping_method == 'Shipping')
 Your order will be ship in {{ $date['days'] }} business days. Estimated delivery date {{ $date['date'] }}.<br>

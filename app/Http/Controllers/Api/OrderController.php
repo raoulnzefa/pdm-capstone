@@ -109,7 +109,7 @@ class OrderController extends Controller
 
       $days_warranty = 7;
         
-      $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));
+      $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty days"));
 
       $order->order_payment_status = 'Paid';
       $order->status_update = 1;
@@ -167,7 +167,7 @@ class OrderController extends Controller
 
             $processing_days = (int)$company->delivery_days;
 
-            $date = strftime("%A, %B %d, %Y", strtotime("+$processing_days weekday"));
+            $date = strftime("%A, %B %d, %Y", strtotime("+$processing_days days"));
 
             $dateData = ['date'=>$date, 'days'=> $processing_days];
 
@@ -197,11 +197,11 @@ class OrderController extends Controller
       {
          $days_warranty = 7;
         
-         $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty weekday"));
+         $warranty_date = strftime("%Y-%m-%d", strtotime("+$days_warranty days"));
 
          $order->order_status = 'Shipped';
          $order->status_update = 1;
-         $order->order_warranty = date($warranty_date.' 17:00:00');
+         $order->order_warranty = date($warranty_date);
          $order->order_shipped = date('Y-m-d H:i:s');
          $order->update();
 

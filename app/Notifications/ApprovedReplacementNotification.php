@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class ApprovedReplacementNotification extends Notification
 {
@@ -45,6 +46,7 @@ class ApprovedReplacementNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Request Accepted')
+            ->from(Company::getEmail(), Company::getCompanyName())
             ->markdown('mail.order.approved_replacement', [
                 'replacement' => $this->replacement,
                 'company'=>CompanyDetails::first()

@@ -149,9 +149,6 @@
 						</div>
 					</div>
 				</div>
-				<template slot="modal-ok">
-					<i class="fas fa-sync-alt fa-spin" v-if="isBtnClicked"></i> Create
-				</template>
 	  	</b-modal>
 	</div>
 </template>

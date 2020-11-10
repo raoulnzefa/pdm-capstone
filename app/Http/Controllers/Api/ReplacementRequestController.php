@@ -200,13 +200,16 @@ class ReplacementRequestController extends Controller
         $replacement = ReplacementRequest::where('id', (int)$request->replacement_id)->first();
         $inventory = Inventory::where('number', $replacement->inventory_number)->first();
 
-        if ($inventory->inventory_stock > $replacement->quantity)
+        if ($inventory->inventory_stock >= $replacement->quantity)
         {
            
 
             if ($request->additional_action == 'restock')
             {
                 $this->restockItem($replacement->inventory_number, (int)$replacement->quantity);
+
+                $inventory->inventory_stock -= $replacement->quantity;
+                $inventory->update();
             }
             elseif ($request->additional_action == 'record_as_defective')
             {

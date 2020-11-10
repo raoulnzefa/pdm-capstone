@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hello {{ $order->customer->first_name }},
 
-We received your payment for Order #{{ $order->number }} placed on {{ $order->order_created }}.
+We received your payment for Order #{{ $order->number }} placed on {{ date('F d, Y', strtotime($order->order_created)) }}.
 
 Your order is now being processed. Your order will be delivered in {{ $date['days'] }} business days. Estimated delivery date {{ $date['date'] }}.
 

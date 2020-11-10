@@ -4,10 +4,6 @@
 Hope you're doing well. This is just to remind you that the Order #{{$order->number}} with a total of &#8369;{{ $order->order_total }} is due for payment today.
 
 Make your payment directly into our bank account. Kindly use your Order #{{ $order->number }} as the payment reference.
-
-Your order has been reserved within {{ $due_date['days'] }} business days until {{ $due_date['date'] }}.
-
-Once your payment has been received we will start processing your order.
  
 # Details
 <ul>

@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class DueDateBankDepositEmail extends Notification
 {
@@ -48,6 +49,7 @@ class DueDateBankDepositEmail extends Notification
     {
         return (new MailMessage)
                     ->subject('Due Payment for Order #'.$this->order->number)
+                    ->from(Company::getEmail(), Company::getCompanyName())
                     ->markdown('mail.order.due_date_bank_deposit',[
                         'order'=>$this->order, 
                         'url' => route('customer.view_order',['order'=>$this->order->number]), 

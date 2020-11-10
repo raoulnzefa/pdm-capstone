@@ -3,11 +3,13 @@
 
 Greetings from Admin!
 
-The item you hasve request for replacement has been replaced in your Order #{{ $replacement->order_number }}.
+The item you have request for replacement has been replaced in your Order #{{ $replacement->order_number }}.
 
 Item: {{ $replacement->product_name }}
 
-Replacement ID for this request is: {{ $replacement->id }}
+Replaced Quantity: {{ $replacement->quantity }}
+
+Replacement ID: {{ $replacement->id }}
 
 
 Thanks,<br>

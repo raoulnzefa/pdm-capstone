@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\CompanyDetails;
+use Company;
 
 class OrderConfirmation extends Notification
 {
@@ -44,12 +45,15 @@ class OrderConfirmation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.order.confirmation', [
-            'order' => $this->order, 
-            'date'=> $this->date, 
-            'url' => route('customer.view_order', ['order'=> $this->order->number]),
-            'company' => CompanyDetails::first()
-        ]);
+        return (new MailMessage)
+            ->subject('Order Confirmation')
+            ->from(Company::getEmail(), Company::getCompanyName())
+            ->markdown('mail.order.confirmation', [
+                'order' => $this->order, 
+                'date'=> $this->date, 
+                'url' => route('customer.view_order', ['order'=> $this->order->number]),
+                'company' => CompanyDetails::first()
+            ]);
     }
 
     /**

@@ -31,14 +31,16 @@ class DashboardController extends Controller
 
     public function index()
     {
+        date_default_timezone_set("Asia/Manila");
+        
         $orders = Order::where('order_payment_method','Bank Deposit')
             ->where('order_payment_status', 'Pending')
-            ->where('order_sent_follow_up', 0)
-            ->orWhere('order_sent_due_email', 0)
             ->where(function($query) {
                     $query->whereRaw('order_follow_up_email = CURRENT_DATE')
-                        ->orWhereRaw('order_due_payment = CURRENT_DATE');
+                    ->orWhereRaw('order_due_payment::date = CURRENT_DATE');
         })->get();
+
+        // return DB::select("select order_sent_due_email, order_sent_follow_up from orders where order_payment_method = 'Bank Deposit' and order_payment_status = 'Pending' and order_follow_up_email in (select order_follow_up_email from orders where order_follow_up_email = '2020-11-11' or order_due_payment::date = '2020-11-14')");
 
         if (count($orders) > 0)
         {
@@ -52,7 +54,7 @@ class DashboardController extends Controller
                 {    
                     $days = $item->order_due_payment_days;
 
-                    $due_date_email = strftime("%A, %B %d, %Y", strtotime("+$days days"));
+                    $due_date_email = strftime("%A, %B %d, %Y", strtotime($item->order_due_payment));
 
                     $dateData = ['date'=>$due_date_email,'days'=> $days];
                     
@@ -68,7 +70,7 @@ class DashboardController extends Controller
                     //send due date
                     $days = $item->order_due_payment_days;
 
-                    $due_date_email = strftime("%A, %B %d, %Y", strtotime("+$days days"));
+                    $due_date_email = strftime("%A, %B %d, %Y", strtotime($item->order_due_payment));
 
                     $dateData = ['date'=>$due_date_email,'days'=> $days];
                     
@@ -80,6 +82,7 @@ class DashboardController extends Controller
                 }
             }
         }
+
         // check for overdue orders
         $overdue = Order::where('order_status','For pickup')
             ->where(function($query) {
