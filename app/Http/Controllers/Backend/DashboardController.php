@@ -33,6 +33,7 @@ class DashboardController extends Controller
     {
         date_default_timezone_set("Asia/Manila");
         
+        // check follow up emails
         $orders1 = Order::where('order_payment_method','Bank Deposit')
             ->where('order_payment_status', 'Pending')
             ->where(function($query) {
@@ -66,6 +67,7 @@ class DashboardController extends Controller
             }
         }
 
+        // check for due payment
         $orders2 = Order::where('order_payment_method','Bank Deposit')
             ->where('order_payment_status', 'Pending')
             ->where(function($query) {
@@ -80,7 +82,7 @@ class DashboardController extends Controller
 
 
             foreach ($orders2 as $item) {
-                // if not yet send a follow up email
+                // if not yet send a due date email
                 if ($item->order_sent_due_email == 0)
                 {
                     //send due date
