@@ -103,29 +103,27 @@ class CustomerAuthController extends Controller
 
         $addrCount = CustomerAddress::where('customer_id', $cust->id)->count();
 
+        $addrCount += 1;
+
         $custAddress = new CustomerAddress();
         $custAddress->customer_id = (int)$cust->id;
         $custAddress->address_name = ($addrCount < 1) ? 'Address 1'  : 'Address '.$addrCount;
         $custAddress->firstname = ucwords($request->first_name);
         $custAddress->lastname = ucwords($request->last_name);
-        $custAddress->street = ucfirst($request->street);
-        $custAddress->barangay = $request->barangay_name;
-        $custAddress->municipality = $request->municipality_name;
-        $custAddress->province = $request->province_name;
-        $custAddress->barangay_id = $request->barangay;
-        $custAddress->municipality_id = $request->municipality;
-        $custAddress->province_id = $request->province;
+        $custAddress->street = $request->street;
+        $custAddress->barangay = ucwords(strtolower($request->barangay));
+        $custAddress->municipality = ucwords(strtolower($request->municipality));
+        $custAddress->province = ucwords(strtolower($request->province));
         $custAddress->zip_code = $request->zip_code;
         $custAddress->mobile_no = $request->mobile_no;
         $custAddress->save();
 
-        $cust_data = Customer::where('id', $cust->id)->first();
-        // $cust_data->number = 'CUS-'.date('Y').'-'.str_pad($cust_data->id, 4, '0', STR_PAD_LEFT);
+        $cust_data = Customer::where('id',$cust->id)->first();
 
         try {
             $cust_data->notify(new ActivationLink($cust_data)); 
         } catch(Exception $e) {
-            Customer::where('email', $request->email)->delete();
+            //Customer::where('email', $request->email)->delete();
             //return $e->getMessage();
             return redirect()->back()->with('registration_error', 'Registration failed: '.$e->getMessage());
         }

@@ -125,22 +125,22 @@
                             </div>
                             <div class="form-group">
                                 <label>Barangay:</label>
-                                <input type="text" class="form-control" name="barangay" :value="drp_barangay" readonly>
+                                <input type="text" class="form-control" name="barangay" :value="barangay" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Municipality:</label>
-                                <input type="text" class="form-control" name="municipality" :value="drp_municipality" readonly>
+                                <input type="text" class="form-control" name="municipality" :value="municipality" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Province:</label>
-                                <input type="text" class="form-control" name="province" :value="drp_province" readonly>
+                                <input type="text" class="form-control" name="province" :value="province" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Zip code:</label>
                                 <input type="text" class="form-control" name="zip_code" :value="zip_code" readonly>
                             </div>
                             <div class="form-group">
-                                <label>Mobile no:</label>
+                                <label>Mobile No:</label>
                                 <input type="text" class="form-control" name="mobile_no" :value="mobile_no" readonly>
                             </div> 
                        </template><!-- your saved address -->
@@ -180,50 +180,39 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="chckprovince">Province:</label>
-                            <select class="form-control" id="chckprovince"
-                                v-model.trim="$v.province.$model"
-                                :class="{'is-invalid': $v.province.$error}"
-                                name="province_id"
-                                @change="municipalityList">
-                                <option value="">Select province</option>
-                               <option v-for="(item, index) in provinceList" :key="index" :value="item.province_id">{{item.name}}</option>
-                            </select>
-                            <input type="hidden" name="province" :value="drp_province">
-                            <div v-if="$v.province.$error">
-                                <span class="error-feedback" v-if="!$v.province.required">Province is required</span>
+                            <label for="chckbarangay">Barangay:</label>
+                            <input type="text" name="barangay" 
+                                class="form-control" 
+                                placeholder="Enter your barangay"
+                                id="chckbarangay"
+                                v-model.trim="$v.barangay.$model"
+                                :class="{'is-invalid': $v.barangay.$error}">
+                            <div v-if="$v.barangay.$error">
+                                <span class="error-feedback" v-if="!$v.barangay.required">Barangay is required</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="chckmunicipality">Municipality:</label>
-                            <select class="form-control" id="chckmunicipality"
+                            <input type="text" name="municipality" 
+                                class="form-control" 
+                                placeholder="Enter your municipality"
+                                id="chckmunicipality"
                                 v-model.trim="$v.municipality.$model"
-                                :class="{'is-invalid': $v.municipality.$error}"
-                                @change="barangayList"
-                                name="municipality_id">
-                               <option value="" v-if="!municipalities.length">Select province first</option>
-                               <option value="" v-else>Select municipality</option>
-                               <option v-for="(item, index) in municipalities" :key="index" :value="item.city_id">{{item.name}}</option>
-                            </select>
-                            <input type="hidden" name="municipality" :value="drp_municipality">
+                                :class="{'is-invalid': $v.municipality.$error}">
                             <div v-if="$v.municipality.$error">
                                 <span class="error-feedback" v-if="!$v.municipality.required">Municipality is required</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="chckbarangay">Barangay:</label>
-                            <select class="form-control" id="chckbarangay"
-                                v-model.trim="$v.barangay.$model"
-                                :class="{'is-invalid': $v.barangay.$error}"
-                                name="barangay_id"
-                                @change="getBarangay">
-                               <option value="" v-if="!barangays.length">Select municipality first</option>
-                               <option value="" v-else>Select barangay</option>
-                               <option v-for="(item, index) in barangays" :key="index" :value="item.id">{{item.name}}</option>
-                            </select>
-                            <input type="hidden" name="barangay" :value="drp_barangay">
-                            <div v-if="$v.barangay.$error">
-                                <span class="error-feedback" v-if="!$v.barangay.required">Barangay is required</span>
+                            <label for="chckprovince">Province:</label>
+                            <input type="text" name="province" 
+                                class="form-control" 
+                                placeholder="Enter your province"
+                                id="chckprovince"
+                                v-model.trim="$v.province.$model"
+                                :class="{'is-invalid': $v.province.$error}">
+                            <div v-if="$v.province.$error">
+                                <span class="error-feedback" v-if="!$v.province.required">Province is required</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -241,7 +230,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="chckmobileno">Mobile no.:</label>
+                            <label for="chckmobileno">Mobile No.:</label>
                             <input type="text" class="form-control" id="chckmobileno"
                                 v-model.trim="$v.mobile_no.$model"
                                 :class="{'is-invalid': $v.mobile_no.$error}"
@@ -427,9 +416,6 @@
 				shipping_method: '',
 				payment_method: '',
 				terms_condition: false,
-				provinces: [],
-				municipalities: [],
-				barangays: [],
 				isSubmitted: false,
 				csrf: document.head.querySelector('meta[name="csrf-token"]').content,
 				not_accept_terms_conditions: true,
@@ -448,12 +434,6 @@
                 saveAddr: true,
                 useSavedAddress: false,
                 addrID: '',
-                barangay_name: '',
-                municipality_name: '',
-                province_name: '',
-                drp_province: '',
-                drp_municipality: '',
-                drp_barangay: '',
                 has_discount: false,
 			}
 		},
@@ -523,84 +503,15 @@
                     this.mobile_no = '';
                 } 
             },
-            getProvinces() {
-                axios.get('/api/address/provinces')
-                .then(response => {
-                    this.provinces = response.data;
-                })
-                .catch(error => {
-                    console.log(error.response);
-                });
-            },
-            municipalityList(e) {
-                this.municipality = '';
-                this.barangay = '';
-                this.barangays = [];
-                this.drp_barangay = '';
-
-                if (this.province) {
-                    let prv = this.provinces.find(x => x.province_id == this.province);
-
-                    this.drp_province = prv.name;
-
-                    axios.get('/api/address/cities/'+this.province)
-                    .then(response => {
-                        this.municipalities = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                    });
-                } else {
-                    this.municipalities = [];
-                    this.drp_province = '';
-                    this.province = '';
-                }
-            },
-            barangayList(e) {
-                this.barangay = '';
-
-                if (this.municipality) {
-
-                    let city = this.municipalities.find(x => x.city_id == this.municipality);
-
-                    this.drp_municipality = city.name;
-
-                    axios.get('/api/address/barangays/'+this.municipality)
-                    .then(response => {
-                        this.barangays = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                    });
-                } else {
-                    this.barangays = [];
-                    this.drp_municipality = '';
-                    this.drp_barangay = '';
-                }
-            },
-            getBarangay(e) {
-                if (this.barangay) {
-                    let brgy = this.barangays.find(x => x.id == this.barangay);
-
-                    this.drp_barangay = brgy.name;   
-
-                } else {
-                    this.barangay = '';
-                    this.drp_barangay = '';
-                }
-            },
             selectAddress(e) {
                 const addr = this.customer.addresses.find(x => x.id === this.addrID);
                 this.first_name = addr.firstname;
                 this.last_name = addr.lastname;
                 this.street = addr.street;
-                this.barangay_name = addr.barangay;
-                this.municipality_name = addr.municipality;
-                this.province_name = addr.province;
+                this.barangay = addr.barangay;
+                this.municipality = addr.municipality;
+                this.province = addr.province;
                 this.zip_code = addr.zip_code;
-                this.drp_barangay = addr.barangay;
-                this.drp_municipality = addr.municipality;
-                this.drp_province = addr.province;
                 this.mobile_no = addr.mobile_no;
             },
 			placeOrder(e) {
@@ -641,10 +552,6 @@
             }
 		},
 		computed: {
-            provinceList() {
-                let items = this.provinces.sort((a,b) => (a.name > b.name) ? 1 : -1);
-                return items;
-            },
 			shippingRate() {
 				let amount = parseFloat(this.shipping_rate);
 				
@@ -715,8 +622,6 @@
                     this.readyToSubmit = false;
                 }
             });
-
-            this.getProvinces();
 
             const TAC = document.getElementById('c_tac');
             TAC.innerHTML = this.company.terms_and_conditions;

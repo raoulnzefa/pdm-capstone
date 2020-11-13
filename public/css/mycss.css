@@ -17,6 +17,7 @@ body {
 
 .reg-error {
 	list-style-type: none;
+	padding-bottom: 0px; 
 }
 
 .rm-bullets {

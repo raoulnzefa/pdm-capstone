@@ -42,12 +42,9 @@ class CustomerAddressController extends Controller
       $address->firstname = ucfirst($request->firstname);
       $address->lastname = ucfirst($request->lastname);
    	$address->street = $request->street;
-      $address->province = $request->province;
-      $address->municipality = $request->municipality;
-      $address->barangay = $request->barangay;
-      $address->province_id = $request->province_id;
-      $address->municipality_id = $request->municipality_id;
-      $address->barangay_id = $request->barangay_id;
+      $address->province = ucwords(strtolower($request->province));
+      $address->municipality = ucwords(strtolower($request->municipality));
+      $address->barangay = ucwords(strtolower($request->barangay));
    	$address->zip_code = $request->zip_code;
       $address->mobile_no = $request->mobile_no;
    	$address->save();
@@ -75,17 +72,12 @@ class CustomerAddressController extends Controller
 
       $redirect_back = route('customer_address');
 
-      $addrCount = CustomerAddress::where('customer_id', $request->customer_id)->count();
-
       $address->firstname = ucfirst($request->firstname);
       $address->lastname = ucfirst($request->lastname);
    	$address->street = $request->street;
-      $address->province = $request->province;
-      $address->municipality = $request->municipality;
-      $address->barangay = $request->barangay;
-      $address->province_id = $request->province_id;
-      $address->municipality_id = $request->municipality_id;
-      $address->barangay_id = $request->barangay_id;
+      $address->province = ucwords(strtolower($request->province));
+      $address->municipality = ucwords(strtolower($request->municipality));
+      $address->barangay = ucwords(strtolower($request->barangay));
    	$address->zip_code = $request->zip_code;
       $address->mobile_no = $request->mobile_no;
    	$address->update();

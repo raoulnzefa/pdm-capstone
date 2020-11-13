@@ -33,24 +33,23 @@ class DashboardController extends Controller
     {
         date_default_timezone_set("Asia/Manila");
         
-        $orders = Order::where('order_payment_method','Bank Deposit')
+        $orders1 = Order::where('order_payment_method','Bank Deposit')
             ->where('order_payment_status', 'Pending')
             ->where(function($query) {
-                    $query->whereRaw('order_follow_up_email = CURRENT_DATE')
-                    ->orWhereRaw('order_due_payment::date = CURRENT_DATE');
+                    $query->whereRaw('order_follow_up_email = CURRENT_DATE');
         })->get();
 
         // return DB::select("select order_sent_due_email, order_sent_follow_up from orders where order_payment_method = 'Bank Deposit' and order_payment_status = 'Pending' and order_follow_up_email in (select order_follow_up_email from orders where order_follow_up_email = '2020-11-11' or order_due_payment::date = '2020-11-14')");
 
-        if (count($orders) > 0)
+        if (count($orders1) > 0)
         {
             // get bank account
             $bank_account = BankAccount::where('active', 1)->first();
 
 
-            foreach ($orders as $item) {
+            foreach ($orders1 as $item) {
                 // if not yet send a follow up email
-                if ($item->order_sent_follow_up < 1)
+                if ($item->order_sent_follow_up == 0)
                 {    
                     $days = $item->order_due_payment_days;
 
@@ -64,8 +63,25 @@ class DashboardController extends Controller
                     $item->order_sent_follow_up = 1;
                     $item->update();
                 }
-                
-                if ($item->order_sent_due_email < 1)
+            }
+        }
+
+        $orders2 = Order::where('order_payment_method','Bank Deposit')
+            ->where('order_payment_status', 'Pending')
+            ->where(function($query) {
+                    $query->whereRaw('order_due_payment::date = CURRENT_DATE');
+        })->get();
+
+
+        if (count($orders2) > 0)
+        {
+            // get bank account
+            $bank_account = BankAccount::where('active', 1)->first();
+
+
+            foreach ($orders2 as $item) {
+                // if not yet send a follow up email
+                if ($item->order_sent_due_email == 0)
                 {
                     //send due date
                     $days = $item->order_due_payment_days;
@@ -84,30 +100,30 @@ class DashboardController extends Controller
         }
 
         // check for overdue orders
-        $overdue = Order::where('order_status','For pickup')
-            ->where(function($query) {
-                    $query->whereRaw('order_for_pickup < CURRENT_DATE');
-            });
+        // $overdue = Order::where('order_status','For pickup')
+        //     ->where(function($query) {
+        //             $query->whereRaw('order_for_pickup < CURRENT_DATE');
+        //     });
 
-        $overdue = $overdue->where('order_status','Pending payment')
-            ->where(function($query) {
-                    $query->whereRaw('order_due_payment < CURRENT_DATE');
-            });
+        // $overdue = $overdue->where('order_status','Pending payment')
+        //     ->where(function($query) {
+        //             $query->whereRaw('order_due_payment < CURRENT_DATE');
+        //     });
 
-        $overdue = $overdue->get();
+        // $overdue = $overdue->get();
         
 
-        foreach ($overdue as $item)
-        {
-            $this->restockOrder($item->number);
+        // foreach ($overdue as $item)
+        // {
+        //     $this->restockOrder($item->number);
 
-            $order = Order::where('number', $item->number)->first();
-            $order->order_status = 'Overdue';
-            $order->order_restocked = 1;
-            $order->viewed = 0;
-            $order->order_remarks = 'Restocked';
-            $order->update();
-        }
+        //     $order = Order::where('number', $item->number)->first();
+        //     $order->order_status = 'Overdue';
+        //     $order->order_restocked = 1;
+        //     $order->viewed = 0;
+        //     $order->order_remarks = 'Restocked';
+        //     $order->update();
+        // }
 
         $data = 'Dashboard';
     	$admin = Auth::guard('admin')->user();

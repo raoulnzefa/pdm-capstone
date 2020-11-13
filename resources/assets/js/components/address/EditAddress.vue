@@ -14,7 +14,7 @@
                 </div>
                 <br>
                     <div class="form-group row">
-                        <label for="addrFname" class="col-sm-4 col-form-label text-right">Firstname:</label>
+                        <label for="addrFname" class="col-sm-4 col-form-label text-right">First Name:</label>
                         <div class="col-sm-6">
                             <input type="text" name="firstname" id="addrFname" class="form-control"
                                 tabindex="1"
@@ -22,12 +22,12 @@
                                 v-model.trim="$v.firstname.$model"
                                 :class="{'is-invalid': $v.firstname.$error}">
                                 <div v-if="$v.firstname.$error">
-                                    <span class="error-feedback" v-if="!$v.firstname.required">Firstname is required</span>
+                                    <span class="error-feedback" v-if="!$v.firstname.required">First Name is required</span>
                                 </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="addrFname" class="col-sm-4 col-form-label text-right">Lastname:</label>
+                        <label for="addrFname" class="col-sm-4 col-form-label text-right">Last Name:</label>
                         <div class="col-sm-6">
                             <input type="text" name="lastname" id="addrLname" class="form-control"
                                 tabindex="2"
@@ -35,7 +35,7 @@
                                 v-model.trim="$v.lastname.$model"
                                 :class="{'is-invalid': $v.lastname.$error}">
                                 <div v-if="$v.lastname.$error">
-                                    <span class="error-feedback" v-if="!$v.lastname.required">Lastname is required</span>
+                                    <span class="error-feedback" v-if="!$v.lastname.required">Last Name is required</span>
                                 </div>
                         </div>
                     </div>
@@ -53,51 +53,38 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="addrProvinceEdit" class="col-sm-4 col-form-label text-right">Province:</label>
+                        <label for="addrBarangay" class="col-sm-4 col-form-label text-right">Barangay:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="addrProvinceEdit"
-                                tabindex="2"
-                                v-model.trim="$v.province_id.$model"
-                                :class="{'is-invalid': $v.province_id.$error}"
-                                @change="getMunicipalities"> 
-                                <option value="">Select a province</option>
-                                <option v-for="(prov, index) in provinceList" :key="index" :value="prov.province_id">{{prov.name}}</option>
-                            </select>
-                            <div v-if="$v.province_id.$error">
-                                <span class="error-feedback" v-if="!$v.province_id.required">Province is required</span>
+                            <input type="text" name="barangay" id="addrBarangay" class="form-control"
+                                v-model.trim="$v.barangay.$model"
+                                :class="{'is-invalid': $v.barangay.$error}"
+                                placeholder="Enter your barangay">
+                            <div v-if="$v.barangay.$error">
+                                <span class="error-feedback" v-if="!$v.barangay.required">Barangay is required</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="addrMunicipalityEdit" class="col-sm-4 col-form-label text-right">Municipality:</label>
+                        <label for="addrMunicipality" class="col-sm-4 col-form-label text-right">Municipality:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" id="addrMunicipalityEdit"
-                                tabindex="3"
-                                v-model.trim="$v.municipality_id.$model"
-                                :class="{'is-invalid': $v.municipality_id.$error}"
-                                @change="getBarangays">
-                                <option value="" v-if="!province_list.length">Select a province first</option>
-                                <option value="" v-else>Select a municipality</option>
-                                <option v-for="(muni, index) in municipality_list" :key="index" :value="muni.city_id">{{muni.name}}</option>
-                            </select>
-                            <div v-if="$v.municipality_id.$error">
-                                <span class="error-feedback" v-if="!$v.municipality_id.required">Municipality is required</span>
+                            <input type="text" name="municipality" id="addrMunicipality" class="form-control"
+                                v-model.trim="$v.municipality.$model"
+                                :class="{'is-invalid': $v.municipality.$error}"
+                                placeholder="Enter your municipality">
+                            <div v-if="$v.municipality.$error">
+                                <span class="error-feedback" v-if="!$v.municipality.required">Municipality is required</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="addrBarangayEdit" class="col-sm-4 col-form-label text-right">Barangay:</label>
+                        <label for="addrProvince" class="col-sm-4 col-form-label text-right">Province:</label>
                         <div class="col-sm-6">
-                             <select class="form-control" id="addrBarangayEdit"
-                             tabindex="4"
-                             v-model.trim="$v.barangay_id.$model"
-                             :class="{'is-invalid': $v.barangay_id.$error}">
-                                <option value="" v-if="!barangay_list.length">Select a municipality first</option>
-                                <option value="" v-else>Select a barangay</option>
-                                <option v-for="(barang, index) in barangay_list" :key="index" :value="barang.id">{{barang.name}}</option>
-                            </select>
-                            <div v-if="$v.barangay_id.$error">
-                                <span class="error-feedback" v-if="!$v.barangay_id.required">Barangay is required</span>
+                            <input type="text" name="province" id="addrProvince" class="form-control"
+                                v-model.trim="$v.province.$model"
+                                :class="{'is-invalid': $v.province.$error}"
+                                placeholder="Enter your province">
+                            <div v-if="$v.province.$error">
+                                <span class="error-feedback" v-if="!$v.province.required">Province is required</span>
                             </div>
                         </div>
                     </div>
@@ -157,12 +144,9 @@
                 firstname: this.address.firstname,
                 lastname: this.address.lastname,
                 street: this.address.street,
-                province_id: this.address.province_id,
-                municipality_id: this.address.municipality_id,
-                barangay_id: this.address.barangay_id,
-                province_name: this.address.province,
-                municipality_name: this.address.municipality,
-                barangay_name: this.address.barangay,
+                province: this.address.province,
+                municipality: this.address.municipality,
+                barangay: this.address.barangay,
                 zip_code: this.address.zip_code,
                 mobile_no: this.address.mobile_no,
                 isSubmitted: false,
@@ -177,9 +161,9 @@
                 firstname: { required },
                 lastname: { required },
                 street: { required },
-                province_id: { required },
-                municipality_id: { required },
-                barangay_id: { required },
+                province: { required },
+                municipality: { required },
+                barangay: { required },
                 zip_code: { required, digitsOnly },
                 mobile_no: { required },
             }
@@ -191,21 +175,14 @@
                 if (!this.$v.$invalid) {
                     this.isSubmitted = true;
 
-                    let brgy = this.barangay_list.find(x => x.id == this.barangay_id);
-
-                    this.barangay_name = brgy.name;
-
                     axios.put('/api/customer-address-update/'+this.address.id, {
                         customer_id: this.customer.id,
                         firstname: this.firstname,
                         lastname: this.lastname,
                         street: this.street,
-                        province: this.province_name,
-                        municipality: this.municipality_name,
-                        barangay: this.barangay_name,
-                        province_id: this.province_id,
-                        municipality_id: this.municipality_id,
-                        barangay_id: this.barangay_id,
+                        province: this.province,
+                        municipality: this.municipality,
+                        barangay: this.barangay,
                         zip_code: this.zip_code,
                         mobile_no: this.mobile_no
                     })
@@ -230,91 +207,7 @@
                         }
                     });
                 }
-            },
-            getProvinces() {
-                axios.get('/api/address/provinces')
-                .then(response => {
-                    this.province_list = response.data;
-                })
-                .catch(error => {
-                    console.log(error.response);
-                });
-            },
-            getMunicipalities(e) {
-                this.municipality_id = '';
-                this.barangay_id = '';
-                this.barangay_list = [];
-
-                if (this.province_id) {
-                    let prv = this.province_list.find(x => x.province_id == this.province_id);
-
-                    this.province_name = prv.name;
-
-                    axios.get('/api/address/cities/'+this.province_id)
-                    .then(response => {
-                        this.municipality_list = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                    });
-                } else {
-                    this.municipality_list = [];
-                    this.province_id = '';
-                    this.province_name = '';
-                }
-            },
-            getYourMunicipalities() {
-                axios.get('/api/address/cities/'+this.province_id)
-                .then(response => {
-                    this.municipality_list = response.data;
-                })
-                .catch(error => {
-                    console.log(error.response)
-                });
-            },
-            getBarangays(e) {
-                this.barangay_id = '';
-
-                if (this.municipality_id) {
-
-                    let city = this.municipality_list.find(x => x.city_id == this.municipality_id);
-
-                    this.municipality_name = city.name;
-
-                    axios.get('/api/address/barangays/'+this.municipality_id)
-                    .then(response => {
-                        this.barangay_list = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                    });
-                } else {
-                    this.barangay_list = [];
-                    this.municipality_id = '';
-                    this.barangay_id = '';
-                    this.barangay_name = '';
-                }
-            },
-            getYourBarangays() {
-                axios.get('/api/address/barangays/'+this.municipality_id)
-                .then(response => {
-                    this.barangay_list = response.data;
-                })
-                .catch(error => {
-                    console.log(error.response)
-                });
             }
-        },
-        computed: {
-            provinceList() {
-                let items = this.province_list.sort((a,b) => (a.name > b.name) ? 1 : -1);
-                return items;
-            },
-        },
-        mounted() {
-            this.getProvinces();
-            this.getYourMunicipalities();
-            this.getYourBarangays();
         }
     }
 </script>

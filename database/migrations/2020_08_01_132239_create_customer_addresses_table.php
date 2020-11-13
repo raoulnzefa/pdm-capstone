@@ -23,9 +23,6 @@ class CreateCustomerAddressesTable extends Migration
             $table->string('province');
             $table->string('municipality');
             $table->string('barangay');
-            $table->string('province_id');
-            $table->string('municipality_id');
-            $table->string('barangay_id');
             $table->string('zip_code');
             $table->string('mobile_no');
             $table->timestamps();

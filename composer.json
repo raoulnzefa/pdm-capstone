@@ -14,8 +14,7 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "paypal/rest-api-sdk-php": "*",
         "pusher/pusher-php-server": "^3.3",
-        "samuelterra22/laravel-report-generator": "^5.2",
-        "yajra/laravel-address": "^0.3.0"
+        "samuelterra22/laravel-report-generator": "^5.2"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

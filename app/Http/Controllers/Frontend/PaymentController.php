@@ -208,9 +208,10 @@ class PaymentController extends Controller
 		elseif ($request->shipping_method == 'shipping')
 		{ 
 
-			$province = str_replace(' (Not a Province)', ' ', $request->province);
-			$municipality = $request->municipality;
-			$barangay = $request->barangay;
+			$street = $request->street;
+			$province = ucwords(strtolower($request->province));
+			$municipality = ucwords(strtolower($request->municipality));
+			$barangay = ucwords(strtolower($request->barangay));
 
 			$shipping_method = str_replace('_', ' ', $request->shipping_method);
 
@@ -221,13 +222,10 @@ class PaymentController extends Controller
 					'customer_id' => $customer->id,
 					'firstname' => $request->first_name,
 					'lastname' => $request->last_name,
-					'street' => ucfirst($request->street),
+					'street' => $street,
 					'barangay' => $barangay,
 					'municipality' => $municipality,
 					'province' => $province,
-					'barangay_id' => $request->barangay_id,
-					'municipality_id' => $request->municipality_id,
-					'province_id' => $request->province_id,
 					'zip_code' => $request->zip_code,
 					'mobile_no' => $request->mobile_no
 				);
@@ -284,7 +282,7 @@ class PaymentController extends Controller
 						'order_number' => $order_number,
 						'shipping_firstname' => $request->first_name,
 						'shipping_lastname' => $request->last_name,
-						'shipping_street' => ucfirst($request->street),
+						'shipping_street' => $street,
 						'shipping_barangay' => $barangay,
 						'shipping_municipality' => $municipality,
 						'shipping_province' => $province,

@@ -33,9 +33,9 @@ class BankAccountController extends Controller
         $account_number = filter_var($request->account_number ,FILTER_SANITIZE_STRING);
 
         $bank_account->bank_name = ucwords($bank_name);
-        $bank_account->first_name = ucwords($first_name);
+        $bank_account->first_name = ucwords(strtolower($first_name));
         $bank_account->middle_initial = strtoupper($middle_initial).'.';
-        $bank_account->last_name = ucwords($last_name);
+        $bank_account->last_name = ucwords(strtolower($last_name));
         $bank_account->number = $account_number;
 
         if ($count_bank_account == 0)

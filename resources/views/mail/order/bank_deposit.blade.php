@@ -14,7 +14,7 @@ Once your payment has been received we will start processing your order.
 # Details
 <ul>
 	<li>Bank Name: <b>{{ $bank_account->bank_name }}</b></li>
-	<li>Account Name: <b>{{ $bank_account->first_name.' '.$bank_account->last_name }}</b></li>
+	<li>Account Name: <b>{{ $bank_account->first_name.' '.$bank_account->middle_initial.' '.$bank_account->last_name }}</b></li>
 	<li>Account Number: <b>{{ $bank_account->number }}</b></li>
 </ul>
 
