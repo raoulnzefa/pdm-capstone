@@ -14,6 +14,7 @@ class Company {
 
    public static function getEmail()
    {
-   	return strtolower(self::getCompanyName()).'@info.com';
+   	$company = CompanyDetails::first();
+   	return $company->email;
    }
 }

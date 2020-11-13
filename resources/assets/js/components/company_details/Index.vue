@@ -50,10 +50,25 @@
 			    </div>
 		  	</div>
 		  	<div class="form-group row">
+			    <label for="" class="col-sm-3 col-form-label">Email:</label>
+			    <div class="col-sm-5">
+			      <input type="email" class="form-control" id="" 
+			      	v-model.trim="$v.companyDetails.email.$model"
+			      	tabindex="4"
+			      	:class="{'is-invalid': $v.companyDetails.email.$error}">
+			      <div v-if="$v.companyDetails.email.$error">
+               	<span class="error-feedback" v-if="!$v.companyDetails.email.required">Email is required</span>
+               	<template v-if="$v.companyDetails.email.required">
+               		<span class="error-feedback" v-if="!$v.companyDetails.email.companyEmail">Please enter a valid email</span>
+               	</template>
+              	</div>
+			    </div>
+		  	</div>
+		  	<div class="form-group row">
 			    <label for="" class="col-sm-3 col-form-label">Address:</label>
 			    <div class="col-sm-5">
 			      <input type="text" class="form-control" id=""
-			      	tabindex="4"
+			      	tabindex="5"
 			      	v-model.trim="$v.companyDetails.address.$model"
 			      	:class="{'is-invalid': $v.companyDetails.address.$error}">
 			      <div v-if="$v.companyDetails.address.$error">
@@ -65,7 +80,7 @@
 			    <label for="" class="col-sm-3 col-form-label">Contact Number:</label>
 			    <div class="col-sm-5">
 			      <input type="text" class="form-control" id=""
-			      	tabindex="4"
+			      	tabindex="6"
 			      	v-model.trim="$v.companyDetails.contactNumber.$model"
 			      	:class="{'is-invalid': $v.companyDetails.contactNumber.$error}">
 			      <div v-if="$v.companyDetails.contactNumber.$error">
@@ -77,7 +92,7 @@
 			    <label for="" class="col-sm-3 col-form-label">TIN Number:</label>
 			    <div class="col-sm-5">
 			      <input type="text" class="form-control" id=""
-			      	tabindex="6"
+			      	tabindex="7"
 			      	v-model.trim="$v.companyDetails.tinNumber.$model"
 			      	:class="{'is-invalid': $v.companyDetails.tinNumber.$error}">
 			      <div v-if="$v.companyDetails.tinNumber.$error">
@@ -232,11 +247,13 @@
 </template>
 
 <script>
-	import { required, minLength, maxLength, helpers } from 'vuelidate/lib/validators';
+	import { required, minLength, maxLength, email, helpers } from 'vuelidate/lib/validators';
    import { HalfCircleSpinner } from 'epic-spinners';
    import Editor from '@tinymce/tinymce-vue';
 
+   const companyEmail = helpers.regex('email', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
    const numbersOnly = helpers.regex('numbersOnly', /^([1-9])[0-9]*$/);
+
    const fileSizeValidation = (value, vm) =>  {
 	  	if (!value) {
 	   	return true;
@@ -265,6 +282,7 @@
 					logo: '',
 					image: '',
 					name: '',
+					email: '',
 					address: '',
 					contactNumber: '',
 					tinNumber: '',
@@ -296,6 +314,7 @@
 						logo: { required },
 						image: { required },
 						name: { required },
+						email: { required, companyEmail },
 						address: { required },
 						contactNumber: { required },
 						tinNumber: { required, numbersOnly },
@@ -314,6 +333,7 @@
 						logo: { },
 						image: { },
 						name: { required },
+						email: { required, companyEmail},
 						address: { required },
 						contactNumber: { required },
 						tinNumber: { required, numbersOnly },
@@ -374,6 +394,7 @@
 						this.avatar = companyData.logo_url;
 						this.avatar2 = companyData.image_url;
 						this.companyDetails.name = companyData.name;
+						this.companyDetails.email = companyData.email;
 						this.companyDetails.address = companyData.address;
 						this.companyDetails.contactNumber = companyData.contact_number;
 						this.companyDetails.tinNumber = companyData.tin_number;
@@ -404,6 +425,7 @@
 					form.append('logo', this.companyDetails.logo);
 					form.append('company_image', this.companyDetails.image);
 					form.append('name', this.companyDetails.name);
+					form.append('email', this.companyDetails.email);
 					form.append('address', this.companyDetails.address);
 					form.append('contact_number', this.companyDetails.contactNumber);
 					form.append('tin_number', this.companyDetails.tinNumber);

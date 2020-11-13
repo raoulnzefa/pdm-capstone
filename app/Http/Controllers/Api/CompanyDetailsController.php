@@ -25,6 +25,7 @@ class CompanyDetailsController extends Controller
    		'logo' => 'required',
    		'company_image' => 'required',
    		'name' => 'required|string',
+         'email' => 'required|email',
    		'address' => 'required|string',
    		'contact_number' => 'required',
    		'tin_number' => 'required',
@@ -73,6 +74,7 @@ class CompanyDetailsController extends Controller
       }
 
       $company->name = ucwords($request->name);
+      $company->email = $request->email;
       $company->address = ucfirst($request->address);
       $company->contact_number = $request->contact_number;
       $company->tin_number = $request->tin_number;
@@ -99,6 +101,7 @@ class CompanyDetailsController extends Controller
    {
       $request->validate([
          'name' => 'required|string',
+         'email' => 'required|email',
          'address' => 'required|string',
          'contact_number' => 'required',
          'tin_number' => 'required',
@@ -115,6 +118,7 @@ class CompanyDetailsController extends Controller
       date_default_timezone_set("Asia/Manila");
 
       $company->name = ucwords($request->name);
+      $company->email = $request->email;
       $company->address = ucfirst($request->address);
       $company->contact_number = $request->contact_number;
       $company->tin_number = $request->tin_number;

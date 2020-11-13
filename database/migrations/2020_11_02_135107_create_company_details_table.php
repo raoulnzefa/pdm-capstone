@@ -21,6 +21,7 @@ class CreateCompanyDetailsTable extends Migration
             $table->string('image_url');
             $table->string('image_path');
             $table->string('name');
+            $table->string('email');
             $table->string('address');
             $table->string('contact_number');
             $table->string('tin_number');
