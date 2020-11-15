@@ -61,6 +61,12 @@ footer {
     text-align: right;
 }
 
+.report-header {
+    font-size: 24px;
+    display: block;
+    font-weight: bold;
+}
+
 .img-responsive {
     height: auto;
     width: auto;

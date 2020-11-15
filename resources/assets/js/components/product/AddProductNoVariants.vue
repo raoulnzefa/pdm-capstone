@@ -82,7 +82,7 @@
 			   	</div>
 			  	</div>
 			  	<div class="form-group row">
-			   	<label for="coldAddProdCritLvl" class="col-sm-3 col-form-label">Critial level:</label>
+			   	<label for="coldAddProdCritLvl" class="col-sm-3 col-form-label">Critical level:</label>
 			   	<div class="col-sm-9">
 			   		<input type="text" class="form-control" id="coldAddProdCritLvl" 
 			   			placeholder="Enter critical level"

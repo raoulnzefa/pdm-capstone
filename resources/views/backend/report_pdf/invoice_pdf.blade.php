@@ -19,6 +19,11 @@
                   </td>
               </tr>
               <tr>
+                  <td align="center" colspan="2">
+                      <span class="report-header">{{$company->name}}</span>
+                  </td> 
+              </tr>
+              <tr>
                   <td align="center" colspan="2">{{$company->address}}</td> 
               </tr>
               <tr>

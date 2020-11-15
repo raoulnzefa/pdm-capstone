@@ -101,31 +101,48 @@ class DashboardController extends Controller
             }
         }
 
-        // check for overdue orders
-        // $overdue = Order::where('order_status','For pickup')
-        //     ->where(function($query) {
-        //             $query->whereRaw('order_for_pickup < CURRENT_DATE');
-        //     });
+        //check for overdue orders
+        $overduePickup = Order::where('order_status','For pickup')
+            ->where(function($query) {
+                    $query->whereRaw('order_for_pickup < CURRENT_DATE');
+            })->get();
 
-        // $overdue = $overdue->where('order_status','Pending payment')
-        //     ->where(function($query) {
-        //             $query->whereRaw('order_due_payment < CURRENT_DATE');
-        //     });
+        $overduePayment = Order::where('order_status','Pending payment')
+            ->where(function($query) {
+                    $query->whereRaw('order_due_payment < CURRENT_DATE');
+            })->get();
 
-        // $overdue = $overdue->get();
+       
+        if (count($overduePickup) > 0)
+        {
+            foreach ($overduePickup as $item)
+            {
+                $this->restockOrder($item->number);
+
+                $order = Order::where('number', $item->number)->first();
+                $order->order_status = 'Overdue';
+                $order->order_restocked = 1;
+                $order->viewed = 0;
+                $order->order_remarks = 'Restock product(s)';
+                $order->update();
+            }
+        }  
+
+        if (count($overduePayment) > 0)
+        {
+            foreach ($overduePayment as $item)
+            {
+                $this->restockOrder($item->number);
+
+                $order = Order::where('number', $item->number)->first();
+                $order->order_status = 'Overdue';
+                $order->order_restocked = 1;
+                $order->viewed = 0;
+                $order->order_remarks = 'Restock product(s)';
+                $order->update();
+            }
+        }  
         
-
-        // foreach ($overdue as $item)
-        // {
-        //     $this->restockOrder($item->number);
-
-        //     $order = Order::where('number', $item->number)->first();
-        //     $order->order_status = 'Overdue';
-        //     $order->order_restocked = 1;
-        //     $order->viewed = 0;
-        //     $order->order_remarks = 'Restocked';
-        //     $order->update();
-        // }
 
         $data = 'Dashboard';
     	$admin = Auth::guard('admin')->user();
