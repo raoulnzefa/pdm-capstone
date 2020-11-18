@@ -43,6 +43,7 @@ class InventoryController extends Controller
             elseif ($filter_by == 'critical_level')
             {
               $inventory = Inventory::whereRaw('inventory_stock <= inventory_critical_level')
+                        ->whereRaw('inventory_stock != 0')
                         ->with('product.category','productWithVariant','productNoVariant')
                         ->paginate(100);
             }

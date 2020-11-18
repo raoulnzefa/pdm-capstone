@@ -11,7 +11,8 @@
 					<h3 class="card-title">{{ product.product_name }}</h3>
 					<div v-if="variant">
 						<h4>{{ formatMoney(variantPrice) }}</h4>
-						<span class="badge badge-success" style="font-size: 16px;">Available: {{quantityLimit}}</span>
+						<span class="badge badge-success" style="font-size: 16px;" v-if="quantityLimit > 0">Available: {{quantityLimit}}</span>
+						<span class="badge badge-warning" style="font-size: 16px;" v-else>Sold out</span>
 						<h6 class="mb-1 mt-4 font-weight-bold">Description:</h6>
 						<p class="text-justify">{{ product.product_description }}</p>
 					</div>
@@ -35,7 +36,8 @@
 								<input type="text"
 									class="form-control" 
 									v-model.trim="$v.quantity.$model"
-									:class="{'is-invalid': $v.quantity.$error}">
+									:class="{'is-invalid': $v.quantity.$error}"
+									:disabled="quantityLimit == 0">
 							</div>
 						</div>
 					</div>
@@ -48,7 +50,7 @@
 							</template>
 						</template>	
 					</div>
-					<button type="submit" class="btn btn-outline-primary btn-block mt-4" :disabled="!variant_item"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+					<button type="submit" class="btn btn-outline-primary btn-block mt-4" :disabled="quantityLimit == 0"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 				</form>
 				</div>
 			</div>

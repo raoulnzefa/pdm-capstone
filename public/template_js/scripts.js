@@ -14,6 +14,12 @@
             $(this).addClass("active");
         }
     });
+    // small snippets
+    $("#sidenavAccordionMaintenance a.nav-link").each(function() {
+        if (this.href === path) {
+            $("#collapsePages").collapse("show");
+        }
+    });
 
     // Toggle the side navigation
     $("#sidebarToggle").on("click", function(e) {

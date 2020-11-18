@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-			<h2 class="mt-4 mb-4">Dashboard</h2>
+			<h2 class="mt-4 mb-4">Home</h2>
 	</div>
 </div>
 <div class="row mb-4">

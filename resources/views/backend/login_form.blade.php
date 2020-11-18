@@ -4,7 +4,7 @@
 <div class="row justify-content-center">
     <div class="col-md-5">
         <div class="card card-login mt-3">
-            <div class="card-header">Login</div>
+            <div class="card-header">Administrator Login</div>
             <form method="POST" action="{{ route('admin.login') }}">
             <div class="card-body">   
 

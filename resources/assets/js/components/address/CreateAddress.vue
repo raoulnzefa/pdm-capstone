@@ -1,7 +1,7 @@
 <template>
 <div class="card">
     <div class="card-header">
-        <h3 class="mb-0">Create Address</h3>
+        <h3 class="mb-0">Add Address</h3>
     </div>
     <form method="post" @submit.prevent="saveAddress">
     <div class="card-body">

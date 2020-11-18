@@ -4,7 +4,7 @@
         <div class="card card-login mt-3">
             <form method="POST" ref="adminRegistrationRefs" @submit.prevent="register">
             <input type="hidden" name="_token" :value="csrf">
-            <div class="card-header">Register Account</div>
+            <div class="card-header">Register Administrator Account</div>
             <div class="card-body pt-3">
                 <div class="alert alert-danger" v-if="server_errors.length != 0">
                     <ul class="rm-bullets">
@@ -12,23 +12,23 @@
                     </ul>
                 </div>
                 <div class="form-group">
-                    <label>Firstname:</label>
+                    <label>First Name:</label>
                     <input type="text" class="form-control" tabindex="1" 
-                        placeholder="Enter firstname"
+                        placeholder="Enter first name"
                         v-model.trim="$v.firstname.$model"
                         :class="{'is-invalid' : $v.firstname.$error}">
                     <div v-if="$v.firstname.$error">
-                        <span class="error-feedback" v-if="!$v.firstname.required">Firstname is required</span>
+                        <span class="error-feedback" v-if="!$v.firstname.required">First Name is required</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Lastname:</label>
+                    <label>Last Name:</label>
                     <input type="text" class="form-control" tabindex="2" 
-                        placeholder="Enter lastname"
+                        placeholder="Enter last name"
                         v-model.trim="$v.lastname.$model"
                         :class="{'is-invalid' : $v.lastname.$error}">
                     <div v-if="$v.lastname.$error">
-                        <span class="error-feedback" v-if="!$v.lastname.required">Lastname is required</span>
+                        <span class="error-feedback" v-if="!$v.lastname.required">Last Name is required</span>
                     </div>
                 </div>
                 <div class="form-group">

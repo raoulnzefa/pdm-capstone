@@ -29,7 +29,7 @@
 	        <div class="col-md-4">
 	          <template v-if="!loading">
 	            <div class="input-group hide-when-defective" v-if="inventories.length">
-	              <input type="text" class="form-control float-right" placeholder="Search inventory number" v-model="search_val">
+	              <input type="text" class="form-control float-right" placeholder="Search inventory id" v-model="search_val">
 	              <div class="input-group-append">
 	                <button class="btn btn-secondary" type="button" @click="searchProduct" :disable="on_search"><i class="fa fa-search"></i> Search</button>
 	                <div class="input-group-append" v-if="on_search">
@@ -73,7 +73,7 @@
 								</tr>
 							</template>
 							<template v-else>
-								<tr v-for="(inventory, index) in inventories" :key="index" :class="inventory.inventory_stock <= inventory.inventory_critical_level ? 'bg-danger text-light' : ''">
+								<tr v-for="(inventory, index) in inventories" :key="index" :class="inventory.inventory_stock <= inventory.inventory_critical_level ? 'bg-danger' : ''">
 									<td class="align-middle">{{ inventory.number  }}</td>
 									<td class="align-middle">
 										<div class="media">

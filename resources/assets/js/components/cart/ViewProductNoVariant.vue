@@ -12,30 +12,35 @@
 					<h3 class="card-title">{{ product.product_name }}</h3>
 					<div>
 						<h4>{{ formatMoney(product.product_no_variant.price) }}</h4>
-						<span class="badge badge-success" style="font-size: 16px;">Available: {{ quantityLimit }}</span>
+						<span class="badge badge-success" style="font-size: 16px;" v-if="quantityLimit > 0">Available: {{ quantityLimit }}</span>
 						<h6 class="mb-1 mt-4 font-weight-bold">Description:</h6>
 						<p class="text-justify">{{ product.product_description }}</p>
 					</div>
-					<div class="row mt-5">
-						<div class="col-md-6 col-lg-6">
-							<div class="form-group mb-0">
-								<label class="font-weight-bold">Quantity:</label>
-								<input type="text" class="form-control w-50"
-									v-model.trim="$v.quantity.$model"
-									:class="{'is-invalid': $v.quantity.$error}">
+					<template v-if="quantityLimit > 0">
+						<div class="row mt-5">
+							<div class="col-md-6 col-lg-6">
+								<div class="form-group mb-0">
+									<label class="font-weight-bold">Quantity:</label>
+									<input type="text" class="form-control w-50"
+										v-model.trim="$v.quantity.$model"
+										:class="{'is-invalid': $v.quantity.$error}">
+								</div>
 							</div>
 						</div>
+						<div v-if="$v.quantity.$error" class="mt-0">
+							<span class="error-feedback" v-if="!$v.quantity.required">Please enter a quantity</span>	
+							<template v-if="$v.quantity.required">
+								<span class="error-feedback" v-if="!$v.quantity.numbersOnly">Please enter a valid quantity</span>
+								<template v-if="$v.quantity.numbersOnly">
+									<span class="error-feedback" v-if="!$v.quantity.between">Please enter a quantity not greater than the available stocks</span>
+								</template>
+							</template>	
+						</div>
+						<button type="submit" class="btn btn-outline-primary btn-block mt-4" :disabled="isBtnClicked"><i class="fa fa-shopping-cart"></i> Add to cart</button>	
+					</template>
+					<div class="alert alert-warning text-center font-weight-bold" v-else>
+						SOLD OUT
 					</div>
-					<div v-if="$v.quantity.$error" class="mt-0">
-						<span class="error-feedback" v-if="!$v.quantity.required">Please enter a quantity</span>	
-						<template v-if="$v.quantity.required">
-							<span class="error-feedback" v-if="!$v.quantity.numbersOnly">Please enter a valid quantity</span>
-							<template v-if="$v.quantity.numbersOnly">
-								<span class="error-feedback" v-if="!$v.quantity.between">Please enter a quantity not greater than the available stocks</span>
-							</template>
-						</template>	
-					</div>
-					<button type="submit" class="btn btn-outline-primary btn-block mt-4" :disabled="isBtnClicked"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 				</div>
 			</div>
 			</form>

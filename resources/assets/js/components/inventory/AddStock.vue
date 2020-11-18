@@ -4,7 +4,7 @@
 		<!-- Modal Component -->
 		    <b-modal id="stockModal"
 		             ref="stockModal"
-		             :title="modal_title"
+		             title="Add stock"
 		             no-close-on-backdrop
 		             no-close-on-esc
 		             centered

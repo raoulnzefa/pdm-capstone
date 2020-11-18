@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<button class="btn btn-primary" @click="addProduct"><i class="fas fa-plus"></i> Add product</button>
+		<button class="btn btn-primary" @click="addProduct"><i class="fas fa-plus"></i> Add product without variants</button>
 		<b-modal 
-			title="Add product"
+			title="Add product without variants"
 			ref="refsAddProductModal"
 			size="lg"
 			no-close-on-esc

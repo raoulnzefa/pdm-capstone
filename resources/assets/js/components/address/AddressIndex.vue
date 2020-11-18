@@ -2,7 +2,7 @@
 <div>
 	<div class="clearfix mb-4">
 		<h3 class="float-left">Addresses</h3>
-		<a href="/my-account/addresses/create" class="float-right btn btn-primary"><i class="fa fa-plus"></i> Create Address</a>
+		<a href="/my-account/addresses/create" class="float-right btn btn-primary"><i class="fa fa-plus"></i> Add Address</a>
 	</div>
 	<div>
 		<table class="table table-bordered table-striped table-hovered">

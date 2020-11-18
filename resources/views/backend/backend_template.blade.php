@@ -47,9 +47,26 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Side navigation</div>
                             <a class="nav-link" href="{{ route('admin_dashboard') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                Home
                             </a>
+                            <a class="nav-link collapsed" id="maintenanceAccordion" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
+                                Maintenance
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse accordion-link" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMaintenance">
+                                    <a class="nav-link" href="{{ route('company_details') }}">Company Details</a>
+                                    <a class="nav-link" href="{{ route('bank_account') }}">Bank Account</a>
+                                    <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping Rate</a>
+                                    <a class="nav-link" href="{{ route('discount') }}">Discount</a>
+                                    <a class="nav-link" href="{{ route('categories') }}">Categories</a>
+                                    <a class="nav-link" href="{{ route('products') }}">Products</a>
+                                    <a class="nav-link" href="{{ route('users') }}">Users</a>
+                                    
+                                </nav>
+                            </div>
                             <a class="nav-link" href="{{ route('orders') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                                 Orders <order-badge></order-badge>
@@ -70,23 +87,6 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Customers
                             </a>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
-                                Maintenance
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse accordion-link" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMaintenance">
-                                    <a class="nav-link" href="{{ route('company_details') }}">Company Details</a>
-                                    <a class="nav-link" href="{{ route('bank_account') }}">Bank Account</a>
-                                    <a class="nav-link" href="{{ route('shipping_rate') }}">Shipping Rate</a>
-                                    <a class="nav-link" href="{{ route('discount') }}">Discount</a>
-                                    <a class="nav-link" href="{{ route('categories') }}">Categories</a>
-                                    <a class="nav-link" href="{{ route('products') }}">Products</a>
-                                    <a class="nav-link" href="{{ route('users') }}">Users</a>
-                                    
-                                </nav>
-                            </div>
                             <a class="nav-link" href="{{ route('audit_trail') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                                 Audit Trail

@@ -19,7 +19,7 @@ Route::get('/welcome', function () {
 //Backend
 Route::get('/admin/login', 'Backend\AdminAuthController@showLoginForm')->name('admin_login');
 Route::post('/admin/login', 'Backend\AdminAuthController@login')->name('admin.login');
-Route::get('/admin/dashboard', 'Backend\DashboardController@index')->name('admin_dashboard');
+Route::get('/admin/home', 'Backend\DashboardController@index')->name('admin_dashboard');
 Route::get('/admin/logout', 'Backend\AdminAuthController@logout')->name('admin.logout');
 
 // Password Reset Routes...

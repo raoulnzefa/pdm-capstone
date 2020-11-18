@@ -5,11 +5,11 @@
 			<h2 class="mt-4 mb-4">Products</h2>
 		</div>
 		<div class="row mb-4">
-			<div class="col-md-6 clearfix">
+			<div class="col-md-10 clearfix">
 				<add-product-no-variant :admin="admin" class="float-left mr-2"></add-product-no-variant>
 				<add-product-with-variants :admin="admin"></add-product-with-variants>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<!-- <div class="input-group" v-if="on_search">
 				  	<input type="text" class="form-control" placeholder="Search product" v-model="search_val">
 				  	<div class="input-group-append">

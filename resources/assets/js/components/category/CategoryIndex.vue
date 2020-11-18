@@ -1,7 +1,7 @@
 <template>
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <h2 class="mt-4 mb-4">Categories {{submit}}</h2>
+        <h2 class="mt-4 mb-4">Categories</h2>
             <div class="mb-4">
               <button type="button" class="btn btn-primary" @click="addCategoryModal"><i class="fas fa-plus"></i> Add category</button>
             </div>

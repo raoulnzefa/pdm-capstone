@@ -3,7 +3,7 @@
 		<button class="btn btn-primary btn-sm float-left mr-1" @click="editProductCatalog"><i class="fas fa-edit"></i> Edit</button>
 
 		<b-modal 
-			title="Edit product"
+			title="Edit product without variants"
 			ref="refsCatalogNoVariantModal"
 			size="lg"
 			no-close-on-esc
