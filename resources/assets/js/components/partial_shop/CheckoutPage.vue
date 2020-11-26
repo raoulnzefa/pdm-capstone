@@ -247,40 +247,11 @@
                     </template><!-- ship to different address -->
                 </div>
             </div><!-- delivery--> 
-            <div class="card mb-4" v-if="shipping_method == 'store_pickup'"><!-- store pickup -->
-                <div class="card-header">
-                    <h4 class="mb-0">3. Who will pickup this order?</h4>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="chckpickupfname">First name:</label>
-                        <input type="text" class="form-control" id="chckpickupfname"
-                            v-model.trim="$v.pickup_first_name.$model"
-                            :class="{'is-invalid': $v.pickup_first_name.$error}"
-                            name="pickup_firstname"
-                            placeholder="Enter firstname">
-                        <div v-if="$v.pickup_first_name.$error">
-                            <span class="error-feedback" v-if="!$v.pickup_first_name.required">Firstname is required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="chckpickuplname">Last name:</label>
-                        <input type="text" class="form-control" id="chckpickuplname"
-                            v-model.trim="$v.pickup_last_name.$model"
-                            :class="{'is-invalid': $v.pickup_last_name.$error}"
-                            name="pickup_lastname"
-                            placeholder="Enter lastname">
-                        <div v-if="$v.pickup_last_name.$error">
-                            <span class="error-feedback" v-if="!$v.pickup_last_name.required">Lastname is required</span>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- store pickkup -->
         </div><!-- col-md-4 -->
         <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4 class="mb-0">4. Review your orders</h4>
+                    <h4 class="mb-0">{{reviewOrderNumber}}. Review your orders</h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -435,6 +406,7 @@
                 useSavedAddress: false,
                 addrID: '',
                 has_discount: false,
+                reviewOrderNumber: '4',
 			}
 		},
 		validations() {
@@ -475,8 +447,6 @@
                 }
             } else if (this.shipping_method == 'store_pickup') {
                 return {
-                    pickup_first_name: { required },
-                    pickup_last_name: { required },
                     shipping_method: { required },
                     payment_method: { required },
                     terms_condition: { sameAs: sameAs(() => true) }
@@ -540,7 +510,8 @@
             },
             setCashPayment(e) {
                if (this.shipping_method == 'store_pickup') {
-                    this.payment_method = 'Cash'
+                    this.payment_method = 'Cash';
+                    this.reviewOrderNumber = '3';
                } else {
                     this.payment_method = '';
                     this.$v.payment_method.$reset();

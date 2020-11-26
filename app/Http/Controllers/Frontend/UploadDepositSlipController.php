@@ -38,14 +38,13 @@ class UploadDepositSlipController extends Controller
         // save image into storage
         $path = $request->deposit_slip->storeAs('deposit_slip', $imageName, 's3');
 
-        $order = Order::where('number', $request->order_number)->with('bankDepositPayment')->first();
+        $order = Order::where('number', $request->order_number)->first();
 
         date_default_timezone_set("Asia/Manila");
 
         $depositSlip = new BankDepositSlip;
         $depositSlip->order_number = $request->order_number;
         $depositSlip->customer_id = $order->customer_id;
-        $depositSlip->bank_deposit_payment_id = $order->bankDepositPayment->id;
         $depositSlip->image = Storage::disk('s3')->url($path);
         $depositSlip->save();
 

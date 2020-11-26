@@ -34,8 +34,6 @@ use App\Http\Controllers\Traits\InvoiceTraits;
 use App\Http\Controllers\Traits\AddressTraits;
 use App\Http\Controllers\Traits\OrderTraits;
 use App\Http\Controllers\Traits\ShippingAddressTraits;
-use App\Http\Controllers\Traits\StorePickupTraits;
-use App\Models\PaypalPayment;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
@@ -44,9 +42,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Product;
 use App\Models\ShippingAddress;
-use App\Models\StorePickup;
 use App\Models\BankAccount;
-use App\Models\BankDepositPayment;
 use App\Models\Inventory;
 use App\Models\ProductVariant;
 use App\Models\CustomerAddress;
@@ -57,7 +53,7 @@ use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
-	use InventoryManager, AddressTraits, OrderTraits, StorePickupTraits, ShippingAddressTraits, InvoiceTraits;
+	use InventoryManager, AddressTraits, OrderTraits, ShippingAddressTraits, InvoiceTraits;
 
 	private $_api_context;
 
@@ -83,9 +79,6 @@ class PaymentController extends Controller
 		$request->validate([
 			'shipping_method' => 'required',
 			'payment_method' => 'required',
-			'pickup_firstname' => 'sometimes|required',
-			'pickup_lastname' => 'sometimes|required',
-			'pickup_mobile_no' => 'sometimes|required',
 			'first_name' => 'sometimes|required',
 			'last_name' => 'sometimes|required',
 			'street' => 'sometimes|required',
@@ -167,14 +160,6 @@ class PaymentController extends Controller
 				);
 
 				$order_number = $this->createOrder($order_params);
-
-				$store_pickup_params = array(
-					'order_number' => $order_number,
-					'pickup_firstname' => ucfirst($request->pickup_firstname),
-					'pickup_lastname' => ucfirst($request->pickup_lastname),
-				);
-
-				$this->createStorePickup($store_pickup_params);
 
 				$this->updateInventory($order_number);
 
@@ -302,12 +287,7 @@ class PaymentController extends Controller
                // get bank account
 					$bank_account = BankAccount::where('active', 1)->first();
                //dd($bank_account);
-               // save bank deposit payment
-					$bank_deposit_payment = new BankDepositPayment;
-					$bank_deposit_payment->bank_account_id = $bank_account->id;
-					$bank_deposit_payment->order_number = $order_number;
-					$bank_deposit_payment->save();
-
+   
                // send email
 					$customer->notify(new BankDepositEmail($orderData, $dateData, $bank_account));
 				}
@@ -610,18 +590,7 @@ class PaymentController extends Controller
 
        			$this->createShipping($shipping_params);
 
-       			$paypal = new PaypalPayment;
-       			$paypal->order_number = $order_number;
-       			$paypal->transaction_id = $saleId;
-       			$paypal->payment_method = $paymentMethod;
-       			$paypal->payer_status = $payerStatus;
-       			$paypal->payer_email = $payerMail;
-       			$paypal->subtotal = $subtotal;
-       			$paypal->shipping = $shipping;
-       			$paypal->total = $total;
-       			$paypal->payer_state = $state;
-       			$paypal->created = $createdTime;
-       			$paypal->save();
+       		
 
        			$orderData = Order::where('number', $order_number)->first();
 

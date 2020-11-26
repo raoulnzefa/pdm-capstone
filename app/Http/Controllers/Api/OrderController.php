@@ -12,7 +12,6 @@ use App\Http\Controllers\Traits\InventoryManager;
 use App\Models\Order;
 use App\Models\OrdeProduct;
 use App\Models\Customer;
-use App\Models\StorePickup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;
@@ -118,10 +117,6 @@ class OrderController extends Controller
       $order->order_completed = date('Y-m-d H:i:s');
       $order->order_warranty = date($warranty_date);
       $order->update();
-
-      $store_pickup = StorePickup::where('order_number', $order->number)->first();
-      $store_pickup->pickup_in_store = date('Y-m-d H:i:s');
-      $store_pickup->update();
 
       $invoice_params = ['order'=> $order ];
 

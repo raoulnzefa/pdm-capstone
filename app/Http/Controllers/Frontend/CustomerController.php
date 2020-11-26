@@ -39,8 +39,7 @@ class CustomerController extends Controller
                             'customer',
                             'invoice.invoiceProducts',
                             'replacementRequest',
-                            'bankDepositSlip',
-                            'storePickup'
+                            'bankDepositSlip'
                         )->first();
 
         if ($order_detail->status_update > 0)

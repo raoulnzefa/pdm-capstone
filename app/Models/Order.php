@@ -15,11 +15,6 @@ class Order extends Model
         return $this->hasOne('App\Models\BankDepositSlip');
     }
 
-    public function bankDepositPayment()
-    {
-        return $this->hasOne('App\Models\BankDepositPayment');
-    }
-
     public function cancelOrderRequest()
     {
         return $this->hasOne('App\Models\CancelOrderRequest');
@@ -55,10 +50,7 @@ class Order extends Model
     	return number_format($value,2);
     }
 
-    public function storePickup()
-    {
-        return $this->hasOne('App\Models\StorePickup');
-    }
+   
 
     public function shipping()
     {
