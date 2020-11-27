@@ -144,7 +144,7 @@ class DashboardController extends Controller
         }  
         
 
-        $data = 'Dashboard';
+        $data = 'Home';
     	$admin = Auth::guard('admin')->user();
 
         date_default_timezone_set("Asia/Manila");
