@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="partial-header">
     <div class="container-fluid">
         <div class="navbar-brand">
-        <img src="{{ (!is_null($company)) ? $company->logo_url : asset('images/WEBFINITY.jpg') }}" width="125" height="60" alt="{{ (!is_null($company)) ? $company->name : 'Webfinity' }}">
+        <img src="{{ (!is_null($company)) ? $company->logo_url : asset('images/WEBFINITY.jpg') }}" class="img-responsive" alt="{{ (!is_null($company)) ? $company->name : 'Webfinity' }}">
         </div>
         <a href="/login" class="nav-link text-light cool-link mr-sm-2"><i class="fa fa-chevron-left"></i> BACK</a>
 </nav>

@@ -11,7 +11,7 @@
 			<div class="text-center mt-5">
 				<i class="fa fa-check-circle-o text-success" style="font-size: 90px;"></i>
 				<h3 style="font-weight: bolder; font-size: 55px;">Thank you!</h3>
-				<h4>Your order has been successfully submitted.HEY</h4>
+				<h4>Your order has been successfully submitted.</h4>
 			</div>
 		</div>
 	</div>		
