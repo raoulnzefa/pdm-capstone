@@ -70,7 +70,10 @@
                                 </li>
                             @else
                                 <li class="nav-item">
-                                    <a class="nav-link text-light cool-link" href="{{ url('login') }}"><i class="fa fa-sign-in"></i>&nbsp;LOGIN</a>
+                                    <a class="nav-link text-light cool-link" href="{{ url('login') }}"><i class="fa fa-sign-in"></i>&nbsp;LOG IN</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light cool-link" href="{{ route('customer_registration') }}"><i class="fa fa-user-circle"></i>&nbsp;SIGN UP</a>
                                 </li>
                             @endauth
                            

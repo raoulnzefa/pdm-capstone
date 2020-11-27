@@ -68,14 +68,14 @@
                  @shown="focusOnFname">
             <template v-if="server_errors.length != 0">
               <div class="alert alert-danger">
-                <ul class="">
+                <ul class="rm-bullets">
                   <li v-for="(err,index) in server_errors" :key="index" class="">{{ err[0] }}</li>
                 </ul>
               </div>
             </template>
             <form @submit.stop.prevent="saveUser">
               <b-form-group id=""
-                          label="Firstname:"
+                          label="First Name:"
                           label-for="firstName">
                 <b-form-input id="firstName"
                               type="text"
@@ -87,13 +87,13 @@
                               :readonly="edit">
                 </b-form-input>
                 <div v-if="$v.first_name.$error">
-                  <span class="error-feedback" v-if="!$v.first_name.required">Firstname is required</span>
-                  <span class="error-feedback d-block" v-if="!$v.first_name.maxLength">Firstname cannot be at most {{ $v.first_name.$params.maxLength.max }}</span>
-                  <span class="error-feedback d-block" v-if="!$v.first_name.lettersSpace">Firstname is invalid</span>
+                  <span class="error-feedback" v-if="!$v.first_name.required">First Name is required</span>
+                  <span class="error-feedback d-block" v-if="!$v.first_name.maxLength">First Name cannot be at most {{ $v.first_name.$params.maxLength.max }}</span>
+                  <span class="error-feedback d-block" v-if="!$v.first_name.lettersSpace">First Name is invalid</span>
                 </div>
               </b-form-group>
               <b-form-group id=""
-                          label="Lastname:"
+                          label="Last Name:"
                           label-for="lastName">
                 <b-form-input id="lastName"
                               type="text"
@@ -104,7 +104,7 @@
                               :readonly="edit">
                 </b-form-input>
                 <div v-if="$v.last_name.$error">
-                  <span class="error-feedback" v-if="!$v.last_name.required">Lastname is required</span>
+                  <span class="error-feedback" v-if="!$v.last_name.required">Last Name is required</span>
                 </div>
               </b-form-group>
               <div class="form-group">
