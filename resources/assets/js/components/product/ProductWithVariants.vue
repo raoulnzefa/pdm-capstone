@@ -300,7 +300,7 @@
 				this.disabledEdit = true;
 				this.isEdit = false;
 				this.hideAddBtn = true;
-				this.disabledFormBtn = true;
+				//this.disabledFormBtn = true;
 			},
 			editVariant(variant) {
 				this.variant_id = variant.inventory_number;
@@ -311,7 +311,7 @@
 				this.isAdd = false;
 				this.hideAddBtn = true;
 				this.disabledEdit = true;
-				this.disabledFormBtn = true;
+				//this.disabledFormBtn = true;
 			},
 			cancelVariantOps() {
 				this.resetThem();
@@ -420,6 +420,7 @@
 			},
 			closeVariantModal() {
 				this.$refs.refsVariantsModal.hide();
+				this.resetThem();
 				if (this.hadDbOperations) {
 					this.$bus.$emit('refreshTable', true);
 					this.hadDbOperations = false;

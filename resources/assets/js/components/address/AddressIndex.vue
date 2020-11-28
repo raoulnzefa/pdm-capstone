@@ -40,8 +40,8 @@
 							<td>{{ addr.address_name }}</td>
 							<td>{{ addr.street+', '+addr.barangay+', '+addr.municipality+', '+addr.province+', '+addr.zip_code }}</td>
 							<td>
-								<a :href="'/my-account/address/edit/'+addr.id" class="btn btn-sm btn-primary">Edit</a>
-								<button type="button" class="btn btn-sm btn-danger" @click="deleteAddress(addr.id)">Delete</button>
+								<a :href="'/my-account/address/edit/'+addr.id" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a>
+								<button type="button" class="btn btn-sm btn-danger" @click="deleteAddress(addr.id)"><i class="fa fa-trash"></i> Delete</button>
 							</td>
 						</tr>
 					</template>
