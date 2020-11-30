@@ -102,6 +102,26 @@ a.product-card-link:hover {
 #partial-header {
 	background: #000 !important;
 }
+
+.link-active {
+	background: #ffab06;
+}
+
+.my-account-link-active {
+	color: #fff !important;
+	background: #007bff;
+	
+}
+
+#my-account-sidenav .list-group-item:hover {
+	background: #007bff;
+}
+
+#my-account-sidenav .list-group-item .list-group-item-action:hover {
+	background: #007bff;
+	color:#fff;
+}
+
 .cool-link::after {
 	content: '';
 	display: block;

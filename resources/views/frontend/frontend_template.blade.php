@@ -30,7 +30,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Links -->
-                        <ul class="navbar-nav">
+                        <ul class="navbar-nav" id="main-navbar">
                             <li class="nav-item mr-2">
                                 <a class="nav-link text-light cool-link" href="{{ route('frontend_homepage') }}">HOME</a>
                             </li>
@@ -125,6 +125,7 @@
 
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/js/app.js"></script>
+        <script src="/js/frontjs.js"></script>
         <script src="/vendor/popper/dist/umd/popper.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
