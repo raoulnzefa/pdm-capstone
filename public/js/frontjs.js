@@ -13,6 +13,7 @@ const myAccountLists = document.querySelectorAll("#my-account-sidenav .list-grou
 
 myAccountLists.forEach(function(link) {
     if (link.href === currentURL) {
-        link.parentNode.classList.add("my-account-link-active");
+    		link.classList.add("my-account-link-active");
+       	link.parentNode.classList.add("my-account-link-active");
     }
 });
