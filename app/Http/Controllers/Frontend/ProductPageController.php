@@ -60,7 +60,7 @@ class ProductPageController extends Controller
     {
         $search_data = $request->searchProduct;
 
-       return redirect()->route('search.result', ['search'=>$search_data, 'data'=> 'Search']);
+       return redirect()->route('search.result', ['search_data'=>$search_data, 'data'=> 'Search']);
     }
 
     public function searchResult(Request $request)
