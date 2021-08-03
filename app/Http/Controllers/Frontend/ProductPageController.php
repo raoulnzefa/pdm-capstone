@@ -65,7 +65,7 @@ class ProductPageController extends Controller
 
     public function searchResult(Request $request)
     {
-        $search_data = $request->query('search');
+        $search_data = $request->query('search_data');
 
         $search_result = Product::where('product_name', 'ILIKE','%'. $search_data .'%')
                         ->get();
@@ -74,6 +74,7 @@ class ProductPageController extends Controller
         $company = CompanyDetails::first();
         return view('frontend.search_result_page')->with([
             'data' => $data,
+            'search_data' => $search_data,
             'search_result'=> $search_result,
             'company' => $company
         ]);
